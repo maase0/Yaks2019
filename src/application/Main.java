@@ -5,6 +5,7 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 
+// This is a test comment for a test commit
 
 public class Main extends Application {
 	@Override

@@ -47,23 +47,8 @@ public class Login_Controller implements Initializable{
 			}
 		}
 		else if (loginBox.getValue() == "Estimator") {
-			try {
-	            // Opens Product Manager page
-	            Parent root = FXMLLoader.load(getClass()
-	                    .getResource("Estimator.fxml"));
-	            
-				
-	            Stage estimatorProjectsStage = new Stage();
-	            estimatorProjectsStage.setTitle("Estimation Suite - Product Manager - Project Page");
-	            estimatorProjectsStage.setScene(new Scene(root));
-	            estimatorProjectsStage.show();
-	            
-	            //Closes Login Page
-	            Stage stage = (Stage) loginBtn.getScene().getWindow();
-	            stage.close();
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
+			//Open Estimator page here
+			System.out.println("Estimator selected, this works!");
 		}
 		else {
 			System.out.println("Select a role");

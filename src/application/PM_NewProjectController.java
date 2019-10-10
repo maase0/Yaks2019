@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -29,25 +30,36 @@ public class PM_NewProjectController implements Initializable{
 	private TextField labelText;
 	@FXML
 	private TextField versionText;
+	@FXML
+	private DatePicker startDate;
+	@FXML
+	private DatePicker endDate;
+	
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
 		
 	}
-	
+	@FXML
 	public void saveChanges(ActionEvent event) {
 		System.out.println("Save Changes Button");
 		System.out.println("Project Name: " + projectNameText.getText());
 		System.out.println("Project Manager: " + pmText.getText());
 		System.out.println("Project Label: " + labelText.getText());
 		System.out.println("Version Number: " + versionText.getText());
+		System.out.println("Start Date: " + startDate.getValue());
+		System.out.println("End Date: " + endDate.getValue());
 	}
 	
+	@FXML
 	public void discardChanges(ActionEvent event) {
 		System.out.println("Discard Changes Button");
+		Stage stage = (Stage) discardButton.getScene().getWindow();
+		stage.close();
 	}
 	
+	@FXML
 	public void submitForEstimation(ActionEvent event) {
 		System.out.println("Submit Button");
 	}

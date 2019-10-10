@@ -32,10 +32,10 @@ public class Login_Controller implements Initializable{
 			try {
 	            // Opens Product Manager page
 	            Parent root = FXMLLoader.load(getClass()
-	                    .getResource("PM - Projects.fxml"));
+	                    .getResource("PM_Projects.fxml"));
 	            
 	            Stage pmProjectsStage = new Stage();
-	            pmProjectsStage.setTitle("Estimation Suite - Product Manager - Project Page");
+	            pmProjectsStage.setTitle("Estimation Suite - Product Manager - Projects");
 	            pmProjectsStage.setScene(new Scene(root));
 	            pmProjectsStage.show();
 	            

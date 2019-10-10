@@ -5,9 +5,15 @@ import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
+import javafx.stage.Stage;
 
 public class PM_Projects_Controller implements Initializable{
 
@@ -15,26 +21,50 @@ public class PM_Projects_Controller implements Initializable{
 	private Button newProjectBtn;
 	
 	@FXML
-	private CheckBox submittedTab;
+	private TabPane projectTabPane;
 	
 	@FXML
-	private CheckBox unsubmittedTab;
+	private Tab submittedTab;
+	
+	@FXML
+	private Tab unsubmittedTab;
+	
+	@FXML
+	private Button editBtn;
+	
+	@FXML 
+	private Button discardBtn;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
+	//Pull Unsubmitted Projects from database
 		
 	}
 	
 	public void selectUnsubmitted(ActionEvent event) {
-		
+		//Load unsubmitted projects from database
 	}
 	
 	public void selectSubmitted(ActionEvent event) {
-		
+		//Load submitted projects from base
 	}
 	
 	public void addNewProject(ActionEvent event) {
-		
+		try {
+            // Opens Product Manager page
+            Parent root = FXMLLoader.load(getClass()
+                    .getResource("PM_NewProject.fxml"));
+            
+            Stage pmProjectsStage = new Stage();
+            pmProjectsStage.setTitle("Estimation Suite - Product Manager - New Project");
+            pmProjectsStage.setScene(new Scene(root));
+            pmProjectsStage.show();
+            
+            //Closes Login Page
+            Stage stage = (Stage) newProjectBtn.getScene().getWindow();
+            stage.close();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

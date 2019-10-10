@@ -13,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class PM_Projects_Controller implements Initializable{
@@ -30,10 +31,10 @@ public class PM_Projects_Controller implements Initializable{
 	private Tab unsubmittedTab;
 	
 	@FXML
-	private Button editBtn;
+	private Text editBtn;
 	
 	@FXML 
-	private Button discardBtn;
+	private Text discardBtn;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -66,5 +67,13 @@ public class PM_Projects_Controller implements Initializable{
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void editProject(ActionEvent event) {
+		
+	}
+	
+	public void discardProject(ActionEvent event) {
+		
 	}
 }

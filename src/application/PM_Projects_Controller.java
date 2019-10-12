@@ -13,8 +13,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class PM_Projects_Controller implements Initializable{
 
@@ -36,18 +38,15 @@ public class PM_Projects_Controller implements Initializable{
 	@FXML 
 	private Text discardBtn;
 	
+	@FXML
+	private Text editBtn2;
+	
+	@FXML
+	private Text discardBtn2;
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 	//Pull Unsubmitted Projects from database
-		
-	}
-	
-	public void selectUnsubmitted(ActionEvent event) {
-		//Load unsubmitted projects from database
-	}
-	
-	public void selectSubmitted(ActionEvent event) {
-		//Load submitted projects from base
 	}
 	
 	public void addNewProject(ActionEvent event) {
@@ -69,11 +68,11 @@ public class PM_Projects_Controller implements Initializable{
 		}
 	}
 	
-	public void editProject(ActionEvent event) {
+	public void editProject(MouseEvent event) {
 		
 	}
 	
-	public void discardProject(ActionEvent event) {
+	public void discardProject(MouseEvent event) {
 		
 	}
 }

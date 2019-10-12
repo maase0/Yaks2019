@@ -12,7 +12,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class PM_NewProjectController implements Initializable{
@@ -34,11 +38,45 @@ public class PM_NewProjectController implements Initializable{
 	private DatePicker startDate;
 	@FXML
 	private DatePicker endDate;
-	
+	@FXML
+	private Button addCLINButton;
+	@FXML
+	private TextField indexText;
+	@FXML
+	private TextField projectTypeText;
+	@FXML
+	private DatePicker clinStartDate;
+	@FXML
+	private DatePicker clinEndDate;
+	@FXML
+	private TextArea clinText;
+	@FXML
+	private Text saveCLINButton;
+	@FXML
+	private Text editCLINButton;
+	@FXML
+	private Text discardCLINButton;
+	@FXML
+	private TextField clinText2;
+	@FXML
+	private TextField clinStartDate2;
+	@FXML
+	private TextField clinEndDate2;
+	@FXML
+	private Pane clinPane;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
+		//for example CLIN, hides save button on start
+		saveCLINButton.setDisable(true);
+		saveCLINButton.setVisible(false);
+		clinText.setDisable(true);
+		clinText.setVisible(false);
+		clinStartDate.setDisable(true);
+		clinStartDate.setVisible(false);
+		clinEndDate.setDisable(true);
+		clinEndDate.setVisible(false);
+
 		
 	}
 	@FXML
@@ -62,6 +100,70 @@ public class PM_NewProjectController implements Initializable{
 	@FXML
 	public void submitForEstimation(ActionEvent event) {
 		System.out.println("Submit Button");
+	}
+	
+	public void addCLIN(ActionEvent event) {
+		
+	}
+	
+	//CLIN is now editable
+	public void editCLIN(MouseEvent event) {
+		indexText.setEditable(true);
+		indexText.setStyle("-fx-background-color: white;");
+		projectTypeText.setEditable(true);
+		projectTypeText.setStyle("-fx-background-color: white;");
+		
+		clinStartDate.setDisable(false);
+		clinStartDate.setVisible(true);
+		clinStartDate2.setVisible(false);
+		clinEndDate.setDisable(false);
+		clinEndDate.setVisible(true);
+		clinEndDate2.setVisible(false);
+		
+		clinText.setDisable(false);
+		clinText.setVisible(true);
+		clinText2.setVisible(false);
+		
+		saveCLINButton.setDisable(false);
+		saveCLINButton.setVisible(true);
+		editCLINButton.setDisable(true);
+		editCLINButton.setVisible(false);
+		
+		clinPane.setStyle("-fx-border-color: black; -fx-background-color: #F4F4F4;");
+	}
+	
+	//CLIN is no longer editable
+	public void saveCLIN(MouseEvent event) {
+		
+		indexText.setEditable(false);
+		indexText.setStyle("-fx-background-color: #8a8988;");
+		projectTypeText.setEditable(false);
+		projectTypeText.setStyle("-fx-background-color: #8a8988;");
+		
+		clinStartDate2.setText(clinStartDate.getValue().toString());
+		clinStartDate.setDisable(true);
+		clinStartDate.setVisible(false);
+		clinStartDate2.setVisible(true);
+		clinEndDate2.setText(clinEndDate.getValue().toString());
+		clinEndDate.setDisable(true);
+		clinEndDate.setVisible(false);
+		clinEndDate2.setVisible(true);
+		
+		clinText2.setText(clinText.getText());
+		clinText.setDisable(true);
+		clinText.setVisible(false);
+		clinText2.setVisible(true);
+		
+		saveCLINButton.setDisable(true);
+		saveCLINButton.setVisible(false);
+		editCLINButton.setDisable(false);
+		editCLINButton.setVisible(true);
+		
+		clinPane.setStyle("-fx-border-color: black; -fx-background-color: #8a8988;");
+	}
+	
+	public void discardCLIN(MouseEvent event) {
+		
 	}
 	
 }

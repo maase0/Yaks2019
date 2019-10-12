@@ -22,25 +22,20 @@ public class PM_Projects_Controller implements Initializable{
 
 	@FXML
 	private Button newProjectBtn;
-	
+	@FXML
+	private Button logoutButton;
 	@FXML
 	private TabPane projectTabPane;
-	
 	@FXML
 	private Tab submittedTab;
-	
 	@FXML
 	private Tab unsubmittedTab;
-	
 	@FXML
 	private Text editBtn;
-	
 	@FXML 
 	private Text discardBtn;
-	
 	@FXML
 	private Text editBtn2;
-	
 	@FXML
 	private Text discardBtn2;
 	
@@ -49,9 +44,28 @@ public class PM_Projects_Controller implements Initializable{
 	//Pull Unsubmitted Projects from database
 	}
 	
+	public void logout(ActionEvent event) {
+		try {
+            // Opens Login page
+            Parent root = FXMLLoader.load(getClass()
+                    .getResource("Login.xfml"));
+            
+            Stage pmProjectsStage = new Stage();
+            pmProjectsStage.setTitle("Estimation Suite - Login Page");
+            pmProjectsStage.setScene(new Scene(root));
+            pmProjectsStage.show();
+            
+            //Closes PM Page
+            Stage stage = (Stage) logoutButton.getScene().getWindow();
+            stage.close();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void addNewProject(ActionEvent event) {
 		try {
-            // Opens Product Manager page
+            // Opens New Project page
             Parent root = FXMLLoader.load(getClass()
                     .getResource("PM_NewProject.fxml"));
             
@@ -60,7 +74,7 @@ public class PM_Projects_Controller implements Initializable{
             pmProjectsStage.setScene(new Scene(root));
             pmProjectsStage.show();
             
-            //Closes Login Page
+            //Closes PM Page
             Stage stage = (Stage) newProjectBtn.getScene().getWindow();
             stage.close();
 		} catch(Exception e) {

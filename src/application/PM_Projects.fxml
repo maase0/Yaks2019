@@ -83,6 +83,7 @@
                   <Font name="System Bold Italic" size="12.0" />
                </font>
             </Label>
+            <Button fx:id="logoutButton" layoutX="701.0" layoutY="24.0" mnemonicParsing="false" onAction="#logout" text="Logout" />
          </children>
       </Pane>
    </center>

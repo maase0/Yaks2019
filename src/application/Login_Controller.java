@@ -28,7 +28,6 @@ public class Login_Controller implements Initializable{
 	}
 	public void Login(ActionEvent event) {
 		if (loginBox.getValue() == "Product Manager") {
-			System.out.println("Product Manager Selected, this works!");
 			try {
 	            // Opens Product Manager page
 	            Parent root = FXMLLoader.load(getClass()

@@ -49,6 +49,22 @@ public class Login_Controller implements Initializable{
 		else if (loginBox.getValue() == "Estimator") {
 			//Open Estimator page here
 			System.out.println("Estimator selected, this works!");
+			try {
+	            // Opens Estimator page
+	            Parent root = FXMLLoader.load(getClass()
+	                    .getResource("Estimator_Projects.fxml"));
+	            
+	            Stage estimatorProjectsStage = new Stage();
+	            estimatorProjectsStage.setTitle("Estimation Suite - Estimator - Projects");
+	            estimatorProjectsStage.setScene(new Scene(root));
+	            estimatorProjectsStage.show();
+	            
+	            //Closes Login Page
+	            Stage stage = (Stage) loginBtn.getScene().getWindow();
+	            stage.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
 		}
 		else {
 			System.out.println("Select a role");

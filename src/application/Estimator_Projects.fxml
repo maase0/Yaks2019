@@ -34,8 +34,7 @@
                                                             <Font name="System Bold" size="12.0" />
                                                          </font>
                                                       </Label>
-                                                      <Text fx:id="discardBtn21" fill="#321ee5" layoutX="639.0" layoutY="18.0" onMouseClicked="#discardProject" strokeType="OUTSIDE" strokeWidth="0.0" text="Discard" underline="true" />
-                                                      <Text fx:id="editBtn21" fill="#321ee5" layoutX="611.0" layoutY="18.0" onMouseClicked="#editProject" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit" underline="true" />
+                                                      <Text fx:id="editBtn21" fill="#321ee5" layoutX="568.0" layoutY="18.0" onMouseClicked="#editProject" strokeType="OUTSIDE" strokeWidth="0.0" text="View Project Estimate" underline="true" />
                                                    </children>
                                                 </Pane>
                                                 <Pane layoutY="26.0" minHeight="26.0" minWidth="700.0" prefHeight="26.0" prefWidth="700.0" style="-fx-border-color: black;">
@@ -45,8 +44,7 @@
                                                             <Font name="System Bold" size="12.0" />
                                                          </font>
                                                       </Label>
-                                                      <Text fx:id="discardBtn22" fill="#321ee5" layoutX="639.0" layoutY="18.0" onMouseClicked="#discardProject" strokeType="OUTSIDE" strokeWidth="0.0" text="Discard" underline="true" />
-                                                      <Text fx:id="editBtn22" fill="#321ee5" layoutX="611.0" layoutY="18.0" onMouseClicked="#editProject" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit" underline="true" />
+                                                      <Text fx:id="editBtn22" fill="#321ee5" layoutX="567.0" layoutY="18.0" onMouseClicked="#editProject" strokeType="OUTSIDE" strokeWidth="0.0" text="View Project Estimate" underline="true" />
                                                    </children>
                                                 </Pane>
                                                 <Pane layoutY="52.0" minHeight="26.0" minWidth="700.0" prefHeight="26.0" prefWidth="700.0" style="-fx-border-color: black;">
@@ -56,8 +54,7 @@
                                                             <Font name="System Bold" size="12.0" />
                                                          </font>
                                                       </Label>
-                                                      <Text fx:id="discardBtn23" fill="#321ee5" layoutX="639.0" layoutY="18.0" onMouseClicked="#discardProject" strokeType="OUTSIDE" strokeWidth="0.0" text="Discard" underline="true" />
-                                                      <Text fx:id="editBtn23" fill="#321ee5" layoutX="611.0" layoutY="18.0" onMouseClicked="#editProject" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit" underline="true" />
+                                                      <Text fx:id="editBtn23" fill="#321ee5" layoutX="570.0" layoutY="18.0" onMouseClicked="#editProject" strokeType="OUTSIDE" strokeWidth="0.0" text="View Project Estimate" underline="true" />
                                                    </children>
                                                 </Pane>
                                              </children>
@@ -83,8 +80,8 @@
                                                             <Font name="System Bold" size="12.0" />
                                                          </font>
                                                       </Label>
-                                                      <Text fx:id="discardBtn24" fill="#321ee5" layoutX="639.0" layoutY="18.0" onMouseClicked="#discardProject" strokeType="OUTSIDE" strokeWidth="0.0" text="Discard" underline="true" />
-                                                      <Text fx:id="editBtn24" fill="#321ee5" layoutX="611.0" layoutY="18.0" onMouseClicked="#editProject" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit" underline="true" />
+                                                      <Text fx:id="discardBtn24" fill="#321ee5" layoutX="639.0" layoutY="18.0" onMouseClicked="#discardProject" strokeType="OUTSIDE" strokeWidth="0.0" text="Return" underline="true" />
+                                                      <Text fx:id="editBtn24" fill="#321ee5" layoutX="587.0" layoutY="18.0" onMouseClicked="#editProject" strokeType="OUTSIDE" strokeWidth="0.0" text="Estimate" underline="true" />
                                                    </children>
                                                 </Pane>
                                              </children>

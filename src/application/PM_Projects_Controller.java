@@ -47,13 +47,12 @@ public class PM_Projects_Controller implements Initializable{
 	public void logout(ActionEvent event) {
 		try {
             // Opens Login page
-            Parent root = FXMLLoader.load(getClass()
-                    .getResource("Login.xfml"));
+            Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
             
-            Stage pmProjectsStage = new Stage();
-            pmProjectsStage.setTitle("Estimation Suite - Login Page");
-            pmProjectsStage.setScene(new Scene(root));
-            pmProjectsStage.show();
+            Stage loginStage = new Stage();
+            loginStage.setTitle("Estimation Suite - Login Page");
+            loginStage.setScene(new Scene(root));
+            loginStage.show();
             
             //Closes PM Page
             Stage stage = (Stage) logoutButton.getScene().getWindow();

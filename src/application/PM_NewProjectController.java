@@ -94,8 +94,20 @@ public class PM_NewProjectController implements Initializable{
 	@FXML
 	public void discardChanges(ActionEvent event) {
 		System.out.println("Discard Changes Button");
-		Stage stage = (Stage) discardButton.getScene().getWindow();
-		stage.close();
+		try {
+            Parent root = FXMLLoader.load(getClass()
+                    .getResource("PM_Projects.fxml"));
+            
+            Stage pmProjectsStage = new Stage();
+            pmProjectsStage.setTitle("Estimation Suite - Product Manager - Projects");
+            pmProjectsStage.setScene(new Scene(root));
+            pmProjectsStage.show();
+            
+    		Stage stage = (Stage) discardButton.getScene().getWindow();
+    		stage.close();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@FXML

@@ -47,7 +47,6 @@ public class Login_Controller implements Initializable{
 		}
 		else if (loginBox.getValue() == "Estimator") {
 			//Open Estimator page here
-			System.out.println("Estimator selected, this works!");
 			try {
 	            // Opens Estimator page
 	            Parent root = FXMLLoader.load(getClass()

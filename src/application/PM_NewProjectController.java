@@ -10,7 +10,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -76,6 +75,8 @@ public class PM_NewProjectController implements Initializable{
 		clinStartDate.setVisible(false);
 		clinEndDate.setDisable(true);
 		clinEndDate.setVisible(false);
+		projectTypeText.setStyle("-fx-border-color: black; -fx-background-color: #8a8988;");
+		indexText.setStyle("-fx-border-color: black; -fx-background-color: #8a8988;");
 
 		
 	}
@@ -136,9 +137,9 @@ public class PM_NewProjectController implements Initializable{
 	public void saveCLIN(MouseEvent event) {
 		
 		indexText.setEditable(false);
-		indexText.setStyle("-fx-background-color: #8a8988;");
+		indexText.setStyle("-fx-border-color: black; -fx-background-color: #8a8988;");
 		projectTypeText.setEditable(false);
-		projectTypeText.setStyle("-fx-background-color: #8a8988;");
+		projectTypeText.setStyle("-fx-border-color: black; -fx-background-color: #8a8988;");
 		
 		clinStartDate2.setText(clinStartDate.getValue().toString());
 		clinStartDate.setDisable(true);

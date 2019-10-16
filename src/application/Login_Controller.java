@@ -37,6 +37,11 @@ public class Login_Controller implements Initializable{
 	            pmProjectsStage.setTitle("Estimation Suite - Product Manager - Projects");
 	            pmProjectsStage.setScene(new Scene(root));
 	            pmProjectsStage.show();
+	            pmProjectsStage.centerOnScreen();
+	            //pmProjectsStage.setMaximized(true);
+	            pmProjectsStage.setResizable(false);
+	            pmProjectsStage.sizeToScene();
+	            
 	            
 	            //Closes Login Page
 	            Stage stage = (Stage) loginBtn.getScene().getWindow();
@@ -56,6 +61,8 @@ public class Login_Controller implements Initializable{
 	            estimatorProjectsStage.setTitle("Estimation Suite - Estimator - Projects");
 	            estimatorProjectsStage.setScene(new Scene(root));
 	            estimatorProjectsStage.show();
+	            estimatorProjectsStage.setResizable(false);
+	            estimatorProjectsStage.sizeToScene();
 	            
 	            //Closes Login Page
 	            Stage stage = (Stage) loginBtn.getScene().getWindow();

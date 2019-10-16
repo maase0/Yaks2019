@@ -5,12 +5,12 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane maxHeight="250.0" maxWidth="390.0" minHeight="215.0" minWidth="284.0" prefHeight="215.0" prefWidth="284.0" style="-fx-border-color: black;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Login_Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="215.0" prefWidth="284.0" style="-fx-border-color: black;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Login_Controller">
    <children>
-      <Pane layoutY="-1.0" maxHeight="250.0" maxWidth="400.0" minHeight="209.0" minWidth="262.0" prefHeight="209.0" prefWidth="284.0">
+      <Pane layoutY="-1.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="209.0" prefWidth="284.0">
          <children>
             <Button fx:id="loginBtn" layoutX="118.0" layoutY="125.0" mnemonicParsing="false" onAction="#Login" prefHeight="30.0" style="-fx-border-color: black;" text="Login" />
-            <ComboBox fx:id="loginBox" layoutX="62.0" layoutY="75.0" maxHeight="30.0" maxWidth="160.0" minHeight="30.0" minWidth="160.0" prefHeight="30.0" prefWidth="160.0" promptText="Select Role" style="-fx-border-color: black;" />
+            <ComboBox fx:id="loginBox" layoutX="62.0" layoutY="75.0" prefHeight="30.0" prefWidth="160.0" promptText="Select Role" style="-fx-border-color: black;" />
          </children>
       </Pane>
    </children>

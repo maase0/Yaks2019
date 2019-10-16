@@ -68,10 +68,12 @@ public class PM_Projects_Controller implements Initializable{
             Parent root = FXMLLoader.load(getClass()
                     .getResource("PM_NewProject.fxml"));
             
-            Stage pmProjectsStage = new Stage();
-            pmProjectsStage.setTitle("Estimation Suite - Product Manager - New Project");
-            pmProjectsStage.setScene(new Scene(root));
-            pmProjectsStage.show();
+            Stage pmNewProjectStage = new Stage();
+            pmNewProjectStage.setTitle("Estimation Suite - Product Manager - New Project");
+            pmNewProjectStage.setScene(new Scene(root));
+            pmNewProjectStage.show();
+            pmNewProjectStage.setResizable(false);
+            pmNewProjectStage.sizeToScene();
             
             //Closes PM Page
             Stage stage = (Stage) newProjectBtn.getScene().getWindow();

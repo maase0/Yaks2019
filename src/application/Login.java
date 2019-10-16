@@ -18,6 +18,9 @@ public class Login extends Application {
             primaryStage.setTitle("Estimation Suite - Login Page");
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
+            primaryStage.setResizable(false);
+            primaryStage.sizeToScene();
+            
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

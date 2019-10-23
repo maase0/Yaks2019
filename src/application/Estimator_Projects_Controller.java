@@ -54,7 +54,7 @@ public class Estimator_Projects_Controller implements Initializable{
 		try {
             // Opens Product Manager page
             Parent root = FXMLLoader.load(getClass()
-                    .getResource("PM_NewProject.fxml"));
+                    .getResource("view/PM_NewProject.fxml"));
             
             Stage pmProjectsStage = new Stage();
             pmProjectsStage.setTitle("Estimation Suite - Estimator - New Project");

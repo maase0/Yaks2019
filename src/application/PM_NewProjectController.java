@@ -1,8 +1,11 @@
 package application;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,12 +14,15 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 public class PM_NewProjectController implements Initializable{
 	@FXML
@@ -64,22 +70,17 @@ public class PM_NewProjectController implements Initializable{
 	@FXML
 	private Pane clinPane;
 	
+	@FXML
+	private ListView clinList;
+	ObservableList observableList = FXCollections.observableArrayList();
+
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		//for example CLIN, hides save button on start
-		saveCLINButton.setDisable(true);
-		saveCLINButton.setVisible(false);
-		clinText.setDisable(true);
-		clinText.setVisible(false);
-		clinStartDate.setDisable(true);
-		clinStartDate.setVisible(false);
-		clinEndDate.setDisable(true);
-		clinEndDate.setVisible(false);
-		projectTypeText.setStyle("-fx-border-color: black; -fx-background-color: #8a8988;");
-		indexText.setStyle("-fx-border-color: black; -fx-background-color: #8a8988;");
-
 		
 	}
+	
+	
 	@FXML
 	public void saveChanges(ActionEvent event) {
 		System.out.println("Save Changes Button");
@@ -116,7 +117,21 @@ public class PM_NewProjectController implements Initializable{
 	}
 	
 	public void addCLIN(ActionEvent event) {
+		System.out.println("TEST");
 		
+       clinList.setItems(observableList);
+       
+       clinList.setCellFactory(new Callback<ListView<String>, javafx.scene.control.ListCell<String>>()
+       {
+           @Override
+           public ListCell<String> call(ListView<String> listView)
+           {
+               return new ListViewCell();
+           }
+       });
+
+      
+        
 	}
 	
 	//CLIN is now editable

@@ -119,20 +119,13 @@ public class PM_NewProjectController implements Initializable{
 	public void addCLIN(ActionEvent event) {
 		System.out.println("TEST");
 		
-       clinList.setItems(observableList);
-       
-       clinList.setCellFactory(new Callback<ListView<String>, javafx.scene.control.ListCell<String>>()
-       {
-           @Override
-           public ListCell<String> call(ListView<String> listView)
-           {
-               return new ListViewCell();
-           }
-       });
+		
+		
+		}
 
       
         
-	}
+	
 	
 	//CLIN is now editable
 	public void editCLIN(MouseEvent event) {

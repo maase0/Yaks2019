@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.*?>
+<<<<<<< HEAD
+=======
+<?import javafx.scene.*?>
+>>>>>>> 7bccd25d1a14007bc7fe4767800ff07facff51d3
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
@@ -16,7 +20,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<<<<<<< HEAD
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="420.0" prefWidth="715.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PM_NewProjectController">
+=======
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="715.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PM_NewProjectController">
+>>>>>>> 7bccd25d1a14007bc7fe4767800ff07facff51d3
   <!-- TODO Add Nodes -->
   <children>
       <Pane layoutX="1.0" layoutY="4.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="26.0" prefWidth="702.0">
@@ -32,9 +40,9 @@
           <Button fx:id="submitButton" layoutX="567.0" layoutY="-1.0" mnemonicParsing="false" onAction="#submitForEstimation" text="Submit For Estimation" />
          </children>
       </Pane>
-    <ScrollPane layoutX="7.0" layoutY="31.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="379.0" prefWidth="702.0">
+    <ScrollPane layoutX="7.0" layoutY="31.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="615.0" prefWidth="702.0">
       <content>
-        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="366.0" prefWidth="709.0">
+        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="723.0" prefWidth="707.0">
           <children>
             <Label layoutX="14.0" layoutY="9.0" text="Project Manager:">
                      <font>
@@ -62,10 +70,68 @@
                   <DatePicker fx:id="startDate" layoutX="149.0" layoutY="48.0" />
                   <Label layoutX="336.0" layoutY="52.0" text="-" />
                   <DatePicker fx:id="endDate" layoutX="354.0" layoutY="48.0" />
+<<<<<<< HEAD
                   <ScrollPane layoutX="15.0" layoutY="95.0" prefHeight="254.0" prefWidth="665.0">
                      <content>
                         <ListView fx:id="clinList" prefHeight="250.0" prefWidth="660.0" />
                      </content>
+=======
+                  <ScrollPane layoutX="15.0" layoutY="95.0" prefHeight="164.0" prefWidth="665.0">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="165.0" prefWidth="665.0">
+                           <children>
+                              <Pane fx:id="clinPane" layoutY="16.0" prefHeight="133.0" prefWidth="659.0" style="-fx-border-color: black; -fx-background-color: #8a8988;">
+                                 <children>
+                                    <Label layoutX="8.0" layoutY="10.0" text="Index:">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="indexText" editable="false" layoutX="49.0" layoutY="7.0" prefHeight="25.0" prefWidth="104.0" style="-fx-background-color: #8a8988; -fx-border-color: black;" />
+                                    <Label layoutX="165.0" layoutY="10.0" text="Project Type:">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="projectTypeText" editable="false" layoutX="245.0" layoutY="7.0" prefHeight="25.0" prefWidth="104.0" style="-fx-background-color: #8a8988; -fx-border-color: black;" />
+                                    <Label layoutX="363.0" layoutY="11.0" text="PoP: ">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <DatePicker fx:id="clinStartDate" editable="false" layoutX="394.0" layoutY="7.0" prefHeight="25.0" prefWidth="115.0" />
+                                    <Label layoutX="514.0" layoutY="11.0" text="-" />
+                                    <DatePicker fx:id="clinEndDate" editable="false" layoutX="525.0" layoutY="7.0" prefHeight="25.0" prefWidth="115.0" />
+                                    <TextArea fx:id="clinText" layoutX="49.0" layoutY="39.0" prefHeight="67.0" prefWidth="593.0" />
+                                    <TextField fx:id="clinText2" alignment="TOP_LEFT" editable="false" layoutX="49.0" layoutY="39.0" prefHeight="67.0" prefWidth="593.0" style="-fx-background-color: #8a8988; -fx-border-color: black;" />
+                                    <Label layoutX="8.0" layoutY="38.0" text="CLIN: ">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <Text fx:id="editCLINButton" fill="#321ee5" layoutX="571.0" layoutY="124.0" onMouseClicked="#editCLIN" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit" underline="true">
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Text>
+                                    <Text fx:id="discardCLINButton" fill="#321ee5" layoutX="599.0" layoutY="124.0" onMouseClicked="#discardCLIN" strokeType="OUTSIDE" strokeWidth="0.0" text="Discard" underline="true">
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Text>
+                                    <Text fx:id="saveCLINButton" fill="#321ee5" layoutX="571.0" layoutY="124.0" onMouseClicked="#saveCLIN" strokeType="OUTSIDE" strokeWidth="0.0" text="Save" underline="true">
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Text>
+                                    <TextField fx:id="clinStartDate2" editable="false" layoutX="393.0" layoutY="7.0" prefHeight="27.0" prefWidth="116.0" style="-fx-background-color: #8a8988; -fx-border-color: black;" />
+                                    <TextField fx:id="clinEndDate2" editable="false" layoutX="524.0" layoutY="7.0" prefHeight="27.0" prefWidth="116.0" style="-fx-background-color: #8a8988; -fx-border-color: black;" />
+                                 </children>
+                              </Pane>
+                           </children>
+                        </AnchorPane>
+                    </content>
+>>>>>>> 7bccd25d1a14007bc7fe4767800ff07facff51d3
                   </ScrollPane>
                   <Button fx:id="addCLINButton" layoutX="276.0" layoutY="83.0" mnemonicParsing="false" onAction="#addCLIN" prefHeight="25.0" prefWidth="144.0" text="Add Contract Line Item" />
                   <Label layoutX="15.0" layoutY="81.0" text="Contract Line Item (CLINs)">
@@ -73,6 +139,80 @@
                         <Font name="System Bold Italic" size="12.0" />
                      </font>
                   </Label>
+                  <ScrollPane layoutX="17.0" layoutY="285.0" prefHeight="167.0" prefWidth="665.0">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="170.0" prefWidth="668.0">
+                           <children>
+                              <Pane fx:id="clinPane1" layoutY="14.0" prefHeight="133.0" prefWidth="659.0" style="-fx-border-color: black; -fx-background-color: #8a8988;">
+                                 <children>
+                                    <Label layoutX="8.0" layoutY="10.0" text="Title:">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="indexText1" editable="false" layoutX="49.0" layoutY="7.0" prefHeight="25.0" prefWidth="104.0" style="-fx-background-color: #8a8988; -fx-border-color: black;" />
+                                    <TextArea fx:id="clinText1" layoutX="49.0" layoutY="39.0" prefHeight="67.0" prefWidth="593.0" />
+                                    <TextField fx:id="clinText21" alignment="TOP_LEFT" editable="false" layoutX="49.0" layoutY="39.0" prefHeight="67.0" prefWidth="593.0" style="-fx-background-color: #8a8988; -fx-border-color: black;" />
+                                    <Label layoutX="8.0" layoutY="38.0" text="SDLR: ">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <Text fx:id="editCLINButton1" fill="#321ee5" layoutX="571.0" layoutY="124.0" onMouseClicked="#editCLIN" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit" underline="true">
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Text>
+                                    <Text fx:id="discardCLINButton11" fill="#321ee5" layoutX="598.0" layoutY="124.0" onMouseClicked="#discardCLIN" strokeType="OUTSIDE" strokeWidth="0.0" text="Discard" underline="true">
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Text>
+                                 </children>
+                              </Pane>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </ScrollPane>
+                  <Label layoutX="17.0" layoutY="268.0" text="Subcontract Design Requirement List (SDLRs)" />
+                  <Button layoutX="325.0" layoutY="272.0" mnemonicParsing="false" text="Add SDLR" />
+                  <ScrollPane layoutX="22.0" layoutY="485.0" prefHeight="181.0" prefWidth="661.0">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="168.0" prefWidth="662.0">
+                           <children>
+                              <Pane fx:id="clinPane11" layoutX="2.0" layoutY="15.0" prefHeight="159.0" prefWidth="646.0" style="-fx-border-color: black; -fx-background-color: #8a8988;">
+                                 <children>
+                                    <Label layoutX="8.0" layoutY="10.0" text="Reference:">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="indexText11" editable="false" layoutX="76.0" layoutY="3.0" prefHeight="25.0" prefWidth="104.0" style="-fx-background-color: #8a8988; -fx-border-color: black;" />
+                                    <TextArea fx:id="clinText11" layoutX="8.0" layoutY="61.0" prefHeight="67.0" prefWidth="634.0" />
+                                    <TextField fx:id="clinText211" alignment="TOP_LEFT" editable="false" layoutX="6.0" layoutY="61.0" prefHeight="67.0" prefWidth="636.0" style="-fx-background-color: #8a8988; -fx-border-color: black;" />
+                                    <Label layoutX="8.0" layoutY="38.0" text="Statement of Work Paragraph: ">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <Text fx:id="editCLINButton11" fill="#321ee5" layoutX="565.0" layoutY="143.0" onMouseClicked="#editCLIN" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit" underline="true">
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Text>
+                                    <Text fx:id="discardCLINButton111" fill="#321ee5" layoutX="591.0" layoutY="143.0" onMouseClicked="#discardCLIN" strokeType="OUTSIDE" strokeWidth="0.0" text="Discard" underline="true">
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Text>
+                                 </children>
+                              </Pane>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </ScrollPane>
+                  <Label layoutX="17.0" layoutY="468.0" text="Statement of Work References (SOW Refs)" />
+                  <Button layoutX="314.0" layoutY="472.0" mnemonicParsing="false" text="Add SOW Reference" />
           </children>
         </AnchorPane>
       </content>

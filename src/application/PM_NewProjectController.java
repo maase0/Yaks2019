@@ -43,43 +43,37 @@ public class PM_NewProjectController implements Initializable{
 	private DatePicker startDate;
 	@FXML
 	private DatePicker endDate;
-	@FXML
-	private Button addCLINButton;
-	@FXML
-	private TextField indexText;
-	@FXML
-	private TextField projectTypeText;
-	@FXML
-	private DatePicker clinStartDate;
-	@FXML
-	private DatePicker clinEndDate;
-	@FXML
-	private TextArea clinText;
-	@FXML
-	private Text saveCLINButton;
-	@FXML
-	private Text editCLINButton;
-	@FXML
-	private Text discardCLINButton;
-	@FXML
-	private TextField clinText2;
-	@FXML
-	private TextField clinStartDate2;
-	@FXML
-	private TextField clinEndDate2;
-	@FXML
-	private Pane clinPane;
 	
+	
+	//CLIN List fields
 	@FXML
-	private ListView clinList;
-	ObservableList observableList = FXCollections.observableArrayList();
+    private ListView<CLIN> CLINListView;
+    @FXML
+    private Button addCLINButton;
+    private ObservableList<CLIN> clinObservableList;
+	
+    
+    public PM_NewProjectController()  {
 
-	
+    	clinObservableList = FXCollections.observableArrayList();
+
+    }
+    
+    
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
+		CLINListView.setItems(clinObservableList);
+        CLINListView.setCellFactory(clinListView -> new CLINListViewCell());
 	}
 	
+	public void addCLIN(ActionEvent event) {
+		clinObservableList.add(new CLIN());
+    	//clinObservableList.add(null);
+    	
+    	for(CLIN c : clinObservableList) {
+    		System.out.println(c);
+    	} 
+	}
 	
 	@FXML
 	public void saveChanges(ActionEvent event) {
@@ -116,79 +110,9 @@ public class PM_NewProjectController implements Initializable{
 		System.out.println("Submit Button");
 	}
 	
-	public void addCLIN(ActionEvent event) {
-		System.out.println("TEST");
-		
-       clinList.setItems(observableList);
-       
-       clinList.setCellFactory(new Callback<ListView<String>, javafx.scene.control.ListCell<String>>()
-       {
-           @Override
-           public ListCell<String> call(ListView<String> listView)
-           {
-               return new ListViewCell();
-           }
-       });
-
-      
-        
-	}
 	
-	//CLIN is now editable
-	public void editCLIN(MouseEvent event) {
-		indexText.setEditable(true);
-		indexText.setStyle("-fx-background-color: white;");
-		projectTypeText.setEditable(true);
-		projectTypeText.setStyle("-fx-background-color: white;");
-		
-		clinStartDate.setDisable(false);
-		clinStartDate.setVisible(true);
-		clinStartDate2.setVisible(false);
-		clinEndDate.setDisable(false);
-		clinEndDate.setVisible(true);
-		clinEndDate2.setVisible(false);
-		
-		clinText.setDisable(false);
-		clinText.setVisible(true);
-		clinText2.setVisible(false);
-		
-		saveCLINButton.setDisable(false);
-		saveCLINButton.setVisible(true);
-		editCLINButton.setDisable(true);
-		editCLINButton.setVisible(false);
-		
-		clinPane.setStyle("-fx-border-color: black; -fx-background-color: #F4F4F4;");
-	}
 	
-	//CLIN is no longer editable
-	public void saveCLIN(MouseEvent event) {
-		
-		indexText.setEditable(false);
-		indexText.setStyle("-fx-border-color: black; -fx-background-color: #8a8988;");
-		projectTypeText.setEditable(false);
-		projectTypeText.setStyle("-fx-border-color: black; -fx-background-color: #8a8988;");
-		
-		clinStartDate2.setText(clinStartDate.getValue().toString());
-		clinStartDate.setDisable(true);
-		clinStartDate.setVisible(false);
-		clinStartDate2.setVisible(true);
-		clinEndDate2.setText(clinEndDate.getValue().toString());
-		clinEndDate.setDisable(true);
-		clinEndDate.setVisible(false);
-		clinEndDate2.setVisible(true);
-		
-		clinText2.setText(clinText.getText());
-		clinText.setDisable(true);
-		clinText.setVisible(false);
-		clinText2.setVisible(true);
-		
-		saveCLINButton.setDisable(true);
-		saveCLINButton.setVisible(false);
-		editCLINButton.setDisable(false);
-		editCLINButton.setVisible(true);
-		
-		clinPane.setStyle("-fx-border-color: black; -fx-background-color: #8a8988;");
-	}
+	
 	
 	public void discardCLIN(MouseEvent event) {
 		

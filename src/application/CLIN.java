@@ -1,41 +1,65 @@
 package application;
 
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
-import java.io.IOException;
 
 public class CLIN
 {
-    @FXML
-    private HBox hBox;
-    @FXML
-    private Label label1;
-    @FXML
-    private Label label2;
-
-    public CLIN()
-    {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CLIN.fxml"));
-        fxmlLoader.setController(this);
-        try
-        {
-            fxmlLoader.load();
-        }
-        catch (IOException e)
-        {
-            throw new RuntimeException(e);
-        }
+	private String name;
+	private String projectType;
+	private String popStart;
+	private String popEnd;
+	private String clinContent;
+		
+	
+    public CLIN() {
+    	name = null;
+    	projectType = null;
+    	popStart = null;
+    	popEnd = null;
+    	clinContent = null;
+    
     }
-
-    public void setInfo(String string)
-    {
-        
+    
+    public void setName(String name) {
+    	this.name = name;
     }
-
-    public HBox getBox()
-    {
-        return hBox;
+    
+    public void setProjectType(String projectType) {
+    	this.projectType = projectType;
+    }
+    
+    public void setPopStart(String popStart) {
+    	this.popStart = popStart;
+    }
+    
+    public void setPopEnd(String popEnd) {
+    	this.popEnd = popEnd;
+    }
+    
+    public void setClinContent(String clinContent) {
+    	this.clinContent = clinContent;
+    }
+    
+    public String getName() {
+    	return name;
+    }
+    
+    public String getProjectType() {
+    	return projectType;
+    }
+    
+    public String getPopStart() {
+    	return popStart;
+    }
+    
+    public String getPopEnd() {
+    	return popEnd;
+    }
+    
+    public String getClinContent() {
+    	return clinContent;
+    }
+    
+    public String toString() {
+    	return name + ", " + projectType + ", " + popStart + " - " + popEnd + "\n" + clinContent;
     }
 }

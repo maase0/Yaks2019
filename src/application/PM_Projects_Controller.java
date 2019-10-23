@@ -47,7 +47,8 @@ public class PM_Projects_Controller implements Initializable{
 	public void logout(ActionEvent event) {
 		try {
             // Opens Login page
-            Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
+            Parent root = FXMLLoader.load(getClass()
+            		.getResource("Login.fxml"));
             
             Stage loginStage = new Stage();
             loginStage.setTitle("Estimation Suite - Login Page");
@@ -65,14 +66,16 @@ public class PM_Projects_Controller implements Initializable{
 	public void addNewProject(ActionEvent event) {
 		try {
             // Opens New Project page
+           // Parent root = FXMLLoader.load(getClass()
+           // 		.getResource("PM_NewProject.fxml"));
             Parent root = FXMLLoader.load(getClass()
                     .getResource("PM_NewProject.fxml"));
-            
+                                  
             Stage pmNewProjectStage = new Stage();
             pmNewProjectStage.setTitle("Estimation Suite - Product Manager - New Project");
             pmNewProjectStage.setScene(new Scene(root));
             pmNewProjectStage.show();
-            pmNewProjectStage.setResizable(false);
+            pmNewProjectStage.setResizable(true);
             pmNewProjectStage.sizeToScene();
             
             //Closes PM Page

@@ -110,8 +110,7 @@ public class PM_NewProjectController implements Initializable{
 		System.out.println("Submit Button");
 	}
 	
-
-    
+	
 	
 	
 	

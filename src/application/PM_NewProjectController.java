@@ -50,7 +50,7 @@ public class PM_NewProjectController implements Initializable{
     private ListView<CLIN> CLINListView;
     @FXML
     private Button addCLINButton;
-    private ObservableList<CLIN> clinObservableList;
+    public static ObservableList<CLIN> clinObservableList;
 	
     
     public PM_NewProjectController()  {

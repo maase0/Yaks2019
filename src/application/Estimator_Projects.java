@@ -13,7 +13,7 @@ public class Estimator_Projects extends Application {
 		try {
             // Read file fxml and draw interface.
             Parent root = FXMLLoader.load(getClass()
-                    .getResource("Estimator - Projects.fxml"));
+                    .getResource("Estimator_Projects.fxml"));
  
             primaryStage.setTitle("Estimation Suite - Estimator - Projects Page");
             primaryStage.setScene(new Scene(root));

@@ -78,9 +78,4 @@ public class CLINListViewCell extends ListCell<CLIN> {
         }
     }
         
-        public void removeCLIN(ActionEvent event) {
-        	clin = PM_NewProjectController.clinObservableList;
-    		clin.remove(clin.size()-1);
-
-    }
 }

@@ -87,8 +87,8 @@ public class PM_NewProjectController implements Initializable{
 		/*sdrlObservableList.add(new SDRL());
 		
 		for (SDRL s : sdrlObservableList) {
-			System.out.println(s);*/
-		//}
+			System.out.println(s);
+		}*/
 	}
 		
 		

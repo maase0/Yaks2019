@@ -8,8 +8,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListCell;
+import javafx.scene.control.MenuButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -22,21 +22,16 @@ import java.io.IOException;
  *
  */
 
-public class CLINListViewCell extends ListCell<CLIN> {
+public class SDRLListViewCell extends ListCell<SDRL> {
 
     @FXML
     private TextField nameField;
     @FXML
-    private TextField projectField;
-    
+    private Button addAttachment;
     @FXML
-    private DatePicker startDate;
+    private MenuButton attachments;
     @FXML
-    private DatePicker endDate;
-
-    @FXML
-    private TextArea clinArea;
-
+    private TextArea sdrlArea;
     @FXML
     private Button saveButton;
     private Button removeButton;
@@ -46,13 +41,13 @@ public class CLINListViewCell extends ListCell<CLIN> {
     private GridPane gridPane;
 
     private FXMLLoader mLLoader;
-	private ObservableList<CLIN> clin;
+	private ObservableList<SDRL> sdrl;
 
     @Override
-    protected void updateItem(CLIN clin, boolean empty) {
-        super.updateItem(clin, empty);
+    protected void updateItem(SDRL sdrl, boolean empty) {
+        super.updateItem(sdrl, empty);
 
-        if(empty || clin == null) {
+        if(empty || sdrl == null) {
 
             setText(null);
             setGraphic(null);
@@ -60,7 +55,7 @@ public class CLINListViewCell extends ListCell<CLIN> {
         } else {
             if (mLLoader == null) {
                 mLLoader = new FXMLLoader(getClass()
-                		.getResource("CLINListCell.fxml"));
+                		.getResource("SDRLListCell.fxml"));
                 mLLoader.setController(this);
 
                 try {
@@ -78,9 +73,7 @@ public class CLINListViewCell extends ListCell<CLIN> {
         }
     }
         
-        public void removeCLIN(ActionEvent event) {
-        	clin = PM_NewProjectController.clinObservableList;
-    		clin.remove(clin.size()-1);
+        public void removeSDRL(ActionEvent event) {
 
     }
 }

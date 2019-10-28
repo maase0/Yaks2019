@@ -69,7 +69,7 @@ public class PM_Projects_Controller implements Initializable{
            // Parent root = FXMLLoader.load(getClass()
            // 		.getResource("PM_NewProject.fxml"));
             Parent root = FXMLLoader.load(getClass()
-                    .getResource("PM_NewProject.fxml"));
+            		.getResource("PM_NewProject.fxml"));
                                   
             Stage pmNewProjectStage = new Stage();
             pmNewProjectStage.setTitle("Estimation Suite - Product Manager - New Project");

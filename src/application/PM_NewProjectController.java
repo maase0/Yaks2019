@@ -133,12 +133,6 @@ public class PM_NewProjectController implements Initializable{
 		System.out.println("Submit Button");
 	}
 	
-	
-    public void removeCLIN(ActionEvent event) {
-		clinObservableList.remove(clinObservableList.size()-1);
-}
-	
-	
 	public void discardCLIN(MouseEvent event) {
 		
 	}

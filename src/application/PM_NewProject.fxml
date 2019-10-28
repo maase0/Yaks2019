@@ -73,14 +73,14 @@
                   </BorderPane>
                </content>
           </TitledPane>
-            <TitledPane animated="false" layoutX="10.0" layoutY="37.0" text="Subcontract Design Requirement List (SDLRs)">
+            <TitledPane animated="false" layoutX="10.0" layoutY="37.0" text="Subcontract Design Requirement List (SDRLs)">
                <content>
                   <BorderPane prefHeight="200.0" prefWidth="200.0">
                      <center>
-                        <ListView fx:id="CLINListView1" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+                        <ListView fx:id="SDRLListView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
                      </center>
                      <top>
-                        <Button fx:id="addSDRLButton" mnemonicParsing="false" onAction="#addSDRL" text="Add SDLR" BorderPane.alignment="CENTER" />
+                        <Button fx:id="addSDRLButton" mnemonicParsing="false" onAction="#addSDRL" text="Add SDRL" BorderPane.alignment="CENTER" />
                      </top>
                   </BorderPane>
                </content>
@@ -89,10 +89,10 @@
                <content>
                   <BorderPane prefHeight="200.0" prefWidth="200.0">
                      <center>
-                        <ListView fx:id="CLINListView11" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+                        <ListView fx:id="SOWListView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
                      </center>
                      <top>
-                        <Button fx:id="addCLINButton11" mnemonicParsing="false" onAction="#addCLIN" text="Add SOW Reference" BorderPane.alignment="CENTER" />
+                        <Button fx:id="addSOWButton" mnemonicParsing="false" onAction="#addSOW" text="Add SOW Reference" BorderPane.alignment="CENTER" />
                      </top>
                   </BorderPane>
                </content>

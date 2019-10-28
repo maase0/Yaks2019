@@ -54,9 +54,14 @@ public class PM_NewProjectController implements Initializable{
 	private ListView<SDRL> SDRLListView;
     @FXML
     private Button addSDRLButton;
+    @FXML
+	private ListView<SOW> SOWListView;
+    @FXML
+    private Button addSOWButton;
 
     public static ObservableList<CLIN> clinObservableList;
     public static ObservableList<SDRL> sdrlObservableList;
+    public static ObservableList<SOW> sowObservableList;
     
     public PM_NewProjectController()  {
 
@@ -136,6 +141,15 @@ public class PM_NewProjectController implements Initializable{
 	
 	public void discardCLIN(MouseEvent event) {
 		
+	}
+	
+	
+	public void addSOW(ActionEvent event) {
+		/*sdrlObservableList.add(new SDRL());
+		
+		for (SDRL s : sdrlObservableList) {
+			System.out.println(s);
+		}*/
 	}
 	
 }

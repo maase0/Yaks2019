@@ -82,5 +82,5 @@ public class CLINListViewCell extends ListCell<CLIN> {
     	clin = PM_NewProjectController.clinObservableList;
 		clin.remove(clin.size()-1);
 
-}
+    }
 }

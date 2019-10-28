@@ -80,7 +80,7 @@
                         <ListView fx:id="CLINListView1" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
                      </center>
                      <top>
-                        <Button fx:id="addCLINButton1" mnemonicParsing="false" onAction="#addCLIN" text="Add SDLR" BorderPane.alignment="CENTER" />
+                        <Button fx:id="addSDRLButton" mnemonicParsing="false" onAction="#addSDRL" text="Add SDLR" BorderPane.alignment="CENTER" />
                      </top>
                   </BorderPane>
                </content>

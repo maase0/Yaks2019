@@ -1,13 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.control.*?>
 <?import java.lang.*?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.layout.AnchorPane?>
 
 <GridPane fx:id="gridPane" minWidth="282.0" prefHeight="384.0" prefWidth="962.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
@@ -16,6 +11,12 @@
             <Label text="Name: " />
             <TextField GridPane.columnIndex="1" />
             <Button fx:id="addAttachment" mnemonicParsing="false" prefHeight="27.0" prefWidth="122.0" text="Add Attachment" GridPane.columnIndex="2" />
+            <MenuButton fx:id="attachments" mnemonicParsing="false" prefHeight="27.0" prefWidth="119.0" text="Attachments" GridPane.columnIndex="3">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+                <MenuItem mnemonicParsing="false" text="Action 2" />
+              </items>
+            </MenuButton>
          </children>
          <columnConstraints>
             <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="79.0" minWidth="7.0" percentWidth="5.0" prefWidth="7.0" />

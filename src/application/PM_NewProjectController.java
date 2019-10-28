@@ -48,10 +48,15 @@ public class PM_NewProjectController implements Initializable{
 	//CLIN List fields
 	@FXML
     private ListView<CLIN> CLINListView;
-    @FXML
+	@FXML
     private Button addCLINButton;
+    @FXML
+	private ListView<SDRL> SDRLListView;
+    @FXML
+    private Button addSDRLButton;
+
     public static ObservableList<CLIN> clinObservableList;
-	
+    public static ObservableList<SDRL> sdrlObservableList;
     
     public PM_NewProjectController()  {
 
@@ -64,7 +69,10 @@ public class PM_NewProjectController implements Initializable{
 	public void initialize(URL location, ResourceBundle resources) {
 		CLINListView.setItems(clinObservableList);
         CLINListView.setCellFactory(clinListView -> new CLINListViewCell());
+        /*SDRLListView.setItems(sdrlObservableList);
+        SDRLListView.setCellFactory(sdrlListView -> new SDRLListViewCell());*/
 	}
+	
 	
 	public void addCLIN(ActionEvent event) {
 		clinObservableList.add(new CLIN());
@@ -73,7 +81,17 @@ public class PM_NewProjectController implements Initializable{
     	for(CLIN c : clinObservableList) {
     		System.out.println(c);
     	} 
+    	
 	}
+	public void addSDRL(ActionEvent event) {
+		/*sdrlObservableList.add(new SDRL());
+		
+		for (SDRL s : sdrlObservableList) {
+			System.out.println(s);*/
+		//}
+	}
+		
+		
 	
 	@FXML
 	public void saveChanges(ActionEvent event) {

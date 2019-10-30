@@ -63,9 +63,8 @@ public class PM_NewProjectController implements Initializable{
    // public static ObservableList<SDRL> sdrlObservableList;
     
     public PM_NewProjectController()  {
-    	CLINListView = new ListView<CLIN>();
-		clinObservableList = FXCollections.observableArrayList();
-		CLINListView.setItems(clinObservableList);
+    	//CLINListView = new ListView<CLIN>();
+		//CLINListView.setItems(clinObservableList);
 
     	
     }
@@ -73,7 +72,9 @@ public class PM_NewProjectController implements Initializable{
     
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		//CLINListView.setItems(clinObservableList);
+		clinObservableList = FXCollections.observableArrayList();
+
+		CLINListView.setItems(clinObservableList);
 		//CLINListView.setCellFactory(clinListView -> new ListViewCell());
         /*SDRLListView.setItems(sdrlObservableList);
         SDRLListView.setCellFactory(sdrlListView -> new SDRLListViewCell());*/

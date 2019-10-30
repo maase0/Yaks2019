@@ -76,38 +76,6 @@
                   </BorderPane>
                </content>
           </TitledPane>
-<<<<<<< Updated upstream
-          <TitledPane animated="false" text="untitled 3">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-            </content>
-          </TitledPane>
-=======
-            <TitledPane animated="false" layoutX="10.0" layoutY="37.0" text="Subcontract Design Requirement List (SDLRs)">
-               <content>
-                  <BorderPane prefHeight="200.0" prefWidth="200.0">
-                     <center>
-                        <ListView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
-                     </center>
-                     <top>
-                        <Button fx:id="addSDRLButton" mnemonicParsing="false" onAction="#addSDRL" text="Add SDLR" BorderPane.alignment="CENTER" />
-                     </top>
-                  </BorderPane>
-               </content>
-            </TitledPane>
-            <TitledPane animated="false" layoutX="10.0" layoutY="64.0" text="Statement of Work References (SOW Refs)">
-               <content>
-                  <BorderPane prefHeight="200.0" prefWidth="200.0">
-                     <center>
-                        <ListView fx:id="CLINListView11" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
-                     </center>
-                     <top>
-                        <Button fx:id="addCLINButton11" mnemonicParsing="false" onAction="#addCLIN" text="Add SOW Reference" BorderPane.alignment="CENTER" />
-                     </top>
-                  </BorderPane>
-               </content>
-            </TitledPane>
->>>>>>> Stashed changes
         </panes>
       </Accordion>
    </center>

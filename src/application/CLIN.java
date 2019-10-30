@@ -1,5 +1,14 @@
 package application;
 
+import java.io.IOException;
+
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.stage.Stage;
 
 public class CLIN
 {
@@ -19,6 +28,15 @@ public class CLIN
     
     }
     
+    public CLIN(String name, String projectType, 
+    		String clinContent,String popStart, String popEnd) {
+    	this.name = name;
+    	this.projectType = projectType;
+    	this.clinContent = clinContent;
+    	this.popStart = popStart;
+    	this.popEnd = popEnd;
+    }
+		
     public void setName(String name) {
     	this.name = name;
     }

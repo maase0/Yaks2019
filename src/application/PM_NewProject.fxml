@@ -53,20 +53,61 @@
           <TitledPane animated="false" text="Contract Line Items">
                <content>
                   <BorderPane prefHeight="200.0" prefWidth="200.0">
-                     <top>
-                        <Button fx:id="addCLINButton" mnemonicParsing="false" onAction="#addCLIN" text="Add Contract Line Item" BorderPane.alignment="CENTER" />
-                     </top>
                      <center>
                         <ListView fx:id="CLINListView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
                      </center>
+                     <top>
+                        <GridPane BorderPane.alignment="CENTER">
+                          <columnConstraints>
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Button fx:id="addCLINButton" mnemonicParsing="false" onAction="#addCLIN" text="Add Contract Line Item" />
+                              <Button fx:id="editCLINButton" mnemonicParsing="false" onAction="#editCLIN" text="Edit Selected" GridPane.columnIndex="1" />
+                              <Button fx:id="discardCLINButton" mnemonicParsing="false" onAction="#discardCLIN" text="Remove Selected" GridPane.columnIndex="2" />
+                           </children>
+                        </GridPane>
+                     </top>
                   </BorderPane>
                </content>
           </TitledPane>
+<<<<<<< Updated upstream
           <TitledPane animated="false" text="untitled 3">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
             </content>
           </TitledPane>
+=======
+            <TitledPane animated="false" layoutX="10.0" layoutY="37.0" text="Subcontract Design Requirement List (SDLRs)">
+               <content>
+                  <BorderPane prefHeight="200.0" prefWidth="200.0">
+                     <center>
+                        <ListView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+                     </center>
+                     <top>
+                        <Button fx:id="addSDRLButton" mnemonicParsing="false" onAction="#addSDRL" text="Add SDLR" BorderPane.alignment="CENTER" />
+                     </top>
+                  </BorderPane>
+               </content>
+            </TitledPane>
+            <TitledPane animated="false" layoutX="10.0" layoutY="64.0" text="Statement of Work References (SOW Refs)">
+               <content>
+                  <BorderPane prefHeight="200.0" prefWidth="200.0">
+                     <center>
+                        <ListView fx:id="CLINListView11" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+                     </center>
+                     <top>
+                        <Button fx:id="addCLINButton11" mnemonicParsing="false" onAction="#addCLIN" text="Add SOW Reference" BorderPane.alignment="CENTER" />
+                     </top>
+                  </BorderPane>
+               </content>
+            </TitledPane>
+>>>>>>> Stashed changes
         </panes>
       </Accordion>
    </center>

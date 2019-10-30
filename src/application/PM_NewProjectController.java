@@ -21,59 +21,105 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Callback;
 
 public class PM_NewProjectController implements Initializable{
-	@FXML
-	private Button saveButton;
-	@FXML
-	private Button discardButton;
-	@FXML
-	private Button submitButton;
-	@FXML
-	private TextField projectNameText;
-	@FXML
-	private TextField pmText;
-	@FXML
-	private TextField labelText;
-	@FXML
-	private TextField versionText;
-	@FXML
-	private DatePicker startDate;
-	@FXML
-	private DatePicker endDate;
+	
+	//Project Information
+	@FXML private TextField projectNameText;
+	@FXML private TextField pmText;
+	@FXML private TextField labelText;
+	@FXML private TextField versionText;
+	@FXML private DatePicker startDate;
+	@FXML private DatePicker endDate;
+	
+	//CLIN Stuff
+	@FXML private Button addCLINButton;
+	@FXML private Button editCLINButton;
+	@FXML private Button discardCLINButton;
 	
 	
+	
+	
+	@FXML 
+	private static ListView<CLIN> CLINListView;
+	
+	private static ObservableList<CLIN> clinObservableList;
+	
+	
+	@FXML Button discardButton;
 	//CLIN List fields
-	@FXML
-    private ListView<CLIN> CLINListView;
-    @FXML
-    private Button addCLINButton;
-    private ObservableList<CLIN> clinObservableList;
 	
+	
+    @FXML
+	private ListView<SDRL> SDRLListView;
+    @FXML
+    private Button addSDRLButton;
+
+   
+    public static ObservableList<SDRL> sdrlObservableList;
     
     public PM_NewProjectController()  {
+    	CLINListView = new ListView<CLIN>();
+		clinObservableList = FXCollections.observableArrayList();
+		CLINListView.setItems(clinObservableList);
 
-    	clinObservableList = FXCollections.observableArrayList();
-
+    	
     }
     
     
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		CLINListView.setItems(clinObservableList);
-        CLINListView.setCellFactory(clinListView -> new CLINListViewCell());
+		//CLINListView.setItems(clinObservableList);
+		//CLINListView.setCellFactory(clinListView -> new ListViewCell());
+        /*SDRLListView.setItems(sdrlObservableList);
+        SDRLListView.setCellFactory(sdrlListView -> new SDRLListViewCell());*/
 	}
 	
+	
 	public void addCLIN(ActionEvent event) {
-		clinObservableList.add(new CLIN());
-    	//clinObservableList.add(null);
-    	
-    	for(CLIN c : clinObservableList) {
-    		System.out.println(c);
-    	} 
+		Parent root = null;
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass()
+					.getResource("CLIN.fxml"));
+
+			Parent root1 = (Parent) fxmlLoader.load();
+		    Stage stage = new Stage();
+		    stage.setScene(new Scene(root1));  
+		    stage.show();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+
 	}
+	
+	
+	public void discardCLIN(MouseEvent event) {
+		
+	}
+	
+	public void editCLIN(MouseEvent event) {
+		
+	}
+	
+	public void saveCLIN(MouseEvent event) {
+		clinObservableList.add(new CLIN());
+	}
+	
+	public void addSDRL(ActionEvent event) {
+		/*sdrlObservableList.add(new SDRL());
+		
+		for (SDRL s : sdrlObservableList) {
+			System.out.println(s);
+		}*/
+	}
+		
+		
 	
 	@FXML
 	public void saveChanges(ActionEvent event) {
@@ -113,9 +159,14 @@ public class PM_NewProjectController implements Initializable{
 	
 	
 	
-	
-	public void discardCLIN(MouseEvent event) {
+	public static ObservableList<CLIN> getObservableList() {
+		if(clinObservableList == null) {
+			clinObservableList = FXCollections.observableArrayList();
+		}
 		
+		
+		return clinObservableList;
 	}
+	
 	
 }

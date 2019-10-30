@@ -54,13 +54,13 @@ public class PM_NewProjectController implements Initializable{
 	//CLIN List fields
 	
 	
-    @FXML
-	private ListView<SDRL> SDRLListView;
-    @FXML
-    private Button addSDRLButton;
+  //  @FXML
+	//private ListView<SDRL> SDRLListView;
+  //  @FXML
+//    private Button addSDRLButton;
 
    
-    public static ObservableList<SDRL> sdrlObservableList;
+   // public static ObservableList<SDRL> sdrlObservableList;
     
     public PM_NewProjectController()  {
     	CLINListView = new ListView<CLIN>();

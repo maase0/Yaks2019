@@ -43,8 +43,8 @@ public class PM_NewProjectController implements Initializable{
 	private DatePicker startDate;
 	@FXML
 	private DatePicker endDate;
-	
-	
+
+
 	//CLIN List fields
 	@FXML
     private ListView<CLIN> CLINListView;
@@ -62,15 +62,15 @@ public class PM_NewProjectController implements Initializable{
     public static ObservableList<CLIN> clinObservableList;
     public static ObservableList<SDRL> sdrlObservableList;
     public static ObservableList<SOW> sowObservableList;
-    
+
     public PM_NewProjectController()  {
 
     	clinObservableList = FXCollections.observableArrayList();
     	sdrlObservableList = FXCollections.observableArrayList();
     	sowObservableList = FXCollections.observableArrayList();
     }
-    
-    
+
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		CLINListView.setItems(clinObservableList);
@@ -80,35 +80,43 @@ public class PM_NewProjectController implements Initializable{
         SOWListView.setItems(sowObservableList);
         SOWListView.setCellFactory(sowListView -> new SOW_Controller());
 	}
-	
-	
+
+
 	public void addCLIN(ActionEvent event) {
 		clinObservableList.add(new CLIN());
     	//clinObservableList.add(null);
-    	
+
     	for(CLIN c : clinObservableList) {
     		System.out.println(c);
-    	} 
-    	
+    	}
+
 	}
 	public void addSDRL(ActionEvent event) {
 		sdrlObservableList.add(new SDRL());
-		
+
 		for (SDRL s : sdrlObservableList) {
 			System.out.println(s);
 		}
 	}
-	
+
 	public void addSOW(ActionEvent event) {
 		sowObservableList.add(new SOW());
-		
+
 		for (SOW s : sowObservableList) {
 			System.out.println(s);
 		}
 	}
-		
-		
-	
+
+	public void addSOW(ActionEvent event) {
+		sowObservableList.add(new SOW());
+
+		for (SOW s : sowObservableList) {
+			System.out.println(s);
+		}
+	}
+
+
+
 	@FXML
 	public void saveChanges(ActionEvent event) {
 		System.out.println("Save Changes Button");
@@ -119,30 +127,29 @@ public class PM_NewProjectController implements Initializable{
 		System.out.println("Start Date: " + startDate.getValue());
 		System.out.println("End Date: " + endDate.getValue());
 	}
-	
+
 	@FXML
 	public void discardChanges(ActionEvent event) {
 		System.out.println("Discard Changes Button");
 		try {
             Parent root = FXMLLoader.load(getClass()
                     .getResource("PM_Projects.fxml"));
-            
+
             Stage pmProjectsStage = new Stage();
             pmProjectsStage.setTitle("Estimation Suite - Product Manager - Projects");
             pmProjectsStage.setScene(new Scene(root));
             pmProjectsStage.show();
-            
+
     		Stage stage = (Stage) discardButton.getScene().getWindow();
     		stage.close();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@FXML
 	public void submitForEstimation(ActionEvent event) {
 		System.out.println("Submit Button");
 	}
-	
-}
 
+}

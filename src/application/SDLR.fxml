@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<GridPane fx:id="gridPane" minWidth="282.0" prefHeight="384.0" prefWidth="962.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <GridPane hgap="5.0" minWidth="500.0">
+         <children>
+            <Label text="Name: " />
+            <TextField GridPane.columnIndex="1" />
+            <Button fx:id="addAttachment" mnemonicParsing="false" prefHeight="27.0" prefWidth="122.0" text="Add Attachment" GridPane.columnIndex="2" />
+         </children>
+         <columnConstraints>
+            <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="79.0" minWidth="7.0" percentWidth="5.0" prefWidth="7.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="281.0" minWidth="10.0" percentWidth="20.0" prefWidth="151.0" />
+            <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="220.0" minWidth="0.0" percentWidth="14.0" prefWidth="59.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="230.0" minWidth="10.0" percentWidth="15.0" prefWidth="228.0" />
+            <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="83.0" minWidth="10.0" percentWidth="5.0" prefWidth="58.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="185.0" minWidth="10.0" percentWidth="19.0" prefWidth="185.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+      </GridPane>
+      <TextArea fx:id="sdrlArea" prefHeight="300.0" prefWidth="962.0" promptText="Enter CLIN..." text="SDRL Information..." GridPane.rowIndex="1" />
+      <GridPane GridPane.rowIndex="2">
+         <children>
+            <Button fx:id="saveButton" mnemonicParsing="false" prefHeight="27.0" prefWidth="65.0" text="Save" GridPane.columnIndex="1" />
+            <Button fx:id="removeButton" mnemonicParsing="false" onAction="#removeCLIN" text="Remove" GridPane.columnIndex="2" />
+         </children>
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="852.0" minWidth="10.0" prefWidth="830.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="384.0" minWidth="0.0" prefWidth="63.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="192.0" minWidth="10.0" prefWidth="69.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+      </GridPane>
+   </children>
+   <columnConstraints>
+      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="0.0" prefWidth="164.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints />
+      <RowConstraints />
+   </rowConstraints>
+</GridPane>

@@ -45,9 +45,9 @@ public class PM_NewProjectController implements Initializable{
 	
 	
 	@FXML 
-	private static ListView<CLIN> CLINListView;
+	private ListView<CLIN> CLINListView;
 	
-	private static ObservableList<CLIN> clinObservableList;
+	private ObservableList<CLIN> clinObservableList;
 	
 	
 	@FXML Button discardButton;
@@ -90,6 +90,11 @@ public class PM_NewProjectController implements Initializable{
 			Parent root1 = (Parent) fxmlLoader.load();
 		    Stage stage = new Stage();
 		    stage.setScene(new Scene(root1));  
+		    
+		    CLIN_Controller controller = fxmlLoader.<CLIN_Controller>getController();	    
+		    controller.setList(clinObservableList);
+		    
+		    
 		    stage.show();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -159,7 +164,7 @@ public class PM_NewProjectController implements Initializable{
 	
 	
 	
-	
+	/*
 	public static ObservableList<CLIN> getObservableList() {
 		if(clinObservableList == null) {
 			clinObservableList = FXCollections.observableArrayList();
@@ -168,6 +173,6 @@ public class PM_NewProjectController implements Initializable{
 		
 		return clinObservableList;
 	}
-	
+	*/
 	
 }

@@ -36,6 +36,8 @@ public class CLIN_Controller implements Initializable {
 		@FXML private DatePicker clinPoPStart;
 		@FXML private DatePicker clinPoPEnd;
   
+		
+		private ObservableList<CLIN> clinObservableList;
 
     @FXML
     private GridPane gridPane;
@@ -53,19 +55,24 @@ public class CLIN_Controller implements Initializable {
 		
 		System.out.println(clin);
 		
-		PM_NewProjectController.getObservableList().add(clin);
+		clinObservableList.add(clin);
 		
-		
+		/*
 		for(CLIN c : PM_NewProjectController.getObservableList()) {
 			System.out.println(c);
-		}
+		}*/
 		
+	}
+	
+	public void setList(ObservableList<CLIN> clinObservableList) {
+		this.clinObservableList = clinObservableList; 
 	}
 	
     public void removeCLIN(ActionEvent event) {
         	
 
     }
+    
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {

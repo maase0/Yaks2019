@@ -22,7 +22,7 @@ import java.io.IOException;
  *
  */
 
-public class CLINListViewCell extends ListCell<CLIN> {
+public class CLIN_Controller extends ListCell<CLIN> {
 
     @FXML
     private TextField nameField;

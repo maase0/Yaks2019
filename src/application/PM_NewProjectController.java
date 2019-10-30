@@ -66,19 +66,17 @@ public class PM_NewProjectController implements Initializable{
     public PM_NewProjectController()  {
 
     	clinObservableList = FXCollections.observableArrayList();
-    	
+    	sdrlObservableList = FXCollections.observableArrayList();
     	sowObservableList = FXCollections.observableArrayList();
-
     }
     
     
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		CLINListView.setItems(clinObservableList);
-        CLINListView.setCellFactory(clinListView -> new CLINListViewCell());
-        /*SDRLListView.setItems(sdrlObservableList);
-        SDRLListView.setCellFactory(sdrlListView -> new SDRLListViewCell());*/
-        
+        CLINListView.setCellFactory(clinListView -> new CLIN_Controller());
+        SDRLListView.setItems(sdrlObservableList);
+        SDRLListView.setCellFactory(sdrlListView -> new SDRL_Controller());
         SOWListView.setItems(sowObservableList);
         SOWListView.setCellFactory(sowListView -> new SOW_Controller());
 	}
@@ -94,11 +92,19 @@ public class PM_NewProjectController implements Initializable{
     	
 	}
 	public void addSDRL(ActionEvent event) {
-		/*sdrlObservableList.add(new SDRL());
+		sdrlObservableList.add(new SDRL());
 		
 		for (SDRL s : sdrlObservableList) {
 			System.out.println(s);
-		}*/
+		}
+	}
+	
+	public void addSOW(ActionEvent event) {
+		sowObservableList.add(new SOW());
+		
+		for (SOW s : sowObservableList) {
+			System.out.println(s);
+		}
 	}
 		
 		
@@ -138,19 +144,5 @@ public class PM_NewProjectController implements Initializable{
 		System.out.println("Submit Button");
 	}
 	
-	public void discardCLIN(MouseEvent event) {
-		
-	}
-	
-	
-	public void addSOW(ActionEvent event) {
-		sowObservableList.add(new SOW());
-		
-		for (SOW s : sowObservableList) {
-			System.out.println(s);
-		}
-	}
-	
-	
-	
 }
+

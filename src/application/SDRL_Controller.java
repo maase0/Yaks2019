@@ -22,7 +22,7 @@ import java.io.IOException;
  *
  */
 
-public class SDRLListViewCell extends ListCell<SDRL> {
+public class SDRL_Controller extends ListCell<SDRL> {
 
     @FXML
     private TextField nameField;
@@ -55,7 +55,7 @@ public class SDRLListViewCell extends ListCell<SDRL> {
         } else {
             if (mLLoader == null) {
                 mLLoader = new FXMLLoader(getClass()
-                		.getResource("SDRLListCell.fxml"));
+                		.getResource("SDRL.fxml"));
                 mLLoader.setController(this);
 
                 try {
@@ -74,6 +74,7 @@ public class SDRLListViewCell extends ListCell<SDRL> {
     }
         
         public void removeSDRL(ActionEvent event) {
-
+        	sdrl = PM_NewProjectController.sdrlObservableList;
+    		sdrl.remove(sdrl.size()-1);
     }
 }

@@ -66,6 +66,8 @@ public class PM_NewProjectController implements Initializable{
     public PM_NewProjectController()  {
 
     	clinObservableList = FXCollections.observableArrayList();
+    	
+    	sowObservableList = FXCollections.observableArrayList();
 
     }
     
@@ -76,6 +78,9 @@ public class PM_NewProjectController implements Initializable{
         CLINListView.setCellFactory(clinListView -> new CLINListViewCell());
         /*SDRLListView.setItems(sdrlObservableList);
         SDRLListView.setCellFactory(sdrlListView -> new SDRLListViewCell());*/
+        
+        SOWListView.setItems(sowObservableList);
+        SOWListView.setCellFactory(sowListView -> new SOW_Controller());
 	}
 	
 	
@@ -139,11 +144,13 @@ public class PM_NewProjectController implements Initializable{
 	
 	
 	public void addSOW(ActionEvent event) {
-		/*sdrlObservableList.add(new SDRL());
+		sowObservableList.add(new SOW());
 		
-		for (SDRL s : sdrlObservableList) {
+		for (SOW s : sowObservableList) {
 			System.out.println(s);
-		}*/
+		}
 	}
+	
+	
 	
 }

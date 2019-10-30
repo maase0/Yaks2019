@@ -100,6 +100,14 @@ public class PM_NewProjectController implements Initializable{
 			System.out.println(s);
 		}*/
 	}
+	
+	public void addSOW(ActionEvent event) {
+		sowObservableList.add(new SOW());
+		
+		for (SOW s : sowObservableList) {
+			System.out.println(s);
+		}
+	}
 		
 		
 	
@@ -143,13 +151,7 @@ public class PM_NewProjectController implements Initializable{
 	}
 	
 	
-	public void addSOW(ActionEvent event) {
-		sowObservableList.add(new SOW());
-		
-		for (SOW s : sowObservableList) {
-			System.out.println(s);
-		}
-	}
+	
 	
 	
 	

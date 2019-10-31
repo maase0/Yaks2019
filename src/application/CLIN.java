@@ -18,6 +18,15 @@ public class CLIN
     	clinContent = null;
     
     }
+    
+    public CLIN(String name, String projectType, 
+    		String clinContent,String popStart, String popEnd) {
+    	this.name = name;
+    	this.projectType = projectType;
+    	this.clinContent = clinContent;
+    	this.popStart = popStart;
+    	this.popEnd = popEnd;
+    }
 		
     public void setName(String name) {
     	this.name = name;

@@ -28,19 +28,30 @@ public class CLIN_Controller extends ListCell<CLIN> {
     private TextField nameField;
     @FXML
     private TextField projectField;
-    
     @FXML
     private DatePicker startDate;
     @FXML
     private DatePicker endDate;
-
     @FXML
     private TextArea clinArea;
-
     @FXML
     private Button saveButton;
+    @FXML
     private Button removeButton;
-  
+	@FXML 
+	private Button clinSaveButton;
+	@FXML 
+	private Button clinRemoveButton;
+	@FXML 
+	private TextField clinName;
+	@FXML 
+	private TextField clinProjectType;
+	@FXML 
+	private TextArea clinTextArea;
+	@FXML 
+	private DatePicker clinPoPStart;
+	@FXML 
+	private DatePicker clinPoPEnd;
 
     @FXML
     private GridPane gridPane;
@@ -78,6 +89,26 @@ public class CLIN_Controller extends ListCell<CLIN> {
         }
     }
         
+	public void saveCLIN(ActionEvent event) {
+		
+		String name = clinName.getText();
+		String projectType = clinProjectType.getText();
+		String text = clinTextArea.getText();
+		String start = clinPoPStart.getValue().toString();
+		String end = clinPoPEnd.getValue().toString();
+		
+		CLIN c = new CLIN(name, projectType, text, start, end);
+		
+		System.out.println(clin);
+		
+		clin.add(c);
+		
+		/*
+		for(CLIN c : PM_NewProjectController.getObservableList()) {
+			System.out.println(c);
+		}*/
+		
+	}
     public void removeCLIN(ActionEvent event) {
     	clin = PM_NewProjectController.clinObservableList;
 		clin.remove(clin.size()-1);

@@ -37,31 +37,47 @@ public class CLIN_Controller implements Initializable {
 		@FXML private DatePicker clinPoPEnd;
   
 		
+		CLIN clin;
+		
 		private ObservableList<CLIN> clinObservableList;
 
     @FXML
     private GridPane gridPane;
 
+  
     
+    /**
+     * Saves the CLIN being edited. Creates a new CLIN object
+     * if the CLIN has not been saved yet, otherwise updates
+     * existing CLIN.
+     * 
+     * @param event
+     */
 	public void saveCLIN(ActionEvent event) {
 		
+		//Get all the data from the form
 		String name = clinName.getText();
 		String projectType = clinProjectType.getText();
 		String text = clinTextArea.getText();
 		String start = clinPoPStart.getValue().toString();
 		String end = clinPoPEnd.getValue().toString();
 		
-		CLIN clin = new CLIN(name, projectType, text, start, end);
+		if(clin == null) {		
+			//Create a new object if not yet saved
+			clin = new CLIN(name, projectType, text, start, end);
+			clinObservableList.add(clin);
+		} else {
+			//Update CLIN with new information
+			clin.setName(name);
+			clin.setProjectType(projectType);
+			clin.setClinContent(text);
+			clin.setPopStart(start);
+			clin.setPopEnd(end);
+			clinObservableList.set(clinObservableList.indexOf(clin), clin);
+			//   https://coderanch.com/t/666722/java/Notify-ObservableList-Listeners-Change-Elements
+		}
 		
-		System.out.println(clin);
-		
-		clinObservableList.add(clin);
-		
-		/*
-		for(CLIN c : PM_NewProjectController.getObservableList()) {
-			System.out.println(c);
-		}*/
-		
+		//System.out.println(clin);
 	}
 	
 	public void setList(ObservableList<CLIN> clinObservableList) {

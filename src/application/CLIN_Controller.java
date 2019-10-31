@@ -90,21 +90,20 @@ public class CLIN_Controller extends ListCell<CLIN> {
     }
         
 	public void saveCLIN(ActionEvent event) {
+		try {
+			String name = clinName.getText();
+			String projectType = clinProjectType.getText();
+			String text = clinTextArea.getText();
+			String start = clinPoPStart.getValue().toString();
+			String end = clinPoPEnd.getValue().toString();
+			CLIN clin = new CLIN(name, projectType, text, start, end);
+			System.out.println(clin);
+			//clinObservableList.add(clin);
+		} catch (NullPointerException n) {
+			System.out.println("Error");
+		}
 		
-		String name = clinName.getText();
-		String projectType = clinProjectType.getText();
-		String text = clinTextArea.getText();
-		String start = clinPoPStart.getValue().toString();
-		String end = clinPoPEnd.getValue().toString();
-		
-		CLIN clin = new CLIN(name, projectType, text, start, end);
-		
-		System.out.println(clin);
-		
-		//clinObservableList.add(clin);
-		
-		/*
-		for(CLIN c : PM_NewProjectController.getObservableList()) {
+		/*for(CLIN c : clinObservableList) {
 			System.out.println(c);
 		}*/
 	}

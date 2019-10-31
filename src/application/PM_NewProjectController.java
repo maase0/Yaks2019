@@ -120,11 +120,11 @@ public class PM_NewProjectController implements Initializable {
 		clinObservableList.remove(CLINListView.getSelectionModel().getSelectedItem());
 	}
 
-	public void editCLIN(MouseEvent event) {
+	public void editCLIN(ActionEvent event) {
 
 	}
 
-	public void saveCLIN(MouseEvent event) {
+	public void saveCLIN(ActionEvent event) {
 		clinObservableList.add(new CLIN());
 	}
 

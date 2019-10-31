@@ -57,7 +57,7 @@ public class CLIN_Controller extends ListCell<CLIN> {
     private GridPane gridPane;
 
     private FXMLLoader mLLoader;
-	private ObservableList<CLIN> clin;
+	private ObservableList<CLIN> clinObservableList;
 
     @Override
     protected void updateItem(CLIN clin, boolean empty) {
@@ -97,21 +97,25 @@ public class CLIN_Controller extends ListCell<CLIN> {
 		String start = clinPoPStart.getValue().toString();
 		String end = clinPoPEnd.getValue().toString();
 		
-		CLIN c = new CLIN(name, projectType, text, start, end);
+		CLIN clin = new CLIN(name, projectType, text, start, end);
 		
 		System.out.println(clin);
 		
-		clin.add(c);
+		clinObservableList.add(clin);
 		
 		/*
 		for(CLIN c : PM_NewProjectController.getObservableList()) {
 			System.out.println(c);
 		}*/
-		
 	}
+	
+	public void setList(ObservableList<CLIN> clinObservableList) {
+		this.clinObservableList = clinObservableList; 
+	}
+	
     public void removeCLIN(ActionEvent event) {
-    	clin = PM_NewProjectController.clinObservableList;
-		clin.remove(clin.size()-1);
+    	clinObservableList = PM_NewProjectController.clinObservableList;
+		clinObservableList.remove(clinObservableList.size()-1);
 
     }
 }

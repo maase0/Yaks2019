@@ -106,6 +106,10 @@ public class PM_NewProjectController implements Initializable{
 			System.out.println(s);
 		}
 	}
+	
+	public void saveCLIN(MouseEvent event) {
+		clinObservableList.add(new CLIN());
+	}
 
 
 

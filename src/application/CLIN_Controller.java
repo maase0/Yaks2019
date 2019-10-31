@@ -101,7 +101,7 @@ public class CLIN_Controller extends ListCell<CLIN> {
 		
 		System.out.println(clin);
 		
-		clinObservableList.add(clin);
+		//clinObservableList.add(clin);
 		
 		/*
 		for(CLIN c : PM_NewProjectController.getObservableList()) {

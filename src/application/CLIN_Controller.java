@@ -98,15 +98,17 @@ public class CLIN_Controller extends ListCell<CLIN> {
 			String end = clinPoPEnd.getValue().toString();
 			CLIN clin = new CLIN(name, projectType, text, start, end);
 			System.out.println(clin);
-			//clinObservableList.add(clin);
+			/*clinObservableList.add(clin);
+			for(CLIN c : clinObservableList) {
+				System.out.println(c);
+			}*/
 		} catch (NullPointerException n) {
 			System.out.println("Error");
 		}
 		
-		/*for(CLIN c : clinObservableList) {
-			System.out.println(c);
-		}*/
+
 	}
+	
 	
 	public void setList(ObservableList<CLIN> clinObservableList) {
 		this.clinObservableList = clinObservableList; 

@@ -143,6 +143,15 @@ public class PM_NewProjectController implements Initializable{
 		}
 	}
 
+	public static ObservableList<CLIN> getObservableList() {
+		if(clinObservableList == null) {
+			clinObservableList = FXCollections.observableArrayList();
+		}
+		
+		
+		return clinObservableList;
+	}
+	
 	@FXML
 	public void submitForEstimation(ActionEvent event) {
 		System.out.println("Submit Button");

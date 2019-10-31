@@ -25,6 +25,7 @@ public class SOW_Controller extends ListCell<SOW> {
 	
 	@FXML
     private Button saveButton;
+	@FXML
     private Button removeButton;
     
     @FXML

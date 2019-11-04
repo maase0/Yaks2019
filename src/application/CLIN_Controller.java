@@ -18,6 +18,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 /**
@@ -89,6 +90,17 @@ public class CLIN_Controller implements Initializable {
 
     }
     
+    public void setCLIN(CLIN clin) {
+    	this.clin = clin;
+    }
+    
+    public void setInputFields() {
+    	clinName.setText(clin.getName());
+    	clinProjectType.setText(clin.getProjectType());
+		clinTextArea.setText(clin.getClinContent());
+		clinPoPStart.setValue(LocalDate.parse(clin.getPopStart()));
+		clinPoPEnd.setValue(LocalDate.parse(clin.getPopEnd()));
+    }
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {

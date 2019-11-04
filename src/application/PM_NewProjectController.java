@@ -121,7 +121,32 @@ public class PM_NewProjectController implements Initializable {
 	}
 
 	public void editCLIN(ActionEvent event) {
+		CLIN clin = CLINListView.getSelectionModel().getSelectedItem();
+		
+		
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CLIN.fxml"));
 
+			Parent root1;
+			root1 = (Parent) fxmlLoader.load();
+			
+			Stage stage = new Stage();
+			stage.setScene(new Scene(root1));
+
+			CLIN_Controller controller = fxmlLoader.<CLIN_Controller>getController();
+			controller.setList(clinObservableList);
+
+			controller.setCLIN(clin);
+			controller.setInputFields();
+			
+			stage.show();
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 	}
 
 	public void saveCLIN(ActionEvent event) {

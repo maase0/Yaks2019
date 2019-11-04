@@ -37,10 +37,12 @@ public class SDRL_Controller extends ListCell<SDRL> {
     private TextArea sdrlArea;
     @FXML
     private Button saveButton;
+    @FXML
     private Button removeButton;
     @FXML
     private GridPane gridPane;
     private FXMLLoader mLLoader;
+    @FXML
     private MenuItem fileOpen;
     
 	private ObservableList<SDRL> sdrl;

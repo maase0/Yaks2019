@@ -58,85 +58,78 @@ public class PM_NewProjectController implements Initializable {
 
 	@FXML
 	Button discardButton;
-	// CLIN List fields
-
-	// @FXML
-	// private ListView<SDRL> SDRLListView;
-	// @FXML
-//    private Button addSDRLButton;
-
-	// public static ObservableList<SDRL> sdrlObservableList;
-
+	
 	public PM_NewProjectController() {
-		// CLINListView = new ListView<CLIN>();
-		// CLINListView.setItems(clinObservableList);
-
 	}
 
 	@Override
+	/**
+	 * Initializes the Controller. Creates the CLIN List and sets
+	 * the list view's list to that list.
+	 */
 	public void initialize(URL location, ResourceBundle resources) {
 		clinObservableList = FXCollections.observableArrayList();
 
-		/*clinObservableList.addListener(new ListChangeListener<CLIN>() {
-			@Override
-			public void onChanged(ListChangeListener.Change change) {
-				System.out.println("Detected a change! ");
-				while (change.next()) {
-					System.out.println("Was added? " + change.wasAdded());
-					System.out.println("Was removed? " + change.wasRemoved());
-				}
-			}
-		});*/
-
 		CLINListView.setItems(clinObservableList);
-		// CLINListView.setCellFactory(clinListView -> new ListViewCell());
-		/*
-		 * SDRLListView.setItems(sdrlObservableList);
-		 * SDRLListView.setCellFactory(sdrlListView -> new SDRLListViewCell());
-		 */
+		
 	}
-
+	
+	/*
+	 * Adds a new CLIN to the list.
+	 */
 	public void addCLIN(ActionEvent event) {
 		Parent root = null;
 		try {
-			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CLIN.fxml"));
-
+			//Normal FXML Stuff
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass()
+					.getResource("CLIN.fxml"));
 			Parent root1 = (Parent) fxmlLoader.load();
 			Stage stage = new Stage();
 			stage.setScene(new Scene(root1));
 
+			//Grab the controller from the loader
 			CLIN_Controller controller = fxmlLoader.<CLIN_Controller>getController();
+			//Set the controller's list to allow message passing
 			controller.setList(clinObservableList);
 
 			stage.show();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 	}
 
+	/**
+	 * Removes the selected CLIN from the list view and observable list.
+	 * @param event
+	 */
 	public void discardCLIN(ActionEvent event) {
 		clinObservableList.remove(CLINListView.getSelectionModel().getSelectedItem());
 	}
 
+	/**
+	 * Edit an existing CLIN that is selected in the list view.
+	 * @param event
+	 */
 	public void editCLIN(ActionEvent event) {
 		CLIN clin = CLINListView.getSelectionModel().getSelectedItem();
 		
 		
 		try {
+			//Normal FXML Stuff
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CLIN.fxml"));
-
 			Parent root1;
-			root1 = (Parent) fxmlLoader.load();
-			
+			root1 = (Parent) fxmlLoader.load();	
 			Stage stage = new Stage();
 			stage.setScene(new Scene(root1));
 
+			//Grab the controller from the loader and set it's list for message passing
 			CLIN_Controller controller = fxmlLoader.<CLIN_Controller>getController();
 			controller.setList(clinObservableList);
 
+			//Set the controller's CLIN to the existing one
 			controller.setCLIN(clin);
+			//Set all of the controller's input fields
 			controller.setInputFields();
 			
 			stage.show();
@@ -147,18 +140,6 @@ public class PM_NewProjectController implements Initializable {
 		}
 		
 		
-	}
-
-	public void saveCLIN(ActionEvent event) {
-		clinObservableList.add(new CLIN());
-	}
-
-	public void addSDRL(ActionEvent event) {
-		/*
-		 * sdrlObservableList.add(new SDRL());
-		 * 
-		 * for (SDRL s : sdrlObservableList) { System.out.println(s); }
-		 */
 	}
 
 	@FXML
@@ -194,14 +175,5 @@ public class PM_NewProjectController implements Initializable {
 	public void submitForEstimation(ActionEvent event) {
 		System.out.println("Submit Button");
 	}
-
-	/*
-	 * public static ObservableList<CLIN> getObservableList() {
-	 * if(clinObservableList == null) { clinObservableList =
-	 * FXCollections.observableArrayList(); }
-	 * 
-	 * 
-	 * return clinObservableList; }
-	 */
 
 }

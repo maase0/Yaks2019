@@ -26,7 +26,7 @@ import java.util.ResourceBundle;
  *
  */
 
-public class CLIN_Controller implements Initializable {
+public class CLIN_Controller extends ListCell<CLIN> implements Initializable {
 
 	//CLIN PopUp Menu
 		@FXML private Button clinSaveButton;
@@ -85,7 +85,7 @@ public class CLIN_Controller implements Initializable {
 		this.clinObservableList = clinObservableList; 
 	}
 	
-    public void removeCLIN(ActionEvent event) {
+    public void close(ActionEvent event) {
         	
 
     }
@@ -107,4 +107,35 @@ public class CLIN_Controller implements Initializable {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	/*
+	 @Override
+	    protected void updateItem(CLIN clin, boolean empty) {
+	        super.updateItem(clin, empty);
+
+	        if(empty || clin == null) {
+
+	            setText(null);
+	            setGraphic(null);
+	        } else {
+	            if (mLLoader == null) {
+	                mLLoader = new FXMLLoader(getClass()
+	                		.getResource("CLINListCell.fxml"));
+	                mLLoader.setController(this);
+	                try {
+	                    mLLoader.load();
+	                } catch (IOException e) {
+	                    e.printStackTrace();
+	                }
+
+	            }
+	           // label1.setText(String.valueOf(student.getStudentId()));
+	           // label2.setText(student.getName());
+
+	            setText(null);
+	            setGraphic(gridPane);
+	        }
+	    }*/
+	
+	
 }

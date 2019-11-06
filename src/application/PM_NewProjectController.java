@@ -50,7 +50,6 @@ public class PM_NewProjectController implements Initializable {
 	private Button editCLINButton;
 	@FXML
 	private Button discardCLINButton;
-
 	@FXML
 	private ListView<CLIN> CLINListView;
 

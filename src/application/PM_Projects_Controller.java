@@ -73,7 +73,7 @@ public class PM_Projects_Controller implements Initializable{
                                   
             Stage pmNewProjectStage = new Stage();
             pmNewProjectStage.setTitle("Estimation Suite - Product Manager - New Project");
-            pmNewProjectStage.setScene(new Scene(root));
+            pmNewProjectStage	.setScene(new Scene(root));
             pmNewProjectStage.show();
             pmNewProjectStage.setResizable(true);
             pmNewProjectStage.sizeToScene();

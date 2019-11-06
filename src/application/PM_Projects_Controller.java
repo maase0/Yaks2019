@@ -39,6 +39,7 @@ public class PM_Projects_Controller implements Initializable{
 	@FXML
 	private Text discardBtn2;
 	
+	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 	//Pull Unsubmitted Projects from database
 	}

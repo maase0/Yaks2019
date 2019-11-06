@@ -1,6 +1,11 @@
 package DB;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 import java.util.Properties;
 
 import com.jcraft.jsch.JSch;
@@ -11,7 +16,7 @@ import com.sun.rowset.CachedRowSetImpl;
 /**
  * Modified from example class by ONUR BASKIRT
  * Database Helper Class
- * Used to connect to Database over SSH, Perform Queries, and disconnect.
+ * Used to connect to MySQL database over SSH, Perform Queries, and disconnect.
  * @author Michael Jewell
  */
 public class DBUtil

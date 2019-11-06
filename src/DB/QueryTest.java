@@ -12,11 +12,12 @@ public class QueryTest {
 		//Actions to perform with data (this can be whatever, generally going to be filling in text fields)
 	    System.out.println("\nidProjectVersion" + "     " + "idProject(FK)" + "\t" + "Project Manager" + "\t\t " + 
 	    "Project Name");
-	    
+
+	    //Potentially figure out why it continuously runs after execution
 	    while(rs.next()) {
 	  	  System.out.println("\t" + rs.getInt("idProjectVersion") + "\t\t  " + rs.getInt("idProject") + "\t\t     " + 
 	        rs.getString("Project_Manager") + "\t\t" + rs.getString("Project_Name"));
 	    }
-	    return;
+
 	}
 }

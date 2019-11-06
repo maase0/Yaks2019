@@ -71,7 +71,7 @@ public class PM_NewProjectController implements Initializable{
     }
 
 
-	@Override
+	
 	public void initialize(URL location, ResourceBundle resources) {
 		CLINListView.setItems(clinObservableList);
         CLINListView.setCellFactory(clinListView -> new CLIN_Controller());

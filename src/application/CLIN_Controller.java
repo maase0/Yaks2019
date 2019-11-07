@@ -22,13 +22,11 @@ import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 /**
- * Created by Johannes on 23.05.16.
- *
+ * Interface to create / edit CLINs. 
  */
 
 public class CLIN_Controller extends ListCell<CLIN> implements Initializable {
-
-	//CLIN PopUp Menu
+		//fxml elements for the editor
 		@FXML private Button clinSaveButton;
 		@FXML private Button clinClose;
 		@FXML private Button clinSaveAndClose;
@@ -37,15 +35,10 @@ public class CLIN_Controller extends ListCell<CLIN> implements Initializable {
 		@FXML private TextArea clinTextArea;
 		@FXML private DatePicker clinPoPStart;
 		@FXML private DatePicker clinPoPEnd;
-
-
+		@FXML private GridPane gridPane;
+	
 		CLIN clin;
-
 		private ObservableList<CLIN> clinObservableList;
-
-    @FXML
-    private GridPane gridPane;
-
 
 
     /**
@@ -75,37 +68,62 @@ public class CLIN_Controller extends ListCell<CLIN> implements Initializable {
 			clin.setClinContent(text);
 			clin.setPopStart(start);
 			clin.setPopEnd(end);
-			clinObservableList.set(clinObservableList.indexOf(clin), clin);
+			clinObservableList.set(clinObservableList.indexOf(clin), clin);  //probably not the "right" way to update the list
 			//   https://coderanch.com/t/666722/java/Notify-ObservableList-Listeners-Change-Elements
 		}
 
 		//System.out.println(clin);
 	}
 
+	/**
+	 * Saves the CLIN and closes the editor
+	 * @param event
+	 */
 	public void saveAndClose(ActionEvent event) {
 		saveCLIN();
 		close();
 	}
 
+	/** 
+	 * Closes the editor without saving any unsaved changes
+	 */
     public void close() {
+    	//TODO: make a popup if there are unsaved changes
+    	//      probably keep track of state with a boolean, use
+    	//      fxml "on input method text changed" for each input field
     	Stage stage = (Stage) clinClose.getScene().getWindow();
         stage.close();
     }
 
+    /**
+     * Sets the CLIN observable list to allow the editor to add
+     * to the list view
+     * @param clinObservableList
+     */
     public void setList(ObservableList<CLIN> clinObservableList) {
 		this.clinObservableList = clinObservableList;
 	}
 
+    /** 
+     * Set the CLIN to allow for editing an existing CLIN
+     * @param clin
+     */
     public void setCLIN(CLIN clin) {
     	this.clin = clin;
     }
 
+    /**
+     * Fills in all of the input fields with the existing CLIN's data.
+     * Only runs if CLIN is not null
+     */
     public void setInputFields() {
-    	clinName.setText(clin.getName());
-    	clinProjectType.setText(clin.getProjectType());
-		clinTextArea.setText(clin.getClinContent());
-		clinPoPStart.setValue(LocalDate.parse(clin.getPopStart()));
-		clinPoPEnd.setValue(LocalDate.parse(clin.getPopEnd()));
+    	if(clin != null) {
+    		clinName.setText(clin.getName());
+    		clinProjectType.setText(clin.getProjectType());
+    		clinTextArea.setText(clin.getClinContent());
+    		clinPoPStart.setValue(LocalDate.parse(clin.getPopStart()));
+			clinPoPEnd.setValue(LocalDate.parse(clin.getPopEnd()));
+    	}
     }
 
 	@Override
@@ -114,6 +132,8 @@ public class CLIN_Controller extends ListCell<CLIN> implements Initializable {
 
 	}
 
+	
+	//Might need this to make the clins display nicely in the list
 	/*
 	 @Override
 	    protected void updateItem(CLIN clin, boolean empty) {

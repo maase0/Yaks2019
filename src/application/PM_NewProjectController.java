@@ -77,20 +77,21 @@ public class PM_NewProjectController implements Initializable{
 
     public PM_NewProjectController()  {
 
-    	clinObservableList = FXCollections.observableArrayList();
-    	sdrlObservableList = FXCollections.observableArrayList();
-    	sowObservableList = FXCollections.observableArrayList();
     }
 
 	public void initialize(URL location, ResourceBundle resources) {
+		//Create a new obesrvable list for the CLINS, gives it to the list view
 		clinObservableList = FXCollections.observableArrayList();
-
 		CLINListView.setItems(clinObservableList);
+		
+		sdrlObservableList = FXCollections.observableArrayList();
+    	sowObservableList = FXCollections.observableArrayList();
 
 	}
 
-	/*
-	 * Adds a new CLIN to the list.
+	/**
+	 * Adds a new clin to the list. Creates a popup menu to start editing a new CLIN
+	 * @param event
 	 */
 	public void addCLIN(ActionEvent event) {
 		Parent root = null;
@@ -127,9 +128,9 @@ public class PM_NewProjectController implements Initializable{
 	 * @param event
 	 */
 	public void editCLIN(ActionEvent event) {
+		//get the clin to be edited
 		CLIN clin = CLINListView.getSelectionModel().getSelectedItem();
-
-
+		
 		try {
 			//Normal FXML Stuff
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CLIN.fxml"));
@@ -147,17 +148,23 @@ public class PM_NewProjectController implements Initializable{
 			//Set all of the controller's input fields
 			controller.setInputFields();
 
-			stage.show();
+			stage.show(); //Show the popup editor
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-
+ 
 	}
 
 	@FXML
+	/**
+	 * Saves all of the information of the newly created project
+	 * @param event
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 */
 	public void saveChanges(ActionEvent event) throws SQLException, ClassNotFoundException {
     	//String name = "Reno";
 		System.out.println("Save Changes Button");
@@ -172,6 +179,10 @@ public class PM_NewProjectController implements Initializable{
 	}
 
 	@FXML
+	/**
+	 * Discards the project without saving it do the database
+	 * @param event
+	 */
 	public void discardChanges(ActionEvent event) {
 		System.out.println("Discard Changes Button");
 		try {
@@ -190,6 +201,10 @@ public class PM_NewProjectController implements Initializable{
 	}
 
 	@FXML
+	/**
+	 * Submits the project for estimation
+	 * @param event
+	 */
 	public void submitForEstimation(ActionEvent event) {
 		System.out.println("Submit Button");
 	}

@@ -30,13 +30,14 @@ public class CLIN_Controller extends ListCell<CLIN> implements Initializable {
 
 	//CLIN PopUp Menu
 		@FXML private Button clinSaveButton;
-		@FXML private Button clinRemoveButton;
+		@FXML private Button clinClose;
+		@FXML private Button clinSaveAndClose;
 		@FXML private TextField clinName;
 		@FXML private TextField clinProjectType;
 		@FXML private TextArea clinTextArea;
 		@FXML private DatePicker clinPoPStart;
 		@FXML private DatePicker clinPoPEnd;
-  
+		
 		
 		CLIN clin;
 		
@@ -54,7 +55,7 @@ public class CLIN_Controller extends ListCell<CLIN> implements Initializable {
      * 
      * @param event
      */
-	public void saveCLIN(ActionEvent event) {
+	public void saveCLIN() {
 		
 		//Get all the data from the form
 		String name = clinName.getText();
@@ -81,14 +82,19 @@ public class CLIN_Controller extends ListCell<CLIN> implements Initializable {
 		//System.out.println(clin);
 	}
 	
-	public void setList(ObservableList<CLIN> clinObservableList) {
-		this.clinObservableList = clinObservableList; 
+	public void saveAndClose(ActionEvent event) {
+		saveCLIN();
+		close();
 	}
 	
-    public void close(ActionEvent event) {
-        	
-
+    public void close() {
+    	Stage stage = (Stage) clinClose.getScene().getWindow();
+        stage.close();
     }
+   
+    public void setList(ObservableList<CLIN> clinObservableList) {
+		this.clinObservableList = clinObservableList; 
+	}
     
     public void setCLIN(CLIN clin) {
     	this.clin = clin;

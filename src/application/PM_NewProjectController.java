@@ -60,20 +60,29 @@ public class PM_NewProjectController implements Initializable{
 	//CLIN List fields
 	@FXML
     private ListView<CLIN> CLINListView;
+	@FXML private Button addCLINButton;
+	@FXML private Button editCLINButton;
+	@FXML private Button removeCLINButton;
+	private ObservableList<CLIN> clinObservableList;
+	
+	//SDRL List fields
 	@FXML
-    private Button addCLINButton;
-    @FXML
 	private ListView<SDRL> SDRLListView;
-    @FXML
-    private Button addSDRLButton;
+	@FXML private Button addSDRLButton;
+	@FXML private Button editSDRLButton;
+	@FXML private Button removeSDRLButton;
+    private ObservableList<SDRL> sdrlObservableList;
+    
+    //SOW List fields
     @FXML
 	private ListView<SOW> SOWListView;
-    @FXML
-    private Button addSOWButton;
-
-    public static ObservableList<CLIN> clinObservableList;
-    public static ObservableList<SDRL> sdrlObservableList;
-    public static ObservableList<SOW> sowObservableList;
+    @FXML private Button addSOWButton;
+	@FXML private Button editSOWButton;
+	@FXML private Button removeSOWButton;
+    private ObservableList<SOW> sowObservableList;
+    
+    
+    
 
     public PM_NewProjectController()  {
 
@@ -85,8 +94,10 @@ public class PM_NewProjectController implements Initializable{
 		CLINListView.setItems(clinObservableList);
 		
 		sdrlObservableList = FXCollections.observableArrayList();
+		SDRLListView.setItems(sdrlObservableList);
+		
     	sowObservableList = FXCollections.observableArrayList();
-
+    	SOWListView.setItems(sowObservableList);
 	}
 
 	/**
@@ -157,6 +168,39 @@ public class PM_NewProjectController implements Initializable{
 
  
 	}
+	
+	
+	
+	public static void addSDRL() {
+		
+	}
+	
+	public static void editSDRL() {
+		
+	}
+	
+	public static void removeSDRL() {
+		
+	}
+	
+	public static void addSOW() {
+		
+	}
+	
+	public static void editSOW() {
+		
+	}
+	
+	public static void removeSOW() {
+		
+	}
+	
+	
+	
+	
+	
+	
+	
 
 	@FXML
 	/**

@@ -2,8 +2,13 @@ package application;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+import DB.DBUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -24,7 +29,11 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
+
+
 public class PM_NewProjectController implements Initializable{
+
+	private ResultSet rs;
 	@FXML
 	private Button saveButton;
 	@FXML
@@ -69,8 +78,6 @@ public class PM_NewProjectController implements Initializable{
     	sdrlObservableList = FXCollections.observableArrayList();
     	sowObservableList = FXCollections.observableArrayList();
     }
-
-
 	
 	public void initialize(URL location, ResourceBundle resources) {
 		CLINListView.setItems(clinObservableList);
@@ -114,14 +121,17 @@ public class PM_NewProjectController implements Initializable{
 
 
 	@FXML
-	public void saveChanges(ActionEvent event) {
+	public void saveChanges(ActionEvent event) throws SQLException, ClassNotFoundException {
+    	//String name = "Reno";
 		System.out.println("Save Changes Button");
-		System.out.println("Project Name: " + projectNameText.getText());
+		/**System.out.println("Project Name: " + projectNameText.getText());
 		System.out.println("Project Manager: " + pmText.getText());
 		System.out.println("Project Label: " + labelText.getText());
 		System.out.println("Version Number: " + versionText.getText());
 		System.out.println("Start Date: " + startDate.getValue());
-		System.out.println("End Date: " + endDate.getValue());
+		System.out.println("End Date: " + endDate.getValue());*/
+		DBUtil.dbExecuteUpdate("INSERT INTO Project (Name) VALUES (' " + projectNameText.getText() + "')"); //THIS WORK YAY
+		//DBUtil.dbExecuteUpdate("INSERT INTO Project (Name) VALUES ('Testing')");
 	}
 
 	@FXML

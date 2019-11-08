@@ -48,7 +48,7 @@ public class PM_NewProjectController implements Initializable{
 	@FXML
 	private TextField pmText;
 	@FXML
-	private TextField labelText;
+	private TextField propNumText;
 	@FXML
 	private TextField versionText;
 	@FXML
@@ -93,11 +93,11 @@ public class PM_NewProjectController implements Initializable{
 		clinObservableList = FXCollections.observableArrayList();
 		CLINListView.setItems(clinObservableList);
 		
-		sdrlObservableList = FXCollections.observableArrayList();
-		SDRLListView.setItems(sdrlObservableList);
+		/*sdrlObservableList = FXCollections.observableArrayList();
+		SDRLListView.setItems(sdrlObservableList);*/
 		
-    	sowObservableList = FXCollections.observableArrayList();
-    	SOWListView.setItems(sowObservableList);
+    	/*sowObservableList = FXCollections.observableArrayList();
+    	SOWListView.setItems(sowObservableList);*/
 	}
 
 	/**
@@ -205,16 +205,20 @@ public class PM_NewProjectController implements Initializable{
 	 * @throws ClassNotFoundException
 	 */
 	public void saveChanges(ActionEvent event) throws SQLException, ClassNotFoundException {
-    	//String name = "Reno";
 		System.out.println("Save Changes Button");
+		DBUtil.dbExecuteUpdate("CALL insert_new_project(" + versionText.getText() + ", \"" + projectNameText.getText() + "\", \""
+		+  pmText.getText() + "\", " + propNumText.getText() + ")");
 		/**System.out.println("Project Name: " + projectNameText.getText());
 		System.out.println("Project Manager: " + pmText.getText());
 		System.out.println("Project Label: " + labelText.getText());
 		System.out.println("Version Number: " + versionText.getText());
 		System.out.println("Start Date: " + startDate.getValue());
 		System.out.println("End Date: " + endDate.getValue());*/
-		DBUtil.dbExecuteUpdate("INSERT INTO Project (Name) VALUES (' " + projectNameText.getText() + "')"); //THIS WORK YAY
-		//DBUtil.dbExecuteUpdate("INSERT INTO Project (Name) VALUES ('Testing')");
+		//DBUtil.dbExecuteUpdate("INSERT INTO Project (Name) VALUES (' " + projectNameText.getText() + "')"); //THIS WORK YAY
+		
+
+		
+		
 	}
 
 	@FXML

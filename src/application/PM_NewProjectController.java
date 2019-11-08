@@ -123,7 +123,6 @@ public class PM_NewProjectController implements Initializable{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	/**
@@ -165,8 +164,6 @@ public class PM_NewProjectController implements Initializable{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
- 
 	}
 	
 	
@@ -194,8 +191,6 @@ public class PM_NewProjectController implements Initializable{
 	public static void removeSOW() {
 		
 	}
-	
-	
 	
 	
 	

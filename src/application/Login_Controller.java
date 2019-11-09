@@ -17,6 +17,9 @@ public class Login_Controller implements Initializable{
 
 	@FXML
 	private Button loginBtn;
+
+	@FXML
+	private Button exitBtn;
 	
 	@FXML
 	private ComboBox<String> loginBox = new ComboBox<String>();
@@ -74,5 +77,9 @@ public class Login_Controller implements Initializable{
 		else {
 			System.out.println("Select a role");
 		}
+	}
+	public void Exit(ActionEvent event) {
+		Stage stage = (Stage) exitBtn.getScene().getWindow();
+		stage.close();
 	}
 }

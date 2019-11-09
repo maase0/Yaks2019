@@ -1,100 +1,92 @@
 package application;
 
-
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
+import javafx.fxml.Initializable;
+import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
-import java.io.IOException;
-import java.awt.Desktop;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 /**
  * Created by Johannes on 23.05.16.
  *
  */
 
-public class SDRL_Controller extends ListCell<SDRL> {
+public class SDRL_Controller extends ListCell<SDRL> implements Initializable {
 
-    @FXML
-    private TextField nameField;
-    @FXML
-    private Button addButton;
-    @FXML
-    private MenuButton attachments;
-    @FXML
-    private TextArea sdrlArea;
-    @FXML
-    private Button saveButton;
-    @FXML
-    private Button removeButton;
-    @FXML
-    private GridPane gridPane;
-    private FXMLLoader mLLoader;
-    @FXML
-    private MenuItem fileOpen;
-    
-	private ObservableList<SDRL> sdrl;
+    @FXML private Button sdrlSaveButton;
+    @FXML private Button sdrlClose;
+    @FXML private Button sdrlSaveAndClose;
+    @FXML private TextField sdrlName;
+    @FXML private TextArea sdrlInfo;
+    @FXML private MenuButton attachments;
+
+    SDRL sdrl;
+    private ObservableList<SDRL> sdrlObservableList;
+
+    public void saveSDRL() {
+
+        String name = sdrlName.getText();
+        String info = sdrlInfo.getText();
+
+        if(sdrl == null) {
+            sdrl = new SDRL(name, info);
+            sdrlObservableList.add(sdrl);
+        } else {
+            sdrl.setName(name);
+            sdrl.setSdrlInfo(info);
+            sdrlObservableList.set(sdrlObservableList.indexOf(sdrl), sdrl);
+        }
+    }
+
+    public void SaveAndClose(ActionEvent event) {
+        saveSDRL();
+        close();
+    }
+
+    public void close() {
+        Stage stage = (Stage) sdrlClose.getScene().getWindow();
+        stage.close();
+    }
+
+    public void setList(ObservableList<SDRL> sdrlObservableList) {
+        this.sdrlObservableList = sdrlObservableList;
+    }
+
+    public void setSDRL(SDRL sdrl) {
+        this.sdrl = sdrl;
+    }
+
+    public void setInputFields() {
+        if(sdrl != null) {
+            sdrlName.setText((sdrl.getName()));
+            sdrlInfo.setText((sdrl.getSdrlInfo()));
+        }
+    }
 
     @Override
-    protected void updateItem(SDRL sdrl, boolean empty) {
-        super.updateItem(sdrl, empty);
+    public void initialize(URL arg0, ResourceBundle arg1) {
+        // TODO Auto-generated method stub
+    }
 
-        if(empty || sdrl == null) {
+    @FXML
+    public void addAttachment(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        File selectedFile = fileChooser.showOpenDialog(null);
 
-            setText(null);
-            setGraphic(null);
+        if (selectedFile != null) {
 
-        } else {
-            if (mLLoader == null) {
-                mLLoader = new FXMLLoader(getClass()
-                		.getResource("SDRL.fxml"));
-                mLLoader.setController(this);
-
-                try {
-                    mLLoader.load();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-            }
-           // label1.setText(String.valueOf(student.getStudentId()));
-           // label2.setText(student.getName());
-
-            setText(null);
-            setGraphic(gridPane);
+            System.out.println("File selected: " + selectedFile.getName());
+        }
+        else {
+            System.out.println("File selection cancelled.");
         }
     }
-        
-        public void removeSDRL(ActionEvent event) {
-        	sdrl = PM_NewProjectController.sdrlObservableList;
-    		sdrl.remove(sdrl.size()-1);
-    }
-        
-        @FXML 
-        public void addAttachment(ActionEvent event) {
-        	FileChooser fileChooser = new FileChooser();
-        	File selectedFile = fileChooser.showOpenDialog(null);
-        	 
-        	if (selectedFile != null) {
-        	 
-        	    System.out.println("File selected: " + selectedFile.getName());
-        	}
-        	else {
-        	    System.out.println("File selection cancelled.");
-            }
-        }
 }
         
                     

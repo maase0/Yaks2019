@@ -11,6 +11,7 @@
          <children>
             <Button fx:id="loginBtn" layoutX="118.0" layoutY="125.0" mnemonicParsing="false" onAction="#Login" prefHeight="30.0" style="-fx-border-color: black;" text="Login" />
             <ComboBox fx:id="loginBox" layoutX="62.0" layoutY="75.0" prefHeight="30.0" prefWidth="160.0" promptText="Select Role" style="-fx-border-color: black;" />
+            <Button fx:id="exitBtn" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#Exit" style="-fx-border-color: black;" text="Exit" />
          </children>
       </Pane>
    </children>

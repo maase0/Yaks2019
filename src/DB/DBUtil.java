@@ -71,6 +71,8 @@ public class DBUtil
 	    String strDbUser = "root";                    						// database loging username
 	    String strDbPassword = "tortoise101$";                    			// database login password
 	    String schemaName = "Estimation_Suite";								// schema name
+
+		// possibly make constant, can't be changed
 	    
 		//Establish MySQL Connection
 		try {

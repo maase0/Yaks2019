@@ -1,9 +1,11 @@
 package application;
 
+
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -13,59 +15,71 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+
 import java.io.IOException;
+import java.net.URL;
+import java.time.LocalDate;
+import java.util.ResourceBundle;
 
-public class SOW_Controller extends ListCell<SOW> {
+/**
+ * Created by Johannes on 23.05.16.
+ *
+ */
 
-	@FXML
-    private TextField referenceField;
-	
-	@FXML
-    private TextArea sowArea;
-	
-	@FXML
-    private Button saveButton;
-	@FXML
-    private Button removeButton;
-    
-    @FXML
-    private GridPane gridPane;
+public class SOW_Controller extends ListCell<SOW> implements Initializable {
 
-    private FXMLLoader mLLoader;
-	private ObservableList<SOW> sow;
-	
-	@Override
-    protected void updateItem(SOW sow, boolean empty) {
-        super.updateItem(sow, empty);
+    @FXML private Button sowSaveButton;
+    @FXML private Button sowClose;
+    @FXML private Button sowSaveAndClose;
+    @FXML private TextField sowReference;
+    @FXML private TextArea sowContent;
 
-        if(empty || sow == null) {
+    SOW sow;
+    private ObservableList<SOW> sowObservableList;
 
-            setText(null);
-            setGraphic(null);
+    public void saveSOW() {
 
+        String ref = sowReference.getText();
+        String content = sowContent.getText();
+
+        if(sow == null) {
+            sow = new SOW(ref, content);
+            sowObservableList.add(sow);
         } else {
-            if (mLLoader == null) {
-                mLLoader = new FXMLLoader(getClass()
-                		.getResource("SOWRef.fxml"));
-                mLLoader.setController(this);
-
-                try {
-                    mLLoader.load();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-            }
-
-            setText(null);
-            setGraphic(gridPane);
+            sow.setReference(ref);
+            sow.setSowContent(content);
+            sowObservableList.set(sowObservableList.indexOf(sow), sow);
         }
     }
-	
-	public void removeSOW(ActionEvent event) {
-    	sow = PM_NewProjectController.sowObservableList;
-		sow.remove(sow.size()-1);
 
+    public void SaveAndClose(ActionEvent event) {
+        saveSOW();
+        close();
     }
 
+    public void close() {
+        Stage stage = (Stage) sowClose.getScene().getWindow();
+        stage.close();
+    }
+
+    public void setList(ObservableList<SOW> sowObservableList) {
+        this.sowObservableList = sowObservableList;
+    }
+
+    public void setSOW(SOW sow) {
+        this.sow = sow;
+    }
+
+    public void setInputFields() {
+        if(sow != null) {
+            sowReference.setText(sow.getReference());
+            sowContent.setText(sow.getSowContent());
+        }
+    }
+
+    @Override
+    public void initialize(URL arg0, ResourceBundle arg1) {
+        // TODO Auto-generated method stub
+    }
 }
+

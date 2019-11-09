@@ -31,7 +31,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
+import org.omg.PortableInterceptor.ACTIVE;
 
+import javax.swing.*;
 
 
 public class PM_NewProjectController implements Initializable{
@@ -93,11 +95,11 @@ public class PM_NewProjectController implements Initializable{
 		clinObservableList = FXCollections.observableArrayList();
 		CLINListView.setItems(clinObservableList);
 		
-		/*sdrlObservableList = FXCollections.observableArrayList();
-		SDRLListView.setItems(sdrlObservableList);*/
+		sdrlObservableList = FXCollections.observableArrayList();
+		SDRLListView.setItems(sdrlObservableList);
 		
-    	/*sowObservableList = FXCollections.observableArrayList();
-    	SOWListView.setItems(sowObservableList);*/
+    	sowObservableList = FXCollections.observableArrayList();
+    	SOWListView.setItems(sowObservableList);
 	}
 
 	/**
@@ -166,41 +168,109 @@ public class PM_NewProjectController implements Initializable{
 			e.printStackTrace();
 		}
 
- 
+
+	}
+
+	public void addSDRL(ActionEvent event) {
+		Parent root = null;
+		try {
+			//Normal FXML Stuff
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass()
+					.getResource("SDRL.fxml"));
+			Parent root1 = (Parent) fxmlLoader.load();
+			Stage stage = new Stage();
+			stage.setScene(new Scene(root1));
+
+			//Grab the controller from the loader
+			SDRL_Controller controller = fxmlLoader.<SDRL_Controller>getController();
+			//Set the controller's list to allow message passing
+			controller.setList(sdrlObservableList);
+
+			stage.show();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
-	
-	
-	public static void addSDRL() {
-		
+	public void editSDRL(ActionEvent event) {
+		SDRL sdrl = SDRLListView.getSelectionModel().getSelectedItem();
+
+		try {
+			//Normal FXML Stuff
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("SDRL.fxml"));
+			Parent root;
+			root = (Parent) fxmlLoader.load();
+			Stage stage = new Stage();
+			stage.setScene(new Scene(root));
+
+			//Grab the controller from the loader and set it's list for message passing
+			SDRL_Controller controller = fxmlLoader.<SDRL_Controller>getController();
+			controller.setList(sdrlObservableList);
+
+			controller.setSDRL(sdrl);
+			//Set all of the controller's input fields
+			controller.setInputFields();
+
+			stage.show(); //Show the popup editor
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
-	public static void editSDRL() {
-		
+	public void removeSDRL(ActionEvent event) {
+		sdrlObservableList.remove(SDRLListView.getSelectionModel().getSelectedItem());
+	}
+
+	public void addSOW(ActionEvent event) {
+		Parent root = null;
+		try {
+			//Normal FXML Stuff
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass()
+					.getResource("SOWRef.fxml"));
+			Parent root1 = (Parent) fxmlLoader.load();
+			Stage stage = new Stage();
+			stage.setScene(new Scene(root1));
+
+			//Grab the controller from the loader
+			SOW_Controller controller = fxmlLoader.<SOW_Controller>getController();
+			//Set the controller's list to allow message passing
+			controller.setList(sowObservableList);
+
+			stage.show();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
-	public static void removeSDRL() {
-		
+	public void editSOW(ActionEvent event) {
+		SOW sow = SOWListView.getSelectionModel().getSelectedItem();
+
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("SOWRef.fxml"));
+			Parent root;
+			root = (Parent) fxmlLoader.load();
+			Stage stage = new Stage();
+			stage.setScene(new Scene(root));
+
+			SOW_Controller controller = fxmlLoader.<SOW_Controller>getController();
+			controller.setList(sowObservableList);
+
+			controller.setSOW(sow);
+			controller.setInputFields();
+
+			stage.show();
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
-	public static void addSOW() {
-		
+	public void removeSOW(ActionEvent event) {
+		sowObservableList.remove(SOWListView.getSelectionModel().getSelectedItem());
 	}
-	
-	public static void editSOW() {
-		
-	}
-	
-	public static void removeSOW() {
-		
-	}
-	
-	
-	
-	
-	
-	
-	
 
 	@FXML
 	/**
@@ -220,9 +290,6 @@ public class PM_NewProjectController implements Initializable{
 		System.out.println("Start Date: " + startDate.getValue());
 		System.out.println("End Date: " + endDate.getValue());*/
 		//DBUtil.dbExecuteUpdate("INSERT INTO Project (Name) VALUES (' " + projectNameText.getText() + "')"); //THIS WORK YAY
-		
-
-		
 		
 	}
 

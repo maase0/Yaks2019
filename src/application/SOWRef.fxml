@@ -34,9 +34,9 @@
       <TextArea fx:id="sowContent" prefHeight="300.0" prefWidth="962.0" promptText="Enter Statement of Work Paragraph..." GridPane.rowIndex="1" />
       <GridPane GridPane.rowIndex="2">
         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="852.0" minWidth="10.0" prefWidth="729.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="384.0" minWidth="0.0" prefWidth="67.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="192.0" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="852.0" minWidth="10.0" prefWidth="719.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="384.0" minWidth="0.0" prefWidth="66.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="192.0" minWidth="10.0" prefWidth="110.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="192.0" minWidth="10.0" prefWidth="67.0" />
         </columnConstraints>
         <rowConstraints>

@@ -48,8 +48,8 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <DatePicker />
-                              <DatePicker GridPane.columnIndex="2" />
+                              <DatePicker fx:id="startDate" />
+                              <DatePicker fx:id="endDate" GridPane.columnIndex="2" />
                               <Label text="to" GridPane.columnIndex="1" />
                            </children>
                         </GridPane>
@@ -154,9 +154,9 @@
          <children>
             <Label text="Project Name" />
             <TextField fx:id="projectNameText" GridPane.columnIndex="1" />
-            <Button mnemonicParsing="false" onAction="#saveChanges" text="Save" GridPane.columnIndex="3" />
+            <Button fx:id="saveButton" mnemonicParsing="false" onAction="#saveChanges" text="Save" GridPane.columnIndex="3" />
             <Button fx:id="discardButton" mnemonicParsing="false" onAction="#discardChanges" text="Discard" GridPane.columnIndex="4" />
-            <Button mnemonicParsing="false" text="Submit" GridPane.columnIndex="5" />
+            <Button fx:id="submitButton" mnemonicParsing="false" text="Submit" GridPane.columnIndex="5" />
          </children>
       </GridPane>
    </top>

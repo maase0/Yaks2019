@@ -282,10 +282,8 @@ public class PM_NewProjectController implements Initializable{
 	public void saveChanges(ActionEvent event) throws SQLException, ClassNotFoundException {
 		System.out.println("Save Changes Button");
 
-		// TODO Seem to be unable to add entries with the same project name.
 		DBUtil.dbExecuteUpdate("CALL insert_new_project(" + versionText.getText() + ", \"" + projectNameText.getText() + "\", \""
-		+  pmText.getText() + "\", " + propNumText.getText() + ", '" + startDate.getValue().toString() + "', '" +
-				endDate.getValue().toString() + "')");
+		+  pmText.getText() + "\", " + propNumText.getText() + ")");
 
 		// TODO Maybe find a way to make this transition faster, doesn't transition until the query fully connects.
 		try {

@@ -29,12 +29,12 @@ public class CLIN
     }
     
     public CLIN(String name, String projectType, 
-    		String clinContent,String popStart, String popEnd) {
+    		String clinContent) {
     	this.name = name;
     	this.projectType = projectType;
     	this.clinContent = clinContent;
-    	this.popStart = popStart;
-    	this.popEnd = popEnd;
+    	//this.popStart = popStart;
+    	//this.popEnd = popEnd;
     }
 		
     public void setName(String name) {

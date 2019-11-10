@@ -54,20 +54,21 @@ public class CLIN_Controller extends ListCell<CLIN> implements Initializable {
 		String name = clinName.getText();
 		String projectType = clinProjectType.getText();
 		String text = clinTextArea.getText();
-		String start = clinPoPStart.getValue().toString();
-		String end = clinPoPEnd.getValue().toString();
+		//String start = clinPoPStart.getValue().toString();
+		//String end = clinPoPEnd.getValue().toString();
 
 		if(clin == null) {
 			//Create a new object if not yet saved
-			clin = new CLIN(name, projectType, text, start, end);
+			//clin = new CLIN(name, projectType, text, start, end);
+			clin = new CLIN(name, projectType, text);
 			clinObservableList.add(clin);
 		} else {
 			//Update CLIN with new information
 			clin.setName(name);
 			clin.setProjectType(projectType);
 			clin.setClinContent(text);
-			clin.setPopStart(start);
-			clin.setPopEnd(end);
+			//clin.setPopStart(start);
+			//clin.setPopEnd(end);
 			clinObservableList.set(clinObservableList.indexOf(clin), clin);  //probably not the "right" way to update the list
 			//   https://coderanch.com/t/666722/java/Notify-ObservableList-Listeners-Change-Elements
 		}

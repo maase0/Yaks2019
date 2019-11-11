@@ -1,15 +1,5 @@
 package application;
 
-import java.io.IOException;
-
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.stage.Stage;
-
 public class SDRL
 {
 	private String name;
@@ -19,18 +9,24 @@ public class SDRL
     public SDRL() {
     	name = null;
     	sdrlInfo = null;
-    
+    }
+
+    public SDRL(String name, String sdrlInfo) {
+        this.name = name;
+        this.sdrlInfo = sdrlInfo;
     }
 		
     public void setName(String name) {
     	this.name = name;
     }
-    
+
+    public void setSdrlInfo(String sdrlInfo) {
+        this.sdrlInfo = sdrlInfo;
+    }
     
     public String getName() {
     	return name;
     }
-
 
     public String getSdrlInfo() {
     	return sdrlInfo;

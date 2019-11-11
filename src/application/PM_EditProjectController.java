@@ -36,7 +36,7 @@ import org.omg.PortableInterceptor.ACTIVE;
 import javax.swing.*;
 
 
-public class PM_NewProjectController implements Initializable{
+public class PM_EditProjectController implements Initializable{
 
 	private ResultSet rs;
 	@FXML
@@ -66,7 +66,7 @@ public class PM_NewProjectController implements Initializable{
 	@FXML private Button editCLINButton;
 	@FXML private Button removeCLINButton;
 	private ObservableList<CLIN> clinObservableList;
-
+	
 	//SDRL List fields
 	@FXML
 	private ListView<SDRL> SDRLListView;
@@ -74,7 +74,7 @@ public class PM_NewProjectController implements Initializable{
 	@FXML private Button editSDRLButton;
 	@FXML private Button removeSDRLButton;
     private ObservableList<SDRL> sdrlObservableList;
-
+    
     //SOW List fields
     @FXML
 	private ListView<SOW> SOWListView;
@@ -82,11 +82,11 @@ public class PM_NewProjectController implements Initializable{
 	@FXML private Button editSOWButton;
 	@FXML private Button removeSOWButton;
     private ObservableList<SOW> sowObservableList;
+    
+    
+    
 
-
-
-
-    public PM_NewProjectController()  {
+    public PM_EditProjectController()  {
 
     }
 
@@ -94,10 +94,10 @@ public class PM_NewProjectController implements Initializable{
 		//Create a new obesrvable list for the CLINS, gives it to the list view
 		clinObservableList = FXCollections.observableArrayList();
 		CLINListView.setItems(clinObservableList);
-
+		
 		sdrlObservableList = FXCollections.observableArrayList();
 		SDRLListView.setItems(sdrlObservableList);
-
+		
     	sowObservableList = FXCollections.observableArrayList();
     	SOWListView.setItems(sowObservableList);
 	}
@@ -125,6 +125,7 @@ public class PM_NewProjectController implements Initializable{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
 	}
 
 	/**
@@ -142,7 +143,7 @@ public class PM_NewProjectController implements Initializable{
 	public void editCLIN(ActionEvent event) {
 		//get the clin to be edited
 		CLIN clin = CLINListView.getSelectionModel().getSelectedItem();
-
+		
 		try {
 			//Normal FXML Stuff
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CLIN.fxml"));
@@ -190,7 +191,7 @@ public class PM_NewProjectController implements Initializable{
 			e.printStackTrace();
 		}
 	}
-
+	
 	public void editSDRL(ActionEvent event) {
 		SDRL sdrl = SDRLListView.getSelectionModel().getSelectedItem();
 
@@ -217,7 +218,7 @@ public class PM_NewProjectController implements Initializable{
 			e.printStackTrace();
 		}
 	}
-
+	
 	public void removeSDRL(ActionEvent event) {
 		sdrlObservableList.remove(SDRLListView.getSelectionModel().getSelectedItem());
 	}
@@ -242,7 +243,7 @@ public class PM_NewProjectController implements Initializable{
 			e.printStackTrace();
 		}
 	}
-
+	
 	public void editSOW(ActionEvent event) {
 		SOW sow = SOWListView.getSelectionModel().getSelectedItem();
 
@@ -266,7 +267,7 @@ public class PM_NewProjectController implements Initializable{
 			e.printStackTrace();
 		}
 	}
-
+	
 	public void removeSOW(ActionEvent event) {
 		sowObservableList.remove(SOWListView.getSelectionModel().getSelectedItem());
 	}
@@ -283,16 +284,16 @@ public class PM_NewProjectController implements Initializable{
 		int vid = 0;
 		System.out.println("Save Changes Button");
 		ResultSet rs = DBUtil.dbExecuteQuery("CALL insert_new_project(" + versionText.getText() + ", \"" + projectNameText.getText() + "\", \""
-											  +  pmText.getText() + "\", " + propNumText.getText() + ")");
+											  +  pmText.getText() + "\", " + propNumText.getText() + ")"); 
 		while(rs.next()) {
 			vid = rs.getInt("idProjectVersion");
 		}
-
+		
 		if(!clinObservableList.isEmpty()) {
 			for(int i = 0; i < clinObservableList.size(); i++) {
 				DBUtil.dbExecuteUpdate("CALL insert_clin(" + vid + ", \"" + clinObservableList.get(i).getIndex()
-														 + "\", \"" + clinObservableList.get(i).getProjectType() + "\", \""
-														 + clinObservableList.get(i).getClinContent() + "\")");
+														 + "\", \"" + clinObservableList.get(i).getProjectType() + "\", \"" 
+														 + clinObservableList.get(i).getClinContent() + "\")"); 
 			}
 		}
 
@@ -309,7 +310,7 @@ public class PM_NewProjectController implements Initializable{
 													      + ", \"" + sowObservableList.get(i).getSowContent() + "\")");
 			}
 		}
-
+		
 		// TODO Maybe find a way to make this transition faster, doesn't transition until the query fully connects.
 		try {
 			Parent root = FXMLLoader.load(getClass().getResource("PM_Projects.fxml"));
@@ -332,7 +333,7 @@ public class PM_NewProjectController implements Initializable{
 		System.out.println("Start Date: " + startDate.getValue());
 		System.out.println("End Date: " + endDate.getValue());*/
 		//DBUtil.dbExecuteUpdate("INSERT INTO Project (Name) VALUES (' " + projectNameText.getText() + "')"); //THIS WORK YAY
-
+		
 	}
 
 	@FXML

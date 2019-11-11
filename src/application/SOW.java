@@ -9,14 +9,17 @@ public class SOW {
     public SOW() {
     	reference = null;
     	sowContent = null;
-    
+    }
+
+    public SOW(String reference, String sowContent) {
+        this.reference = reference;
+        this.sowContent = sowContent;
     }
 		
-    public void setName(String reference) {
+    public void setReference(String reference) {
     	this.reference = reference;
     }
-    
-    
+
     public void setSowContent(String sowContent) {
     	this.sowContent = sowContent;
     }

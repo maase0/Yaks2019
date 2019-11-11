@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 
 public class CLIN
 {
-	private String name;
+	private String index;
 	private String projectType;
 	private String popStart;
 	private String popEnd;
@@ -20,7 +20,7 @@ public class CLIN
 		
 	
     public CLIN() {
-    	name = null;
+    	index = null;
     	projectType = null;
     	popStart = null;
     	popEnd = null;
@@ -28,17 +28,17 @@ public class CLIN
     
     }
     
-    public CLIN(String name, String projectType, 
-    		String clinContent,String popStart, String popEnd) {
-    	this.name = name;
+    public CLIN(String index, String projectType, 
+    		String clinContent) {
+    	this.index = index;
     	this.projectType = projectType;
     	this.clinContent = clinContent;
-    	this.popStart = popStart;
-    	this.popEnd = popEnd;
+    	//this.popStart = popStart;
+    	//this.popEnd = popEnd;
     }
 		
-    public void setName(String name) {
-    	this.name = name;
+    public void setIndex(String index) {
+    	this.index = index;
     }
     
     public void setProjectType(String projectType) {
@@ -57,8 +57,8 @@ public class CLIN
     	this.clinContent = clinContent;
     }
     
-    public String getName() {
-    	return name;
+    public String getIndex() {
+    	return index;
     }
     
     public String getProjectType() {
@@ -78,6 +78,6 @@ public class CLIN
     }
     
     public String toString() {
-    	return name + ", " + projectType + ", " + popStart + " - " + popEnd + "\n" + clinContent;
+    	return index + ", " + projectType + ", " + popStart + " - " + popEnd + "\n" + clinContent;
     }
 }

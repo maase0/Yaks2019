@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -12,7 +17,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PM_Projects_Controller">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PM_Projects_Controller">
    <center>
       <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="330.0" prefWidth="810.0" style="-fx-border-color: black;" BorderPane.alignment="CENTER">
          <children>
@@ -131,7 +136,7 @@
                                                          <cursor>
                                                             <Cursor fx:constant="HAND" />
                                                          </cursor></Text>
-                                                      <Text fx:id="editBtn2" fill="#321ee5" layoutX="612.0" layoutY="18.0" onMouseClicked="#editProject" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit" underline="true">
+                                                      <Text fx:id="editBtn" fill="#321ee5" layoutX="612.0" layoutY="18.0" onMouseClicked="#editProject" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit" underline="true">
                                                          <cursor>
                                                             <Cursor fx:constant="HAND" />
                                                          </cursor></Text>

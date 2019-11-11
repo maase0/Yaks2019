@@ -36,7 +36,7 @@ import org.omg.PortableInterceptor.ACTIVE;
 import javax.swing.*;
 
 
-public class PM_NewProjectController implements Initializable{
+public class PM_EditProjectController implements Initializable{
 
 	private ResultSet rs;
 	@FXML
@@ -86,7 +86,7 @@ public class PM_NewProjectController implements Initializable{
     
     
 
-    public PM_NewProjectController()  {
+    public PM_EditProjectController()  {
 
     }
 

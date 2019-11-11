@@ -86,7 +86,26 @@ public class PM_Projects_Controller implements Initializable{
 	}
 	
 	public void editProject(MouseEvent event) {
-		
+		try {
+            // Opens New Project page
+           // Parent root = FXMLLoader.load(getClass()
+           // 		.getResource("PM_NewProject.fxml"));
+            Parent root = FXMLLoader.load(getClass()
+            		.getResource("PM_EditProject.fxml"));
+                                  
+            Stage pmNewProjectStage = new Stage();
+            pmNewProjectStage.setTitle("Estimation Suite - Product Manager - Edit Project");
+            pmNewProjectStage	.setScene(new Scene(root));
+            pmNewProjectStage.show();
+            pmNewProjectStage.setResizable(true);
+            pmNewProjectStage.sizeToScene();
+            
+            //Closes PM Page
+            Stage stage = (Stage) newProjectBtn.getScene().getWindow();
+            stage.close();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void discardProject(MouseEvent event) {

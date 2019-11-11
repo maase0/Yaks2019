@@ -280,6 +280,7 @@ public class PM_NewProjectController implements Initializable{
 	 * @throws ClassNotFoundException
 	 */
 	public void saveChanges(ActionEvent event) throws SQLException, ClassNotFoundException {
+		// TODO possibly do a datatype check before actually saving anything.
 		int vid = 0;
 		System.out.println("Save Changes Button");
 		ResultSet rs = DBUtil.dbExecuteQuery("CALL insert_new_project(" + versionText.getText() + ", \"" + projectNameText.getText() + "\", \""
@@ -293,6 +294,20 @@ public class PM_NewProjectController implements Initializable{
 				DBUtil.dbExecuteUpdate("CALL insert_clin(" + vid + ", \"" + clinObservableList.get(i).getIndex()
 														 + "\", \"" + clinObservableList.get(i).getProjectType() + "\", \"" 
 														 + clinObservableList.get(i).getClinContent() + "\")"); 
+			}
+		}
+
+		if(!sdrlObservableList.isEmpty()) {
+			for(int i = 0; i < sdrlObservableList.size(); i++) {
+				DBUtil.dbExecuteUpdate("CALL insert_sdrl(" + vid + ", \"" + sdrlObservableList.get(i).getName()
+													     + "\", \"" + sdrlObservableList.get(i).getSdrlInfo() + "\")");
+			}
+		}
+
+		if(!sowObservableList.isEmpty()) {
+			for(int i = 0; i < sowObservableList.size(); i++) {
+				DBUtil.dbExecuteQuery("CALL insert_sow(" + vid + ", " + sowObservableList.get(i).getReference()
+													      + ", \"" + sowObservableList.get(i).getSowContent() + "\")");
 			}
 		}
 		

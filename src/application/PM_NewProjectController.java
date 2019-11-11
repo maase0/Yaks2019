@@ -280,11 +280,22 @@ public class PM_NewProjectController implements Initializable{
 	 * @throws ClassNotFoundException
 	 */
 	public void saveChanges(ActionEvent event) throws SQLException, ClassNotFoundException {
+		int vid = 0;
 		System.out.println("Save Changes Button");
-
-		DBUtil.dbExecuteUpdate("CALL insert_new_project(" + versionText.getText() + ", \"" + projectNameText.getText() + "\", \""
-		+  pmText.getText() + "\", " + propNumText.getText() + ")");
-
+		ResultSet rs = DBUtil.dbExecuteQuery("CALL insert_new_project(" + versionText.getText() + ", \"" + projectNameText.getText() + "\", \""
+											  +  pmText.getText() + "\", " + propNumText.getText() + ")"); 
+		while(rs.next()) {
+			vid = rs.getInt("idProjectVersion");
+		}
+		
+		if(!clinObservableList.isEmpty()) {
+			for(int i = 0; i < clinObservableList.size(); i++) {
+				DBUtil.dbExecuteUpdate("CALL insert_clin(" + vid + ", \"" + clinObservableList.get(i).getIndex()
+														 + "\", \"" + clinObservableList.get(i).getProjectType() + "\", \"" 
+														 + clinObservableList.get(i).getClinContent() + "\")"); 
+			}
+		}
+		
 		// TODO Maybe find a way to make this transition faster, doesn't transition until the query fully connects.
 		try {
 			Parent root = FXMLLoader.load(getClass().getResource("PM_Projects.fxml"));

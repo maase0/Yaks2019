@@ -30,7 +30,7 @@ public class CLIN_Controller extends ListCell<CLIN> implements Initializable {
 		@FXML private Button clinSaveButton;
 		@FXML private Button clinClose;
 		@FXML private Button clinSaveAndClose;
-		@FXML private TextField clinName;
+		@FXML private TextField clinIndex;
 		@FXML private TextField clinProjectType;
 		@FXML private TextArea clinTextArea;
 		@FXML private DatePicker clinPoPStart;
@@ -51,7 +51,7 @@ public class CLIN_Controller extends ListCell<CLIN> implements Initializable {
 	public void saveCLIN() {
 
 		//Get all the data from the form
-		String name = clinName.getText();
+		String index = clinIndex.getText();
 		String projectType = clinProjectType.getText();
 		String text = clinTextArea.getText();
 		//String start = clinPoPStart.getValue().toString();
@@ -59,12 +59,11 @@ public class CLIN_Controller extends ListCell<CLIN> implements Initializable {
 
 		if(clin == null) {
 			//Create a new object if not yet saved
-			//clin = new CLIN(name, projectType, text, start, end);
-			clin = new CLIN(name, projectType, text);
+			clin = new CLIN(index, projectType, text);
 			clinObservableList.add(clin);
 		} else {
 			//Update CLIN with new information
-			clin.setName(name);
+			clin.setIndex(index);
 			clin.setProjectType(projectType);
 			clin.setClinContent(text);
 			//clin.setPopStart(start);
@@ -119,11 +118,11 @@ public class CLIN_Controller extends ListCell<CLIN> implements Initializable {
      */
     public void setInputFields() {
     	if(clin != null) {
-    		clinName.setText(clin.getName());
+    		clinIndex.setText(clin.getIndex());
     		clinProjectType.setText(clin.getProjectType());
     		clinTextArea.setText(clin.getClinContent());
-    		clinPoPStart.setValue(LocalDate.parse(clin.getPopStart()));
-			clinPoPEnd.setValue(LocalDate.parse(clin.getPopEnd()));
+    		//clinPoPStart.setValue(LocalDate.parse(clin.getPopStart()));
+			//clinPoPEnd.setValue(LocalDate.parse(clin.getPopEnd()));
     	}
     }
 

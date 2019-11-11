@@ -34,8 +34,8 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label text="Name: " />
-            <TextField fx:id="clinName" GridPane.columnIndex="1" />
+            <Label text="Index:" />
+            <TextField fx:id="clinIndex" GridPane.columnIndex="1" />
             <Label text="Project Type: " GridPane.columnIndex="2" />
             <Label text="CLIN PoP" GridPane.columnIndex="4" />
             <Label text="to" GridPane.columnIndex="6" />

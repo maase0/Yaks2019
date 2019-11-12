@@ -289,6 +289,8 @@ public class PM_NewProjectController implements Initializable {
 		boolean passed = true;
 
 		// TODO: Find acceptable regexps for each field
+		//       add checks for clin dates etc discussed in sprint review
+		//       change to an error popup instead of printing to console
 		
 		if(!versionText.getText().matches("\\d(.\\d)*")) {
 			passed = false;
@@ -305,19 +307,7 @@ public class PM_NewProjectController implements Initializable {
 			}
 		}
 		
-		/*
-		try {
-			Integer.parseInt(versionText.getText());
-			Integer.parseInt(propNumText.getText());
-
-			for (SOW s : sowObservableList) {
-				Integer.parseInt(s.getReference());
-			}
-
-		} catch (NumberFormatException e) {
-			passed = false;
-			System.out.println("Error: Version Number, Proposal Number, or some SOW Reference was not a number");
-		}*/
+	
 
 		if (passed) {
 			System.out.println("Save Changes Button");
@@ -328,27 +318,22 @@ public class PM_NewProjectController implements Initializable {
 				vid = rs.getInt("idProjectVersion");
 			}
 
-			if (!clinObservableList.isEmpty()) {
-				for (int i = 0; i < clinObservableList.size(); i++) {
-					DBUtil.dbExecuteUpdate("CALL insert_clin(" + vid + ", \"" + clinObservableList.get(i).getIndex()
-							+ "\", \"" + clinObservableList.get(i).getProjectType() + "\", \""
-							+ clinObservableList.get(i).getClinContent() + "\")");
-				}
+			for(CLIN c : clinObservableList) {
+				DBUtil.dbExecuteUpdate("CALL insert_clin(" + vid + ", \"" + c.getIndex()
+						+ "\", \"" + c.getProjectType() + "\", \""
+						+ c.getClinContent() + "\")");
+			}
+	
+			for(SDRL s : sdrlObservableList) {
+				DBUtil.dbExecuteUpdate("CALL insert_sdrl(" + vid + ", \"" + s.getName()
+						+ "\", \"" + s.getSdrlInfo() + "\")");
 			}
 
-			if (!sdrlObservableList.isEmpty()) {
-				for (int i = 0; i < sdrlObservableList.size(); i++) {
-					DBUtil.dbExecuteUpdate("CALL insert_sdrl(" + vid + ", \"" + sdrlObservableList.get(i).getName()
-							+ "\", \"" + sdrlObservableList.get(i).getSdrlInfo() + "\")");
-				}
+			for(SOW s : sowObservableList) 	{
+				DBUtil.dbExecuteQuery("CALL insert_sow(" + vid + ", " + s.getReference()
+						+ ", \"" + s.getSowContent() + "\")");
 			}
 
-			if (!sowObservableList.isEmpty()) {
-				for (int i = 0; i < sowObservableList.size(); i++) {
-					DBUtil.dbExecuteQuery("CALL insert_sow(" + vid + ", " + sowObservableList.get(i).getReference()
-							+ ", \"" + sowObservableList.get(i).getSowContent() + "\")");
-				}
-			}
 
 			// TODO Maybe find a way to make this transition faster, doesn't transition
 			// until the query fully connects.

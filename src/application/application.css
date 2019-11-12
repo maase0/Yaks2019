@@ -3,12 +3,12 @@
 .root {
     -fx-font-size: 14px;
     -fx-font-family: sans-serif;
-    -fx-background-color: linear-gradient(from 100% 25% to 100% 100%, #ffffff, #5077bf);
+    -fx-background-color: linear-gradient(from 100% 40% to 100% 100%, #ffffff, #5077bf);
 }
 
 .header-section {
     -fx-font-size: 20px;
-    -fx-background-color: #ffffff;
+    -fx-background-color: transparent;
 }
 
 .header-section Label {

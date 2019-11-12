@@ -19,7 +19,7 @@
                <children>
                   <Button fx:id="loginBtn" layoutX="121.0" layoutY="68.0" mnemonicParsing="false" onAction="#Login" prefHeight="30.0" styleClass="btn-rich-blue" text="Login" />
                   <ComboBox fx:id="loginBox" layoutX="62.0" layoutY="21.0" prefHeight="30.0" prefWidth="160.0" promptText="Select Role" />
-                  <Button fx:id="exitBtn" layoutX="237.0" layoutY="72.0" mnemonicParsing="false" onAction="#Exit" styleClass="btn-rich-blue" text="Exit" />
+                  <Button fx:id="exitBtn" layoutX="232.0" layoutY="68.0" mnemonicParsing="false" onAction="#Exit" prefHeight="30.0" prefWidth="43.0" styleClass="btn-rich-blue" text="Exit" />
                </children>
             </Pane>
          </center>

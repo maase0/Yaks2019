@@ -108,7 +108,7 @@ public class PM_NewProjectController implements Initializable {
 
 	/**
 	 * Adds a new clin to the list. Creates a popup menu to start editing a new CLIN
-	 * 
+	 *
 	 * @param event
 	 */
 	public void addCLIN(ActionEvent event) {
@@ -133,7 +133,7 @@ public class PM_NewProjectController implements Initializable {
 
 	/**
 	 * Removes the selected CLIN from the list view and observable list.
-	 * 
+	 *
 	 * @param event
 	 */
 	public void discardCLIN(ActionEvent event) {
@@ -142,7 +142,7 @@ public class PM_NewProjectController implements Initializable {
 
 	/**
 	 * Edit an existing CLIN that is selected in the list view.
-	 * 
+	 *
 	 * @param event
 	 */
 	public void editCLIN(ActionEvent event) {
@@ -277,7 +277,7 @@ public class PM_NewProjectController implements Initializable {
 	@FXML
 	/**
 	 * Saves all of the information of the newly created project
-	 * 
+	 *
 	 * @param event
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
@@ -288,19 +288,30 @@ public class PM_NewProjectController implements Initializable {
 
 		boolean passed = true;
 
-		// TODO: Probably replace with normal ifs with regexp
-		try {
-			Integer.parseInt(versionText.getText());
-			Integer.parseInt(propNumText.getText());
+		// TODO: Find acceptable regexps for each field
+		//       add checks for clin dates etc discussed in sprint review
+		//       change to an error popup instead of printing to console
 
-			for (SOW s : sowObservableList) {
-				Integer.parseInt(s.getReference());
-			}
-
-		} catch (NumberFormatException e) {
+		String versionReg = "\\d(.\\d)*";
+		String propReg = "\\d";
+		String sowRefReg = "\\d";
+		
+		if(!versionText.getText().matches(versionReg)) {
 			passed = false;
-			System.out.println("Error: Version Number, Proposal Number, or some SOW Reference was not a number");
+			System.out.println("Error: Version Text \"" + versionText.getText() + "\" does not match regexp " + versionReg);
 		}
+		if(!propNumText.getText().matches(propReg)) {
+			passed = false;
+			System.out.println("Error: Version Proposal Number \"" + propNumText.getText() + "\" does not match regexp " + propReg);
+		}
+		for (SOW s : sowObservableList) {
+			if(!s.getReference().matches(sowRefReg)) {
+				passed = false;
+				System.out.println("Error: Sow Reference \"" + "" + s.getReference() + "\" does not match regexp " + sowRefReg);
+			}
+		}
+
+
 
 		if (passed) {
 			System.out.println("Save Changes Button");
@@ -311,30 +322,23 @@ public class PM_NewProjectController implements Initializable {
 				vid = rs.getInt("idProjectVersion");
 			}
 
-			if (!clinObservableList.isEmpty()) {
-				for (int i = 0; i < clinObservableList.size(); i++) {
-					DBUtil.dbExecuteUpdate("CALL insert_clin(" + vid + ", \"" + clinObservableList.get(i).getIndex()
-							+ "\", \"" + clinObservableList.get(i).getProjectType() + "\", \""
-							+ clinObservableList.get(i).getClinContent() + "\")");
-				}
+			for(CLIN c : clinObservableList) {
+				DBUtil.dbExecuteUpdate("CALL insert_clin(" + vid + ", \"" + c.getIndex()
+						+ "\", \"" + c.getProjectType() + "\", \""
+						+ c.getClinContent() + "\")");
 			}
 
-			if (!sdrlObservableList.isEmpty()) {
-				for (int i = 0; i < sdrlObservableList.size(); i++) {
-					DBUtil.dbExecuteUpdate("CALL insert_sdrl(" + vid + ", \"" + sdrlObservableList.get(i).getName()
-							+ "\", \"" + sdrlObservableList.get(i).getSdrlInfo() + "\")");
-				}
+			for(SDRL s : sdrlObservableList) {
+				DBUtil.dbExecuteUpdate("CALL insert_sdrl(" + vid + ", \"" + s.getName()
+						+ "\", \"" + s.getSdrlInfo() + "\")");
 			}
 
-			if (!sowObservableList.isEmpty()) {
-				for (int i = 0; i < sowObservableList.size(); i++) {
-					DBUtil.dbExecuteQuery("CALL insert_sow(" + vid + ", " + sowObservableList.get(i).getReference()
-							+ ", \"" + sowObservableList.get(i).getSowContent() + "\")");
-				}
+			for(SOW s : sowObservableList) 	{
+				DBUtil.dbExecuteQuery("CALL insert_sow(" + vid + ", " + s.getReference()
+						+ ", \"" + s.getSowContent() + "\")");
 			}
 
-			// TODO Maybe find a way to make this transition faster, doesn't transition
-			// until the query fully connects.
+			// TODO Maybe find a way to make this transition faster, doesn't transition until the query fully connects.
 			try {
 				Parent root = FXMLLoader.load(getClass().getResource("PM_Projects.fxml"));
 
@@ -367,7 +371,7 @@ public class PM_NewProjectController implements Initializable {
 	@FXML
 	/**
 	 * Discards the project without saving it do the database
-	 * 
+	 *
 	 * @param event
 	 */
 	public void discardChanges(ActionEvent event) {
@@ -389,7 +393,7 @@ public class PM_NewProjectController implements Initializable {
 	@FXML
 	/**
 	 * Submits the project for estimation
-	 * 
+	 *
 	 * @param event
 	 */
 	public void submitForEstimation(ActionEvent event) {

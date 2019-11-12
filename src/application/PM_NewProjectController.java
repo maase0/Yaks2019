@@ -108,7 +108,7 @@ public class PM_NewProjectController implements Initializable {
 
 	/**
 	 * Adds a new clin to the list. Creates a popup menu to start editing a new CLIN
-	 * 
+	 *
 	 * @param event
 	 */
 	public void addCLIN(ActionEvent event) {
@@ -133,7 +133,7 @@ public class PM_NewProjectController implements Initializable {
 
 	/**
 	 * Removes the selected CLIN from the list view and observable list.
-	 * 
+	 *
 	 * @param event
 	 */
 	public void discardCLIN(ActionEvent event) {
@@ -142,7 +142,7 @@ public class PM_NewProjectController implements Initializable {
 
 	/**
 	 * Edit an existing CLIN that is selected in the list view.
-	 * 
+	 *
 	 * @param event
 	 */
 	public void editCLIN(ActionEvent event) {
@@ -277,7 +277,7 @@ public class PM_NewProjectController implements Initializable {
 	@FXML
 	/**
 	 * Saves all of the information of the newly created project
-	 * 
+	 *
 	 * @param event
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
@@ -291,7 +291,7 @@ public class PM_NewProjectController implements Initializable {
 		// TODO: Find acceptable regexps for each field
 		//       add checks for clin dates etc discussed in sprint review
 		//       change to an error popup instead of printing to console
-		
+
 		if(!versionText.getText().matches("\\d(.\\d)*")) {
 			passed = false;
 			System.out.println("Error: Version Text \"" + versionText.getText() + "\" does not match regexp \\d(.\\d)*");
@@ -306,8 +306,8 @@ public class PM_NewProjectController implements Initializable {
 				System.out.println("Error: Sow Reference \"" + "" + s.getReference() + "\" does not match regexp \\d(.\\d)*");
 			}
 		}
-		
-	
+
+
 
 		if (passed) {
 			System.out.println("Save Changes Button");
@@ -323,7 +323,7 @@ public class PM_NewProjectController implements Initializable {
 						+ "\", \"" + c.getProjectType() + "\", \""
 						+ c.getClinContent() + "\")");
 			}
-	
+
 			for(SDRL s : sdrlObservableList) {
 				DBUtil.dbExecuteUpdate("CALL insert_sdrl(" + vid + ", \"" + s.getName()
 						+ "\", \"" + s.getSdrlInfo() + "\")");
@@ -334,9 +334,7 @@ public class PM_NewProjectController implements Initializable {
 						+ ", \"" + s.getSowContent() + "\")");
 			}
 
-
-			// TODO Maybe find a way to make this transition faster, doesn't transition
-			// until the query fully connects.
+			// TODO Maybe find a way to make this transition faster, doesn't transition until the query fully connects.
 			try {
 				Parent root = FXMLLoader.load(getClass().getResource("PM_Projects.fxml"));
 
@@ -369,7 +367,7 @@ public class PM_NewProjectController implements Initializable {
 	@FXML
 	/**
 	 * Discards the project without saving it do the database
-	 * 
+	 *
 	 * @param event
 	 */
 	public void discardChanges(ActionEvent event) {
@@ -391,7 +389,7 @@ public class PM_NewProjectController implements Initializable {
 	@FXML
 	/**
 	 * Submits the project for estimation
-	 * 
+	 *
 	 * @param event
 	 */
 	public void submitForEstimation(ActionEvent event) {

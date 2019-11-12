@@ -292,18 +292,22 @@ public class PM_NewProjectController implements Initializable {
 		//       add checks for clin dates etc discussed in sprint review
 		//       change to an error popup instead of printing to console
 
-		if(!versionText.getText().matches("\\d(.\\d)*")) {
+		String versionReg = "\\d(.\\d)*";
+		String propReg = "\\d";
+		String sowRefReg = "\\d";
+		
+		if(!versionText.getText().matches(versionReg)) {
 			passed = false;
-			System.out.println("Error: Version Text \"" + versionText.getText() + "\" does not match regexp \\d(.\\d)*");
+			System.out.println("Error: Version Text \"" + versionText.getText() + "\" does not match regexp " + versionReg);
 		}
-		if(!propNumText.getText().matches("\\d(.\\d)*")) {
+		if(!propNumText.getText().matches(propReg)) {
 			passed = false;
-			System.out.println("Error: Version Proposal Number \"" + propNumText.getText() + "\" does not match regexp \\d(.\\d)*");
+			System.out.println("Error: Version Proposal Number \"" + propNumText.getText() + "\" does not match regexp " + propReg);
 		}
 		for (SOW s : sowObservableList) {
-			if(!s.getReference().matches("\\d(.\\d)*")) {
+			if(!s.getReference().matches(sowRefReg)) {
 				passed = false;
-				System.out.println("Error: Sow Reference \"" + "" + s.getReference() + "\" does not match regexp \\d(.\\d)*");
+				System.out.println("Error: Sow Reference \"" + "" + s.getReference() + "\" does not match regexp " + sowRefReg);
 			}
 		}
 

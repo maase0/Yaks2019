@@ -350,8 +350,7 @@ public class PM_NewProjectController implements Initializable {
 				}
 			}
 
-			// TODO Maybe find a way to make this transition faster, doesn't transition
-			// until the query fully connects.
+			// TODO Maybe find a way to make this transition faster, doesn't transition until the query fully connects.
 			try {
 				Parent root = FXMLLoader.load(getClass().getResource("PM_Projects.fxml"));
 

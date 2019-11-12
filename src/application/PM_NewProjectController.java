@@ -288,7 +288,24 @@ public class PM_NewProjectController implements Initializable {
 
 		boolean passed = true;
 
-		// TODO: Probably replace with normal ifs with regexp
+		// TODO: Find acceptable regexps for each field
+		
+		if(!versionText.getText().matches("\\d(.\\d)*")) {
+			passed = false;
+			System.out.println("Error: Version Text \"" + versionText.getText() + "\" does not match regexp \\d(.\\d)*");
+		}
+		if(!propNumText.getText().matches("\\d(.\\d)*")) {
+			passed = false;
+			System.out.println("Error: Version Proposal Number \"" + propNumText.getText() + "\" does not match regexp \\d(.\\d)*");
+		}
+		for (SOW s : sowObservableList) {
+			if(!s.getReference().matches("\\d(.\\d)*")) {
+				passed = false;
+				System.out.println("Error: Sow Reference \"" + "" + s.getReference() + "\" does not match regexp \\d(.\\d)*");
+			}
+		}
+		
+		/*
 		try {
 			Integer.parseInt(versionText.getText());
 			Integer.parseInt(propNumText.getText());
@@ -300,7 +317,7 @@ public class PM_NewProjectController implements Initializable {
 		} catch (NumberFormatException e) {
 			passed = false;
 			System.out.println("Error: Version Number, Proposal Number, or some SOW Reference was not a number");
-		}
+		}*/
 
 		if (passed) {
 			System.out.println("Save Changes Button");

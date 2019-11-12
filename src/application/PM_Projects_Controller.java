@@ -1,8 +1,12 @@
 package application;
 
 import java.net.URL;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+import DB.DBUtil;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -39,8 +43,52 @@ public class PM_Projects_Controller implements Initializable{
 	@FXML
 	private Text discardBtn2;
 	
+    Project proj;
+    private ObservableList<Project> projObservableList;
+	
 	public void initialize(URL location, ResourceBundle resources) {
-	//Pull Unsubmitted Projects from database
+		
+		String name;
+		
+		//Select Query on Database
+		try {
+		ResultSet rs = DBUtil.dbExecuteQuery("SELECT * FROM Project");
+		
+		//Actions to perform with data (this can be whatever, generally going to be filling in text fields)
+	    System.out.println("\nProject Name");
+	    
+	    //Potentially figure out why it continuously runs after execution
+			while(rs.next()) {
+				name = rs.getString("Project_Name");
+			    System.out.println("\t" + rs.getString("Project_Name"));
+				/*if(proj == null) {
+					//Create a new object if not yet saved
+					proj = new Project(name);
+					projObservableList.add(proj);
+				} else {
+					//Update Project with new information
+					proj.setName(name);
+					projObservableList.set(projObservableList.indexOf(proj), proj);  //probably not the "right" way to update the list
+					//   https://coderanch.com/t/666722/java/Notify-ObservableList-Listeners-Change-Elements
+				}*/
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
+    /**
+     * Sets the Project observable list to allow the editor to add
+     * to the list view
+     * @param clinObservableList
+     */
+    public void setList(ObservableList<Project> projObservableList) {
+		this.projObservableList = projObservableList;
 	}
 	
 	public void logout(ActionEvent event) {

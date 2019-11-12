@@ -14,8 +14,9 @@ public class PM_NewProject extends Application {
             // Read file fxml and draw interface.
             Parent root = FXMLLoader.load(getClass()
                     .getResource("PM_NewProject.fxml"));
- 
-            primaryStage.setTitle("Estimation Suite - Product Manager - Edit Page");
+
+            // TODO editing this setTitle doesn't seem to be affecting anything, can't figure out why
+            primaryStage.setTitle("Estimation Suite - Product Manager - New Project");
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
 		} catch(Exception e) {

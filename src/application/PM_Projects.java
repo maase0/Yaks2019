@@ -15,7 +15,7 @@ public class PM_Projects extends Application {
             Parent root = FXMLLoader.load(getClass()
                     .getResource("PM - Projects.fxml"));
  
-            primaryStage.setTitle("Estimation Suite - Product Manager - Projects Page");
+            primaryStage.setTitle("Estimation Suite - Product Manager - Projects");
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
 		} catch(Exception e) {

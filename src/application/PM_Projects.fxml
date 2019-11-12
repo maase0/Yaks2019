@@ -39,45 +39,7 @@
                                                       <content>
                                                         <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="167.0" prefWidth="332.0">
                                                                <children>
-                                                                  <Pane minHeight="26.0" minWidth="700.0" prefHeight="26.0" prefWidth="700.0" style="-fx-border-color: black;">
-                                                                     <children>
-                                                                        <Label layoutX="7.0" layoutY="5.0" text="Project Example 1 - Version 1.3">
-                                                                           <font>
-                                                                              <Font name="System Bold" size="12.0" />
-                                                                           </font>
-                                                                        </Label>
-                                                                        <Text fx:id="editBtn21" fill="#321ee5" layoutX="568.0" layoutY="17.0" onMouseClicked="#editProject" strokeType="OUTSIDE" strokeWidth="0.0" text="View Project Estimate" underline="true">
-                                                                           <cursor>
-                                                                              <Cursor fx:constant="HAND" />
-                                                                           </cursor></Text>
-                                                                     </children>
-                                                                  </Pane>
-                                                                  <Pane layoutY="26.0" minHeight="26.0" minWidth="700.0" prefHeight="26.0" prefWidth="700.0" style="-fx-border-color: black;">
-                                                                     <children>
-                                                                        <Label layoutX="7.0" layoutY="5.0" text="Project Example 2 - Version 2.3.2">
-                                                                           <font>
-                                                                              <Font name="System Bold" size="12.0" />
-                                                                           </font>
-                                                                        </Label>
-                                                                        <Text fx:id="editBtn22" fill="#321ee5" layoutX="568.0" layoutY="18.0" onMouseClicked="#editProject" strokeType="OUTSIDE" strokeWidth="0.0" text="View Project Estimate" underline="true">
-                                                                           <cursor>
-                                                                              <Cursor fx:constant="HAND" />
-                                                                           </cursor></Text>
-                                                                     </children>
-                                                                  </Pane>
-                                                                  <Pane layoutY="52.0" minHeight="26.0" minWidth="700.0" prefHeight="26.0" prefWidth="700.0" style="-fx-border-color: black;">
-                                                                     <children>
-                                                                        <Label layoutX="7.0" layoutY="5.0" text="Project Example 3 - Version 3.3.3">
-                                                                           <font>
-                                                                              <Font name="System Bold" size="12.0" />
-                                                                           </font>
-                                                                        </Label>
-                                                                        <Text fx:id="editBtn23" fill="#321ee5" layoutX="569.0" layoutY="18.0" onMouseClicked="#editProject" strokeType="OUTSIDE" strokeWidth="0.0" text="View Project Estimate" underline="true">
-                                                                           <cursor>
-                                                                              <Cursor fx:constant="HAND" />
-                                                                           </cursor></Text>
-                                                                     </children>
-                                                                  </Pane>
+                                                                  <TitledPane animated="false" prefHeight="228.0" prefWidth="681.0" text="Projects" />
                                                                </children>
                                                             </AnchorPane>
                                                       </content>
@@ -86,23 +48,7 @@
                                                       <content>
                                                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                                                <children>
-                                                                  <Pane minHeight="26.0" minWidth="700.0" prefHeight="26.0" prefWidth="700.0" style="-fx-border-color: black;">
-                                                                     <children>
-                                                                        <Label layoutX="7.0" layoutY="5.0" text="Project Example 1 - Version 1.1">
-                                                                           <font>
-                                                                              <Font name="System Bold" size="12.0" />
-                                                                           </font>
-                                                                        </Label>
-                                                                        <Text fx:id="discardBtn24" fill="#321ee5" layoutX="647.0" layoutY="18.0" onMouseClicked="#discardProject" strokeType="OUTSIDE" strokeWidth="0.0" text="Return" underline="true">
-                                                                           <cursor>
-                                                                              <Cursor fx:constant="HAND" />
-                                                                           </cursor></Text>
-                                                                        <Text fx:id="editBtn24" fill="#321ee5" layoutX="595.0" layoutY="18.0" onMouseClicked="#editProject" strokeType="OUTSIDE" strokeWidth="0.0" text="Estimate" underline="true">
-                                                                           <cursor>
-                                                                              <Cursor fx:constant="HAND" />
-                                                                           </cursor></Text>
-                                                                     </children>
-                                                                  </Pane>
+                                                                  <TitledPane animated="false" prefHeight="228.0" prefWidth="681.0" text="Projects" />
                                                                </children>
                                                             </AnchorPane>
                                                       </content>

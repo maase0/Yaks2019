@@ -322,7 +322,8 @@ public class PM_NewProjectController implements Initializable {
 		if (passed) {
 			System.out.println("Save Changes Button");
 			ResultSet rs = DBUtil.dbExecuteQuery("CALL insert_new_project(" + versionText.getText() + ", \""
-					+ projectNameText.getText() + "\", \"" + pmText.getText() + "\", " + propNumText.getText() + ")");
+					+ projectNameText.getText() + "\", \"" + pmText.getText() + "\", " + propNumText.getText() + ",'"
+					+ startDate.getValue().toString() + "', '" + endDate.getValue().toString() + "')");
 			while (rs.next()) {
 				vid = rs.getInt("idProjectVersion");
 			}
@@ -409,7 +410,21 @@ public class PM_NewProjectController implements Initializable {
 	 * @param event
 	 */
 	public void submitForEstimation(ActionEvent event) {
+		// TODO add query statement to update "Submit_Date" in Project table
 		System.out.println("Submit Button");
+		try {
+			Parent root = FXMLLoader.load(getClass().getResource("PM_Projects.fxml"));
+
+			Stage pmProjectsStage = new Stage();
+			pmProjectsStage.setTitle("Estimation Suite - Project Manager - Projects");
+			pmProjectsStage.setScene(new Scene(root));
+			pmProjectsStage.show();
+
+			Stage stage = (Stage) submitButton.getScene().getWindow();
+			stage.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }

@@ -8,6 +8,11 @@ public class Project
 	private ArrayList<ProjectVersion> versions = new ArrayList();
 	
     public Project() {
+    	name = null;
+    }
+    
+    public Project(String name) {
+    	this.name = name;
     }
 		
     public void setName(String name) {

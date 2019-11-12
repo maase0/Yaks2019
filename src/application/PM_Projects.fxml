@@ -69,27 +69,7 @@
                                  <children>
                                     <ScrollPane prefHeight="200.0" prefWidth="700.0">
                                        <content>
-                                          <AnchorPane minHeight="200.0" minWidth="700.0" prefHeight="200.0" prefWidth="700.0" style="-fx-border-color: black;">
-                                             <children>
-                                                <Pane minHeight="26.0" minWidth="700.0" prefHeight="26.0" prefWidth="700.0" style="-fx-border-color: black;">
-                                                   <children>
-                                                      <Label layoutX="7.0" layoutY="5.0" text="Project Example 2 - Version 2.3.1">
-                                                         <font>
-                                                            <Font name="System Bold" size="12.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <Text fx:id="discardBtn2" fill="#321ee5" layoutX="640.0" layoutY="18.0" onMouseClicked="#discardProject" strokeType="OUTSIDE" strokeWidth="0.0" text="Discard" underline="true">
-                                                         <cursor>
-                                                            <Cursor fx:constant="HAND" />
-                                                         </cursor></Text>
-                                                      <Text fx:id="editBtn" fill="#321ee5" layoutX="612.0" layoutY="18.0" onMouseClicked="#editProject" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit" underline="true">
-                                                         <cursor>
-                                                            <Cursor fx:constant="HAND" />
-                                                         </cursor></Text>
-                                                   </children>
-                                                </Pane>
-                                             </children>
-                                          </AnchorPane>
+                                          <TitledPane animated="false" prefHeight="228.0" prefWidth="682.0" text="Projects" />
                                        </content>
                                     </ScrollPane>
                                  </children>

@@ -11,10 +11,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.input.MouseEvent;
@@ -28,6 +30,8 @@ public class PM_Projects_Controller implements Initializable{
 	private Button newProjectBtn;
 	@FXML
 	private Button logoutButton;
+	@FXML
+	private Button discardButton;
 	@FXML
 	private TabPane projectTabPane;
 	@FXML
@@ -43,8 +47,11 @@ public class PM_Projects_Controller implements Initializable{
 	@FXML
 	private Text discardBtn2;
 	
+	//Project list fields
     Project proj;
+	private ListView<Project> projListView;
     private ObservableList<Project> projObservableList;
+
 	
 	public void initialize(URL location, ResourceBundle resources) {
 		
@@ -156,7 +163,8 @@ public class PM_Projects_Controller implements Initializable{
 		}
 	}
 	
-	public void discardProject(MouseEvent event) {
-		
+	public void discard(ActionEvent event) {
+	//remove the project from list
+		projObservableList.remove(projListView.getSelectionModel().getSelectedItem());
 	}
 }

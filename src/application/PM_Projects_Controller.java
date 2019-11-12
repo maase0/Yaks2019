@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 import DB.DBUtil;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -49,11 +50,28 @@ public class PM_Projects_Controller implements Initializable{
 	
 	//Project list fields
     Project proj;
-	private ListView<Project> projListView;
-    private ObservableList<Project> projObservableList;
+    @FXML
+	private ListView<Project> unsubmittedListView;
+    private ObservableList<Project> unsubmittedObservableList;
+    
+    @FXML
+    private ListView<Project> estimatedListView;
+    private ObservableList estimatedObservableList;
+    
+    @FXML
+    private ListView<Project> unestimatedListView;
+    private ObservableList<Project> unestimatedObservableList;
 
 	
 	public void initialize(URL location, ResourceBundle resources) {
+		unsubmittedObservableList = FXCollections.observableArrayList();
+		unsubmittedListView.setItems(unsubmittedObservableList);
+		
+		estimatedObservableList = FXCollections.observableArrayList();
+		estimatedListView.setItems(estimatedObservableList);
+		
+		unestimatedObservableList = FXCollections.observableArrayList();
+		unestimatedListView.setItems(unestimatedObservableList);
 		
 		String name;
 		
@@ -67,7 +85,13 @@ public class PM_Projects_Controller implements Initializable{
 	    //Potentially figure out why it continuously runs after execution
 			while(rs.next()) {
 				name = rs.getString("Project_Name");
-			    System.out.println("\t" + rs.getString("Project_Name"));
+				String projName = rs.getString("Project_Name");
+				Project proj = new Project(projName);
+				//TODO: Get the versions from the database, put them in project
+				
+				unsubmittedObservableList.add(proj);
+				
+			    System.out.println("\t" + projName);
 				/*if(proj == null) {
 					//Create a new object if not yet saved
 					proj = new Project(name);
@@ -94,9 +118,9 @@ public class PM_Projects_Controller implements Initializable{
      * to the list view
      * @param clinObservableList
      */
-    public void setList(ObservableList<Project> projObservableList) {
+   /* public void setList(ObservableList<Project> projObservableList) {
 		this.projObservableList = projObservableList;
-	}
+	}*/
 	
 	public void logout(ActionEvent event) {
 		try {
@@ -163,8 +187,9 @@ public class PM_Projects_Controller implements Initializable{
 		}
 	}
 	
+	/*
 	public void discard(ActionEvent event) {
 	//remove the project from list
 		projObservableList.remove(projListView.getSelectionModel().getSelectedItem());
-	}
+	}*/
 }

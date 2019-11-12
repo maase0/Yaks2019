@@ -42,7 +42,7 @@ public class Login_Controller implements Initializable{
 	            pmProjectsStage.show();
 	            pmProjectsStage.centerOnScreen();
 	            //pmProjectsStage.setMaximized(true);
-	            pmProjectsStage.setResizable(false);
+	            pmProjectsStage.setResizable(true);
 	            pmProjectsStage.sizeToScene();
 	            
 	            

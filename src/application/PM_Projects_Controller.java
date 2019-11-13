@@ -18,6 +18,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -117,7 +118,6 @@ public class PM_Projects_Controller implements Initializable {
 
 	private void fillProjectList(String query, ObservableList<Project> list) {
 		try {
-
 			ResultSet rs = DBUtil.dbExecuteQuery(query);
 
 			while (rs.next()) {
@@ -222,23 +222,25 @@ public class PM_Projects_Controller implements Initializable {
         Pane pane = new Pane();
         Button edit = new Button("Edit");
         Button remove = new Button("Remove");
-        Project lastItem;
+        Label spacing = new Label(" ");
+        private ComboBox<String> versionBox = new ComboBox<String>();
+       
 
         public XCell() {
             super();
-            hbox.getChildren().addAll(label, pane, edit, remove);
+            hbox.getChildren().addAll(label, pane, edit, spacing, remove);
             HBox.setHgrow(pane, Priority.ALWAYS);
             edit.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    System.out.println("EDIT ITEM");
+                    System.out.println("EDIT ITEM: " + getItem());
                 }
             });
             
             remove.setOnAction(new EventHandler<ActionEvent>() {
             	@Override
             	public void handle(ActionEvent event) {
-            		System.out.println("REMOVE ITEM");
+            		System.out.println("REMOVE ITEM: " + getItem());
             	}
 			});
         }
@@ -248,11 +250,9 @@ public class PM_Projects_Controller implements Initializable {
             super.updateItem(item, empty);
             setText(null);  // No text in label of super class
             if (empty) {
-                lastItem = null;
                 setGraphic(null);
             } else {
-                lastItem = item;
-                label.setText(item!=null ? item.toString() : "<null>");
+                label.setText(item!=null ? item.toString() : "<null>");               
                 setGraphic(hbox);
             }
         }

@@ -13,6 +13,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -220,24 +221,25 @@ public class PM_Projects_Controller implements Initializable {
         HBox hbox = new HBox();
         Label label = new Label("(empty)");
         Pane pane = new Pane();
-        Button edit = new Button("Edit");
-        Button remove = new Button("Remove");
-        Label spacing = new Label(" ");
-        private ComboBox<String> versionBox = new ComboBox<String>();
-       
+        Button editButton = new Button("Edit");
+        Button removeButton = new Button("Remove");
+        
+        
+        
 
         public XCell() {
             super();
-            hbox.getChildren().addAll(label, pane, edit, spacing, remove);
+            hbox.setSpacing(10);
+            hbox.getChildren().addAll(label, pane, editButton, removeButton);
             HBox.setHgrow(pane, Priority.ALWAYS);
-            edit.setOnAction(new EventHandler<ActionEvent>() {
+            editButton.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
                     System.out.println("EDIT ITEM: " + getItem());
                 }
             });
             
-            remove.setOnAction(new EventHandler<ActionEvent>() {
+            removeButton.setOnAction(new EventHandler<ActionEvent>() {
             	@Override
             	public void handle(ActionEvent event) {
             		System.out.println("REMOVE ITEM: " + getItem());

@@ -191,23 +191,31 @@ public class PM_Projects_Controller implements Initializable {
 			
 			System.out.println("You are now editing project version id: " + projectVersionID);
 			
-			//
+			ProjectVersion proj = new ProjectVersion();
+			
+			
+			
 			ResultSet rs = DBUtil
 					.dbExecuteQuery("CALL select_clins(" + projectVersionID +")");
 			
 			
 			while(rs.next()) {
 				System.out.println(rs.getString("CLIN_Index"));
+				proj.addCLIN(new CLIN(rs.getString("CLIN_Index"), rs.getString("Project_Type"), rs.getString("CLIN_Description")));
 			}
 			
 			// Opens New Project page
-			Parent root = FXMLLoader.load(getClass().getResource("PM_NewProject.fxml"));
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("PM_NewProject.fxml"));
+			Parent root = fxmlLoader.load();
 
 			
 			Stage pmNewProjectStage = new Stage();
 			pmNewProjectStage.setTitle("Estimation Suite - Product Manager - Edit Project");
 			pmNewProjectStage.setScene(new Scene(root));
 			
+			PM_NewProjectController controller = fxmlLoader.<PM_NewProjectController>getController();
+			
+			controller.setProject(proj);
 			
 			pmNewProjectStage.show();
 			pmNewProjectStage.setResizable(true);

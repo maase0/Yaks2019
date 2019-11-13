@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
@@ -17,33 +19,13 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="50.0" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PM_Projects_Controller">
-   <top>
-      <GridPane BorderPane.alignment="CENTER">
-        <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="90.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <Label text="Project Manager" GridPane.columnIndex="1" />
-            <Label text="Logged In As: " />
-            <Button fx:id="logoutButton" mnemonicParsing="false" onAction="#logout" text="Logout" GridPane.columnIndex="3" />
-            <Button fx:id="newProjectBtn" mnemonicParsing="false" onAction="#addNewProject" text="New Project" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-         </children>
-      </GridPane>
-   </top>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="50.0" minWidth="-Infinity" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PM_Projects_Controller">
    <center>
       <TabPane minHeight="50.0" prefHeight="508.0" prefWidth="650.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
           <Tab fx:id="submittedTab" text="Submitted">
                <content>
-                  <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+                  <TabPane styleClass="submitted-tab" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
                     <tabs>
                       <Tab text="Estimated">
                            <content>
@@ -74,4 +56,43 @@
         </tabs>
       </TabPane>
    </center>
+   <top>
+      <BorderPane styleClass="pm-projects-header" prefHeight="55.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <right>
+            <GridPane prefHeight="62.0" prefWidth="189.0" BorderPane.alignment="CENTER">
+              <columnConstraints>
+                <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="126.0" minWidth="10.0" prefWidth="105.0" />
+                <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="92.0" minWidth="10.0" prefWidth="88.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label text="Project Manager" GridPane.rowIndex="1" />
+                  <Label text="Logged In As: " />
+                  <Button styleClass="btn-rich-blue" fx:id="newProjectBtn" mnemonicParsing="false" onAction="#addNewProject" text="New Project" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Button styleClass="btn-rich-blue" fx:id="logoutButton" mnemonicParsing="false" onAction="#logout" text="Logout" GridPane.columnIndex="1" />
+               </children>
+            </GridPane>
+         </right>
+         <center>
+            <Label text="Estimation Tool" BorderPane.alignment="CENTER">
+               <font>
+                  <Font name="Corbel" size="30.0" />
+               </font>
+            </Label>
+         </center>
+         <left>
+            <ImageView fitHeight="62.0" fitWidth="127.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+               <image>
+                  <Image url="@asrc-ms-logo.png" />
+               </image>
+               <BorderPane.margin>
+                  <Insets left="5.0" />
+               </BorderPane.margin>
+            </ImageView>
+         </left>
+      </BorderPane>
+   </top>
 </BorderPane>

@@ -1,9 +1,33 @@
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
 
 .root {
-    -fx-font-size: 14px;
+    
+}
+
+.login {
+	-fx-font-size: 14px;
     -fx-font-family: sans-serif;
     -fx-background-color: linear-gradient(from 100% 40% to 100% 100%, #ffffff, #5077bf);
+}
+
+.pm-projects {
+	-fx-font-family: sans-serif;
+    -fx-background-color: linear-gradient(from 100% 40% to 100% 100%, #ffffff, #5077bf);
+    -fx-border-color: black;
+    -fx-background-color: transparent;
+}
+
+.pm-projects-tab {
+	-fx-background-color: #5077bf;
+}
+
+.pm-projects-header {
+	-fx-background-color: linear-gradient(from 20% 20% to 100% 100%, #ffffff, #5077bf);
+	-fx-text-fill: #000000;
+}
+
+.pm-projects-header Label {
+	-fx-font-weight: bold;
 }
 
 .header-section {
@@ -19,7 +43,7 @@
 }
 
 .btn-rich-blue {
-    -fx-text-fill: white;
+    -fx-text-fill: #ffffff;
     -fx-font-family: "Arial Narrow";
     -fx-font-weight: bold;
     -fx-background-color: linear-gradient(#5077bf, #2A5058);
@@ -91,4 +115,50 @@
     -fx-background-color: #777777, #5077bf, #2A5058, #ffffff;
     -fx-background-radius: 6.4, 4, 5, 3;
     -fx-background-insets: -1.4, 0, 1, 2;
+}
+
+.tab-pane {
+	-fx-tab-min-width:90px;
+}
+
+.tab {
+    -fx-background-insets: 0 1 0 1, 0, 0;
+}
+
+.tab-pane .tab
+{
+    -fx-background-color: #cdcdcd;
+}
+
+.tab-pane .tab:hover
+{
+    -fx-background-color: #dddddd;
+    -fx-cursor: hand;
+}
+
+.tab-pane .tab:selected
+{
+    -fx-background-color: linear-gradient(#5077bf, #2A5058);
+}
+
+.tab .tab-label { 
+    -fx-alignment: CENTER;
+    -fx-text-fill: #000000;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+
+}
+
+.tab:selected .tab-label { 
+    -fx-alignment: CENTER;
+    -fx-text-fill: #ffffff;
+}
+
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: linear-gradient(from 20% 20% to 100% 100%, #ffffff, #5077bf);
+}
+
+.submitted-tab .tab-header-area .tab-header-background {
+	
+	-fx-background-color: linear-gradient(#888888, #ffffff);
 }

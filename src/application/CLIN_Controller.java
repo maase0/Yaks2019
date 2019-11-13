@@ -32,6 +32,7 @@ public class CLIN_Controller extends ListCell<CLIN> implements Initializable {
 		@FXML private Button clinSaveAndClose;
 		@FXML private TextField clinIndex;
 		@FXML private TextField clinProjectType;
+		@FXML private TextField clinVersion;
 		@FXML private TextArea clinTextArea;
 		@FXML private DatePicker clinPoPStart;
 		@FXML private DatePicker clinPoPEnd;

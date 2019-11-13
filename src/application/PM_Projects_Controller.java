@@ -185,7 +185,7 @@ public class PM_Projects_Controller implements Initializable {
 		}
 	}
 
-	public void editProject(MouseEvent event) {
+	public void editProject(String projectVersionID) {
 		try {
 
 			System.out.println("You are now editing project version id: " + projectVersionID);

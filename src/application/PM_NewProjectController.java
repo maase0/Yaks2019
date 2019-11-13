@@ -406,7 +406,7 @@ public class PM_NewProjectController implements Initializable {
 		//       add checks for clin dates etc discussed in sprint review
 		//       change to an error popup instead of printing to console
 
-		String versionReg = "\\d(.\\d)*";
+		String versionReg = "\\d*(.\\d*)*";
 		String propReg = "^[0-9]*$";
 		String sowRefReg = "^[0-9]*$";
 

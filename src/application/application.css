@@ -8,13 +8,12 @@
 	-fx-font-size: 14px;
     -fx-font-family: sans-serif;
     -fx-background-color: linear-gradient(from 100% 40% to 100% 100%, #ffffff, #5077bf);
+    -fx-border-color: black;
 }
 
 .pm-projects {
 	-fx-font-family: sans-serif;
-    -fx-background-color: linear-gradient(from 100% 40% to 100% 100%, #ffffff, #5077bf);
     -fx-border-color: black;
-    -fx-background-color: transparent;
 }
 
 .pm-projects-tab {

@@ -293,8 +293,8 @@ public class PM_NewProjectController implements Initializable {
 		//       change to an error popup instead of printing to console
 
 		String versionReg = "\\d(.\\d)*";
-		String propReg = "\\d";
-		String sowRefReg = "\\d";
+		String propReg = "^[0-9]*$";
+		String sowRefReg = "^[0-9]*$";
 		
 		if(!versionText.getText().matches(versionReg)) {
 			passed = false;
@@ -310,8 +310,6 @@ public class PM_NewProjectController implements Initializable {
 				System.out.println("Error: Sow Reference \"" + "" + s.getReference() + "\" does not match regexp " + sowRefReg);
 			}
 		}
-
-
 
 		if (passed) {
 			System.out.println("Save Changes Button");
@@ -393,25 +391,81 @@ public class PM_NewProjectController implements Initializable {
 	@FXML
 	/**
 	 * Submits the project for estimation
+	 * Code is similar to saveChanges, except
+	 * Submit for Estimation in the New Project Page
+	 * saves the project and adds a submission date.
 	 *
-	 * @param event
 	 */
-	public void submitForEstimation(ActionEvent event) {
-		// TODO add query statement to update "Submit_Date" in Project table
-		System.out.println("Submit Button");
-		try {
-			Parent root = FXMLLoader.load(getClass().getResource("PM_Projects.fxml"));
+	public void submitForEstimation(ActionEvent event) throws SQLException, ClassNotFoundException {
+		// TODO possibly do a datatype check before actually saving anything.
+		int vid = 0;
 
-			Stage pmProjectsStage = new Stage();
-			pmProjectsStage.setTitle("Estimation Suite - Project Manager - Projects");
-			pmProjectsStage.setScene(new Scene(root));
-			pmProjectsStage.show();
+		boolean passed = true;
 
-			Stage stage = (Stage) submitButton.getScene().getWindow();
-			stage.close();
-		} catch (Exception e) {
-			e.printStackTrace();
+		// TODO: Find acceptable regexps for each field
+		//       add checks for clin dates etc discussed in sprint review
+		//       change to an error popup instead of printing to console
+
+		String versionReg = "\\d(.\\d)*";
+		String propReg = "^[0-9]*$";
+		String sowRefReg = "^[0-9]*$";
+
+		if (!versionText.getText().matches(versionReg)) {
+			passed = false;
+			System.out.println("Error: Version Text \"" + versionText.getText() + "\" does not match regexp " + versionReg);
+		}
+		if (!propNumText.getText().matches(propReg)) {
+			passed = false;
+			System.out.println("Error: Version Proposal Number \"" + propNumText.getText() + "\" does not match regexp " + propReg);
+		}
+		for (SOW s : sowObservableList) {
+			if (!s.getReference().matches(sowRefReg)) {
+				passed = false;
+				System.out.println("Error: Sow Reference \"" + "" + s.getReference() + "\" does not match regexp " + sowRefReg);
+			}
+		}
+
+		if (passed) {
+			System.out.println("Save Changes Button");
+			ResultSet rs = DBUtil.dbExecuteQuery("CALL sfe_insert(" + versionText.getText() + ", \""
+					+ projectNameText.getText() + "\", \"" + pmText.getText() + "\", " + propNumText.getText() + ",'"
+					+ startDate.getValue().toString() + "', '" + endDate.getValue().toString() + "', '" + java.time.LocalDate.now() + "')");
+			while (rs.next()) {
+				vid = rs.getInt("idProjectVersion");
+			}
+
+			for (CLIN c : clinObservableList) {
+				DBUtil.dbExecuteUpdate("CALL insert_clin(" + vid + ", \"" + c.getIndex()
+						+ "\", \"" + c.getProjectType() + "\", \""
+						+ c.getClinContent() + "\")");
+			}
+
+			for (SDRL s : sdrlObservableList) {
+				DBUtil.dbExecuteUpdate("CALL insert_sdrl(" + vid + ", \"" + s.getName()
+						+ "\", \"" + s.getSdrlInfo() + "\")");
+			}
+
+			for (SOW s : sowObservableList) {
+				DBUtil.dbExecuteQuery("CALL insert_sow(" + vid + ", " + s.getReference()
+						+ ", \"" + s.getSowContent() + "\")");
+			}
+
+			// TODO Maybe find a way to make this transition faster, doesn't transition until the query fully connects.
+			// TODO Doesn't transition back to the Projects page!!!!
+			try {
+				Parent root = FXMLLoader.load(getClass().getResource("PM - Projects.fxml"));
+
+				Stage pmProjectsStage = new Stage();
+				pmProjectsStage.setTitle("Estimation Suite - Product Manager - Projects");
+				pmProjectsStage.setScene(new Scene(root));
+				pmProjectsStage.show();
+
+				Stage stage = (Stage) submitButton.getScene().getWindow();
+				stage.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
 		}
 	}
-
 }

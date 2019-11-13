@@ -25,7 +25,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
-public class PM_Projects_Controller implements Initializable{
+public class PM_Projects_Controller implements Initializable {
 
 	@FXML
 	private Button newProjectBtn;
@@ -41,155 +41,146 @@ public class PM_Projects_Controller implements Initializable{
 	private Tab unsubmittedTab;
 	@FXML
 	private Text editBtn;
-	@FXML 
+	@FXML
 	private Text discardBtn;
 	@FXML
 	private Text editBtn2;
 	@FXML
 	private Text discardBtn2;
-	
-	//Project list fields
-    Project proj;
-    @FXML
-	private ListView<Project> unsubmittedListView;
-    private ObservableList<Project> unsubmittedObservableList;
-    
-    @FXML
-    private ListView<Project> estimatedListView;
-    private ObservableList estimatedObservableList;
-    
-    @FXML
-    private ListView<Project> unestimatedListView;
-    private ObservableList<Project> unestimatedObservableList;
 
-	
+	// Project list fields
+	Project proj;
+	@FXML
+	private ListView<Project> unsubmittedListView;
+	private ObservableList<Project> unsubmittedObservableList;
+
+	@FXML
+	private ListView<Project> estimatedListView;
+	private ObservableList<Project> estimatedObservableList;
+
+	@FXML
+	private ListView<Project> unestimatedListView;
+	private ObservableList<Project> unestimatedObservableList;
+
 	public void initialize(URL location, ResourceBundle resources) {
 		unsubmittedObservableList = FXCollections.observableArrayList();
 		unsubmittedListView.setItems(unsubmittedObservableList);
-		
+
 		estimatedObservableList = FXCollections.observableArrayList();
 		estimatedListView.setItems(estimatedObservableList);
-		
+
 		unestimatedObservableList = FXCollections.observableArrayList();
 		unestimatedListView.setItems(unestimatedObservableList);
+
+		System.out.println("\nUnsubmitted Project Names");
+		fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NULL", 
+				unsubmittedObservableList);
 		
-		String name;
-		
-		//Select Query on Database
-		try {
-		ResultSet rs = DBUtil.dbExecuteQuery("SELECT * FROM Project");
-		
-		//Actions to perform with data (this can be whatever, generally going to be filling in text fields)
-	    System.out.println("\nProject Name");
-	    
-	    //Potentially figure out why it continuously runs after execution
-			while(rs.next()) {
-				name = rs.getString("Project_Name");
-				String projName = rs.getString("Project_Name");
-				Project proj = new Project(projName);
-				//TODO: Get the versions from the database, put them in project
-				
-				unsubmittedObservableList.add(proj);
-				
-			    System.out.println("\t" + projName);
-				/*if(proj == null) {
-					//Create a new object if not yet saved
-					proj = new Project(name);
-					projObservableList.add(proj);
-				} else {
-					//Update Project with new information
-					proj.setName(name);
-					projObservableList.set(projObservableList.indexOf(proj), proj);  //probably not the "right" way to update the list
-					//   https://coderanch.com/t/666722/java/Notify-ObservableList-Listeners-Change-Elements
-				}*/
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		System.out.println("\nUnestimated Project Names");
+		fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NOT NULL AND Estimated_Date IS NULL", 
+				unestimatedObservableList);
+
+		System.out.println("\nEstimated Project Names");
+		fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NOT NULL AND Estimated_Date IS NOT NULL", 
+				estimatedObservableList);
 
 	}
-	
-    /**
-     * Sets the Project observable list to allow the editor to add
-     * to the list view
-     * @param clinObservableList
-     */
-   /* public void setList(ObservableList<Project> projObservableList) {
-		this.projObservableList = projObservableList;
-	}*/
-	
+
+	private void fillProjectList(String query, ObservableList<Project> list) {
+		try {
+
+			ResultSet rs = DBUtil.dbExecuteQuery(query);
+
+			while (rs.next()) {
+				String projName = rs.getString("Project_Name");
+				Project proj = new Project(projName);
+				// TODO: Get the versions from the database, put them in project
+
+				list.add(proj);
+				System.out.println("\t" + projName);
+			}
+		} catch (SQLException e) {
+
+		} catch (ClassNotFoundException e) {
+			
+		}
+	}
+
+	/**
+	 * Sets the Project observable list to allow the editor to add to the list view
+	 * 
+	 * @param clinObservableList
+	 */
+	/*
+	 * public void setList(ObservableList<Project> projObservableList) {
+	 * this.projObservableList = projObservableList; }
+	 */
+
 	public void logout(ActionEvent event) {
 		try {
-            // Opens Login page
-            Parent root = FXMLLoader.load(getClass()
-            		.getResource("Login.fxml"));
-            
-            Stage loginStage = new Stage();
-            loginStage.setTitle("Estimation Suite - Login Page");
-            loginStage.setScene(new Scene(root));
-            loginStage.show();
-            
-            //Closes PM Page
-            Stage stage = (Stage) logoutButton.getScene().getWindow();
-            stage.close();
-		} catch(Exception e) {
+			// Opens Login page
+			Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
+
+			Stage loginStage = new Stage();
+			loginStage.setTitle("Estimation Suite - Login Page");
+			loginStage.setScene(new Scene(root));
+			loginStage.show();
+
+			// Closes PM Page
+			Stage stage = (Stage) logoutButton.getScene().getWindow();
+			stage.close();
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void addNewProject(ActionEvent event) {
 		try {
-            // Opens New Project page
-           // Parent root = FXMLLoader.load(getClass()
-           // 		.getResource("PM_NewProject.fxml"));
-            Parent root = FXMLLoader.load(getClass()
-            		.getResource("PM_NewProject.fxml"));
-                                  
-            Stage pmNewProjectStage = new Stage();
-            pmNewProjectStage.setTitle("Estimation Suite - Product Manager - New Project");
-            pmNewProjectStage	.setScene(new Scene(root));
-            pmNewProjectStage.show();
-            pmNewProjectStage.setResizable(true);
-            pmNewProjectStage.sizeToScene();
-            
-            //Closes PM Page
-            Stage stage = (Stage) newProjectBtn.getScene().getWindow();
-            stage.close();
-		} catch(Exception e) {
+			// Opens New Project page
+			// Parent root = FXMLLoader.load(getClass()
+			// .getResource("PM_NewProject.fxml"));
+			Parent root = FXMLLoader.load(getClass().getResource("PM_NewProject.fxml"));
+
+			Stage pmNewProjectStage = new Stage();
+			pmNewProjectStage.setTitle("Estimation Suite - Product Manager - New Project");
+			pmNewProjectStage.setScene(new Scene(root));
+			pmNewProjectStage.show();
+			pmNewProjectStage.setResizable(true);
+			pmNewProjectStage.sizeToScene();
+
+			// Closes PM Page
+			Stage stage = (Stage) newProjectBtn.getScene().getWindow();
+			stage.close();
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void editProject(MouseEvent event) {
 		try {
-            // Opens New Project page
-           // Parent root = FXMLLoader.load(getClass()
-           // 		.getResource("PM_NewProject.fxml"));
-            Parent root = FXMLLoader.load(getClass()
-            		.getResource("PM_EditProject.fxml"));
-                                  
-            Stage pmNewProjectStage = new Stage();
-            pmNewProjectStage.setTitle("Estimation Suite - Product Manager - Edit Project");
-            pmNewProjectStage	.setScene(new Scene(root));
-            pmNewProjectStage.show();
-            pmNewProjectStage.setResizable(true);
-            pmNewProjectStage.sizeToScene();
-            
-            //Closes PM Page
-            Stage stage = (Stage) newProjectBtn.getScene().getWindow();
-            stage.close();
-		} catch(Exception e) {
+			// Opens New Project page
+			// Parent root = FXMLLoader.load(getClass()
+			// .getResource("PM_NewProject.fxml"));
+			Parent root = FXMLLoader.load(getClass().getResource("PM_EditProject.fxml"));
+
+			Stage pmNewProjectStage = new Stage();
+			pmNewProjectStage.setTitle("Estimation Suite - Product Manager - Edit Project");
+			pmNewProjectStage.setScene(new Scene(root));
+			pmNewProjectStage.show();
+			pmNewProjectStage.setResizable(true);
+			pmNewProjectStage.sizeToScene();
+
+			// Closes PM Page
+			Stage stage = (Stage) newProjectBtn.getScene().getWindow();
+			stage.close();
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/*
-	public void discard(ActionEvent event) {
-	//remove the project from list
-		projObservableList.remove(projListView.getSelectionModel().getSelectedItem());
-	}*/
+	 * public void discard(ActionEvent event) { //remove the project from list
+	 * projObservableList.remove(projListView.getSelectionModel().getSelectedItem())
+	 * ; }
+	 */
 }

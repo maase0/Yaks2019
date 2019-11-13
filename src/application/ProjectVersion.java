@@ -5,6 +5,7 @@ import java.util.Date;
 
 public class ProjectVersion
 {
+	private String projectVersionID;
 	private String name;
 	private String projectManager;
 	private String versionNumber;
@@ -19,6 +20,10 @@ public class ProjectVersion
 	
     public String getName() {
     	return name;
+    }
+    
+    public ArrayList<CLIN> getCLINs() {
+    	return clins;
     }
     
     public void setName(String name) {
@@ -79,5 +84,13 @@ public class ProjectVersion
 	
 	public void removeSOW(SOW sow) {
 		this.sows.remove(sow);
+	}
+	
+	public void setProjectVersionID(String version) {
+		this.projectVersionID = version;
+	}
+	
+	public String getProjectVersionID() {
+		return projectVersionID;
 	}
 }

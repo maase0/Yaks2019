@@ -37,6 +37,8 @@ import javax.swing.*;
 
 public class PM_NewProjectController implements Initializable {
 
+	private ProjectVersion proj;
+	
 	private ResultSet rs;
 	@FXML
 	private Button saveButton;
@@ -406,7 +408,7 @@ public class PM_NewProjectController implements Initializable {
 		//       add checks for clin dates etc discussed in sprint review
 		//       change to an error popup instead of printing to console
 
-		String versionReg = "\\d(.\\d)*";
+		String versionReg = "\\d*(.\\d*)*";
 		String propReg = "^[0-9]*$";
 		String sowRefReg = "^[0-9]*$";
 
@@ -453,7 +455,7 @@ public class PM_NewProjectController implements Initializable {
 			// TODO Maybe find a way to make this transition faster, doesn't transition until the query fully connects.
 			// TODO Doesn't transition back to the Projects page!!!!
 			try {
-				Parent root = FXMLLoader.load(getClass().getResource("PM - Projects.fxml"));
+				Parent root = FXMLLoader.load(getClass().getResource("PM_Projects.fxml"));
 
 				Stage pmProjectsStage = new Stage();
 				pmProjectsStage.setTitle("Estimation Suite - Product Manager - Projects");
@@ -467,5 +469,14 @@ public class PM_NewProjectController implements Initializable {
 			}
 
 		}
+	}
+	
+	public void setProject(ProjectVersion proj) {
+		this.proj = proj;
+		setAllFields();
+	}
+	
+	private void setAllFields() {
+		clinObservableList.addAll(proj.getCLINs());
 	}
 }

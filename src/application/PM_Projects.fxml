@@ -81,13 +81,28 @@
             </AnchorPane>
          </center>
          <right>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-               <children>
-                  <Button fx:id="logoutButton" layoutX="38.0" layoutY="18.0" mnemonicParsing="false" onAction="#logout" styleClass="btn-rich-blue" text="Logout" />
-                  <Label contentDisplay="CENTER" layoutX="100.0" layoutY="14.0" text="Logged In As: " />
-                  <Label layoutX="95.0" layoutY="40.0" text="Project Manager" />
-               </children>
-            </AnchorPane>
+            <BorderPane prefHeight="73.0" prefWidth="170.0" BorderPane.alignment="CENTER">
+               <center>
+                  <BorderPane prefHeight="73.0" prefWidth="123.0" BorderPane.alignment="CENTER">
+                     <top>
+                        <Label contentDisplay="CENTER" text="Logged In As: " BorderPane.alignment="CENTER">
+                           <BorderPane.margin>
+                              <Insets top="15.0" />
+                           </BorderPane.margin>
+                        </Label>
+                     </top>
+                     <center>
+                        <Label text="Project Manager" BorderPane.alignment="CENTER" />
+                     </center>
+                  </BorderPane>
+               </center>
+               <right>
+                  <Button fx:id="logoutButton" mnemonicParsing="false" onAction="#logout" styleClass="btn-rich-blue" text="Logout" BorderPane.alignment="CENTER" />
+               </right>
+               <BorderPane.margin>
+                  <Insets right="10.0" />
+               </BorderPane.margin>
+            </BorderPane>
          </right>
       </BorderPane>
    </top>

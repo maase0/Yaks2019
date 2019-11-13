@@ -22,11 +22,50 @@
 }
 
 .pm-projects-header {
-	-fx-background-color: linear-gradient(from 20% 20% to 100% 100%, #ffffff, #5077bf);
+	-fx-background-color: linear-gradient(from 25% 100% to 100% 100%, #ffffff, #5077bf);
 	-fx-text-fill: #000000;
 }
 
 .pm-projects-header Label {
+	-fx-font-weight: bold;
+}
+
+.new-project {
+	-fx-border-color: black;
+}
+
+.new-project-header {
+	-fx-font-family: sans-serif;
+    -fx-background-color: linear-gradient(from 25% 100% to 100% 100%, #ffffff, #5077bf);
+}
+
+.new-project .btn-discard {
+	-fx-text-fill: #ffffff;
+    -fx-font-family: "Arial Narrow";
+    -fx-font-weight: bold;
+    -fx-background-color: linear-gradient(#c75650, #961912);
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+}
+
+.new-project .btn-discard:hover {
+	-fx-background-color: linear-gradient(#961912, #c75650);
+	-fx-cursor: hand;
+}
+
+.new-project .btn-save {
+	-fx-text-fill: #ffffff;
+    -fx-font-family: "Arial Narrow";
+    -fx-font-weight: bold;
+    -fx-background-color: linear-gradient(#77bf52, #45871c);
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+}
+
+.new-project .btn-save:hover {
+	-fx-background-color: linear-gradient(#45871c, #77bf52);
+	-fx-cursor: hand;
+}
+
+.new-project-header Label {
 	-fx-font-weight: bold;
 }
 
@@ -159,7 +198,7 @@
 }
 
 .tab-pane .tab-header-area .tab-header-background {
-    -fx-background-color: linear-gradient(from 20% 20% to 100% 100%, #ffffff, #5077bf);
+    -fx-background-color: linear-gradient(from 25% 100% to 100% 100%, #ffffff, #5077bf);
 }
 
 .submitted-tab .tab-header-area .tab-header-background {

@@ -9,6 +9,7 @@ import DB.DBUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -17,13 +18,19 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import javafx.util.Callback;
 
 public class PM_Projects_Controller implements Initializable {
 
@@ -65,13 +72,35 @@ public class PM_Projects_Controller implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		unsubmittedObservableList = FXCollections.observableArrayList();
 		unsubmittedListView.setItems(unsubmittedObservableList);
+		
+		//https://stackoverflow.com/questions/15661500/javafx-listview-item-with-an-image-button
+		unsubmittedListView.setCellFactory(new Callback<ListView<Project>, ListCell<Project>>() {
+            @Override
+            public ListCell<Project> call(ListView<Project> param) {
+                return new XCell();
+            }
+        });
 
 		estimatedObservableList = FXCollections.observableArrayList();
 		estimatedListView.setItems(estimatedObservableList);
 
+		estimatedListView.setCellFactory(new Callback<ListView<Project>, ListCell<Project>>() {
+            @Override
+            public ListCell<Project> call(ListView<Project> param) {
+                return new XCell();
+            }
+        });
+		
 		unestimatedObservableList = FXCollections.observableArrayList();
 		unestimatedListView.setItems(unestimatedObservableList);
 
+		unestimatedListView.setCellFactory(new Callback<ListView<Project>, ListCell<Project>>() {
+            @Override
+            public ListCell<Project> call(ListView<Project> param) {
+                return new XCell();
+            }
+        });
+		
 		System.out.println("\nUnsubmitted Project Names");
 		fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NULL", 
 				unsubmittedObservableList);
@@ -100,9 +129,11 @@ public class PM_Projects_Controller implements Initializable {
 				System.out.println("\t" + projName);
 			}
 		} catch (SQLException e) {
-
+			System.out.println("SQL Exception putting projects in list");
+			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
-			
+			System.out.println("ClassNotFoundException putting projects into list");
+			e.printStackTrace();
 		}
 	}
 
@@ -137,8 +168,6 @@ public class PM_Projects_Controller implements Initializable {
 	public void addNewProject(ActionEvent event) {
 		try {
 			// Opens New Project page
-			// Parent root = FXMLLoader.load(getClass()
-			// .getResource("PM_NewProject.fxml"));
 			Parent root = FXMLLoader.load(getClass().getResource("PM_NewProject.fxml"));
 
 			Stage pmNewProjectStage = new Stage();
@@ -183,4 +212,51 @@ public class PM_Projects_Controller implements Initializable {
 	 * projObservableList.remove(projListView.getSelectionModel().getSelectedItem())
 	 * ; }
 	 */
+	
+	
+	
+	//https://stackoverflow.com/questions/15661500/javafx-listview-item-with-an-image-button
+	static class XCell extends ListCell<Project> {
+        HBox hbox = new HBox();
+        Label label = new Label("(empty)");
+        Pane pane = new Pane();
+        Button edit = new Button("Edit");
+        Button remove = new Button("Remove");
+        Project lastItem;
+
+        public XCell() {
+            super();
+            hbox.getChildren().addAll(label, pane, edit, remove);
+            HBox.setHgrow(pane, Priority.ALWAYS);
+            edit.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    System.out.println("EDIT ITEM");
+                }
+            });
+            
+            remove.setOnAction(new EventHandler<ActionEvent>() {
+            	@Override
+            	public void handle(ActionEvent event) {
+            		System.out.println("REMOVE ITEM");
+            	}
+			});
+        }
+
+        @Override
+        protected void updateItem(Project item, boolean empty) {
+            super.updateItem(item, empty);
+            setText(null);  // No text in label of super class
+            if (empty) {
+                lastItem = null;
+                setGraphic(null);
+            } else {
+                lastItem = item;
+                label.setText(item!=null ? item.toString() : "<null>");
+                setGraphic(hbox);
+            }
+        }
+    }
+	
+	
 }

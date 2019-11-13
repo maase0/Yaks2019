@@ -9,31 +9,33 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
-// TODO: change this class to function in a similar manner to Project.java, as there is now a CLINVersion class
-public class CLIN
+
+public class CLINVersion
 {
 	private String index;
 	private String projectType;
 	private String popStart;
 	private String popEnd;
 	private String clinContent;
+	private int version;
 	
-    public CLIN() {
+    public CLINVersion() {
     	index = null;
     	projectType = null;
     	popStart = null;
     	popEnd = null;
     	clinContent = null;
-    
+    	version = 0;
     }
     
-    public CLIN(String index, String projectType, 
-    		String clinContent) {
+    public CLINVersion(String index, String projectType, 
+    		String clinContent, int version) {
     	this.index = index;
     	this.projectType = projectType;
     	this.clinContent = clinContent;
-    	//this.popStart = popStart;
-    	//this.popEnd = popEnd;
+    	this.popStart = popStart;
+    	this.popEnd = popEnd;
+    	this.version = version;
     }
 		
     public void setIndex(String index) {
@@ -56,6 +58,10 @@ public class CLIN
     	this.clinContent = clinContent;
     }
     
+    public void setVersion(int version) {
+    	this.version = version;
+    }
+    
     public String getIndex() {
     	return index;
     }
@@ -76,7 +82,11 @@ public class CLIN
     	return clinContent;
     }
     
+    public int getVersion() {
+    	return version;
+    }
+    
     public String toString() {
-    	return index + ", " + projectType + ", " + popStart + " - " + popEnd + "\n" + clinContent;
+    	return index + ", " + version + ", " + projectType + ", " + popStart + " - " + popEnd + "\n" + clinContent;
     }
 }

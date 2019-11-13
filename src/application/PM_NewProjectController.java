@@ -37,6 +37,8 @@ import javax.swing.*;
 
 public class PM_NewProjectController implements Initializable {
 
+	private ProjectVersion proj;
+	
 	private ResultSet rs;
 	@FXML
 	private Button saveButton;
@@ -467,5 +469,14 @@ public class PM_NewProjectController implements Initializable {
 			}
 
 		}
+	}
+	
+	public void setProject(ProjectVersion proj) {
+		this.proj = proj;
+		setAllFields();
+	}
+	
+	private void setAllFields() {
+		clinObservableList.addAll(proj.getCLINs());
 	}
 }

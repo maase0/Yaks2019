@@ -72,7 +72,7 @@ public class PM_Projects_Controller implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		unsubmittedObservableList = FXCollections.observableArrayList();
 		unsubmittedListView.setItems(unsubmittedObservableList);
-		
+
 		//https://stackoverflow.com/questions/15661500/javafx-listview-item-with-an-image-button
 		unsubmittedListView.setCellFactory(new Callback<ListView<Project>, ListCell<Project>>() {
             @Override
@@ -90,7 +90,7 @@ public class PM_Projects_Controller implements Initializable {
                 return new XCell();
             }
         });
-		
+
 		unestimatedObservableList = FXCollections.observableArrayList();
 		unestimatedListView.setItems(unestimatedObservableList);
 
@@ -100,17 +100,17 @@ public class PM_Projects_Controller implements Initializable {
                 return new XCell();
             }
         });
-		
+
 		System.out.println("\nUnsubmitted Project Names");
-		fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NULL", 
+		fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NULL",
 				unsubmittedObservableList);
-		
+
 		System.out.println("\nUnestimated Project Names");
-		fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NOT NULL AND Estimated_Date IS NULL", 
+		fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NOT NULL AND Estimated_Date IS NULL",
 				unestimatedObservableList);
 
 		System.out.println("\nEstimated Project Names");
-		fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NOT NULL AND Estimated_Date IS NOT NULL", 
+		fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NOT NULL AND Estimated_Date IS NOT NULL",
 				estimatedObservableList);
 
 	}
@@ -139,7 +139,7 @@ public class PM_Projects_Controller implements Initializable {
 
 	/**
 	 * Sets the Project observable list to allow the editor to add to the list view
-	 * 
+	 *
 	 * @param clinObservableList
 	 */
 	/*
@@ -185,16 +185,36 @@ public class PM_Projects_Controller implements Initializable {
 		}
 	}
 
-	public void editProject(MouseEvent event) {
+	public void editProject(String projectVersionID) {
 		try {
+
+			System.out.println("You are now editing project version id: " + projectVersionID);
+
+			ProjectVersion proj = new ProjectVersion();
+
+
+
+			ResultSet rs = DBUtil
+					.dbExecuteQuery("CALL select_clins(" + projectVersionID +")");
+
+
+			while(rs.next()) {
+				System.out.println(rs.getString("CLIN_Index"));
+				proj.addCLIN(new CLIN(rs.getString("CLIN_Index"), rs.getString("Project_Type"), rs.getString("CLIN_Description")));
+			}
+
 			// Opens New Project page
-			// Parent root = FXMLLoader.load(getClass()
-			// .getResource("PM_NewProject.fxml"));
-			Parent root = FXMLLoader.load(getClass().getResource("PM_EditProject.fxml"));
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("PM_NewProject.fxml"));
+			Parent root = fxmlLoader.load();
 
 			Stage pmNewProjectStage = new Stage();
 			pmNewProjectStage.setTitle("Estimation Suite - Product Manager - Edit Project");
 			pmNewProjectStage.setScene(new Scene(root));
+
+			PM_NewProjectController controller = fxmlLoader.<PM_NewProjectController>getController();
+
+			controller.setProject(proj);
+
 			pmNewProjectStage.show();
 			pmNewProjectStage.setResizable(true);
 			pmNewProjectStage.sizeToScene();
@@ -212,9 +232,9 @@ public class PM_Projects_Controller implements Initializable {
 	 * projObservableList.remove(projListView.getSelectionModel().getSelectedItem())
 	 * ; }
 	 */
-	
-	
-	
+
+
+
 	//https://stackoverflow.com/questions/15661500/javafx-listview-item-with-an-image-button
 	static class XCell extends ListCell<Project> {
         HBox hbox = new HBox();
@@ -234,7 +254,7 @@ public class PM_Projects_Controller implements Initializable {
                     System.out.println("EDIT ITEM");
                 }
             });
-            
+
             remove.setOnAction(new EventHandler<ActionEvent>() {
             	@Override
             	public void handle(ActionEvent event) {
@@ -257,6 +277,6 @@ public class PM_Projects_Controller implements Initializable {
             }
         }
     }
-	
-	
+
+
 }

@@ -14,6 +14,7 @@
 .pm-projects {
 	-fx-font-family: sans-serif;
     -fx-border-color: black;
+    -fx-background-color: linear-gradient(from 100% 20% to 100% 100%, #ffffff, #cccccc);
 }
 
 .pm-projects-tab {
@@ -140,6 +141,10 @@
     -fx-background-color: linear-gradient(#5077bf, #2A5058);
 }
 
+.tab-pane .tab:selected:hover {
+	-fx-opacity: 80%;
+}
+
 .tab .tab-label { 
     -fx-alignment: CENTER;
     -fx-text-fill: #000000;
@@ -159,5 +164,45 @@
 
 .submitted-tab .tab-header-area .tab-header-background {
 	
-	-fx-background-color: linear-gradient(#888888, #ffffff);
+	-fx-background-color: linear-gradient(from 100% 0% to 100% 95%, #888888, #ffffff);
+}
+
+.list-view {
+	-fx-background-color: transparent;
+}
+
+.list-cell {
+	-fx-background-color: transparent;
+}
+
+.list-cell Label {
+	-fx-font-family: sans-serif;
+	-fx-font-size: 14px;
+	-fx-padding: 3 0 0 0;
+}
+
+.list-cell:filled:even {
+	-fx-background-color: #ffffff;
+}
+
+.list-cell:filled:odd {
+	-fx-background-color: #f0f5fa;
+	
+}
+
+.list-cell:filled:hover {
+	-fx-background-color: #dddddd;
+}
+
+.list-cell .button {
+	-fx-text-fill: #ffffff;
+    -fx-font-family: sans-serif;
+    -fx-font-weight: bold;
+    -fx-background-color: linear-gradient(#5077bf, #2A5058);
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+}
+
+.list-cell .button:hover {
+	-fx-background-color: linear-gradient(#2A5058, #5077bf);
+	-fx-cursor: hand;
 }

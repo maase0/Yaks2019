@@ -25,7 +25,7 @@
         <tabs>
           <Tab fx:id="submittedTab" text="Submitted">
                <content>
-                  <TabPane styleClass="submitted-tab" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+                  <TabPane prefHeight="200.0" prefWidth="200.0" styleClass="submitted-tab" tabClosingPolicy="UNAVAILABLE">
                     <tabs>
                       <Tab text="Estimated">
                            <content>
@@ -57,34 +57,9 @@
       </TabPane>
    </center>
    <top>
-      <BorderPane styleClass="pm-projects-header" prefHeight="55.0" prefWidth="100.0" BorderPane.alignment="CENTER">
-         <right>
-            <GridPane prefHeight="62.0" prefWidth="189.0" BorderPane.alignment="CENTER">
-              <columnConstraints>
-                <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="126.0" minWidth="10.0" prefWidth="105.0" />
-                <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="92.0" minWidth="10.0" prefWidth="88.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <Label text="Project Manager" GridPane.rowIndex="1" />
-                  <Label text="Logged In As: " />
-                  <Button styleClass="btn-rich-blue" fx:id="newProjectBtn" mnemonicParsing="false" onAction="#addNewProject" text="New Project" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <Button styleClass="btn-rich-blue" fx:id="logoutButton" mnemonicParsing="false" onAction="#logout" text="Logout" GridPane.columnIndex="1" />
-               </children>
-            </GridPane>
-         </right>
-         <center>
-            <Label text="Estimation Tool" BorderPane.alignment="CENTER">
-               <font>
-                  <Font name="Corbel" size="30.0" />
-               </font>
-            </Label>
-         </center>
+      <BorderPane prefHeight="55.0" prefWidth="100.0" styleClass="pm-projects-header" BorderPane.alignment="CENTER">
          <left>
-            <ImageView fitHeight="62.0" fitWidth="127.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+            <ImageView fitHeight="73.0" fitWidth="163.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
                <image>
                   <Image url="@asrc-ms-logo.png" />
                </image>
@@ -93,6 +68,27 @@
                </BorderPane.margin>
             </ImageView>
          </left>
+         <center>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button fx:id="newProjectBtn" layoutX="112.0" layoutY="48.0" mnemonicParsing="false" onAction="#addNewProject" styleClass="btn-rich-blue" text="New Project" />
+                  <Label layoutX="36.0" layoutY="1.0" text="Estimation Tool">
+                     <font>
+                        <Font size="30.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+         </center>
+         <right>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button fx:id="logoutButton" layoutX="38.0" layoutY="18.0" mnemonicParsing="false" onAction="#logout" styleClass="btn-rich-blue" text="Logout" />
+                  <Label contentDisplay="CENTER" layoutX="100.0" layoutY="14.0" text="Logged In As: " />
+                  <Label layoutX="95.0" layoutY="40.0" text="Project Manager" />
+               </children>
+            </AnchorPane>
+         </right>
       </BorderPane>
    </top>
 </BorderPane>

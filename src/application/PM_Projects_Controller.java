@@ -150,7 +150,6 @@ public class PM_Projects_Controller implements Initializable {
 	/**
 	 * Sets the Project observable list to allow the editor to add to the list view
 	 *
-	 * @param clinObservableList
 	 */
 	/*
 	 * public void setList(ObservableList<Project> projObservableList) {

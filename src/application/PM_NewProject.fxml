@@ -22,7 +22,11 @@
    <top>
       <BorderPane styleClass="new-project-header" BorderPane.alignment="CENTER">
          <right>
+<<<<<<< HEAD
             <BorderPane minHeight="75.0" minWidth="130.0" prefHeight="75.0" prefWidth="160.0" style="-fx-background-color: transparent;" BorderPane.alignment="CENTER">
+=======
+            <BorderPane minHeight="75.0" minWidth="130.0" prefHeight="75.0" prefWidth="140.0" style="-fx-background-color: transparent;" BorderPane.alignment="CENTER">
+>>>>>>> parent of d398a8b... CSS NewProject fix attempt 3
                <BorderPane.margin>
                   <Insets right="5.0" />
                </BorderPane.margin>
@@ -37,14 +41,22 @@
                      <left>
                         <Button fx:id="saveButton" mnemonicParsing="false" onAction="#saveChanges" prefWidth="40.0" styleClass="btn-save" text="Save" BorderPane.alignment="CENTER">
                            <BorderPane.margin>
+<<<<<<< HEAD
                               <Insets left="21.0" />
+=======
+                              <Insets left="11.0" />
+>>>>>>> parent of d398a8b... CSS NewProject fix attempt 3
                            </BorderPane.margin>
                         </Button>
                      </left>
                      <right>
                         <Button fx:id="discardButton" mnemonicParsing="false" onAction="#discardChanges" prefWidth="70.0" styleClass="btn-discard" text="Discard" BorderPane.alignment="CENTER">
                            <BorderPane.margin>
+<<<<<<< HEAD
                               <Insets right="20.0" />
+=======
+                              <Insets right="10.0" />
+>>>>>>> parent of d398a8b... CSS NewProject fix attempt 3
                            </BorderPane.margin>
                         </Button>
                      </right>

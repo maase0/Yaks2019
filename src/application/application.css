@@ -245,6 +245,7 @@
 }
 
 .titled-pane .title {
+	-fx-base: #d0dcf2;
     -fx-alignment: center-left; 
     -fx-cursor: "hand";
     -fx-focus-color: #555555;

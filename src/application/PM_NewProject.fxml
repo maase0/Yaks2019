@@ -190,9 +190,9 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <Button fx:id="addCLINButton" mnemonicParsing="false" onAction="#addCLIN" text="Add Contract Line Item" />
-                              <Button fx:id="editCLINButton" mnemonicParsing="false" onAction="#editCLIN" text="Edit Selected" GridPane.columnIndex="1" />
-                              <Button fx:id="removeCLINButton" mnemonicParsing="false" onAction="#discardCLIN" text="Remove Selected" GridPane.columnIndex="2" />
+                              <Button styleClass="btn-rich-blue" fx:id="addCLINButton" mnemonicParsing="false" onAction="#addCLIN" text="Add Contract Line Item" />
+                              <Button styleClass="btn-rich-blue" fx:id="editCLINButton" mnemonicParsing="false" onAction="#editCLIN" text="Edit Selected" GridPane.columnIndex="1" />
+                              <Button styleClass="btn-rich-blue" fx:id="removeCLINButton" mnemonicParsing="false" onAction="#discardCLIN" text="Remove Selected" GridPane.columnIndex="2" />
                            </children>
                         </GridPane>
                      </top>
@@ -216,9 +216,9 @@
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
-                              <Button fx:id="addSDRLButton" mnemonicParsing="false" onAction="#addSDRL" text="Add SDRL" />
-                              <Button fx:id="editSDRLButton" mnemonicParsing="false" onAction="#editSDRL" text="Edit Selected" GridPane.columnIndex="1" />
-                              <Button fx:id="removeSDRLButton" mnemonicParsing="false" onAction="#removeSDRL" text="Remove Selected" GridPane.columnIndex="2" />
+                              <Button styleClass="btn-rich-blue" fx:id="addSDRLButton" mnemonicParsing="false" onAction="#addSDRL" text="Add SDRL" />
+                              <Button styleClass="btn-rich-blue" fx:id="editSDRLButton" mnemonicParsing="false" onAction="#editSDRL" text="Edit Selected" GridPane.columnIndex="1" />
+                              <Button styleClass="btn-rich-blue" fx:id="removeSDRLButton" mnemonicParsing="false" onAction="#removeSDRL" text="Remove Selected" GridPane.columnIndex="2" />
                            </children>
                         </GridPane>
                      </top>
@@ -242,9 +242,9 @@
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
-                              <Button fx:id="addSOWButton" mnemonicParsing="false" onAction="#addSOW" text="Add SOW" />
-                              <Button fx:id="editSOWButton" mnemonicParsing="false" onAction="#editSOW" text="Edit Selected" GridPane.columnIndex="1" />
-                              <Button fx:id="removeSOWButton" mnemonicParsing="false" onAction="#removeSOW" text="Remove Selected" GridPane.columnIndex="2" />
+                              <Button styleClass="btn-rich-blue" fx:id="addSOWButton" mnemonicParsing="false" onAction="#addSOW" text="Add SOW" />
+                              <Button styleClass="btn-rich-blue" fx:id="editSOWButton" mnemonicParsing="false" onAction="#editSOW" text="Edit Selected" GridPane.columnIndex="1" />
+                              <Button styleClass="btn-rich-blue" fx:id="removeSOWButton" mnemonicParsing="false" onAction="#removeSOW" text="Remove Selected" GridPane.columnIndex="2" />
                            </children>
                         </GridPane>
                      </top>

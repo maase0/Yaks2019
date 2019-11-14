@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Error_Window">
+   <children>
+      <Pane layoutX="-28.0" layoutY="-76.0" prefHeight="300.0" prefWidth="500.0">
+         <children>
+            <Button fx:id="exitBtn" layoutX="227.0" layoutY="235.0" mnemonicParsing="false" onAction="#Exit" text="Exit" />
+            <Text fx:id="errorTxt" layoutX="201.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Error">
+               <font>
+                  <Font size="40.0" />
+               </font>
+            </Text>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

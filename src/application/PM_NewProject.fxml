@@ -22,7 +22,7 @@
    <top>
       <BorderPane styleClass="new-project-header" BorderPane.alignment="CENTER">
          <right>
-            <BorderPane prefHeight="75.0" prefWidth="130.0" style="-fx-background-color: transparent;" BorderPane.alignment="CENTER">
+            <BorderPane minHeight="75.0" minWidth="130.0" prefHeight="75.0" prefWidth="130.0" style="-fx-background-color: transparent;" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets right="5.0" />
                </BorderPane.margin>

@@ -128,6 +128,7 @@ public class PM_Projects_Controller implements Initializable {
 				list.add(proj);
 				System.out.println("\t" + projName);
 			}
+			rs.close();
 		} catch (SQLException e) {
 			System.out.println("SQL Exception putting projects in list");
 			e.printStackTrace();

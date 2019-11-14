@@ -321,6 +321,7 @@ public class PM_NewProjectController implements Initializable {
 			while (rs.next()) {
 				vid = rs.getInt("idProjectVersion");
 			}
+			rs.close();
 
 			for(CLIN c : clinObservableList) {
 				DBUtil.dbExecuteUpdate("CALL insert_clin(" + vid + ", \"" + c.getIndex()
@@ -435,6 +436,7 @@ public class PM_NewProjectController implements Initializable {
 			while (rs.next()) {
 				vid = rs.getInt("idProjectVersion");
 			}
+			rs.close();
 
 			for (CLIN c : clinObservableList) {
 				DBUtil.dbExecuteUpdate("CALL insert_clin(" + vid + ", \"" + c.getIndex()

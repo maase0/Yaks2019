@@ -26,6 +26,7 @@ public class DBUtil
 	
 	//Connection
 	private static Connection conn = null;
+	private static Session session = null;
 	
 	//Connection String
 	private static final String connStr = "jdbc:mysql://localhost:3366/Estimation_Suite";
@@ -34,7 +35,7 @@ public class DBUtil
 	private static void doSshTunnel( String strSshUser, String strSshPassword, String strSshHost, int nSshPort, String strRemoteHost, int nLocalPort, int nRemotePort ) throws JSchException
 	{
 		final JSch jsch = new JSch();
-	    Session session = jsch.getSession( strSshUser, strSshHost, 22 );
+	    session = jsch.getSession( strSshUser, strSshHost, 22 );
 	    session.setPassword( strSshPassword );
 	     
 	    final Properties config = new Properties();
@@ -97,6 +98,10 @@ public class DBUtil
 			if(conn != null && !conn.isClosed()) {
 				conn.close();
 				System.out.println("Successfully Disconnected from Database!");
+			}
+			if(session != null && session.isConnected()) {
+				session.disconnect();
+				System.out.println("Closing SSH connection");
 			}
 		} catch(Exception e) {
 			throw e;

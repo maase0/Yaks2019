@@ -113,7 +113,6 @@ public class PM_Projects_Controller implements Initializable {
 			System.out.println("\nEstimated Project Names");
 			fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NOT NULL AND Estimated_Date IS NOT NULL",
 					estimatedObservableList);
-		
 	}
 
 	/**

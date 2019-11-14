@@ -275,11 +275,12 @@ public class PM_Projects_Controller implements Initializable {
 
 	}
 
-	/*
-	 * public void discard(ActionEvent event) { //remove the project from list
-	 * projObservableList.remove(projListView.getSelectionModel().getSelectedItem())
-	 * ; }
-	 */
+	public void discardProject(Project project) throws SQLException, ClassNotFoundException {
+		DBUtil.dbExecuteUpdate("CALL delete_project(" + project.getID() + ")");
+		unsubmittedObservableList.removeAll();
+		fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NULL", unsubmittedObservableList);
+	}
+
 
 	class ProjectListCell extends ListCell<Project> {
 		HBox hbox = new HBox();
@@ -332,7 +333,13 @@ public class PM_Projects_Controller implements Initializable {
 			remove.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
-					System.out.println("REMOVE ITEM");
+					System.out.println("REMOVE ITEM" + getItem());
+
+					try {
+						discardProject(getItem());
+					} catch (SQLException | ClassNotFoundException e) {
+						e.printStackTrace();
+					}
 				}
 			});
 		}

@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
@@ -8,46 +13,39 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="new-project" stylesheets="@application.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PM_EditProjectController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="new-project" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PM_EditProjectController">
    <top>
       <BorderPane styleClass="new-project-header" BorderPane.alignment="CENTER">
          <right>
-            <BorderPane minHeight="75.0" minWidth="175.0" prefHeight="75.0" prefWidth="175.0" style="-fx-background-color: transparent;" BorderPane.alignment="CENTER">
+            <BorderPane minHeight="75.0" minWidth="167.0" prefHeight="94.0" prefWidth="167.0" style="-fx-background-color: transparent;" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets />
                </BorderPane.margin>
                <top>
                   <Button fx:id="submitButton" mnemonicParsing="false" onAction="#submitForEstimation" prefWidth="150.0" styleClass="btn-rich-blue" text="Submit for Estimation" BorderPane.alignment="CENTER">
                      <BorderPane.margin>
-                        <Insets top="10.0" />
+                        <Insets top="5.0" />
                      </BorderPane.margin></Button>
                </top>
                <center>
-                  <BorderPane prefHeight="52.0" prefWidth="115.0" BorderPane.alignment="CENTER">
-                     <left>
-                        <Button fx:id="saveChangesButton" mnemonicParsing="false" onAction="#saveNewChanges" prefWidth="65.0" styleClass="btn-save" text="Save Changes" BorderPane.alignment="CENTER">
-                           <BorderPane.margin>
-                              <Insets left="14.0" />
-                           </BorderPane.margin>
-                        </Button>
-                     </left>
-                     <right>
-                        <Button fx:id="discardChangesButton" mnemonicParsing="false" onAction="#discardNewChanges" prefWidth="75.0" styleClass="btn-discard" text="Discard Changes" BorderPane.alignment="CENTER">
-                           <BorderPane.margin>
-                              <Insets right="12.0" />
-                           </BorderPane.margin>
-                        </Button>
-                     </right>
-                  </BorderPane>
+                  <Button fx:id="saveChangesButton" mnemonicParsing="false" onAction="#saveNewChanges" prefWidth="150.0" styleClass="btn-save" text="Save Changes" BorderPane.alignment="CENTER">
+                     <BorderPane.margin>
+                        <Insets />
+                     </BorderPane.margin>
+                  </Button>
                </center>
+               <bottom>
+                  <Button fx:id="discardChangesButton" mnemonicParsing="false" onAction="#discardNewChanges" prefWidth="150.0" styleClass="btn-discard" text="Discard Changes" BorderPane.alignment="CENTER">
+                     <BorderPane.margin>
+                        <Insets bottom="5.0" top="2.0" />
+                     </BorderPane.margin>
+                  </Button>
+               </bottom>
             </BorderPane>
          </right>
          <center>
@@ -85,49 +83,93 @@
    </top>
    <center>
       <Accordion prefHeight="329.0" prefWidth="600.0" BorderPane.alignment="CENTER">
-         <panes>
-            <TitledPane animated="false" text="Project Information">
+        <panes>
+          <TitledPane animated="false" text="Project Information">
                <content>
                   <GridPane>
-                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="283.0" minWidth="10.0" prefWidth="131.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="449.0" minWidth="10.0" prefWidth="447.0" />
-                     </columnConstraints>
-                     <rowConstraints>
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                     </rowConstraints>
+                    </rowConstraints>
                      <children>
-                        <Label text="Project Manager" />
-                        <Label text="Proposal Number" GridPane.rowIndex="1" />
-                        <Label text="Version Number" GridPane.rowIndex="2" />
-                        <Label text="Period of Performance" GridPane.rowIndex="3" />
-                        <TextField fx:id="pmText" GridPane.columnIndex="1" />
-                        <TextField fx:id="propNumText" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <TextField fx:id="versionText" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <GridPane GridPane.columnIndex="1" GridPane.rowIndex="3">
-                           <columnConstraints>
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                           </columnConstraints>
-                           <rowConstraints>
+                        <GridPane>
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="125.0" minWidth="10.0" prefWidth="125.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="630.0" minWidth="10.0" prefWidth="452.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                           </rowConstraints>
+                          </rowConstraints>
                            <children>
-                              <DatePicker fx:id="startDate" />
-                              <DatePicker fx:id="endDate" GridPane.columnIndex="2" />
-                              <Label text="to" GridPane.columnIndex="1" />
+                              <Label text="Project Manager:" GridPane.halignment="LEFT" GridPane.rowIndex="1" />
+                              <TextField fx:id="pmText" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                           </children>
+                        </GridPane>
+                        <GridPane GridPane.rowIndex="1">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="125.0" minWidth="10.0" prefWidth="125.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="613.0" minWidth="10.0" prefWidth="451.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Label text="Proposal Number:" />
+                              <TextField fx:id="propNumText" GridPane.columnIndex="1" />
+                           </children>
+                        </GridPane>
+                        <GridPane GridPane.rowIndex="2">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="125.0" minWidth="10.0" prefWidth="125.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="615.0" minWidth="10.0" prefWidth="450.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Label text="Version Number:" />
+                              <TextField fx:id="versionText" GridPane.columnIndex="1" />
+                           </children>
+                        </GridPane>
+                        <GridPane GridPane.rowIndex="3">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="368.0" minWidth="10.0" prefWidth="250.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="513.0" minWidth="10.0" prefWidth="511.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Label text="Period of Performance:" />
+                              <GridPane GridPane.columnIndex="1">
+                                <columnConstraints>
+                                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" />
+                                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <DatePicker fx:id="startDate" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                    <DatePicker fx:id="endDate" GridPane.columnIndex="2" />
+                                    <Label text="to" GridPane.columnIndex="1" />
+                                 </children>
+                              </GridPane>
                            </children>
                         </GridPane>
                      </children>
                   </GridPane>
                </content>
-            </TitledPane>
-            <TitledPane animated="false" text="Contract Line Items">
+          </TitledPane>
+          <TitledPane animated="false" text="Contract Line Items">
                <content>
                   <BorderPane prefHeight="200.0" prefWidth="200.0">
                      <center>
@@ -135,24 +177,24 @@
                      </center>
                      <top>
                         <GridPane BorderPane.alignment="CENTER">
-                           <columnConstraints>
+                          <columnConstraints>
                               <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                           </columnConstraints>
-                           <rowConstraints>
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                           </rowConstraints>
+                            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
                            <children>
-                              <Button fx:id="addCLINButton" mnemonicParsing="false" onAction="#addCLIN" text="Add Contract Line Item" />
-                              <Button fx:id="editCLINButton" mnemonicParsing="false" onAction="#editCLIN" text="Edit Selected" GridPane.columnIndex="1" />
-                              <Button fx:id="removeCLINButton" mnemonicParsing="false" onAction="#discardCLIN" text="Remove Selected" GridPane.columnIndex="2" />
+                              <Button fx:id="addCLINButton" mnemonicParsing="false" onAction="#addCLIN" styleClass="btn-rich-blue" text="Add Contract Line Item" />
+                              <Button fx:id="editCLINButton" mnemonicParsing="false" onAction="#editCLIN" styleClass="btn-rich-blue" text="Edit Selected" GridPane.columnIndex="1" />
+                              <Button fx:id="removeCLINButton" mnemonicParsing="false" onAction="#discardCLIN" styleClass="btn-rich-blue" text="Remove Selected" GridPane.columnIndex="2" />
                            </children>
                         </GridPane>
                      </top>
                   </BorderPane>
                </content>
-            </TitledPane>
+          </TitledPane>
             <TitledPane animated="false" layoutX="10.0" layoutY="35.0" text="Subcontract Design Requirements List">
                <content>
                   <BorderPane prefHeight="200.0" prefWidth="200.0">
@@ -170,9 +212,9 @@
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
-                              <Button fx:id="addSDRLButton" mnemonicParsing="false" onAction="#addSDRL" text="Add SDRL" />
-                              <Button fx:id="editSDRLButton" mnemonicParsing="false" onAction="#editSDRL" text="Edit Selected" GridPane.columnIndex="1" />
-                              <Button fx:id="removeSDRLButton" mnemonicParsing="false" onAction="#removeSDRL" text="Remove Selected" GridPane.columnIndex="2" />
+                              <Button fx:id="addSDRLButton" mnemonicParsing="false" onAction="#addSDRL" styleClass="btn-rich-blue" text="Add SDRL" />
+                              <Button fx:id="editSDRLButton" mnemonicParsing="false" onAction="#editSDRL" styleClass="btn-rich-blue" text="Edit Selected" GridPane.columnIndex="1" />
+                              <Button fx:id="removeSDRLButton" mnemonicParsing="false" onAction="#removeSDRL" styleClass="btn-rich-blue" text="Remove Selected" GridPane.columnIndex="2" />
                            </children>
                         </GridPane>
                      </top>
@@ -196,16 +238,16 @@
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
-                              <Button fx:id="addSOWButton" mnemonicParsing="false" onAction="#addSOW" text="Add SOW" />
-                              <Button fx:id="editSOWButton" mnemonicParsing="false" onAction="#editSOW" text="Edit Selected" GridPane.columnIndex="1" />
-                              <Button fx:id="removeSOWButton" mnemonicParsing="false" onAction="#removeSOW" text="Remove Selected" GridPane.columnIndex="2" />
+                              <Button fx:id="addSOWButton" mnemonicParsing="false" onAction="#addSOW" styleClass="btn-rich-blue" text="Add SOW" />
+                              <Button fx:id="editSOWButton" mnemonicParsing="false" onAction="#editSOW" styleClass="btn-rich-blue" text="Edit Selected" GridPane.columnIndex="1" />
+                              <Button fx:id="removeSOWButton" mnemonicParsing="false" onAction="#removeSOW" styleClass="btn-rich-blue" text="Remove Selected" GridPane.columnIndex="2" />
                            </children>
                         </GridPane>
                      </top>
                   </BorderPane>
                </content>
             </TitledPane>
-         </panes>
+        </panes>
       </Accordion>
    </center>
 </BorderPane>

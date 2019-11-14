@@ -11,6 +11,7 @@ public class ProjectVersion
 	private String versionNumber;
 	private Date popStart;
 	private Date popEnd;
+	private String proposalNumber;
 	private ArrayList<CLIN> clins = new ArrayList();
 	private ArrayList<SDRL> sdrls = new ArrayList();
 	private ArrayList<SOW> sows = new ArrayList();
@@ -26,6 +27,14 @@ public class ProjectVersion
     
     public void setName(String name) {
     	this.name = name;
+    }
+    
+    public String getProposalNumber() {
+    	return proposalNumber;
+    }
+    
+    public void setProposalNumber(String propNum) {
+    	this.proposalNumber = propNum;
     }
 
 	public String getProjectManager() {

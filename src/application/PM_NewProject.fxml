@@ -24,10 +24,10 @@
          <right>
             <BorderPane minHeight="75.0" minWidth="175.0" prefHeight="75.0" prefWidth="175.0" style="-fx-background-color: transparent;" BorderPane.alignment="CENTER">
                <BorderPane.margin>
-                  <Insets right="5.0" />
+                  <Insets />
                </BorderPane.margin>
                <top>
-                  <Button fx:id="submitButton" mnemonicParsing="false" onAction="#submitForEstimation" prefWidth="160.0" styleClass="btn-rich-blue" text="Submit for Estimation" BorderPane.alignment="CENTER">
+                  <Button fx:id="submitButton" mnemonicParsing="false" onAction="#submitForEstimation" prefWidth="150.0" styleClass="btn-rich-blue" text="Submit for Estimation" BorderPane.alignment="CENTER">
                      <BorderPane.margin>
                         <Insets top="10.0" />
                      </BorderPane.margin></Button>
@@ -35,16 +35,16 @@
                <center>
                   <BorderPane prefHeight="52.0" prefWidth="115.0" BorderPane.alignment="CENTER">
                      <left>
-                        <Button fx:id="saveButton" mnemonicParsing="false" onAction="#saveChanges" prefWidth="70.0" styleClass="btn-save" text="Save" BorderPane.alignment="CENTER">
+                        <Button fx:id="saveButton" mnemonicParsing="false" onAction="#saveChanges" prefWidth="65.0" styleClass="btn-save" text="Save" BorderPane.alignment="CENTER">
                            <BorderPane.margin>
-                              <Insets left="9.0" />
+                              <Insets left="14.0" />
                            </BorderPane.margin>
                         </Button>
                      </left>
                      <right>
-                        <Button fx:id="discardButton" mnemonicParsing="false" onAction="#discardChanges" prefWidth="70.0" styleClass="btn-discard" text="Discard" BorderPane.alignment="CENTER">
+                        <Button fx:id="discardButton" mnemonicParsing="false" onAction="#discardChanges" prefWidth="75.0" styleClass="btn-discard" text="Discard" BorderPane.alignment="CENTER">
                            <BorderPane.margin>
-                              <Insets right="6.0" />
+                              <Insets right="12.0" />
                            </BorderPane.margin>
                         </Button>
                      </right>

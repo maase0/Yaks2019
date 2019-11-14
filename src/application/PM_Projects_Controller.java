@@ -77,6 +77,18 @@ public class PM_Projects_Controller implements Initializable {
 		unsubmittedListView.setCellFactory(new Callback<ListView<Project>, ListCell<Project>>() {
             @Override
             public ListCell<Project> call(ListView<Project> param) {
+            	ProjectListCell plc = new ProjectListCell();
+
+            /*	Button editButton = new Button("Edit");
+            	editButton.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        System.out.println("EDIT ITEM: " + getItem());
+                        
+                        editProject(getItem());
+                    }
+                });*/
+            	
                 return new UnsubmittedCell();
             }
         });
@@ -272,7 +284,36 @@ public class PM_Projects_Controller implements Initializable {
 	 * ; }
 	 */
 
+	class ProjectListCell extends ListCell<Project> {
+        HBox hbox = new HBox();
+        Label label = new Label("(empty)");
+        Pane pane = new Pane();
+        //Button edit = new Button("Edit");
+        //Button remove = new Button("Remove");
+        
+        public ProjectListCell() {
+            super();
+            hbox.getChildren().addAll(label, pane);
+            HBox.setHgrow(pane, Priority.ALWAYS);
+            hbox.setSpacing(10);    
+        }
 
+        protected void addButton(Button b) {
+        	hbox.getChildren().add(b);
+        }
+        
+        @Override
+        protected void updateItem(Project item, boolean empty) {
+            super.updateItem(item, empty);
+            setText(null);  // No text in label of super class
+            if (empty) {
+                setGraphic(null);
+            } else {
+                label.setText(item!=null ? item.toString() : "<null>");
+                setGraphic(hbox);
+            }
+        }
+    }
 
 	
 	//https://stackoverflow.com/questions/15661500/javafx-listview-item-with-an-image-button

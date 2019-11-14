@@ -122,7 +122,8 @@ public class PM_Projects_Controller implements Initializable {
 
 			while (rs.next()) {
 				String projName = rs.getString("Project_Name");
-				Project proj = new Project(projName);
+				String projID = rs.getString("idProject");
+				Project proj = new Project(projName, projID);
 				// TODO: Get the versions from the database, put them in project
 
 				list.add(proj);
@@ -186,24 +187,28 @@ public class PM_Projects_Controller implements Initializable {
 		}
 	}
 
-	public void editProject(String projectVersionID) {
+	public void editProject(Project project) {
 		try {
 
-			System.out.println("You are now editing project version id: " + projectVersionID);
+			//System.out.println("You are now editing project version id: " + projectVersionID);
 
-			ProjectVersion proj = new ProjectVersion();
+			ProjectVersion version = new ProjectVersion();
 
-
-
-			ResultSet rs = DBUtil
-					.dbExecuteQuery("CALL select_clins(" + projectVersionID +")");
+			ResultSet rs = DBUtil.dbExecuteQuery("SELECT * FROM ProjectVersion WHERE idProject=" + project.getID());
+			String versionID = "";
+			while(rs.next()) {
+				 versionID = rs.getString("idProjectVersion");
+			}
+			
+			rs = DBUtil
+					.dbExecuteQuery("CALL select_clins(" + versionID +")");
 
 
 			while(rs.next()) {
 				System.out.println(rs.getString("CLIN_Index"));
-				proj.addCLIN(new CLIN(rs.getString("CLIN_Index"), rs.getString("Project_Type"), rs.getString("CLIN_Description")));
+				version.addCLIN(new CLIN(rs.getString("CLIN_Index"), rs.getString("Project_Type"), rs.getString("CLIN_Description")));
 			}
-
+			rs.close();
 			// Opens New Project page
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("PM_NewProject.fxml"));
 			Parent root = fxmlLoader.load();
@@ -214,7 +219,7 @@ public class PM_Projects_Controller implements Initializable {
 
 			PM_NewProjectController controller = fxmlLoader.<PM_NewProjectController>getController();
 
-			controller.setProject(proj);
+			controller.setProject(version);
 
 			pmNewProjectStage.show();
 			pmNewProjectStage.setResizable(true);
@@ -223,9 +228,11 @@ public class PM_Projects_Controller implements Initializable {
 			// Closes PM Page
 			Stage stage = (Stage) newProjectBtn.getScene().getWindow();
 			stage.close();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
 	}
 
 	/*
@@ -237,7 +244,7 @@ public class PM_Projects_Controller implements Initializable {
 
 
 	//https://stackoverflow.com/questions/15661500/javafx-listview-item-with-an-image-button
-	static class XCell extends ListCell<Project> {
+	class XCell extends ListCell<Project> {
         HBox hbox = new HBox();
         Label label = new Label("(empty)");
         Pane pane = new Pane();
@@ -249,10 +256,13 @@ public class PM_Projects_Controller implements Initializable {
             super();
             hbox.getChildren().addAll(label, pane, edit, remove);
             HBox.setHgrow(pane, Priority.ALWAYS);
+            hbox.setSpacing(10);
             edit.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    System.out.println("EDIT ITEM");
+                    System.out.println("EDIT ITEM: " + getItem());
+                    
+                    editProject(getItem());
                 }
             });
 

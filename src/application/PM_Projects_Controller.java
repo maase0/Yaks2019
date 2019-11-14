@@ -3,6 +3,7 @@ package application;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 import DB.DBUtil;
@@ -73,51 +74,53 @@ public class PM_Projects_Controller implements Initializable {
 		unsubmittedObservableList = FXCollections.observableArrayList();
 		unsubmittedListView.setItems(unsubmittedObservableList);
 
-		//https://stackoverflow.com/questions/15661500/javafx-listview-item-with-an-image-button
+		// https://stackoverflow.com/questions/15661500/javafx-listview-item-with-an-image-button
 		unsubmittedListView.setCellFactory(new Callback<ListView<Project>, ListCell<Project>>() {
-            @Override
-            public ListCell<Project> call(ListView<Project> param) {
-                return new XCell();
-            }
-        });
+			@Override
+			public ListCell<Project> call(ListView<Project> param) {
+				return new UnsubmittedCell();
+			}
+		});
 
 		estimatedObservableList = FXCollections.observableArrayList();
 		estimatedListView.setItems(estimatedObservableList);
 
 		estimatedListView.setCellFactory(new Callback<ListView<Project>, ListCell<Project>>() {
-            @Override
-            public ListCell<Project> call(ListView<Project> param) {
-                return new XCell();
-            }
-        });
+			@Override
+			public ListCell<Project> call(ListView<Project> param) {
+				return new EstimatedCell();
+			}
+		});
 
 		unestimatedObservableList = FXCollections.observableArrayList();
 		unestimatedListView.setItems(unestimatedObservableList);
 
 		unestimatedListView.setCellFactory(new Callback<ListView<Project>, ListCell<Project>>() {
-            @Override
-            public ListCell<Project> call(ListView<Project> param) {
-                return new XCell();
-            }
-        });
+			@Override
+			public ListCell<Project> call(ListView<Project> param) {
+				return new UnestimatedCell();
+			}
+		});
 
-		
-			System.out.println("\nUnsubmitted Project Names");
-			fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NULL",
-					unsubmittedObservableList);
+		System.out.println("\nUnsubmitted Project Names");
+		fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NULL", unsubmittedObservableList);
 
-			System.out.println("\nUnestimated Project Names");
-			fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NOT NULL AND Estimated_Date IS NULL",
-					unestimatedObservableList);
+		System.out.println("\nUnestimated Project Names");
+		fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NOT NULL AND Estimated_Date IS NULL",
+				unestimatedObservableList);
+
+		System.out.println("\nEstimated Project Names");
+		fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NOT NULL AND Estimated_Date IS NOT NULL",
+				estimatedObservableList);
 
 			System.out.println("\nEstimated Project Names");
 			fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NOT NULL AND Estimated_Date IS NOT NULL",
 					estimatedObservableList);
-		
 	}
 
 	/**
 	 * Fills the given list with projects retrieved with the given query
+	 *
 	 * @param query
 	 * @param list
 	 */
@@ -148,7 +151,6 @@ public class PM_Projects_Controller implements Initializable {
 	/**
 	 * Sets the Project observable list to allow the editor to add to the list view
 	 *
-	 * @param clinObservableList
 	 */
 	/*
 	 * public void setList(ObservableList<Project> projObservableList) {
@@ -196,57 +198,66 @@ public class PM_Projects_Controller implements Initializable {
 	public void editProject(Project project) {
 		try {
 
-			//System.out.println("You are now editing project version id: " + projectVersionID);
+			// System.out.println("You are now editing project version id: " +
+			// projectVersionID);
 
 			ProjectVersion version = new ProjectVersion();
 
 			ResultSet rs = DBUtil.dbExecuteQuery("SELECT * FROM ProjectVersion WHERE idProject=" + project.getID());
 			String versionID = "";
-			//while(rs.next()) {
-			//	 versionID = rs.getString("idProjectVersion");
-			//}
-			
+			// while(rs.next()) {
+			// versionID = rs.getString("idProjectVersion");
+			// }
+
 			rs.last();
 			versionID = rs.getString("idProjectVersion");
-			
-			
+
 			version.setName(rs.getString("Project_Name"));
 			version.setProjectManager(rs.getString("Project_Manager"));
 			version.setVersionNumber(rs.getString("Version_Number"));
-			//TODO: get proposal numbers and PoPs
-			//version.setP
+			version.setProposalNumber(rs.getString("Proposal_Number"));
 			
-			rs = DBUtil.dbExecuteQuery("CALL select_clins(" + versionID +")");
-				
-			while(rs.next()) {
-				//System.out.println(rs.getString("CLIN_Index"));
-				version.addCLIN(new CLIN(rs.getString("CLIN_Index"), rs.getString("Project_Type"), rs.getString("CLIN_Description")));
+			String start = rs.getString("PoP_Start");
+			String end = rs.getString("PoP_End");
+					
+			version.setPopStart(start == null ? null : LocalDate.parse(start));
+			version.setPopEnd(end == null ? null : LocalDate.parse(end));
+
+			// version.setPopStart();
+			// TODO: get proposal numbers and PoPs
+			// version.setP
+
+			rs = DBUtil.dbExecuteQuery("CALL select_clins(" + versionID + ")");
+
+			while (rs.next()) {
+				// System.out.println(rs.getString("CLIN_Index"));
+				version.addCLIN(new CLIN(rs.getString("CLIN_Index"), rs.getString("Project_Type"),
+						rs.getString("CLIN_Description")));
 			}
-			
-			rs = DBUtil.dbExecuteQuery("CALL select_sdrls(" + versionID +")");	
-			while(rs.next()) {
-				//System.out.println(rs.getString("CLIN_Index"));
+
+			rs = DBUtil.dbExecuteQuery("CALL select_sdrls(" + versionID + ")");
+			while (rs.next()) {
+				// System.out.println(rs.getString("CLIN_Index"));
 				version.addSDRL(new SDRL(rs.getString("SDRL_Title"), rs.getString("SDRL_Description")));
 			}
-			
-			rs = DBUtil.dbExecuteQuery("CALL select_sows(" + versionID +")");	
-			while(rs.next()) {
-				//System.out.println(rs.getString("CLIN_Index"));
+
+			rs = DBUtil.dbExecuteQuery("CALL select_sows(" + versionID + ")");
+			while (rs.next()) {
+				// System.out.println(rs.getString("CLIN_Index"));
 				version.addSOW(new SOW(rs.getString("Reference_Number"), rs.getString("SoW_Description")));
 			}
-			
-			
+
 			rs.close();
-						
+
 			// Opens New Project page
-			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("PM_NewProject.fxml"));
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("PM_EditProject.fxml"));
 			Parent root = fxmlLoader.load();
 
 			Stage pmNewProjectStage = new Stage();
 			pmNewProjectStage.setTitle("Estimation Suite - Product Manager - Edit Project");
 			pmNewProjectStage.setScene(new Scene(root));
 
-			PM_NewProjectController controller = fxmlLoader.<PM_NewProjectController>getController();
+			PM_EditProjectController controller = fxmlLoader.getController();
 
 			controller.setProject(version);
 
@@ -257,66 +268,125 @@ public class PM_Projects_Controller implements Initializable {
 			// Closes PM Page
 			Stage stage = (Stage) newProjectBtn.getScene().getWindow();
 			stage.close();
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
-	/*
-	 * public void discard(ActionEvent event) { //remove the project from list
-	 * projObservableList.remove(projListView.getSelectionModel().getSelectedItem())
-	 * ; }
-	 */
+	public void discardProject(Project project) throws SQLException, ClassNotFoundException {
+		DBUtil.dbExecuteUpdate("CALL delete_project(" + project.getID() + ")");
+		unsubmittedObservableList.removeAll();
+		fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NULL", unsubmittedObservableList);
+	}
 
 
+	class ProjectListCell extends ListCell<Project> {
+		HBox hbox = new HBox();
+		Label label = new Label("(empty)");
+		Pane pane = new Pane();
 
-	//https://stackoverflow.com/questions/15661500/javafx-listview-item-with-an-image-button
-	class XCell extends ListCell<Project> {
-        HBox hbox = new HBox();
-        Label label = new Label("(empty)");
-        Pane pane = new Pane();
-        Button edit = new Button("Edit");
-        Button remove = new Button("Remove");
-        Project lastItem;
+		public ProjectListCell() {
+			super();
+			hbox.getChildren().addAll(label, pane);
+			HBox.setHgrow(pane, Priority.ALWAYS);
+			hbox.setSpacing(10);
+		}
 
-        public XCell() {
-            super();
-            hbox.getChildren().addAll(label, pane, edit, remove);
-            HBox.setHgrow(pane, Priority.ALWAYS);
-            hbox.setSpacing(10);
-            edit.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    System.out.println("EDIT ITEM: " + getItem());
-                    
-                    editProject(getItem());
-                }
-            });
+		protected void addButton(Button b) {
+			hbox.getChildren().add(b);
+		}
 
-            remove.setOnAction(new EventHandler<ActionEvent>() {
-            	@Override
-            	public void handle(ActionEvent event) {
-            		System.out.println("REMOVE ITEM");
-            	}
+		@Override
+		protected void updateItem(Project item, boolean empty) {
+			super.updateItem(item, empty);
+			setText(null); // No text in label of super class
+			if (empty) {
+				setGraphic(null);
+			} else {
+				label.setText(item != null ? item.toString() : "<null>");
+				setGraphic(hbox);
+			}
+		}
+	}
+
+	// https://stackoverflow.com/questions/15661500/javafx-listview-item-with-an-image-button
+	class UnsubmittedCell extends ProjectListCell {
+		Button edit = new Button("Edit");
+		Button remove = new Button("Remove");
+
+		public UnsubmittedCell() {
+			super();
+
+			hbox.getChildren().addAll(edit, remove);
+
+			edit.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					System.out.println("EDIT ITEM: " + getItem());
+
+					editProject(getItem());
+				}
 			});
-        }
 
-        @Override
-        protected void updateItem(Project item, boolean empty) {
-            super.updateItem(item, empty);
-            setText(null);  // No text in label of super class
-            if (empty) {
-                lastItem = null;
-                setGraphic(null);
-            } else {
-                lastItem = item;
-                label.setText(item!=null ? item.toString() : "<null>");
-                setGraphic(hbox);
-            }
-        }
-    }
+			remove.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					System.out.println("REMOVE ITEM" + getItem());
 
+					try {
+						discardProject(getItem());
+					} catch (SQLException | ClassNotFoundException e) {
+						e.printStackTrace();
+					}
+				}
+			});
+		}
+	}
+
+	class UnestimatedCell extends ProjectListCell {
+		Button estimateButton = new Button("Estimate");
+		Button returnButton = new Button("Return");
+
+		public UnestimatedCell() {
+			super();
+
+			hbox.getChildren().addAll(estimateButton, returnButton);
+
+			estimateButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					System.out.println("Estimate ITEM: " + getItem());
+
+				}
+			});
+
+			returnButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					System.out.println("Return ITEM" + getItem());
+				}
+			});
+		}
+	}
+
+	// estimated: view estimate
+	class EstimatedCell extends ProjectListCell {
+		Button viewButton = new Button("View");
+
+		public EstimatedCell() {
+			super();
+
+			hbox.getChildren().addAll(viewButton);
+
+			viewButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					System.out.println("VIEW ITEM: " + getItem());
+				}
+			});
+		}
+	}
 
 }

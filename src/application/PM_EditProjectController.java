@@ -35,14 +35,15 @@ import org.omg.PortableInterceptor.ACTIVE;
 
 import javax.swing.*;
 
+public class PM_EditProjectController implements Initializable {
 
-public class PM_EditProjectController implements Initializable{
+	private ProjectVersion proj;
 
 	private ResultSet rs;
 	@FXML
-	private Button saveButton;
+	private Button saveChangesButton;
 	@FXML
-	private Button discardButton;
+	private Button discardChangesButton;
 	@FXML
 	private Button submitButton;
 	@FXML
@@ -58,78 +59,83 @@ public class PM_EditProjectController implements Initializable{
 	@FXML
 	private DatePicker endDate;
 
-
-	//CLIN List fields
+	// CLIN List fields
 	@FXML
-    private ListView<CLIN> CLINListView;
-	@FXML private Button addCLINButton;
-	@FXML private Button editCLINButton;
-	@FXML private Button removeCLINButton;
+	private ListView<CLIN> CLINListView;
+	@FXML
+	private Button addCLINButton;
+	@FXML
+	private Button editCLINButton;
+	@FXML
+	private Button removeCLINButton;
 	private ObservableList<CLIN> clinObservableList;
-	
-	//SDRL List fields
+
+	// SDRL List fields
 	@FXML
 	private ListView<SDRL> SDRLListView;
-	@FXML private Button addSDRLButton;
-	@FXML private Button editSDRLButton;
-	@FXML private Button removeSDRLButton;
-    private ObservableList<SDRL> sdrlObservableList;
-    
-    //SOW List fields
-    @FXML
+	@FXML
+	private Button addSDRLButton;
+	@FXML
+	private Button editSDRLButton;
+	@FXML
+	private Button removeSDRLButton;
+	private ObservableList<SDRL> sdrlObservableList;
+
+	// SOW List fields
+	@FXML
 	private ListView<SOW> SOWListView;
-    @FXML private Button addSOWButton;
-	@FXML private Button editSOWButton;
-	@FXML private Button removeSOWButton;
-    private ObservableList<SOW> sowObservableList;
-    
-    
-    
+	@FXML
+	private Button addSOWButton;
+	@FXML
+	private Button editSOWButton;
+	@FXML
+	private Button removeSOWButton;
+	private ObservableList<SOW> sowObservableList;
 
-    public PM_EditProjectController()  {
+	public PM_EditProjectController() {
 
-    }
+	}
 
 	public void initialize(URL location, ResourceBundle resources) {
-		//Create a new obesrvable list for the CLINS, gives it to the list view
+		// Create a new obesrvable list for the CLINS, gives it to the list view
 		clinObservableList = FXCollections.observableArrayList();
 		CLINListView.setItems(clinObservableList);
-		
+
 		sdrlObservableList = FXCollections.observableArrayList();
 		SDRLListView.setItems(sdrlObservableList);
-		
-    	sowObservableList = FXCollections.observableArrayList();
-    	SOWListView.setItems(sowObservableList);
+
+		sowObservableList = FXCollections.observableArrayList();
+		SOWListView.setItems(sowObservableList);
 	}
 
 	/**
 	 * Adds a new clin to the list. Creates a popup menu to start editing a new CLIN
+	 *
 	 * @param event
 	 */
 	public void addCLIN(ActionEvent event) {
 		Parent root = null;
 		try {
-			//Normal FXML Stuff
-			FXMLLoader fxmlLoader = new FXMLLoader(getClass()
-					.getResource("CLIN.fxml"));
+			// Normal FXML Stuff
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CLIN.fxml"));
 			Parent root1 = (Parent) fxmlLoader.load();
 			Stage stage = new Stage();
 			stage.setScene(new Scene(root1));
 
-			//Grab the controller from the loader
+			// Grab the controller from the loader
 			CLIN_Controller controller = fxmlLoader.<CLIN_Controller>getController();
-			//Set the controller's list to allow message passing
+			// Set the controller's list to allow message passing
 			controller.setList(clinObservableList);
 
 			stage.show();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	/**
 	 * Removes the selected CLIN from the list view and observable list.
+	 *
 	 * @param event
 	 */
 	public void discardCLIN(ActionEvent event) {
@@ -138,52 +144,51 @@ public class PM_EditProjectController implements Initializable{
 
 	/**
 	 * Edit an existing CLIN that is selected in the list view.
+	 *
 	 * @param event
 	 */
 	public void editCLIN(ActionEvent event) {
-		//get the clin to be edited
+		// get the clin to be edited
 		CLIN clin = CLINListView.getSelectionModel().getSelectedItem();
-		
+
 		try {
-			//Normal FXML Stuff
+			// Normal FXML Stuff
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CLIN.fxml"));
 			Parent root1;
 			root1 = (Parent) fxmlLoader.load();
 			Stage stage = new Stage();
 			stage.setScene(new Scene(root1));
 
-			//Grab the controller from the loader and set it's list for message passing
+			// Grab the controller from the loader and set it's list for message passing
 			CLIN_Controller controller = fxmlLoader.<CLIN_Controller>getController();
 			controller.setList(clinObservableList);
 
-			//Set the controller's CLIN to the existing one
+			// Set the controller's CLIN to the existing one
 			controller.setCLIN(clin);
-			//Set all of the controller's input fields
+			// Set all of the controller's input fields
 			controller.setInputFields();
 
-			stage.show(); //Show the popup editor
+			stage.show(); // Show the popup editor
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-
 	}
 
 	public void addSDRL(ActionEvent event) {
 		Parent root = null;
 		try {
-			//Normal FXML Stuff
-			FXMLLoader fxmlLoader = new FXMLLoader(getClass()
-					.getResource("SDRL.fxml"));
+			// Normal FXML Stuff
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("SDRL.fxml"));
 			Parent root1 = (Parent) fxmlLoader.load();
 			Stage stage = new Stage();
 			stage.setScene(new Scene(root1));
 
-			//Grab the controller from the loader
+			// Grab the controller from the loader
 			SDRL_Controller controller = fxmlLoader.<SDRL_Controller>getController();
-			//Set the controller's list to allow message passing
+			// Set the controller's list to allow message passing
 			controller.setList(sdrlObservableList);
 
 			stage.show();
@@ -191,34 +196,34 @@ public class PM_EditProjectController implements Initializable{
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void editSDRL(ActionEvent event) {
 		SDRL sdrl = SDRLListView.getSelectionModel().getSelectedItem();
 
 		try {
-			//Normal FXML Stuff
+			// Normal FXML Stuff
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("SDRL.fxml"));
 			Parent root;
 			root = (Parent) fxmlLoader.load();
 			Stage stage = new Stage();
 			stage.setScene(new Scene(root));
 
-			//Grab the controller from the loader and set it's list for message passing
+			// Grab the controller from the loader and set it's list for message passing
 			SDRL_Controller controller = fxmlLoader.<SDRL_Controller>getController();
 			controller.setList(sdrlObservableList);
 
 			controller.setSDRL(sdrl);
-			//Set all of the controller's input fields
+			// Set all of the controller's input fields
 			controller.setInputFields();
 
-			stage.show(); //Show the popup editor
+			stage.show(); // Show the popup editor
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void removeSDRL(ActionEvent event) {
 		sdrlObservableList.remove(SDRLListView.getSelectionModel().getSelectedItem());
 	}
@@ -226,16 +231,15 @@ public class PM_EditProjectController implements Initializable{
 	public void addSOW(ActionEvent event) {
 		Parent root = null;
 		try {
-			//Normal FXML Stuff
-			FXMLLoader fxmlLoader = new FXMLLoader(getClass()
-					.getResource("SOWRef.fxml"));
+			// Normal FXML Stuff
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("SOWRef.fxml"));
 			Parent root1 = (Parent) fxmlLoader.load();
 			Stage stage = new Stage();
 			stage.setScene(new Scene(root1));
 
-			//Grab the controller from the loader
+			// Grab the controller from the loader
 			SOW_Controller controller = fxmlLoader.<SOW_Controller>getController();
-			//Set the controller's list to allow message passing
+			// Set the controller's list to allow message passing
 			controller.setList(sowObservableList);
 
 			stage.show();
@@ -243,7 +247,7 @@ public class PM_EditProjectController implements Initializable{
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void editSOW(ActionEvent event) {
 		SOW sow = SOWListView.getSelectionModel().getSelectedItem();
 
@@ -267,7 +271,7 @@ public class PM_EditProjectController implements Initializable{
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void removeSOW(ActionEvent event) {
 		sowObservableList.remove(SOWListView.getSelectionModel().getSelectedItem());
 	}
@@ -275,73 +279,103 @@ public class PM_EditProjectController implements Initializable{
 	@FXML
 	/**
 	 * Saves all of the information of the newly created project
+	 *
 	 * @param event
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
 	 */
-	public void saveChanges(ActionEvent event) throws SQLException, ClassNotFoundException {
+	public void saveNewChanges(ActionEvent event) throws SQLException, ClassNotFoundException {
 		// TODO possibly do a datatype check before actually saving anything.
 		int vid = 0;
-		System.out.println("Save Changes Button");
-		ResultSet rs = DBUtil.dbExecuteQuery("CALL insert_new_project(" + versionText.getText() + ", \"" + projectNameText.getText() + "\", \""
-											  +  pmText.getText() + "\", " + propNumText.getText() + ")"); 
-		while(rs.next()) {
-			vid = rs.getInt("idProjectVersion");
+
+		boolean passed = true;
+
+		// TODO: Find acceptable regexps for each field
+		//       add checks for clin dates etc discussed in sprint review
+		//       change to an error popup instead of printing to console
+
+		String versionReg = "\\d(.\\d)*";
+		String propReg = "^[0-9]*$";
+		String sowRefReg = "^[0-9]*$";
+
+		if(!versionText.getText().matches(versionReg)) {
+			passed = false;
+			System.out.println("Error: Version Text \"" + versionText.getText() + "\" does not match regexp " + versionReg);
 		}
-		
-		if(!clinObservableList.isEmpty()) {
-			for(int i = 0; i < clinObservableList.size(); i++) {
-				DBUtil.dbExecuteUpdate("CALL insert_clin(" + vid + ", \"" + clinObservableList.get(i).getIndex()
-														 + "\", \"" + clinObservableList.get(i).getProjectType() + "\", \"" 
-														 + clinObservableList.get(i).getClinContent() + "\")"); 
+		if(!propNumText.getText().matches(propReg)) {
+			passed = false;
+			System.out.println("Error: Version Proposal Number \"" + propNumText.getText() + "\" does not match regexp " + propReg);
+		}
+		for (SOW s : sowObservableList) {
+			if(!s.getReference().matches(sowRefReg)) {
+				passed = false;
+				System.out.println("Error: Sow Reference \"" + "" + s.getReference() + "\" does not match regexp " + sowRefReg);
 			}
 		}
 
-		if(!sdrlObservableList.isEmpty()) {
-			for(int i = 0; i < sdrlObservableList.size(); i++) {
-				DBUtil.dbExecuteUpdate("CALL insert_sdrl(" + vid + ", \"" + sdrlObservableList.get(i).getName()
-													     + "\", \"" + sdrlObservableList.get(i).getSdrlInfo() + "\")");
+		if (passed) {
+			System.out.println("Save Changes Button");
+			ResultSet rs = DBUtil.dbExecuteQuery("CALL insert_new_project(" + versionText.getText() + ", \""
+					+ projectNameText.getText() + "\", \"" + pmText.getText() + "\", " + propNumText.getText() + ",'"
+					+ startDate.getValue().toString() + "', '" + endDate.getValue().toString() + "')");
+			while (rs.next()) {
+				vid = rs.getInt("idProjectVersion");
 			}
-		}
+			rs.close();
 
-		if(!sowObservableList.isEmpty()) {
-			for(int i = 0; i < sowObservableList.size(); i++) {
-				DBUtil.dbExecuteQuery("CALL insert_sow(" + vid + ", " + sowObservableList.get(i).getReference()
-													      + ", \"" + sowObservableList.get(i).getSowContent() + "\")");
+			for(CLIN c : clinObservableList) {
+				DBUtil.dbExecuteUpdate("CALL insert_clin(" + vid + ", \"" + c.getIndex()
+						+ "\", \"" + c.getProjectType() + "\", \""
+						+ c.getClinContent() + "\")");
 			}
+
+			for(SDRL s : sdrlObservableList) {
+				DBUtil.dbExecuteUpdate("CALL insert_sdrl(" + vid + ", \"" + s.getName()
+						+ "\", \"" + s.getSdrlInfo() + "\")");
+			}
+
+			for(SOW s : sowObservableList) 	{
+				DBUtil.dbExecuteQuery("CALL insert_sow(" + vid + ", " + s.getReference()
+						+ ", \"" + s.getSowContent() + "\")");
+			}
+
+			// TODO Maybe find a way to make this transition faster, doesn't transition until the query fully connects.
+			try {
+				Parent root = FXMLLoader.load(getClass().getResource("PM_Projects.fxml"));
+
+				Stage pmProjectsStage = new Stage();
+				pmProjectsStage.setTitle("Estimation Suite - Product Manager - Projects");
+				pmProjectsStage.setScene(new Scene(root));
+				pmProjectsStage.show();
+
+				Stage stage = (Stage) saveChangesButton.getScene().getWindow();
+				stage.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
 		}
-		
-		// TODO Maybe find a way to make this transition faster, doesn't transition until the query fully connects.
-		try {
-			Parent root = FXMLLoader.load(getClass().getResource("PM_Projects.fxml"));
 
-			Stage pmProjectsStage = new Stage();
-			pmProjectsStage.setTitle("Estimation Suite - Product Manager - Projects");
-			pmProjectsStage.setScene(new Scene(root));
-			pmProjectsStage.show();
+		/**
+		 * System.out.println("Project Name: " + projectNameText.getText());
+		 * System.out.println("Project Manager: " + pmText.getText());
+		 * System.out.println("Project Label: " + labelText.getText());
+		 * System.out.println("Version Number: " + versionText.getText());
+		 * System.out.println("Start Date: " + startDate.getValue());
+		 * System.out.println("End Date: " + endDate.getValue());
+		 */
+		// DBUtil.dbExecuteUpdate("INSERT INTO Project (Name) VALUES (' " +
+		// projectNameText.getText() + "')"); //THIS WORK YAY
 
-			Stage stage = (Stage) saveButton.getScene().getWindow();
-			stage.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		/**System.out.println("Project Name: " + projectNameText.getText());
-		System.out.println("Project Manager: " + pmText.getText());
-		System.out.println("Project Label: " + labelText.getText());
-		System.out.println("Version Number: " + versionText.getText());
-		System.out.println("Start Date: " + startDate.getValue());
-		System.out.println("End Date: " + endDate.getValue());*/
-		//DBUtil.dbExecuteUpdate("INSERT INTO Project (Name) VALUES (' " + projectNameText.getText() + "')"); //THIS WORK YAY
-		
 	}
 
 	@FXML
 	/**
 	 * Discards the project without saving it do the database
+	 *
 	 * @param event
 	 */
-	public void discardChanges(ActionEvent event) {
+	public void discardNewChanges(ActionEvent event) {
 		try {
 			Parent root = FXMLLoader.load(getClass().getResource("PM_Projects.fxml"));
 
@@ -350,7 +384,7 @@ public class PM_EditProjectController implements Initializable{
 			pmProjectsStage.setScene(new Scene(root));
 			pmProjectsStage.show();
 
-			Stage stage = (Stage) discardButton.getScene().getWindow();
+			Stage stage = (Stage) discardChangesButton.getScene().getWindow();
 			stage.close();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -360,10 +394,98 @@ public class PM_EditProjectController implements Initializable{
 	@FXML
 	/**
 	 * Submits the project for estimation
-	 * @param event
+	 * Code is similar to saveChanges, except
+	 * Submit for Estimation in the New Project Page
+	 * saves the project and adds a submission date.
+	 *
 	 */
-	public void submitForEstimation(ActionEvent event) {
-		System.out.println("Submit Button");
+	public void submitForEstimation(ActionEvent event) throws SQLException, ClassNotFoundException {
+		// TODO possibly do a datatype check before actually saving anything.
+		int vid = 0;
+
+		boolean passed = true;
+
+		// TODO: Find acceptable regexps for each field
+		//       add checks for clin dates etc discussed in sprint review
+		//       change to an error popup instead of printing to console
+
+		String versionReg = "\\d*(.\\d*)*";
+		String propReg = "^[0-9]*$";
+		String sowRefReg = "^[0-9]*$";
+
+		if (!versionText.getText().matches(versionReg)) {
+			passed = false;
+			System.out.println("Error: Version Text \"" + versionText.getText() + "\" does not match regexp " + versionReg);
+		}
+		if (!propNumText.getText().matches(propReg)) {
+			passed = false;
+			System.out.println("Error: Version Proposal Number \"" + propNumText.getText() + "\" does not match regexp " + propReg);
+		}
+		for (SOW s : sowObservableList) {
+			if (!s.getReference().matches(sowRefReg)) {
+				passed = false;
+				System.out.println("Error: Sow Reference \"" + "" + s.getReference() + "\" does not match regexp " + sowRefReg);
+			}
+		}
+
+		if (passed) {
+			System.out.println("Save Changes Button");
+			ResultSet rs = DBUtil.dbExecuteQuery("CALL sfe_insert(" + versionText.getText() + ", \""
+					+ projectNameText.getText() + "\", \"" + pmText.getText() + "\", " + propNumText.getText() + ",'"
+					+ startDate.getValue().toString() + "', '" + endDate.getValue().toString() + "', '" + java.time.LocalDate.now() + "')");
+			while (rs.next()) {
+				vid = rs.getInt("idProjectVersion");
+			}
+			rs.close();
+
+			for (CLIN c : clinObservableList) {
+				DBUtil.dbExecuteUpdate("CALL insert_clin(" + vid + ", \"" + c.getIndex()
+						+ "\", \"" + c.getProjectType() + "\", \""
+						+ c.getClinContent() + "\")");
+			}
+
+			for (SDRL s : sdrlObservableList) {
+				DBUtil.dbExecuteUpdate("CALL insert_sdrl(" + vid + ", \"" + s.getName()
+						+ "\", \"" + s.getSdrlInfo() + "\")");
+			}
+
+			for (SOW s : sowObservableList) {
+				DBUtil.dbExecuteQuery("CALL insert_sow(" + vid + ", " + s.getReference()
+						+ ", \"" + s.getSowContent() + "\")");
+			}
+
+			// TODO Maybe find a way to make this transition faster, doesn't transition until the query fully connects.
+			// TODO Doesn't transition back to the Projects page!!!!
+			try {
+				Parent root = FXMLLoader.load(getClass().getResource("PM_Projects.fxml"));
+
+				Stage pmProjectsStage = new Stage();
+				pmProjectsStage.setTitle("Estimation Suite - Product Manager - Projects");
+				pmProjectsStage.setScene(new Scene(root));
+				pmProjectsStage.show();
+
+				Stage stage = (Stage) submitButton.getScene().getWindow();
+				stage.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		}
 	}
 
+	public void setProject(ProjectVersion proj) {
+		this.proj = proj;
+		setAllFields();
+	}
+
+	private void setAllFields() {
+		clinObservableList.addAll(proj.getCLINList());
+		sowObservableList.addAll(proj.getSOWList());
+		sdrlObservableList.addAll(proj.getSDRLList());
+
+		versionText.setText(proj.getVersionNumber());
+		projectNameText.setText(proj.getName());
+		pmText.setText(proj.getProjectManager());
+		propNumText.setText(proj.getProposalNumber());
+	}
 }

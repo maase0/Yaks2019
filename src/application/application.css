@@ -243,3 +243,41 @@
 	-fx-background-color: linear-gradient(#2A5058, #5077bf);
 	-fx-cursor: hand;
 }
+
+.titled-pane Label {
+	-fx-font-family: sans-serif;
+    -fx-text-fill: #000000;
+    -fx-font-size: 14px;
+}
+
+.titled-pane .title {
+	-fx-base: #d0dcf2;
+    -fx-alignment: center-left; 
+    -fx-cursor: "hand";
+    -fx-focus-color: #555555;
+    -fx-font-family: sans-serif;
+    -fx-font-size: 12pt;
+    -fx-font-weight: bold; 
+    -fx-text-fill: #ffffff; 
+}
+
+.titled-pane:expanded { 
+    -fx-text-fill: #ffffff; 
+}
+
+.titled-pane:expanded > .title {
+    -fx-base: #555555; 
+    -fx-text-fill: #ffffff; 
+}
+
+.titled-pane:hover > .title {
+    -fx-base: #555555;
+}
+
+.titled-pane:hover { 
+    -fx-text-fill: #ffffff; 
+}
+
+.titled-pane .arrow {
+    -fx-opacity: 1;
+}

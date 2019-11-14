@@ -1,8 +1,10 @@
 package application;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+import DB.DBUtil;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -92,7 +94,7 @@ public class Login_Controller implements Initializable{
 			}
 		}
 	}
-	public void Exit(ActionEvent event) {
+	public void Exit(ActionEvent event) throws SQLException {
 		Stage stage = (Stage) exitBtn.getScene().getWindow();
 		stage.close();
 	}

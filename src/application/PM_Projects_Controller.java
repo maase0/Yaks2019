@@ -202,9 +202,19 @@ public class PM_Projects_Controller implements Initializable {
 
 			ResultSet rs = DBUtil.dbExecuteQuery("SELECT * FROM ProjectVersion WHERE idProject=" + project.getID());
 			String versionID = "";
-			while(rs.next()) {
-				 versionID = rs.getString("idProjectVersion");
-			}
+			//while(rs.next()) {
+			//	 versionID = rs.getString("idProjectVersion");
+			//}
+			
+			rs.last();
+			versionID = rs.getString("idProjectVersion");
+			
+			
+			version.setName(rs.getString("Project_Name"));
+			version.setProjectManager(rs.getString("Project_Manager"));
+			version.setVersionNumber(rs.getString("Version_Number"));
+			//TODO: get proposal numbers and PoPs
+			//version.setP
 			
 			rs = DBUtil.dbExecuteQuery("CALL select_clins(" + versionID +")");
 				

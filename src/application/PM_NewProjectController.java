@@ -482,5 +482,9 @@ public class PM_NewProjectController implements Initializable {
 		clinObservableList.addAll(proj.getCLINList());
 		sowObservableList.addAll(proj.getSOWList());
 		sdrlObservableList.addAll(proj.getSDRLList());
+		
+		versionText.setText(proj.getVersionNumber());
+		projectNameText.setText(proj.getName());
+		pmText.setText(proj.getProjectManager());
 	}
 }

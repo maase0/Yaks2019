@@ -3,6 +3,7 @@ package application;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 import DB.DBUtil;
@@ -215,7 +216,14 @@ public class PM_Projects_Controller implements Initializable {
 			version.setName(rs.getString("Project_Name"));
 			version.setProjectManager(rs.getString("Project_Manager"));
 			version.setVersionNumber(rs.getString("Version_Number"));
-			version.setProposalNumber("Proposal_Number");
+			version.setProposalNumber(rs.getString("Proposal_Number"));
+			
+			String start = rs.getString("PoP_Start");
+			String end = rs.getString("PoP_End");
+					
+			version.setPopStart(start == null ? null : LocalDate.parse(start));
+			version.setPopEnd(end == null ? null : LocalDate.parse(end));
+
 			// version.setPopStart();
 			// TODO: get proposal numbers and PoPs
 			// version.setP

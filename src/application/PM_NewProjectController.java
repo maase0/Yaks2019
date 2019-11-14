@@ -487,5 +487,8 @@ public class PM_NewProjectController implements Initializable {
 		projectNameText.setText(proj.getName());
 		pmText.setText(proj.getProjectManager());
 		propNumText.setText(proj.getProposalNumber());
+		
+		startDate.setValue(proj.getPopStart());
+		endDate.setValue(proj.getPopEnd());
 	}
 }

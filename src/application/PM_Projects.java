@@ -1,7 +1,7 @@
 package application;
 	
 import DB.DBUtil;
-import com.sun.corba.se.spi.orbutil.threadpool.ThreadPool;
+//import com.sun.corba.se.spi.orbutil.threadpool.ThreadPool;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -20,7 +20,7 @@ public class PM_Projects extends Application {
 		try {
             // Read file fxml and draw interface.
             Parent root = FXMLLoader.load(getClass()
-                    .getResource("PM - Projects.fxml"));
+                    .getResource("PM_Projects.fxml"));
  
             primaryStage.setTitle("Estimation Suite - Product Manager - Projects");
             primaryStage.setScene(new Scene(root));

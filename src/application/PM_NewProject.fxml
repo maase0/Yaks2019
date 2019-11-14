@@ -103,10 +103,10 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Label text="Project Manager" />
-                        <Label text="Proposal Number" GridPane.rowIndex="1" />
-                        <Label text="Version Number" GridPane.rowIndex="2" />
-                        <Label text="Period of Performance" GridPane.rowIndex="3" />
+                        <Label text="Project Manager:" GridPane.halignment="LEFT" />
+                        <Label text="Proposal Number:" GridPane.rowIndex="1" />
+                        <Label text="Version Number:" GridPane.rowIndex="2" />
+                        <Label text="Period of Performance:" GridPane.rowIndex="3" />
                         <TextField fx:id="pmText" GridPane.columnIndex="1" />
                         <TextField fx:id="propNumText" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <TextField fx:id="versionText" GridPane.columnIndex="1" GridPane.rowIndex="2" />
@@ -120,7 +120,7 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <DatePicker fx:id="startDate" />
+                              <DatePicker fx:id="startDate" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                               <DatePicker fx:id="endDate" GridPane.columnIndex="2" />
                               <Label text="to" GridPane.columnIndex="1" />
                            </children>

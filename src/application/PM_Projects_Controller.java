@@ -277,8 +277,7 @@ public class PM_Projects_Controller implements Initializable {
 
 	public void discardProject(Project project) throws SQLException, ClassNotFoundException {
 		DBUtil.dbExecuteUpdate("CALL delete_project(" + project.getID() + ")");
-		unsubmittedObservableList.removeAll();
-		fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NULL", unsubmittedObservableList);
+		unsubmittedObservableList.remove(project);
 	}
 
 

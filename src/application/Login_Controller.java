@@ -77,7 +77,21 @@ public class Login_Controller implements Initializable{
 			}
 		}
 		else {
-			System.out.println("Select a role");
+		//previous error handling was
+		//	System.out.println("Select a role");
+			try {
+			Parent root = FXMLLoader.load(getClass()
+					.getResource("Error_Window.fxml"));
+			Stage errorStage = new Stage();
+            errorStage.setTitle("ERROR");
+            //trying to figure out how to change the text on load
+//            errorStage.setText("ERROR!";) 
+			errorStage.setScene(new Scene(root));
+			errorStage.show();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			}
 		}
 	}
 	public void Exit(ActionEvent event) throws SQLException {

@@ -1,5 +1,5 @@
 package application;
-	
+
 import DB.DBUtil;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -19,8 +19,8 @@ public class PM_Projects extends Application {
 		try {
             // Read file fxml and draw interface.
             Parent root = FXMLLoader.load(getClass()
-                    .getResource("PM - Projects.fxml"));
- 
+                    .getResource("PM_Projects.fxml"));
+
             primaryStage.setTitle("Estimation Suite - Product Manager - Projects");
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
@@ -29,7 +29,7 @@ public class PM_Projects extends Application {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void main(String[] args) {
 		launch(args);
 	}

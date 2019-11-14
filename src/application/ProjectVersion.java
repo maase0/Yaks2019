@@ -1,5 +1,6 @@
 package application;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -9,8 +10,8 @@ public class ProjectVersion
 	private String name;
 	private String projectManager;
 	private String versionNumber;
-	private Date popStart;
-	private Date popEnd;
+	private LocalDate popStart;
+	private LocalDate popEnd;
 	private String proposalNumber;
 	private ArrayList<CLIN> clins = new ArrayList();
 	private ArrayList<SDRL> sdrls = new ArrayList();
@@ -53,19 +54,19 @@ public class ProjectVersion
 		this.versionNumber = versionNumber;
 	}
 
-	public Date getPopStart() {
+	public LocalDate getPopStart() {
 		return popStart;
 	}
 
-	public void setPopStart(Date popStart) {
+	public void setPopStart(LocalDate popStart) {
 		this.popStart = popStart;
 	}
 
-	public Date getPopEnd() {
+	public LocalDate getPopEnd() {
 		return popEnd;
 	}
 
-	public void setPopEnd(Date popEnd) {
+	public void setPopEnd(LocalDate popEnd) {
 		this.popEnd = popEnd;
 	}
 	

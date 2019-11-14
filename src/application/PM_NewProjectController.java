@@ -284,7 +284,7 @@ public class PM_NewProjectController implements Initializable {
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
 	 */
-	public void saveChanges(ActionEvent event) throws SQLException, ClassNotFoundException {
+	public void saveChanges() throws SQLException, ClassNotFoundException {
 		// TODO possibly do a datatype check before actually saving anything.
 		int vid = 0;
 
@@ -294,7 +294,7 @@ public class PM_NewProjectController implements Initializable {
 		//       add checks for clin dates etc discussed in sprint review
 		//       change to an error popup instead of printing to console
 
-		String versionReg = "\\d(.\\d)*";
+		String versionReg = "\\d*(.\\d)*";
 		String propReg = "^[0-9]*$";
 		String sowRefReg = "^[0-9]*$";
 		
@@ -315,7 +315,7 @@ public class PM_NewProjectController implements Initializable {
 
 		if (passed) {
 			System.out.println("Save Changes Button");
-			ResultSet rs = DBUtil.dbExecuteQuery("CALL insert_new_project(" + versionText.getText() + ", \""
+			ResultSet rs = DBUtil.dbExecuteQuery("CALL insert_new_project('" + versionText.getText() + "', \""
 					+ projectNameText.getText() + "\", \"" + pmText.getText() + "\", " + propNumText.getText() + ",'"
 					+ startDate.getValue().toString() + "', '" + endDate.getValue().toString() + "')");
 			while (rs.next()) {
@@ -340,30 +340,9 @@ public class PM_NewProjectController implements Initializable {
 			}
 
 			// TODO Maybe find a way to make this transition faster, doesn't transition until the query fully connects.
-			try {
-				Parent root = FXMLLoader.load(getClass().getResource("PM_Projects.fxml"));
-
-				Stage pmProjectsStage = new Stage();
-				pmProjectsStage.setTitle("Estimation Suite - Product Manager - Projects");
-				pmProjectsStage.setScene(new Scene(root));
-				pmProjectsStage.show();
-
-				Stage stage = (Stage) saveButton.getScene().getWindow();
-				stage.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			
 
 		}
-
-		/**
-		 * System.out.println("Project Name: " + projectNameText.getText());
-		 * System.out.println("Project Manager: " + pmText.getText());
-		 * System.out.println("Project Label: " + labelText.getText());
-		 * System.out.println("Version Number: " + versionText.getText());
-		 * System.out.println("Start Date: " + startDate.getValue());
-		 * System.out.println("End Date: " + endDate.getValue());
-		 */
 		// DBUtil.dbExecuteUpdate("INSERT INTO Project (Name) VALUES (' " +
 		// projectNameText.getText() + "')"); //THIS WORK YAY
 
@@ -400,84 +379,36 @@ public class PM_NewProjectController implements Initializable {
 	 *
 	 */
 	public void submitForEstimation(ActionEvent event) throws SQLException, ClassNotFoundException {
-		// TODO possibly do a datatype check before actually saving anything.
-		int vid = 0;
+		saveChanges();
+		
+		try {
+			Parent root = FXMLLoader.load(getClass().getResource("PM_Projects.fxml"));
 
-		boolean passed = true;
+			Stage pmProjectsStage = new Stage();
+			pmProjectsStage.setTitle("Estimation Suite - Product Manager - Projects");
+			pmProjectsStage.setScene(new Scene(root));
+			pmProjectsStage.show();
 
-		// TODO: Find acceptable regexps for each field
-		//       add checks for clin dates etc discussed in sprint review
-		//       change to an error popup instead of printing to console
-
-		String versionReg = "\\d*(.\\d*)*";
-		String propReg = "^[0-9]*$";
-		String sowRefReg = "^[0-9]*$";
-
-		if (!versionText.getText().matches(versionReg)) {
-			passed = false;
-			System.out.println("Error: Version Text \"" + versionText.getText() + "\" does not match regexp " + versionReg);
-		}
-		if (!propNumText.getText().matches(propReg)) {
-			passed = false;
-			System.out.println("Error: Version Proposal Number \"" + propNumText.getText() + "\" does not match regexp " + propReg);
-		}
-		for (SOW s : sowObservableList) {
-			if (!s.getReference().matches(sowRefReg)) {
-				passed = false;
-				System.out.println("Error: Sow Reference \"" + "" + s.getReference() + "\" does not match regexp " + sowRefReg);
-			}
-		}
-
-		if (passed) {
-			System.out.println("Save Changes Button");
-			ResultSet rs = DBUtil.dbExecuteQuery("CALL sfe_insert(" + versionText.getText() + ", \""
-					+ projectNameText.getText() + "\", \"" + pmText.getText() + "\", " + propNumText.getText() + ",'"
-					+ startDate.getValue().toString() + "', '" + endDate.getValue().toString() + "', '" + java.time.LocalDate.now() + "')");
-			while (rs.next()) {
-				vid = rs.getInt("idProjectVersion");
-			}
-			rs.close();
-
-			for (CLIN c : clinObservableList) {
-				DBUtil.dbExecuteUpdate("CALL insert_clin(" + vid + ", \"" + c.getIndex()
-						+ "\", \"" + c.getProjectType() + "\", \""
-						+ c.getClinContent() + "\")");
-			}
-
-			for (SDRL s : sdrlObservableList) {
-				DBUtil.dbExecuteUpdate("CALL insert_sdrl(" + vid + ", \"" + s.getName()
-						+ "\", \"" + s.getSdrlInfo() + "\")");
-			}
-
-			for (SOW s : sowObservableList) {
-				DBUtil.dbExecuteQuery("CALL insert_sow(" + vid + ", " + s.getReference()
-						+ ", \"" + s.getSowContent() + "\")");
-			}
-
-			// TODO Maybe find a way to make this transition faster, doesn't transition until the query fully connects.
-			// TODO Doesn't transition back to the Projects page!!!!
-			try {
-				Parent root = FXMLLoader.load(getClass().getResource("PM_Projects.fxml"));
-
-				Stage pmProjectsStage = new Stage();
-				pmProjectsStage.setTitle("Estimation Suite - Product Manager - Projects");
-				pmProjectsStage.setScene(new Scene(root));
-				pmProjectsStage.show();
-
-				Stage stage = (Stage) submitButton.getScene().getWindow();
-				stage.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
+			Stage stage = (Stage) saveButton.getScene().getWindow();
+			stage.close();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 	
+	/**
+	 * Sets the project version
+	 * @param proj
+	 */
 	public void setProject(ProjectVersion proj) {
 		this.proj = proj;
 		setAllFields();
 	}
 	
+	/**
+	 * Sets the data for all the various input fields in the project information,
+	 * inserts CLINs, SOWs, SDRLs into their respective lists
+	 */
 	private void setAllFields() {
 		clinObservableList.addAll(proj.getCLINList());
 		sowObservableList.addAll(proj.getSOWList());

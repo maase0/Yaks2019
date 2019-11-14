@@ -246,8 +246,8 @@
 
 .titled-pane Label {
 	-fx-font-family: sans-serif;
-    -fx-font-weight: bold;
     -fx-text-fill: #000000;
+    -fx-font-size: 14px;
 }
 
 .titled-pane .title {

@@ -332,7 +332,7 @@ public class PM_Projects_Controller implements Initializable {
 	}
 
 	class UnestimatedCell extends ProjectListCell {
-		Button estimateButton = new Button("Estimated");
+		Button estimateButton = new Button("Estimate");
 		Button returnButton = new Button("Return");
 
 		public UnestimatedCell() {

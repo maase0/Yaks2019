@@ -250,14 +250,14 @@ public class PM_Projects_Controller implements Initializable {
 			rs.close();
 
 			// Opens New Project page
-			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("PM_NewProject.fxml"));
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("PM_EditProject.fxml"));
 			Parent root = fxmlLoader.load();
 
 			Stage pmNewProjectStage = new Stage();
 			pmNewProjectStage.setTitle("Estimation Suite - Product Manager - Edit Project");
 			pmNewProjectStage.setScene(new Scene(root));
 
-			PM_NewProjectController controller = fxmlLoader.<PM_NewProjectController>getController();
+			PM_EditProjectController controller = fxmlLoader.getController();
 
 			controller.setProject(version);
 

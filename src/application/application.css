@@ -244,6 +244,12 @@
 	-fx-cursor: hand;
 }
 
+.titled-pane Label {
+	-fx-font-family: sans-serif;
+    -fx-text-fill: #000000;
+    -fx-font-size: 14px;
+}
+
 .titled-pane .title {
 	-fx-base: #d0dcf2;
     -fx-alignment: center-left; 

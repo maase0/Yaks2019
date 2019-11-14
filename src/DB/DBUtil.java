@@ -115,8 +115,6 @@ public class DBUtil
 		ResultSet resultSet = null;
 		CachedRowSetImpl crs = null;
 		try {
-			//Connect to DB
-			dbConnect();
 			System.out.println("\nSelect statement: " + queryStmt + "\n");
 			
 			//Create statement
@@ -132,16 +130,14 @@ public class DBUtil
 		System.out.println("Problem occured at executeQuery operation: " + e);
 		throw e;
 	} finally {
-		if(resultSet!=null) {
-			//Close resultSet
-			resultSet.close();
-		}
-		if(stmt != null) {
-			//Close Statement
-			stmt.close();
-		}
-		//Close Connection
-		dbDisconnect();
+			if (resultSet != null) {
+				//Close resultSet
+				resultSet.close();
+			}
+			if (stmt != null) {
+				//Close Statement
+				stmt.close();
+			}
 		}
 		//Return CachedRowSet
 		return crs;
@@ -153,8 +149,6 @@ public class DBUtil
 		//Declare statement as null
 		Statement stmt = null;
 		try {
-			//Connect to DB (Establish MySQL Connection)
-			dbConnect();
 			System.out.println("\nSQL statement: " + sqlStmt + "\n");
 			//Create Statement
 			stmt = conn.createStatement();
@@ -168,8 +162,6 @@ public class DBUtil
 				//Close statement
 				stmt.close();
 			}
-			//Close Connection
-			dbDisconnect();
 		}
 	}
 }

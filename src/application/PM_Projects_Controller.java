@@ -77,7 +77,7 @@ public class PM_Projects_Controller implements Initializable {
 		unsubmittedListView.setCellFactory(new Callback<ListView<Project>, ListCell<Project>>() {
             @Override
             public ListCell<Project> call(ListView<Project> param) {
-                return new XCell();
+                return new UnsubmittedCell();
             }
         });
 
@@ -87,7 +87,7 @@ public class PM_Projects_Controller implements Initializable {
 		estimatedListView.setCellFactory(new Callback<ListView<Project>, ListCell<Project>>() {
             @Override
             public ListCell<Project> call(ListView<Project> param) {
-                return new XCell();
+                return new EstimatedCell();
             }
         });
 
@@ -97,7 +97,7 @@ public class PM_Projects_Controller implements Initializable {
 		unestimatedListView.setCellFactory(new Callback<ListView<Project>, ListCell<Project>>() {
             @Override
             public ListCell<Project> call(ListView<Project> param) {
-                return new XCell();
+                return new UnestimatedCell();
             }
         });
 
@@ -213,6 +213,8 @@ public class PM_Projects_Controller implements Initializable {
 			version.setName(rs.getString("Project_Name"));
 			version.setProjectManager(rs.getString("Project_Manager"));
 			version.setVersionNumber(rs.getString("Version_Number"));
+			version.setProposalNumber("Proposal_Number");
+			//version.setPopStart();
 			//TODO: get proposal numbers and PoPs
 			//version.setP
 			
@@ -272,8 +274,9 @@ public class PM_Projects_Controller implements Initializable {
 
 
 
+	
 	//https://stackoverflow.com/questions/15661500/javafx-listview-item-with-an-image-button
-	class XCell extends ListCell<Project> {
+	class UnsubmittedCell extends ListCell<Project> {
         HBox hbox = new HBox();
         Label label = new Label("(empty)");
         Pane pane = new Pane();
@@ -281,7 +284,7 @@ public class PM_Projects_Controller implements Initializable {
         Button remove = new Button("Remove");
         Project lastItem;
 
-        public XCell() {
+        public UnsubmittedCell() {
             super();
             hbox.getChildren().addAll(label, pane, edit, remove);
             HBox.setHgrow(pane, Priority.ALWAYS);
@@ -312,6 +315,80 @@ public class PM_Projects_Controller implements Initializable {
                 setGraphic(null);
             } else {
                 lastItem = item;
+                label.setText(item!=null ? item.toString() : "<null>");
+                setGraphic(hbox);
+            }
+        }
+    }
+	
+				
+	class UnestimatedCell extends ListCell<Project> {
+        HBox hbox = new HBox();
+        Label label = new Label("(empty)");
+        Pane pane = new Pane();
+        Button estimateButton = new Button("Estimated");
+        Button returnButton = new Button("Return");
+
+        public UnestimatedCell() {
+            super();
+            hbox.getChildren().addAll(label, pane, estimateButton, returnButton);
+            HBox.setHgrow(pane, Priority.ALWAYS);
+            hbox.setSpacing(10);
+            estimateButton.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    System.out.println("Estimate ITEM: " + getItem());
+                    
+                                   }
+            });
+
+            returnButton.setOnAction(new EventHandler<ActionEvent>() {
+            	@Override
+            	public void handle(ActionEvent event) {
+            		System.out.println("Return ITEM" + getItem());
+            	}
+			});
+        }
+
+        @Override
+        protected void updateItem(Project item, boolean empty) {
+            super.updateItem(item, empty);
+            setText(null);  // No text in label of super class
+            if (empty) {
+                 setGraphic(null);
+            } else {
+                label.setText(item!=null ? item.toString() : "<null>");
+                setGraphic(hbox);
+            }
+        }
+    }
+	//estimated: view estimate
+	class EstimatedCell extends ListCell<Project> {
+        HBox hbox = new HBox();
+        Label label = new Label("(empty)");
+        Pane pane = new Pane();
+        Button viewButton = new Button("View");
+
+        public EstimatedCell() {
+            super();
+            hbox.getChildren().addAll(label, pane, viewButton);
+            HBox.setHgrow(pane, Priority.ALWAYS);
+            hbox.setSpacing(10);
+            viewButton.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    System.out.println("VIEW ITEM: " + getItem());
+                }
+            });
+        }
+
+        @Override
+        protected void updateItem(Project item, boolean empty) {
+            super.updateItem(item, empty);
+            setText(null);  // No text in label of super class
+            if (empty) {
+                setGraphic(null);
+            } else {
                 label.setText(item!=null ? item.toString() : "<null>");
                 setGraphic(hbox);
             }

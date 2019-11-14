@@ -22,9 +22,7 @@ public class ProjectVersion
     	return name;
     }
     
-    public ArrayList<CLIN> getCLINs() {
-    	return clins;
-    }
+    
     
     public void setName(String name) {
     	this.name = name;
@@ -84,6 +82,17 @@ public class ProjectVersion
 	
 	public void removeSOW(SOW sow) {
 		this.sows.remove(sow);
+	}
+	
+	public ArrayList<CLIN> getCLINList() {
+    	return clins;
+    }
+	
+	public ArrayList<SOW> getSOWList() {
+		return sows;
+	}
+	public ArrayList<SDRL> getSDRLList() {
+		return sdrls;
 	}
 	
 	public void setProjectVersionID(String version) {

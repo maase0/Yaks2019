@@ -101,20 +101,26 @@ public class PM_Projects_Controller implements Initializable {
             }
         });
 
-		System.out.println("\nUnsubmitted Project Names");
-		fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NULL",
-				unsubmittedObservableList);
+		
+			System.out.println("\nUnsubmitted Project Names");
+			fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NULL",
+					unsubmittedObservableList);
 
-		System.out.println("\nUnestimated Project Names");
-		fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NOT NULL AND Estimated_Date IS NULL",
-				unestimatedObservableList);
+			System.out.println("\nUnestimated Project Names");
+			fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NOT NULL AND Estimated_Date IS NULL",
+					unestimatedObservableList);
 
-		System.out.println("\nEstimated Project Names");
-		fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NOT NULL AND Estimated_Date IS NOT NULL",
-				estimatedObservableList);
-
+			System.out.println("\nEstimated Project Names");
+			fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NOT NULL AND Estimated_Date IS NOT NULL",
+					estimatedObservableList);
+		
 	}
 
+	/**
+	 * Fills the given list with projects retrieved with the given query
+	 * @param query
+	 * @param list
+	 */
 	private void fillProjectList(String query, ObservableList<Project> list) {
 		try {
 
@@ -200,15 +206,28 @@ public class PM_Projects_Controller implements Initializable {
 				 versionID = rs.getString("idProjectVersion");
 			}
 			
-			rs = DBUtil
-					.dbExecuteQuery("CALL select_clins(" + versionID +")");
-
-
+			rs = DBUtil.dbExecuteQuery("CALL select_clins(" + versionID +")");
+				
 			while(rs.next()) {
-				System.out.println(rs.getString("CLIN_Index"));
+				//System.out.println(rs.getString("CLIN_Index"));
 				version.addCLIN(new CLIN(rs.getString("CLIN_Index"), rs.getString("Project_Type"), rs.getString("CLIN_Description")));
 			}
+			
+			rs = DBUtil.dbExecuteQuery("CALL select_sdrls(" + versionID +")");	
+			while(rs.next()) {
+				//System.out.println(rs.getString("CLIN_Index"));
+				version.addSDRL(new SDRL(rs.getString("SDRL_Title"), rs.getString("SDRL_Description")));
+			}
+			
+			rs = DBUtil.dbExecuteQuery("CALL select_sows(" + versionID +")");	
+			while(rs.next()) {
+				//System.out.println(rs.getString("CLIN_Index"));
+				version.addSOW(new SOW(rs.getString("Reference_Number"), rs.getString("SoW_Description")));
+			}
+			
+			
 			rs.close();
+						
 			// Opens New Project page
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("PM_NewProject.fxml"));
 			Parent root = fxmlLoader.load();

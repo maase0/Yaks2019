@@ -479,6 +479,8 @@ public class PM_NewProjectController implements Initializable {
 	}
 	
 	private void setAllFields() {
-		clinObservableList.addAll(proj.getCLINs());
+		clinObservableList.addAll(proj.getCLINList());
+		sowObservableList.addAll(proj.getSOWList());
+		sdrlObservableList.addAll(proj.getSDRLList());
 	}
 }

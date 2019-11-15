@@ -32,7 +32,7 @@ public class Login_Controller implements Initializable{
 		
 	}
 	public void Login(ActionEvent event) {
-		if (loginBox.getValue() == "Product Manager") {
+		if (loginBox.getValue().equals("Product Manager")) {
 			try {
 	            // Opens Product Manager page
 	            Parent root = FXMLLoader.load(getClass()
@@ -55,7 +55,7 @@ public class Login_Controller implements Initializable{
 				e.printStackTrace();
 			}
 		}
-		else if (loginBox.getValue() == "Estimator") {
+		else if (loginBox.getValue().equals("Estimator")) {
 			//Open Estimator page here
 			try {
 	            // Opens Estimator page
@@ -66,7 +66,8 @@ public class Login_Controller implements Initializable{
 	            estimatorProjectsStage.setTitle("Estimation Suite - Estimator - Projects");
 	            estimatorProjectsStage.setScene(new Scene(root));
 	            estimatorProjectsStage.show();
-	            estimatorProjectsStage.setResizable(false);
+	            estimatorProjectsStage.centerOnScreen();
+	            estimatorProjectsStage.setResizable(true);
 	            estimatorProjectsStage.sizeToScene();
 	            
 	            //Closes Login Page

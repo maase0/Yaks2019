@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PM_Projects_Controller">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Estimator_Projects_Controller">
    <center>
       <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="330.0" prefWidth="810.0" style="-fx-border-color: black;" BorderPane.alignment="CENTER">
          <children>
@@ -35,7 +35,7 @@
                                                             <Font name="System Bold" size="12.0" />
                                                          </font>
                                                       </Label>
-                                                      <Text fx:id="editBtn21" fill="#321ee5" layoutX="568.0" layoutY="18.0" onMouseClicked="#editProject" strokeType="OUTSIDE" strokeWidth="0.0" text="View Project Estimate" underline="true">
+                                                      <Text fill="#321ee5" layoutX="568.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" text="View Project Estimate" underline="true">
                                                          <cursor>
                                                             <Cursor fx:constant="HAND" />
                                                          </cursor></Text>
@@ -48,7 +48,7 @@
                                                             <Font name="System Bold" size="12.0" />
                                                          </font>
                                                       </Label>
-                                                      <Text fx:id="editBtn22" fill="#321ee5" layoutX="567.0" layoutY="18.0" onMouseClicked="#editProject" strokeType="OUTSIDE" strokeWidth="0.0" text="View Project Estimate" underline="true">
+                                                      <Text fill="#321ee5" layoutX="567.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" text="View Project Estimate" underline="true">
                                                          <cursor>
                                                             <Cursor fx:constant="HAND" />
                                                          </cursor></Text>
@@ -61,7 +61,7 @@
                                                             <Font name="System Bold" size="12.0" />
                                                          </font>
                                                       </Label>
-                                                      <Text fx:id="editBtn23" fill="#321ee5" layoutX="567.0" layoutY="18.0" onMouseClicked="#editProject" strokeType="OUTSIDE" strokeWidth="0.0" text="View Project Estimate" underline="true">
+                                                      <Text fill="#321ee5" layoutX="567.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" text="View Project Estimate" underline="true">
                                                          <cursor>
                                                             <Cursor fx:constant="HAND" />
                                                          </cursor></Text>
@@ -90,11 +90,11 @@
                                                             <Font name="System Bold" size="12.0" />
                                                          </font>
                                                       </Label>
-                                                      <Text fx:id="discardBtn24" fill="#321ee5" layoutX="642.0" layoutY="18.0" onMouseClicked="#discardProject" strokeType="OUTSIDE" strokeWidth="0.0" text="Return" underline="true">
+                                                      <Text fill="#321ee5" layoutX="642.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Return" underline="true">
                                                          <cursor>
                                                             <Cursor fx:constant="HAND" />
                                                          </cursor></Text>
-                                                      <Text fx:id="editBtn24" fill="#321ee5" layoutX="589.0" layoutY="18.0" onMouseClicked="#editProject" strokeType="OUTSIDE" strokeWidth="0.0" text="Estimate" underline="true">
+                                                      <Text fill="#321ee5" layoutX="589.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Estimate" underline="true">
                                                          <cursor>
                                                             <Cursor fx:constant="HAND" />
                                                          </cursor></Text>
@@ -112,7 +112,7 @@
                </children>
             </Pane>
             <Label layoutX="57.0" layoutY="28.0" text="Logged in as: " />
-            <Label fx:id="usernameLabel" layoutX="123.0" layoutY="29.0" prefWidth="70.0" text="    Estimator">
+            <Label layoutX="123.0" layoutY="29.0" prefWidth="70.0" text="    Estimator">
                <font>
                   <Font name="System Bold Italic" size="12.0" />
                </font>

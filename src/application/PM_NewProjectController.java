@@ -387,6 +387,9 @@ public class PM_NewProjectController implements Initializable {
 	 * saves the project and adds a submission date.
 	 *
 	 */
+
+	// TODO figure out what is causing that error for it to not transition back to projects list, even though
+	// TODO everything saves properly.
 	public void submitForEstimation(ActionEvent event) throws SQLException, ClassNotFoundException {
 		int vid = 0;
 

@@ -19,6 +19,9 @@ import javafx.stage.Stage;
 public class Estimator_Projects_Controller implements Initializable{
 
 	@FXML
+	private Button logoutButton;
+
+	@FXML
 	private Button newProjectBtn;
 	
 	@FXML
@@ -39,41 +42,24 @@ public class Estimator_Projects_Controller implements Initializable{
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 	//Pull Unsubmitted Projects from database
-		
 	}
-	
-	public void selectUnsubmitted(ActionEvent event) {
-		//Load unsubmitted projects from database
-	}
-	
-	public void selectSubmitted(ActionEvent event) {
-		//Load submitted projects from base
-	}
-	
-	public void addNewProject(ActionEvent event) {
+
+	public void logout(ActionEvent event) {
 		try {
-            // Opens Product Manager page
-            Parent root = FXMLLoader.load(getClass()
-                    .getResource("view/PM_NewProject.fxml"));
-            
-            Stage pmProjectsStage = new Stage();
-            pmProjectsStage.setTitle("Estimation Suite - Estimator - New Project");
-            pmProjectsStage.setScene(new Scene(root));
-            pmProjectsStage.show();
-            
-            //Closes Login Page
-            Stage stage = (Stage) newProjectBtn.getScene().getWindow();
-            stage.close();
-		} catch(Exception e) {
+			// Opens Login page
+			Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
+
+			Stage loginStage = new Stage();
+			loginStage.setTitle("Estimation Suite - Login Page");
+			loginStage.setScene(new Scene(root));
+			loginStage.show();
+
+			// Closes PM Page
+			Stage stage = (Stage) logoutButton.getScene().getWindow();
+			stage.close();
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
-	public void editProject(ActionEvent event) {
-		
-	}
-	
-	public void discardProject(ActionEvent event) {
-		
-	}
+
 }

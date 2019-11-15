@@ -93,6 +93,46 @@
 	-fx-cursor: hand;
 }
 
+.list-view {
+	-fx-background-color: transparent;
+}
+
+.list-cell {
+	-fx-background-color: transparent;
+}
+
+.list-cell Label {
+	-fx-font-family: sans-serif;
+	-fx-font-size: 14px;
+	-fx-padding: 3 0 0 0;
+}
+
+.list-cell:filled:even {
+	-fx-background-color: #ffffff;
+}
+
+.list-cell:filled:odd {
+	-fx-background-color: #f0f5fa;
+	
+}
+
+.list-cell:filled:hover {
+	-fx-background-color: #dddddd;
+}
+
+.list-cell .button {
+	-fx-text-fill: #ffffff;
+    -fx-font-family: sans-serif;
+    -fx-font-weight: bold;
+    -fx-background-color: linear-gradient(#5077bf, #2A5058);
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+}
+
+.list-cell .button:hover {
+	-fx-background-color: linear-gradient(#2A5058, #5077bf);
+	-fx-cursor: hand;
+}
+
 .combo-box .list-cell {
 	-fx-background: white;
     -fx-background-color: transparent;
@@ -204,46 +244,6 @@
 	-fx-background-color: linear-gradient(from 100% 0% to 100% 95%, #888888, #ffffff);
 }
 
-.list-view {
-	-fx-background-color: transparent;
-}
-
-.list-cell {
-	-fx-background-color: transparent;
-}
-
-.list-cell Label {
-	-fx-font-family: sans-serif;
-	-fx-font-size: 14px;
-	-fx-padding: 3 0 0 0;
-}
-
-.list-cell:filled:even {
-	-fx-background-color: #ffffff;
-}
-
-.list-cell:filled:odd {
-	-fx-background-color: #f0f5fa;
-	
-}
-
-.list-cell:filled:hover {
-	-fx-background-color: #dddddd;
-}
-
-.list-cell .button {
-	-fx-text-fill: #ffffff;
-    -fx-font-family: sans-serif;
-    -fx-font-weight: bold;
-    -fx-background-color: linear-gradient(#5077bf, #2A5058);
-    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
-}
-
-.list-cell .button:hover {
-	-fx-background-color: linear-gradient(#2A5058, #5077bf);
-	-fx-cursor: hand;
-}
-
 .titled-pane Label {
 	-fx-font-family: sans-serif;
     -fx-text-fill: #000000;
@@ -280,4 +280,39 @@
 
 .titled-pane .arrow {
     -fx-opacity: 1;
+}
+
+.new-project .list-view {
+	-fx-border-color: #000000;
+	-fx-background-color: transparent;
+}
+
+.new-project .list-cell {
+	-fx-background-color: transparent;
+}
+
+.new-project .list-cell Label {
+	-fx-font-family: sans-serif;
+	-fx-font-size: 14px;
+	-fx-padding: 3 0 0 0;
+}
+
+.new-project .list-cell:filled:even {
+	-fx-background-color: #ffffff;
+}
+
+.new-project .list-cell:filled:odd {
+	-fx-background-color: #f0f5fa;
+	
+}
+
+.new-project .list-cell:filled:hover {
+	-fx-background-color: #cccccc;
+}
+
+.new-project .list-view .list-cell:filled:selected {
+	-fx-background: #2A5058;
+    -fx-background-color: #5077bf;
+    -fx-text-fill: -fx-selection-bar-text;
+    -fx-cursor: hand;
 }

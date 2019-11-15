@@ -109,6 +109,7 @@ public class PM_Projects_Controller implements Initializable {
 		fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NOT NULL AND Estimated_Date IS NULL",
 				unestimatedObservableList);
 
+		// TODO any reason why this is duplicated? - RL
 		System.out.println("\nEstimated Project Names");
 		fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NOT NULL AND Estimated_Date IS NOT NULL",
 				estimatedObservableList);
@@ -372,7 +373,7 @@ public class PM_Projects_Controller implements Initializable {
 
 	// estimated: view estimate
 	class EstimatedCell extends ProjectListCell {
-		Button viewButton = new Button("View");
+		Button viewButton = new Button("View Project Estimate");
 
 		public EstimatedCell() {
 			super();

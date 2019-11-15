@@ -339,12 +339,21 @@ public class PM_NewProjectController implements Initializable {
 						+ ", \"" + s.getSowContent() + "\")");
 			}
 
-			// TODO Maybe find a way to make this transition faster, doesn't transition until the query fully connects.
-			
+			try {
+				Parent root = FXMLLoader.load(getClass().getResource("PM_Projects.fxml"));
+
+				Stage pmProjectsStage = new Stage();
+				pmProjectsStage.setTitle("Estimation Suite - Product Manager - Projects");
+				pmProjectsStage.setScene(new Scene(root));
+				pmProjectsStage.show();
+
+				Stage stage = (Stage) discardButton.getScene().getWindow();
+				stage.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 
 		}
-		// DBUtil.dbExecuteUpdate("INSERT INTO Project (Name) VALUES (' " +
-		// projectNameText.getText() + "')"); //THIS WORK YAY
 
 	}
 

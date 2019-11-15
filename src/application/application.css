@@ -28,17 +28,17 @@
 	-fx-font-weight: bold;
 }
 
-.new-project {
+.project {
 	-fx-border-color: black;
 	-fx-background-color: linear-gradient(from 100% 50% to 100% 100%, #ffffff, #888888);
 }
 
-.new-project-header {
+.project-header {
 	-fx-font-family: sans-serif;
     -fx-background-color: linear-gradient(from 25% 100% to 100% 100%, #ffffff, #5077bf);
 }
 
-.new-project .btn-discard {
+.project .btn-discard {
 	-fx-text-fill: #ffffff;
     -fx-font-family: "Arial Narrow";
     -fx-font-weight: bold;
@@ -46,12 +46,12 @@
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
 }
 
-.new-project .btn-discard:hover {
+.project .btn-discard:hover {
 	-fx-background-color: linear-gradient(#961912, #c75650);
 	-fx-cursor: hand;
 }
 
-.new-project .btn-save {
+.project .btn-save {
 	-fx-text-fill: #ffffff;
     -fx-font-family: "Arial Narrow";
     -fx-font-weight: bold;
@@ -59,12 +59,12 @@
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
 }
 
-.new-project .btn-save:hover {
+.project .btn-save:hover {
 	-fx-background-color: linear-gradient(#45871c, #77bf52);
 	-fx-cursor: hand;
 }
 
-.new-project-header Label {
+.project-header Label {
 	-fx-font-weight: bold;
 }
 
@@ -286,35 +286,35 @@
     -fx-opacity: 1;
 }
 
-.new-project .list-view {
+.project .list-view {
 	-fx-border-color: #000000;
 	-fx-background-color: transparent;
 }
 
-.new-project .list-cell {
+.project .list-cell {
 	-fx-background-color: transparent;
 }
 
-.new-project .list-cell Label {
+.project .list-cell Label {
 	-fx-font-family: sans-serif;
 	-fx-font-size: 14px;
 	-fx-padding: 3 0 0 0;
 }
 
-.new-project .list-cell:filled:even {
+.project .list-cell:filled:even {
 	-fx-background-color: #ffffff;
 }
 
-.new-project .list-cell:filled:odd {
+.project .list-cell:filled:odd {
 	-fx-background-color: #f0f5fa;
 	
 }
 
-.new-project .list-cell:filled:hover {
+.project .list-cell:filled:hover {
 	-fx-background-color: #cccccc;
 }
 
-.new-project .list-view .list-cell:filled:selected {
+.project .list-view .list-cell:filled:selected {
 	-fx-background: #2A5058;
     -fx-background-color: #5077bf;
     -fx-text-fill: -fx-selection-bar-text;

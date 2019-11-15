@@ -18,9 +18,9 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="new-project" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PM_NewProjectController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="project" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PM_NewProjectController">
    <top>
-      <BorderPane styleClass="new-project-header" BorderPane.alignment="CENTER">
+      <BorderPane styleClass="project-header" BorderPane.alignment="CENTER">
          <right>
             <BorderPane minHeight="75.0" minWidth="175.0" prefHeight="75.0" prefWidth="175.0" style="-fx-background-color: transparent;" BorderPane.alignment="CENTER">
                <BorderPane.margin>

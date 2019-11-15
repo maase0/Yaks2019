@@ -265,6 +265,10 @@
     -fx-text-fill: #ffffff; 
 }
 
+.titled-pane:expanded .content { 
+    -fx-background-color: linear-gradient(#ffffff, #dddddd);
+}
+
 .titled-pane:expanded > .title {
     -fx-base: #555555; 
     -fx-text-fill: #ffffff; 

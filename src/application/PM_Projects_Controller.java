@@ -250,10 +250,6 @@ public class PM_Projects_Controller implements Initializable {
 			version.setPopStart(start == null ? null : LocalDate.parse(start));
 			version.setPopEnd(end == null ? null : LocalDate.parse(end));
 
-			// version.setPopStart();
-			// TODO: get proposal numbers and PoPs
-			// version.setP
-
 			//Get all the clins, add them to the project
 			rs = DBUtil.dbExecuteQuery("CALL select_clins(" + versionID + ")");
 			while (rs.next()) {

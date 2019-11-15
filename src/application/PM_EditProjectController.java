@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 import DB.DBUtil;
@@ -429,10 +430,14 @@ public class PM_EditProjectController implements Initializable {
 		}
 
 		if (passed) {
+			String startString = startDate.getValue() == null ? "" : startDate.getValue().toString();
+			String endString = endDate.getValue() == null ? "" : endDate.getValue().toString();
+			
+			
 			System.out.println("Save Changes Button");
 			ResultSet rs = DBUtil.dbExecuteQuery("CALL sfe_insert(" + versionText.getText() + ", \""
 					+ projectNameText.getText() + "\", \"" + pmText.getText() + "\", " + propNumText.getText() + ",'"
-					+ startDate.getValue().toString() + "', '" + endDate.getValue().toString() + "', '" + java.time.LocalDate.now() + "')");
+					+ startString + "', '" + endString + "', '" + java.time.LocalDate.now() + "')");
 			while (rs.next()) {
 				vid = rs.getInt("idProjectVersion");
 			}
@@ -487,5 +492,7 @@ public class PM_EditProjectController implements Initializable {
 		projectNameText.setText(proj.getName());
 		pmText.setText(proj.getProjectManager());
 		propNumText.setText(proj.getProposalNumber());
+		startDate.setValue(proj.getPopStart());
+		endDate.setValue(proj.getPopEnd());
 	}
 }

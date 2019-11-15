@@ -38,7 +38,7 @@ import javax.swing.*;
 public class PM_NewProjectController implements Initializable {
 
 	private ProjectVersion proj;
-	
+
 	private ResultSet rs;
 	@FXML
 	private Button saveButton;
@@ -297,17 +297,17 @@ public class PM_NewProjectController implements Initializable {
 		String versionReg = "\\d*(.\\d)*";
 		String propReg = "^[0-9]*$";
 		String sowRefReg = "^[0-9]*$";
-		
-		if(!versionText.getText().matches(versionReg)) {
+
+		if (!versionText.getText().matches(versionReg)) {
 			passed = false;
 			System.out.println("Error: Version Text \"" + versionText.getText() + "\" does not match regexp " + versionReg);
 		}
-		if(!propNumText.getText().matches(propReg)) {
+		if (!propNumText.getText().matches(propReg)) {
 			passed = false;
 			System.out.println("Error: Version Proposal Number \"" + propNumText.getText() + "\" does not match regexp " + propReg);
 		}
 		for (SOW s : sowObservableList) {
-			if(!s.getReference().matches(sowRefReg)) {
+			if (!s.getReference().matches(sowRefReg)) {
 				passed = false;
 				System.out.println("Error: Sow Reference \"" + "" + s.getReference() + "\" does not match regexp " + sowRefReg);
 			}
@@ -323,28 +323,37 @@ public class PM_NewProjectController implements Initializable {
 			}
 			rs.close();
 
-			for(CLIN c : clinObservableList) {
+			for (CLIN c : clinObservableList) {
 				DBUtil.dbExecuteUpdate("CALL insert_clin(" + vid + ", \"" + c.getIndex()
 						+ "\", \"" + c.getProjectType() + "\", \""
 						+ c.getClinContent() + "\")");
 			}
 
-			for(SDRL s : sdrlObservableList) {
+			for (SDRL s : sdrlObservableList) {
 				DBUtil.dbExecuteUpdate("CALL insert_sdrl(" + vid + ", \"" + s.getName()
 						+ "\", \"" + s.getSdrlInfo() + "\")");
 			}
 
-			for(SOW s : sowObservableList) 	{
+			for (SOW s : sowObservableList) {
 				DBUtil.dbExecuteQuery("CALL insert_sow(" + vid + ", " + s.getReference()
 						+ ", \"" + s.getSowContent() + "\")");
 			}
 
-			// TODO Maybe find a way to make this transition faster, doesn't transition until the query fully connects.
-			
+			try {
+				Parent root = FXMLLoader.load(getClass().getResource("PM_Projects.fxml"));
+
+				Stage pmProjectsStage = new Stage();
+				pmProjectsStage.setTitle("Estimation Suite - Product Manager - Projects");
+				pmProjectsStage.setScene(new Scene(root));
+				pmProjectsStage.show();
+
+				Stage stage = (Stage) discardButton.getScene().getWindow();
+				stage.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 
 		}
-		// DBUtil.dbExecuteUpdate("INSERT INTO Project (Name) VALUES (' " +
-		// projectNameText.getText() + "')"); //THIS WORK YAY
 
 	}
 
@@ -379,47 +388,96 @@ public class PM_NewProjectController implements Initializable {
 	 *
 	 */
 	public void submitForEstimation(ActionEvent event) throws SQLException, ClassNotFoundException {
-		saveChanges();
-		
-		try {
-			Parent root = FXMLLoader.load(getClass().getResource("PM_Projects.fxml"));
+		int vid = 0;
 
-			Stage pmProjectsStage = new Stage();
-			pmProjectsStage.setTitle("Estimation Suite - Product Manager - Projects");
-			pmProjectsStage.setScene(new Scene(root));
-			pmProjectsStage.show();
+		boolean passed = true;
 
-			Stage stage = (Stage) saveButton.getScene().getWindow();
-			stage.close();
-		} catch (Exception e) {
-			e.printStackTrace();
+		String versionReg = "\\d*(.\\d*)*";
+		String propReg = "^[0-9]*$";
+		String sowRefReg = "^[0-9]*$";
+
+		if (!versionText.getText().matches(versionReg)) {
+			passed = false;
+			System.out.println("Error: Version Text \"" + versionText.getText() + "\" does not match regexp " + versionReg);
+		}
+		if (!propNumText.getText().matches(propReg)) {
+			passed = false;
+			System.out.println("Error: Version Proposal Number \"" + propNumText.getText() + "\" does not match regexp " + propReg);
+		}
+		for (SOW s : sowObservableList) {
+			if (!s.getReference().matches(sowRefReg)) {
+				passed = false;
+				System.out.println("Error: Sow Reference \"" + "" + s.getReference() + "\" does not match regexp " + sowRefReg);
+			}
+		}
+
+									/* DON"T DELETE THIS, THIS IS WHAT ADDS A SUBMIT DATE TO PROJECT */
+		if (passed) {
+			System.out.println("Save Changes Button");
+			ResultSet rs = DBUtil.dbExecuteQuery("CALL sfe_insert(" + versionText.getText() + ", \""
+					+ projectNameText.getText() + "\", \"" + pmText.getText() + "\", " + propNumText.getText() + ",'"
+					+ startDate.getValue().toString() + "', '" + endDate.getValue().toString() + "', '" + java.time.LocalDate.now() + "')");
+			while (rs.next()) {
+				vid = rs.getInt("idProjectVersion");
+			}
+			rs.close();
+
+			for (CLIN c : clinObservableList) {
+				DBUtil.dbExecuteUpdate("CALL insert_clin(" + vid + ", \"" + c.getIndex()
+						+ "\", \"" + c.getProjectType() + "\", \""
+						+ c.getClinContent() + "\")");
+			}
+
+			for (SDRL s : sdrlObservableList) {
+				DBUtil.dbExecuteUpdate("CALL insert_sdrl(" + vid + ", \"" + s.getName()
+						+ "\", \"" + s.getSdrlInfo() + "\")");
+			}
+
+			for (SOW s : sowObservableList) {
+				DBUtil.dbExecuteQuery("CALL insert_sow(" + vid + ", " + s.getReference()
+						+ ", \"" + s.getSowContent() + "\")");
+			}
+
+			try {
+				Parent root = FXMLLoader.load(getClass().getResource("PM_Projects.fxml"));
+
+				Stage pmProjectsStage = new Stage();
+				pmProjectsStage.setTitle("Estimation Suite - Product Manager - Projects");
+				pmProjectsStage.setScene(new Scene(root));
+				pmProjectsStage.show();
+
+				Stage stage = (Stage) saveButton.getScene().getWindow();
+				stage.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
-	
-	/**
-	 * Sets the project version
-	 * @param proj
-	 */
-	public void setProject(ProjectVersion proj) {
-		this.proj = proj;
-		setAllFields();
+
+		/**
+		 * Sets the project version
+		 * @param proj
+		 */
+		public void setProject (ProjectVersion proj){
+			this.proj = proj;
+			setAllFields();
+		}
+
+		/**
+		 * Sets the data for all the various input fields in the project information,
+		 * inserts CLINs, SOWs, SDRLs into their respective lists
+		 */
+		private void setAllFields () {
+			clinObservableList.addAll(proj.getCLINList());
+			sowObservableList.addAll(proj.getSOWList());
+			sdrlObservableList.addAll(proj.getSDRLList());
+
+			versionText.setText(proj.getVersionNumber());
+			projectNameText.setText(proj.getName());
+			pmText.setText(proj.getProjectManager());
+			propNumText.setText(proj.getProposalNumber());
+
+			startDate.setValue(proj.getPopStart());
+			endDate.setValue(proj.getPopEnd());
+		}
 	}
-	
-	/**
-	 * Sets the data for all the various input fields in the project information,
-	 * inserts CLINs, SOWs, SDRLs into their respective lists
-	 */
-	private void setAllFields() {
-		clinObservableList.addAll(proj.getCLINList());
-		sowObservableList.addAll(proj.getSOWList());
-		sdrlObservableList.addAll(proj.getSDRLList());
-		
-		versionText.setText(proj.getVersionNumber());
-		projectNameText.setText(proj.getName());
-		pmText.setText(proj.getProjectManager());
-		propNumText.setText(proj.getProposalNumber());
-		
-		startDate.setValue(proj.getPopStart());
-		endDate.setValue(proj.getPopEnd());
-	}
-}

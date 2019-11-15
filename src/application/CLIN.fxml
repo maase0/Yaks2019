@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
@@ -9,7 +12,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane fx:id="gridPane" minWidth="282.0" prefHeight="384.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.CLIN_Controller">
+<GridPane fx:id="gridPane" minWidth="282.0" prefHeight="384.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.CLIN_Controller">
     <columnConstraints>
         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="0.0" prefWidth="164.0" />
     </columnConstraints>
@@ -20,20 +23,6 @@
       <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="NEVER" />
     </rowConstraints>
    <children>
-      <GridPane hgap="5.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" prefWidth="968.0" GridPane.rowIndex="1">
-        <columnConstraints>
-          <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="79.0" minWidth="7.0" percentWidth="5.0" prefWidth="79.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="281.0" minWidth="10.0" percentWidth="20.0" prefWidth="151.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="965.6000480651855" minWidth="10.0" prefWidth="833.7999969482422" />
-        </columnConstraints>
-        <rowConstraints>
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <Label text="Version:" />
-            <TextField fx:id="clinVersion" GridPane.columnIndex="1" />
-         </children>
-      </GridPane>
       <GridPane hgap="5.0" minWidth="500.0" GridPane.vgrow="NEVER">
         <columnConstraints>
             <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="79.0" minWidth="7.0" percentWidth="5.0" prefWidth="7.0" />
@@ -59,6 +48,20 @@
             <DatePicker fx:id="clinPoPEnd" GridPane.columnIndex="7" />
          </children>
       </GridPane>
+      <GridPane hgap="5.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" prefWidth="968.0" GridPane.rowIndex="1">
+        <columnConstraints>
+          <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="79.0" minWidth="7.0" percentWidth="5.0" prefWidth="79.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="281.0" minWidth="10.0" percentWidth="20.0" prefWidth="151.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="965.6000480651855" minWidth="10.0" prefWidth="833.7999969482422" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Version:" />
+            <TextField fx:id="clinVersion" GridPane.columnIndex="1" />
+         </children>
+      </GridPane>
       <TextArea fx:id="clinTextArea" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="300.0" prefWidth="962.0" promptText="Enter CLIN..." GridPane.rowIndex="2" />
       <GridPane GridPane.rowIndex="3">
         <columnConstraints>
@@ -72,8 +75,8 @@
         </rowConstraints>
          <children>
             <Button fx:id="clinSaveButton" mnemonicParsing="false" onAction="#saveCLIN" prefHeight="27.0" prefWidth="65.0" text="Save" GridPane.columnIndex="1" />
-            <Button fx:id="clinClose" mnemonicParsing="false" onAction="#close" text="Close" GridPane.columnIndex="3" />
             <Button fx:id="clinSaveAndClose" mnemonicParsing="false" onAction="#saveAndClose" prefHeight="25.0" prefWidth="104.0" text="Save and Close" GridPane.columnIndex="2" />
+            <Button fx:id="clinClose" mnemonicParsing="false" onAction="#close" text="Close" GridPane.columnIndex="3" />
          </children>
       </GridPane>
    </children>

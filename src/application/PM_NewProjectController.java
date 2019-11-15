@@ -388,8 +388,6 @@ public class PM_NewProjectController implements Initializable {
 	 *
 	 */
 
-	// TODO figure out what is causing that error for it to not transition back to projects list, even though
-	// TODO everything saves properly.
 	public void submitForEstimation(ActionEvent event) throws SQLException, ClassNotFoundException {
 		int vid = 0;
 
@@ -416,7 +414,7 @@ public class PM_NewProjectController implements Initializable {
 
 									/* DON"T DELETE THIS, THIS IS WHAT ADDS A SUBMIT DATE TO PROJECT */
 		if (passed) {
-			System.out.println("Save Changes Button");
+			System.out.println("Submit for Estimation Button");
 			ResultSet rs = DBUtil.dbExecuteQuery("CALL sfe_insert(" + versionText.getText() + ", \""
 					+ projectNameText.getText() + "\", \"" + pmText.getText() + "\", " + propNumText.getText() + ",'"
 					+ startDate.getValue().toString() + "', '" + endDate.getValue().toString() + "', '" + java.time.LocalDate.now() + "')");
@@ -437,7 +435,7 @@ public class PM_NewProjectController implements Initializable {
 			}
 
 			for (SOW s : sowObservableList) {
-				DBUtil.dbExecuteQuery("CALL insert_sow(" + vid + ", " + s.getReference()
+				DBUtil.dbExecuteUpdate("CALL insert_sow(" + vid + ", " + s.getReference()
 						+ ", \"" + s.getSowContent() + "\")");
 			}
 

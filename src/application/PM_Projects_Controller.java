@@ -116,11 +116,6 @@ public class PM_Projects_Controller implements Initializable {
 		fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NOT NULL AND Estimated_Date IS NULL",
 				unestimatedObservableList);
 
-		// TODO any reason why this is duplicated? - RL
-		System.out.println("\nEstimated Project Names");
-		fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NOT NULL AND Estimated_Date IS NOT NULL",
-				estimatedObservableList);
-
 		System.out.println("\nEstimated Project Names");
 		fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NOT NULL AND Estimated_Date IS NOT NULL",
 				estimatedObservableList);
@@ -231,16 +226,10 @@ public class PM_Projects_Controller implements Initializable {
 			// Get all versions of the given project
 			ResultSet rs = DBUtil.dbExecuteQuery("SELECT * FROM ProjectVersion WHERE idProject=" + project.getID() 
 				+ " AND Version_Number=" + versionID);
-			//String versionID = "";
-			// while(rs.next()) {
-			// versionID = rs.getString("idProjectVersion");
-			// }
 
-			// Go to the latest version for now
+			// Should only have one item, but go to latest just in case (maybe throw error?)
 			rs.last();
-			// Save the version ID of the latest project
-			//versionID = rs.getString("idProjectVersion");
-
+			
 			// Set all of the project information
 			version.setName(project.getName());
 			version.setProjectManager(rs.getString("Project_Manager"));
@@ -398,11 +387,10 @@ public class PM_Projects_Controller implements Initializable {
 		}
 
 		/**
-		 * TODO: Move this to ProjectListCell if all lists will show all versions
+		 * Fills the version dropdown with all versions of the project
 		 */
-		protected void updateItem(Project item, boolean empty) {
+		protected void updateItem(Project item, boolean empty) { //TODO: Move this to ProjectListCell if needed
 			super.updateItem(item, empty);
-			//System.out.println("TEST TEST TEST   " + getItem());
 			if (getItem() != null) {
 				try {
 					ResultSet rs = DBUtil
@@ -419,7 +407,6 @@ public class PM_Projects_Controller implements Initializable {
 					e.printStackTrace();
 				}
 			}
-			// versionList.getItems().addAll("Version 1", "Version 2");
 			versionList.getSelectionModel().select(versionList.getItems().size() - 1);
 		}
 	}

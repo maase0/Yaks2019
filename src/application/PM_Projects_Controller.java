@@ -19,6 +19,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -167,6 +168,7 @@ public class PM_Projects_Controller implements Initializable {
 
 	/**
 	 * Switches back to the login page
+	 * 
 	 * @param event
 	 */
 	public void logout(ActionEvent event) {
@@ -189,6 +191,7 @@ public class PM_Projects_Controller implements Initializable {
 
 	/**
 	 * Switches to the project creation page
+	 * 
 	 * @param event
 	 */
 	public void addNewProject(ActionEvent event) {
@@ -213,6 +216,7 @@ public class PM_Projects_Controller implements Initializable {
 
 	/**
 	 * Switches to the project editor page, loads the projects information
+	 * 
 	 * @param project The project to edit
 	 */
 	public void editProject(Project project) {
@@ -221,37 +225,37 @@ public class PM_Projects_Controller implements Initializable {
 			// System.out.println("You are now editing project version id: " +
 			// projectVersionID);
 
-			//Create a new version to hold all the data to be edited
+			// Create a new version to hold all the data to be edited
 			ProjectVersion version = new ProjectVersion();
 
-			//Get all versions of the given project
+			// Get all versions of the given project
 			ResultSet rs = DBUtil.dbExecuteQuery("SELECT * FROM ProjectVersion WHERE idProject=" + project.getID());
 			String versionID = "";
 			// while(rs.next()) {
 			// versionID = rs.getString("idProjectVersion");
 			// }
 
-			//Go to the latest version for now
+			// Go to the latest version for now
 			rs.last();
-			//Save the version ID of the latest project
+			// Save the version ID of the latest project
 			versionID = rs.getString("idProjectVersion");
 
-			//Set all of the project information
+			// Set all of the project information
 			version.setName(project.getName());
 			version.setProjectManager(rs.getString("Project_Manager"));
 			version.setVersionNumber(rs.getString("Version_Number"));
 			version.setProposalNumber(rs.getString("Proposal_Number"));
 			version.setProjectID(project.getID());
-			
-			//Save dates since some are null, causes errors parsing
-			//TODO: should have null checks for all fields maybe
+
+			// Save dates since some are null, causes errors parsing
+			// TODO: should have null checks for all fields maybe
 			String start = rs.getString("PoP_Start");
 			String end = rs.getString("PoP_End");
-			//Null check the date strings to prevent errors
+			// Null check the date strings to prevent errors
 			version.setPopStart(start == null ? null : LocalDate.parse(start));
 			version.setPopEnd(end == null ? null : LocalDate.parse(end));
 
-			//Get all the clins, add them to the project
+			// Get all the clins, add them to the project
 			rs = DBUtil.dbExecuteQuery("CALL select_clins(" + versionID + ")");
 			while (rs.next()) {
 				// System.out.println(rs.getString("CLIN_Index"));
@@ -259,14 +263,14 @@ public class PM_Projects_Controller implements Initializable {
 						rs.getString("CLIN_Description")));
 			}
 
-			//Get all the SDRLs, add them to the project
+			// Get all the SDRLs, add them to the project
 			rs = DBUtil.dbExecuteQuery("CALL select_sdrls(" + versionID + ")");
 			while (rs.next()) {
 				// System.out.println(rs.getString("CLIN_Index"));
 				version.addSDRL(new SDRL(rs.getString("SDRL_Title"), rs.getString("SDRL_Description")));
 			}
 
-			//Get all the SOWs, add them to the project
+			// Get all the SOWs, add them to the project
 			rs = DBUtil.dbExecuteQuery("CALL select_sows(" + versionID + ")");
 			while (rs.next()) {
 				// System.out.println(rs.getString("CLIN_Index"));
@@ -303,6 +307,7 @@ public class PM_Projects_Controller implements Initializable {
 
 	/**
 	 * Remove the given project from the database and the list
+	 * 
 	 * @param project The project to remove
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
@@ -324,12 +329,13 @@ public class PM_Projects_Controller implements Initializable {
 		public ProjectListCell() {
 			super();
 			hbox.getChildren().addAll(label, pane);
-			HBox.setHgrow(pane, Priority.ALWAYS); //pushes buttons to right side
-			hbox.setSpacing(10); //keeps buttons from touching
+			HBox.setHgrow(pane, Priority.ALWAYS); // pushes buttons to right side
+			hbox.setSpacing(10); // keeps buttons from touching
 		}
 
 		/**
 		 * Add a button to the HBox
+		 * 
 		 * @param b
 		 */
 		protected void addButton(Button b) {
@@ -358,11 +364,12 @@ public class PM_Projects_Controller implements Initializable {
 	class UnsubmittedCell extends ProjectListCell {
 		Button edit = new Button("Edit");
 		Button remove = new Button("Remove");
+		ComboBox<String> versionList = new ComboBox<String>();
 
 		public UnsubmittedCell() {
 			super();
 
-			hbox.getChildren().addAll(edit, remove);
+			hbox.getChildren().addAll(versionList, edit, remove);
 
 			// Edits selected project
 			edit.setOnAction(new EventHandler<ActionEvent>() {
@@ -387,6 +394,35 @@ public class PM_Projects_Controller implements Initializable {
 					}
 				}
 			});
+		}
+
+		protected void updateItem(Project item, boolean empty) {
+			super.updateItem(item, empty);
+			//System.out.println("TEST TEST TEST   " + getItem());
+
+			if (getItem() != null) {
+
+				try {
+					ResultSet rs = DBUtil
+							.dbExecuteQuery("SELECT * FROM ProjectVersion WHERE idProject=" + getItem().getID());
+					while (rs.next()) {
+						versionList.getItems().add("Version: " + rs.getString("Version_Number"));
+					}
+
+					rs.close();
+
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+			// versionList.getItems().addAll("Version 1", "Version 2");
+			versionList.getSelectionModel().select(versionList.getItems().size() - 1);
+
 		}
 	}
 

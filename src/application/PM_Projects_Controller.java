@@ -219,7 +219,7 @@ public class PM_Projects_Controller implements Initializable {
 	 * 
 	 * @param project The project to edit
 	 */
-	public void editProject(Project project) {
+	public void editProject(Project project, String versionID) {
 		try {
 
 			// System.out.println("You are now editing project version id: " +
@@ -229,8 +229,9 @@ public class PM_Projects_Controller implements Initializable {
 			ProjectVersion version = new ProjectVersion();
 
 			// Get all versions of the given project
-			ResultSet rs = DBUtil.dbExecuteQuery("SELECT * FROM ProjectVersion WHERE idProject=" + project.getID());
-			String versionID = "";
+			ResultSet rs = DBUtil.dbExecuteQuery("SELECT * FROM ProjectVersion WHERE idProject=" + project.getID() 
+				+ " AND Version_Number=" + versionID);
+			//String versionID = "";
 			// while(rs.next()) {
 			// versionID = rs.getString("idProjectVersion");
 			// }
@@ -238,7 +239,7 @@ public class PM_Projects_Controller implements Initializable {
 			// Go to the latest version for now
 			rs.last();
 			// Save the version ID of the latest project
-			versionID = rs.getString("idProjectVersion");
+			//versionID = rs.getString("idProjectVersion");
 
 			// Set all of the project information
 			version.setName(project.getName());
@@ -375,9 +376,9 @@ public class PM_Projects_Controller implements Initializable {
 			edit.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
-					System.out.println("EDIT ITEM: " + getItem());
+					System.out.println("EDIT ITEM: " + getItem() + "  VERSION: " + versionList.getSelectionModel().getSelectedItem());
 
-					editProject(getItem());
+					editProject(getItem(), versionList.getSelectionModel().getSelectedItem());
 				}
 			});
 
@@ -396,21 +397,20 @@ public class PM_Projects_Controller implements Initializable {
 			});
 		}
 
+		/**
+		 * TODO: Move this to ProjectListCell if all lists will show all versions
+		 */
 		protected void updateItem(Project item, boolean empty) {
 			super.updateItem(item, empty);
 			//System.out.println("TEST TEST TEST   " + getItem());
-
 			if (getItem() != null) {
-
 				try {
 					ResultSet rs = DBUtil
 							.dbExecuteQuery("SELECT * FROM ProjectVersion WHERE idProject=" + getItem().getID());
 					while (rs.next()) {
-						versionList.getItems().add("Version: " + rs.getString("Version_Number"));
+						versionList.getItems().add(rs.getString("Version_Number"));
 					}
-
 					rs.close();
-
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -419,10 +419,8 @@ public class PM_Projects_Controller implements Initializable {
 					e.printStackTrace();
 				}
 			}
-
 			// versionList.getItems().addAll("Version 1", "Version 2");
 			versionList.getSelectionModel().select(versionList.getItems().size() - 1);
-
 		}
 	}
 

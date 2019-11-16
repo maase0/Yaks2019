@@ -7,6 +7,7 @@ import java.util.Date;
 public class ProjectVersion
 {
 	private String projectVersionID;
+	private String projectID;
 	private String name;
 	private String projectManager;
 	private String versionNumber;
@@ -38,6 +39,14 @@ public class ProjectVersion
     	this.proposalNumber = propNum;
     }
 
+    public void setProjectID(String id) {
+    	this.projectID = id;
+    }
+    
+    public String getProjectID() {
+    	return projectID;
+    }
+    
 	public String getProjectManager() {
 		return projectManager;
 	}

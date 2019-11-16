@@ -459,6 +459,11 @@ public class PM_EditProjectController implements Initializable {
 						+ ", \"" + s.getSowContent() + "\")");
 			}
 
+			
+			
+			DBUtil.dbExecuteUpdate("UPDATE Project SET Submit_Date = '" + LocalDate.now().toString() 
+					+ "' WHERE idProject = " + proj.getProjectID());
+			
 			// TODO Maybe find a way to make this transition faster, doesn't transition until the query fully connects.
 			// TODO Doesn't transition back to the Projects page!!!!
 			try {

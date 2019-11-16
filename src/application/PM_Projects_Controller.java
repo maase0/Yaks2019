@@ -241,7 +241,8 @@ public class PM_Projects_Controller implements Initializable {
 			version.setProjectManager(rs.getString("Project_Manager"));
 			version.setVersionNumber(rs.getString("Version_Number"));
 			version.setProposalNumber(rs.getString("Proposal_Number"));
-
+			version.setProjectID(project.getID());
+			
 			//Save dates since some are null, causes errors parsing
 			//TODO: should have null checks for all fields maybe
 			String start = rs.getString("PoP_Start");

@@ -237,7 +237,7 @@ public class PM_Projects_Controller implements Initializable {
 			versionID = rs.getString("idProjectVersion");
 
 			//Set all of the project information
-			version.setName(rs.getString("Project_Name"));
+			version.setName(project.getName());
 			version.setProjectManager(rs.getString("Project_Manager"));
 			version.setVersionNumber(rs.getString("Version_Number"));
 			version.setProposalNumber(rs.getString("Proposal_Number"));

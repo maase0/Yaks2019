@@ -214,60 +214,13 @@ public class PM_Projects_Controller implements Initializable {
 	 * 
 	 * @param project The project to edit
 	 */
-	public void editProject(Project project, String versionID) {
+	public void editProject(Project project, String versionNumber) {
 		try {
 
 			// System.out.println("You are now editing project version id: " +
 			// projectVersionID);
 
 			// Create a new version to hold all the data to be edited
-			ProjectVersion version = new ProjectVersion();
-
-			// Get all versions of the given project
-			ResultSet rs = DBUtil.dbExecuteQuery("SELECT * FROM ProjectVersion WHERE idProject=" + project.getID() 
-				+ " AND Version_Number=" + versionID);
-
-			// Should only have one item, but go to latest just in case (maybe throw error?)
-			rs.last();
-			
-			// Set all of the project information
-			version.setName(project.getName());
-			version.setProjectManager(rs.getString("Project_Manager"));
-			version.setVersionNumber(rs.getString("Version_Number"));
-			version.setProposalNumber(rs.getString("Proposal_Number"));
-			version.setProjectID(project.getID());
-
-			// Save dates since some are null, causes errors parsing
-			// TODO: should have null checks for all fields maybe
-			String start = rs.getString("PoP_Start");
-			String end = rs.getString("PoP_End");
-			// Null check the date strings to prevent errors
-			version.setPopStart(start == null ? null : LocalDate.parse(start));
-			version.setPopEnd(end == null ? null : LocalDate.parse(end));
-
-			// Get all the clins, add them to the project
-			rs = DBUtil.dbExecuteQuery("CALL select_clins(" + versionID + ")");
-			while (rs.next()) {
-				// System.out.println(rs.getString("CLIN_Index"));
-				version.addCLIN(new CLIN(rs.getString("CLIN_Index"), rs.getString("Project_Type"),
-						rs.getString("CLIN_Description")));
-			}
-
-			// Get all the SDRLs, add them to the project
-			rs = DBUtil.dbExecuteQuery("CALL select_sdrls(" + versionID + ")");
-			while (rs.next()) {
-				// System.out.println(rs.getString("CLIN_Index"));
-				version.addSDRL(new SDRL(rs.getString("SDRL_Title"), rs.getString("SDRL_Description")));
-			}
-
-			// Get all the SOWs, add them to the project
-			rs = DBUtil.dbExecuteQuery("CALL select_sows(" + versionID + ")");
-			while (rs.next()) {
-				// System.out.println(rs.getString("CLIN_Index"));
-				version.addSOW(new SOW(rs.getString("Reference_Number"), rs.getString("SoW_Description")));
-			}
-
-			rs.close();
 
 			// Opens Edit Project page
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("PM_EditProject.fxml"));
@@ -278,6 +231,8 @@ public class PM_Projects_Controller implements Initializable {
 			pmNewProjectStage.setScene(new Scene(root));
 
 			PM_EditProjectController controller = fxmlLoader.getController();
+
+			ProjectVersion version = loadProjectVersion(project, versionNumber);
 
 			controller.setProject(version);
 
@@ -307,6 +262,95 @@ public class PM_Projects_Controller implements Initializable {
 		unsubmittedObservableList.remove(project);
 	}
 
+	public void estimateProject(Project project, String versionNumber) {
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Estimate-Project.fxml"));
+			Parent root = fxmlLoader.load();
+
+			EstimateProject_Controller controller = fxmlLoader.getController();
+
+			ProjectVersion version = loadProjectVersion(project, versionNumber);
+
+			if(version == null) {
+				System.out.println("ERROR ERROR NULL ERROR ERROR");
+			}
+			
+			controller.setProjectVersion(version);
+
+			Stage eEstimateProjectStage = new Stage();
+			eEstimateProjectStage.setTitle("Estimation Suite - Estimator - Estimate Project");
+			eEstimateProjectStage.setScene(new Scene(root));
+
+			// EstimateProject_Controller controller = fxmlLoader.getController();
+
+			eEstimateProjectStage.show();
+			eEstimateProjectStage.setResizable(true);
+			eEstimateProjectStage.sizeToScene();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public ProjectVersion loadProjectVersion(Project project, String versionNumber) {
+		ProjectVersion version = new ProjectVersion();
+
+		try {
+
+			// Get all versions of the given project
+			ResultSet rs = DBUtil.dbExecuteQuery("SELECT * FROM ProjectVersion WHERE idProject=" + project.getID()
+					+ " AND Version_Number=" + versionNumber);
+
+			// Should only have one item, but go to latest just in case (maybe throw error?)
+			rs.last();
+
+			// Set all of the project information
+			version.setName(project.getName());
+			version.setProjectManager(rs.getString("Project_Manager"));
+			version.setVersionNumber(rs.getString("Version_Number"));
+			version.setProposalNumber(rs.getString("Proposal_Number"));
+			version.setProjectID(project.getID());
+
+			// Save dates since some are null, causes errors parsing
+			// TODO: should have null checks for all fields maybe
+			String start = rs.getString("PoP_Start");
+			String end = rs.getString("PoP_End");
+			// Null check the date strings to prevent errors
+			version.setPopStart(start == null ? null : LocalDate.parse(start));
+			version.setPopEnd(end == null ? null : LocalDate.parse(end));
+
+			// Get all the clins, add them to the project
+			rs = DBUtil.dbExecuteQuery("CALL select_clins(" + versionNumber + ")");
+			while (rs.next()) {
+				// System.out.println(rs.getString("CLIN_Index"));
+				version.addCLIN(new CLIN(rs.getString("CLIN_Index"), rs.getString("Project_Type"),
+						rs.getString("CLIN_Description")));
+			}
+
+			// Get all the SDRLs, add them to the project
+			rs = DBUtil.dbExecuteQuery("CALL select_sdrls(" + versionNumber + ")");
+			while (rs.next()) {
+				// System.out.println(rs.getString("CLIN_Index"));
+				version.addSDRL(new SDRL(rs.getString("SDRL_Title"), rs.getString("SDRL_Description")));
+			}
+
+			// Get all the SOWs, add them to the project
+			rs = DBUtil.dbExecuteQuery("CALL select_sows(" + versionNumber + ")");
+			while (rs.next()) {
+				// System.out.println(rs.getString("CLIN_Index"));
+				version.addSOW(new SOW(rs.getString("Reference_Number"), rs.getString("SoW_Description")));
+			}
+
+			rs.close();
+		} catch (SQLException e) {
+
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return version;
+	}
+
 	/**
 	 * Generic List cell to hold all of the things common to the other list cells
 	 */
@@ -315,10 +359,11 @@ public class PM_Projects_Controller implements Initializable {
 		HBox hbox = new HBox();
 		Label label = new Label("(empty)");
 		Pane pane = new Pane();
+		ComboBox<String> versionList = new ComboBox<String>();
 
 		public ProjectListCell() {
 			super();
-			hbox.getChildren().addAll(label, pane);
+			hbox.getChildren().addAll(label, pane, versionList);
 			HBox.setHgrow(pane, Priority.ALWAYS); // pushes buttons to right side
 			hbox.setSpacing(10); // keeps buttons from touching
 		}
@@ -344,7 +389,25 @@ public class PM_Projects_Controller implements Initializable {
 			} else {
 				label.setText(item != null ? item.toString() : "<null>");
 				setGraphic(hbox);
+
+				try {
+					ResultSet rs = DBUtil
+							.dbExecuteQuery("SELECT * FROM ProjectVersion WHERE idProject=" + getItem().getID());
+					while (rs.next()) {
+						versionList.getItems().add(rs.getString("Version_Number"));
+					}
+					rs.close();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
+
+			versionList.getSelectionModel().select(versionList.getItems().size() - 1);
+
 		}
 	}
 
@@ -354,18 +417,18 @@ public class PM_Projects_Controller implements Initializable {
 	class UnsubmittedCell extends ProjectListCell {
 		Button edit = new Button("Edit");
 		Button remove = new Button("Remove");
-		ComboBox<String> versionList = new ComboBox<String>();
 
 		public UnsubmittedCell() {
 			super();
 
-			hbox.getChildren().addAll(versionList, edit, remove);
+			hbox.getChildren().addAll(edit, remove);
 
 			// Edits selected project
 			edit.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
-					System.out.println("EDIT ITEM: " + getItem() + "  VERSION: " + versionList.getSelectionModel().getSelectedItem());
+					System.out.println("EDIT ITEM: " + getItem() + "  VERSION: "
+							+ versionList.getSelectionModel().getSelectedItem());
 
 					editProject(getItem(), versionList.getSelectionModel().getSelectedItem());
 				}
@@ -386,29 +449,6 @@ public class PM_Projects_Controller implements Initializable {
 			});
 		}
 
-		/**
-		 * Fills the version dropdown with all versions of the project
-		 */
-		protected void updateItem(Project item, boolean empty) { //TODO: Move this to ProjectListCell if needed
-			super.updateItem(item, empty);
-			if (getItem() != null) {
-				try {
-					ResultSet rs = DBUtil
-							.dbExecuteQuery("SELECT * FROM ProjectVersion WHERE idProject=" + getItem().getID());
-					while (rs.next()) {
-						versionList.getItems().add(rs.getString("Version_Number"));
-					}
-					rs.close();
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			versionList.getSelectionModel().select(versionList.getItems().size() - 1);
-		}
 	}
 
 	/**
@@ -428,28 +468,17 @@ public class PM_Projects_Controller implements Initializable {
 				public void handle(ActionEvent event) {
 					System.out.println("Estimate ITEM: " + getItem());
 
-					/** TODO Clean up code, I couldn't figure out how to get it use just a method, it wasn't working properly,
-					 *  TODO As of right now, estimating a project as a PM, when you click discard, it brings user to Estimator page, need to fix.
+					/**
+					 * TODO As of right now, estimating a project as a PM, when you click discard,
+					 * it brings user to Estimator page, need to fix.
 					 */
-					try {
-						FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Estimate-Project.fxml"));
-						Parent root = fxmlLoader.load();
 
-						Stage eEstimateProjectStage = new Stage();
-						eEstimateProjectStage.setTitle("Estimation Suite - Estimator - Estimate Project");
-						eEstimateProjectStage.setScene(new Scene(root));
+					estimateProject(getItem(), versionList.getSelectionModel().getSelectedItem());
 
-						//EstimateProject_Controller controller = fxmlLoader.getController();
+					Stage stage = (Stage) estimateButton .getScene().getWindow();
+					stage.close();
 
-						eEstimateProjectStage.show();
-						eEstimateProjectStage.setResizable(true);
-						eEstimateProjectStage.sizeToScene();
-
-						Stage stage = (Stage) estimateButton .getScene().getWindow();
-						stage.close();
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
+					
 				}
 			});
 

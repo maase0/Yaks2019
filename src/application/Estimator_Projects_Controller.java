@@ -98,6 +98,9 @@ public class Estimator_Projects_Controller implements Initializable{
 		}
 	}
 
+	public void estimateProject() {
+	}
+
 	class ProjectListCell extends ListCell<Project> {
 		HBox hbox = new HBox();
 		Label label = new Label("(empty)");
@@ -141,6 +144,25 @@ public class Estimator_Projects_Controller implements Initializable{
 				public void handle(ActionEvent event) {
 					System.out.println("Estimate ITEM: " + getItem());
 
+					try {
+						FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Estimate-Project.fxml"));
+						Parent root = fxmlLoader.load();
+
+						Stage eEstimateProjectStage = new Stage();
+						eEstimateProjectStage.setTitle("Estimation Suite - Estimator - Estimate Project");
+						eEstimateProjectStage.setScene(new Scene(root));
+
+						//EstimateProject_Controller controller = fxmlLoader.getController();
+
+						eEstimateProjectStage.show();
+						eEstimateProjectStage.setResizable(true);
+						eEstimateProjectStage.sizeToScene();
+
+						Stage stage = (Stage) estimateButton.getScene().getWindow();
+						stage.close();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
 			});
 

@@ -428,6 +428,28 @@ public class PM_Projects_Controller implements Initializable {
 				public void handle(ActionEvent event) {
 					System.out.println("Estimate ITEM: " + getItem());
 
+					/** TODO Clean up code, I couldn't figure out how to get it use just a method, it wasn't working properly,
+					 *  TODO As of right now, estimating a project as a PM, when you click discard, it brings user to Estimator page, need to fix.
+					 */
+					try {
+						FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Estimate-Project.fxml"));
+						Parent root = fxmlLoader.load();
+
+						Stage eEstimateProjectStage = new Stage();
+						eEstimateProjectStage.setTitle("Estimation Suite - Estimator - Estimate Project");
+						eEstimateProjectStage.setScene(new Scene(root));
+
+						//EstimateProject_Controller controller = fxmlLoader.getController();
+
+						eEstimateProjectStage.show();
+						eEstimateProjectStage.setResizable(true);
+						eEstimateProjectStage.sizeToScene();
+
+						Stage stage = (Stage) estimateButton .getScene().getWindow();
+						stage.close();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
 			});
 

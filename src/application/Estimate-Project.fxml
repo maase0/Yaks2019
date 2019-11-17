@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.geometry.*?>
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" styleClass="project" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" styleClass="project" stylesheets="@application.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.EstimateProject_Controller">
 	<top>
 		<BorderPane styleClass="project-header" BorderPane.alignment="CENTER">
 			<right>
@@ -30,7 +39,7 @@
                			</Button>
                		</center>
                		<bottom>
-	                  	<Button mnemonicParsing="false" prefWidth="150.0" styleClass="btn-discard" text="Discard Changes" BorderPane.alignment="CENTER">
+	                  	<Button fx:id="discardButton" mnemonicParsing="false" onAction="#discardChanges" prefWidth="150.0" styleClass="btn-discard" text="Discard Changes" BorderPane.alignment="CENTER">
 	                     	<BorderPane.margin>
 	                        	<Insets bottom="5.0" top="2.0" />
 	                     	</BorderPane.margin>

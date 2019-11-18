@@ -269,12 +269,14 @@ public class PM_Projects_Controller implements Initializable {
 
 			EstimateProject_Controller controller = fxmlLoader.getController();
 
+			controller.setCameFromEstimator(false);
+
 			ProjectVersion version = loadProjectVersion(project, versionNumber);
 
-			if(version == null) {
+			if (version == null) {
 				System.out.println("ERROR ERROR NULL ERROR ERROR");
 			}
-			
+
 			controller.setProjectVersion(version);
 
 			Stage eEstimateProjectStage = new Stage();
@@ -303,7 +305,7 @@ public class PM_Projects_Controller implements Initializable {
 
 			// Should only have one item, but go to latest just in case (maybe throw error?)
 			rs.last();
-			
+
 			String versionID = rs.getString("idProjectVersion");
 
 			// Set all of the project information
@@ -432,7 +434,7 @@ public class PM_Projects_Controller implements Initializable {
 					System.out.println("EDIT ITEM: " + getItem() + "  VERSION: "
 							+ versionList.getSelectionModel().getSelectedItem());
 
-					//Get item and Version Number from combo box
+					// Get item and Version Number from combo box
 					editProject(getItem(), versionList.getSelectionModel().getSelectedItem());
 				}
 			});
@@ -478,10 +480,9 @@ public class PM_Projects_Controller implements Initializable {
 
 					estimateProject(getItem(), versionList.getSelectionModel().getSelectedItem());
 
-					Stage stage = (Stage) estimateButton .getScene().getWindow();
+					Stage stage = (Stage) estimateButton.getScene().getWindow();
 					stage.close();
 
-					
 				}
 			});
 

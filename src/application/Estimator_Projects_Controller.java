@@ -111,6 +111,7 @@ public class Estimator_Projects_Controller implements Initializable{
 				System.out.println("ERROR ERROR NULL ERROR ERROR");
 			}
 
+			controller.setCameFromEstimator(true);
 			controller.setProjectVersion(version);
 
 			Stage eEstimateProjectStage = new Stage();

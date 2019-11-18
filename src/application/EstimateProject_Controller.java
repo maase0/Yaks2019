@@ -87,16 +87,13 @@ public class EstimateProject_Controller implements Initializable {
 		clinObservableList.addAll(project.getCLINList());
 		sowObservableList.addAll(project.getSOWList());
 		sdrlObservableList.addAll(project.getSDRLList());
-
 		
-		//TODO: Link these in FXML before uncommenting
-		
-		//versionNumber.setText(project.getVersionNumber());
-		//projectName.setText(project.getName());
-		//projectManager.setText(project.getProjectManager());
-		//propNumber.setText(project.getProposalNumber());
+		versionNumber.setText(project.getVersionNumber());
+		projectName.setText(project.getName());
+		projectManager.setText(project.getProjectManager());
+		propNumber.setText(project.getProposalNumber());
 
-		//startDate.setValue(project.getPopStart());
-		//endDate.setValue(project.getPopEnd());
+		startDate.setValue(project.getPopStart());
+		endDate.setValue(project.getPopEnd());
 	}
 }

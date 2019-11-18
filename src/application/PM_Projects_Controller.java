@@ -139,9 +139,16 @@ public class PM_Projects_Controller implements Initializable {
 				Project proj = new Project(projName, projID);
 				// TODO: Get the versions from the database, put them in project
 
+				ResultSet rs2 = DBUtil.dbExecuteQuery("SELECT * FROM ProjectVersion WHERE idProject=" + proj.getID());
+				while (rs2.next()) {
+					proj.addVersion(rs2.getString("Version_Number"));
+				}
+				rs2.close();
+
 				list.add(proj); // Add the project to the list
 				System.out.println("\t" + projName);
 			}
+
 			rs.close();
 		} catch (SQLException e) {
 			System.out.println("SQL Exception putting projects in list");
@@ -394,20 +401,8 @@ public class PM_Projects_Controller implements Initializable {
 				label.setText(item != null ? item.toString() : "<null>");
 				setGraphic(hbox);
 
-				try {
-					ResultSet rs = DBUtil
-							.dbExecuteQuery("SELECT * FROM ProjectVersion WHERE idProject=" + getItem().getID());
-					while (rs.next()) {
-						versionList.getItems().add(rs.getString("Version_Number"));
-					}
-					rs.close();
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				versionList.getItems().addAll(this.getItem().getVersionStrings());
+
 			}
 
 			versionList.getSelectionModel().select(versionList.getItems().size() - 1);

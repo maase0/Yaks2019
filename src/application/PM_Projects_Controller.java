@@ -485,6 +485,18 @@ public class PM_Projects_Controller implements Initializable {
 				@Override
 				public void handle(ActionEvent event) {
 					System.out.println("Return ITEM" + getItem());
+
+					try {
+						DBUtil.dbExecuteUpdate("UPDATE Project SET Submit_Date = NULL WHERE (idProject = '"
+														+ getItem().getID() + "')");
+
+						unsubmittedObservableList.add(getItem());
+						unestimatedObservableList.remove(getItem());
+
+
+					} catch (SQLException | ClassNotFoundException e ) {
+						e.printStackTrace();
+					}
 				}
 			});
 		}

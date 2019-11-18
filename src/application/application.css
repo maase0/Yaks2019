@@ -80,19 +80,6 @@
     -fx-padding: 2px;
 }
 
-.btn-rich-blue {
-    -fx-text-fill: #ffffff;
-    -fx-font-family: "Arial Narrow";
-    -fx-font-weight: bold;
-    -fx-background-color: linear-gradient(#5077bf, #2A5058);
-    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
-}
-
-.btn-rich-blue:hover {
-	-fx-background-color: linear-gradient(#2A5058, #5077bf);
-	-fx-cursor: hand;
-}
-
 .list-view {
 	-fx-background-color: transparent;
 }
@@ -319,4 +306,17 @@
     -fx-background-color: #5077bf;
     -fx-text-fill: -fx-selection-bar-text;
     -fx-cursor: hand;
+}
+
+.btn-rich-blue {
+    -fx-text-fill: #ffffff;
+    -fx-font-family: "Arial Narrow";
+    -fx-font-weight: bold;
+    -fx-background-color: linear-gradient(#5077bf, #2A5058);
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+}
+
+.btn-rich-blue:hover {
+	-fx-background-color: linear-gradient(#2A5058, #5077bf);
+	-fx-cursor: hand;
 }

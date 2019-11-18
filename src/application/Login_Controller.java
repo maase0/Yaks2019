@@ -13,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 public class Login_Controller implements Initializable{
@@ -32,7 +33,34 @@ public class Login_Controller implements Initializable{
 		
 	}
 	public void Login(ActionEvent event) {
-		if (loginBox.getValue().equals("Product Manager")) {
+		//changed to check for the null event first
+		if(loginBox.getValue() == null) 
+			{
+					try {
+					
+						FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Error_Window.fxml"));
+						Parent root = fxmlLoader.load();
+
+						Error_Window controller = fxmlLoader.getController();
+						
+						//Loads the Code to change the error text for this type of error
+						controller.errorRole();
+						
+						Stage errorStage = new Stage();
+						errorStage.setTitle("ERROR");
+						errorStage.setScene(new Scene(root));
+
+						errorStage.show();
+				
+
+				}
+				catch(Exception e) {
+					e.printStackTrace();
+					}
+				}
+			
+		
+	else if (loginBox.getValue().equals("Product Manager")) {
 			try {
 	            // Opens Product Manager page
 	            Parent root = FXMLLoader.load(getClass()
@@ -77,23 +105,7 @@ public class Login_Controller implements Initializable{
 				e.printStackTrace();
 			}
 		}
-		else {
-		//previous error handling was
-		//	System.out.println("Select a role");
-			try {
-			Parent root = FXMLLoader.load(getClass()
-					.getResource("Error_Window.fxml"));
-			Stage errorStage = new Stage();
-            errorStage.setTitle("ERROR");
-            //trying to figure out how to change the text on load
-//            errorStage.setText("ERROR!";) 
-			errorStage.setScene(new Scene(root));
-			errorStage.show();
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-			}
-		}
+	
 	}
 	public void Exit(ActionEvent event) throws SQLException {
 		Stage stage = (Stage) exitBtn.getScene().getWindow();

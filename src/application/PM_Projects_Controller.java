@@ -303,6 +303,8 @@ public class PM_Projects_Controller implements Initializable {
 
 			// Should only have one item, but go to latest just in case (maybe throw error?)
 			rs.last();
+			
+			String versionID = rs.getString("idProjectVersion");
 
 			// Set all of the project information
 			version.setName(project.getName());
@@ -320,7 +322,7 @@ public class PM_Projects_Controller implements Initializable {
 			version.setPopEnd(end == null ? null : LocalDate.parse(end));
 
 			// Get all the clins, add them to the project
-			rs = DBUtil.dbExecuteQuery("CALL select_clins(" + versionNumber + ")");
+			rs = DBUtil.dbExecuteQuery("CALL select_clins(" + versionID + ")");
 			while (rs.next()) {
 				// System.out.println(rs.getString("CLIN_Index"));
 				version.addCLIN(new CLIN(rs.getString("CLIN_Index"), rs.getString("Project_Type"),
@@ -328,14 +330,14 @@ public class PM_Projects_Controller implements Initializable {
 			}
 
 			// Get all the SDRLs, add them to the project
-			rs = DBUtil.dbExecuteQuery("CALL select_sdrls(" + versionNumber + ")");
+			rs = DBUtil.dbExecuteQuery("CALL select_sdrls(" + versionID + ")");
 			while (rs.next()) {
 				// System.out.println(rs.getString("CLIN_Index"));
 				version.addSDRL(new SDRL(rs.getString("SDRL_Title"), rs.getString("SDRL_Description")));
 			}
 
 			// Get all the SOWs, add them to the project
-			rs = DBUtil.dbExecuteQuery("CALL select_sows(" + versionNumber + ")");
+			rs = DBUtil.dbExecuteQuery("CALL select_sows(" + versionID + ")");
 			while (rs.next()) {
 				// System.out.println(rs.getString("CLIN_Index"));
 				version.addSOW(new SOW(rs.getString("Reference_Number"), rs.getString("SoW_Description")));
@@ -430,6 +432,7 @@ public class PM_Projects_Controller implements Initializable {
 					System.out.println("EDIT ITEM: " + getItem() + "  VERSION: "
 							+ versionList.getSelectionModel().getSelectedItem());
 
+					//Get item and Version Number from combo box
 					editProject(getItem(), versionList.getSelectionModel().getSelectedItem());
 				}
 			});

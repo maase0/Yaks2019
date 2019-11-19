@@ -123,8 +123,9 @@ public class CLIN_Controller extends ListCell<CLIN> implements Initializable {
     		clinIndex.setText(clin.getIndex());
     		clinProjectType.setText(clin.getProjectType());
     		clinTextArea.setText(clin.getClinContent());
-    		//clinPoPStart.setValue(LocalDate.parse(clin.getPopStart()));
-			//clinPoPEnd.setValue(LocalDate.parse(clin.getPopEnd()));
+    		clinVersion.setText(clin.getVersion());
+    		clinPoPStart.setValue(LocalDate.parse(clin.getPopStart()));
+			clinPoPEnd.setValue(LocalDate.parse(clin.getPopEnd()));
     	}
     }
 

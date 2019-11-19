@@ -17,6 +17,7 @@ public class CLIN
 	private String popStart;
 	private String popEnd;
 	private String clinContent;
+	private String version;
 	
     public CLIN() {
     	index = null;
@@ -24,16 +25,19 @@ public class CLIN
     	popStart = null;
     	popEnd = null;
     	clinContent = null;
+    	version = null;
     
     }
     
-    public CLIN(String index, String projectType, 
-    		String clinContent) {
+    public CLIN(String index, String projectType,
+    		String clinContent, String version, String popStart,
+            String popEnd) {
     	this.index = index;
     	this.projectType = projectType;
+        this.version = version;
     	this.clinContent = clinContent;
-    	//this.popStart = popStart;
-    	//this.popEnd = popEnd;
+    	this.popStart = popStart;
+    	this.popEnd = popEnd;
     }
 		
     public void setIndex(String index) {
@@ -55,6 +59,10 @@ public class CLIN
     public void setClinContent(String clinContent) {
     	this.clinContent = clinContent;
     }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
     
     public String getIndex() {
     	return index;
@@ -75,8 +83,13 @@ public class CLIN
     public String getClinContent() {
     	return clinContent;
     }
+
+    public String getVersion() {
+        return version;
+    }
     
     public String toString() {
-    	return index + ", " + projectType + ", " + popStart + " - " + popEnd + "\n" + clinContent;
+    	return index + ", v" + version + ", " + projectType + ", \n"
+                + popStart + " to " + popEnd + "\n" + clinContent;
     }
 }

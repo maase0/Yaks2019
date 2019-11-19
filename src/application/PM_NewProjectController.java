@@ -316,7 +316,7 @@ public class PM_NewProjectController implements Initializable {
 		if (passed) {
 			System.out.println("Save Changes Button");
 			ResultSet rs = DBUtil.dbExecuteQuery("CALL insert_new_project('" + versionText.getText() + "', \""
-					+ projectNameText.getText() + "\", \"" + pmText.getText() + "\", " + propNumText.getText() + ",'"
+					+ projectNameText.getText() + "\", \"" + pmText.getText() + "\", " + propNumText.getText() + ", '"
 					+ startDate.getValue().toString() + "', '" + endDate.getValue().toString() + "')");
 			while (rs.next()) {
 				vid = rs.getInt("idProjectVersion");
@@ -325,18 +325,18 @@ public class PM_NewProjectController implements Initializable {
 
 			for (CLIN c : clinObservableList) {
 				DBUtil.dbExecuteUpdate("CALL insert_clin(" + vid + ", \"" + c.getIndex()
-						+ "\", \"" + c.getProjectType() + "\", \""
-						+ c.getClinContent() + "\")");
+						+ "\", \"" + c.getVersion() + "\", \"" + c.getProjectType() + "\", \""
+						+ c.getClinContent() + "\", '" + c.getPopStart() + "', '" + c.getPopEnd() + "')");
 			}
 
 			for (SDRL s : sdrlObservableList) {
 				DBUtil.dbExecuteUpdate("CALL insert_sdrl(" + vid + ", \"" + s.getName()
-						+ "\", \"" + s.getSdrlInfo() + "\")");
+						+ "\", \"" + s.getVersion() + "\", \""+ s.getSdrlInfo() + "\")");
 			}
 
 			for (SOW s : sowObservableList) {
-				DBUtil.dbExecuteQuery("CALL insert_sow(" + vid + ", " + s.getReference()
-						+ ", \"" + s.getSowContent() + "\")");
+				DBUtil.dbExecuteUpdate("CALL insert_sow(" + vid + ", " + s.getReference()
+						+ ", \"" + s.getVersion() + "\", \""+ s.getSowContent() + "\")");
 			}
 
 			try {

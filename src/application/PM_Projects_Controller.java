@@ -334,22 +334,25 @@ public class PM_Projects_Controller implements Initializable {
 			rs = DBUtil.dbExecuteQuery("CALL select_clins(" + versionID + ")");
 			while (rs.next()) {
 				// System.out.println(rs.getString("CLIN_Index"));
-				version.addCLIN(new CLIN(rs.getString("CLIN_Index"), rs.getString("Project_Type"),
-						rs.getString("CLIN_Description")));
+				version.addCLIN(new CLIN(rs.getString("CLIN_Index"), rs.getString("Version_Number")
+						,rs.getString("Project_Type"), rs.getString("CLIN_Description")
+						,rs.getString("PoP_Start"), rs.getString("PoP_End")));
 			}
 
 			// Get all the SDRLs, add them to the project
 			rs = DBUtil.dbExecuteQuery("CALL select_sdrls(" + versionID + ")");
 			while (rs.next()) {
 				// System.out.println(rs.getString("CLIN_Index"));
-				version.addSDRL(new SDRL(rs.getString("SDRL_Title"), rs.getString("SDRL_Description")));
+				version.addSDRL(new SDRL(rs.getString("SDRL_Title"), rs.getString("Version_Number"),
+						rs.getString("SDRL_Description")));
 			}
 
 			// Get all the SOWs, add them to the project
 			rs = DBUtil.dbExecuteQuery("CALL select_sows(" + versionID + ")");
 			while (rs.next()) {
 				// System.out.println(rs.getString("CLIN_Index"));
-				version.addSOW(new SOW(rs.getString("Reference_Number"), rs.getString("SoW_Description")));
+				version.addSOW(new SOW(rs.getString("Reference_Number"), rs.getString("Version_Number"),
+						rs.getString("SoW_Description")));
 			}
 
 			rs.close();

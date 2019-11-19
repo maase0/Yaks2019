@@ -4,16 +4,19 @@ public class SDRL
 {
 	private String name;
 	private String sdrlInfo;
+	private String version;
 		
 	
     public SDRL() {
     	name = null;
     	sdrlInfo = null;
+    	version = null;
     }
 
-    public SDRL(String name, String sdrlInfo) {
+    public SDRL(String name, String sdrlInfo, String version) {
         this.name = name;
         this.sdrlInfo = sdrlInfo;
+        this.version = version;
     }
 		
     public void setName(String name) {
@@ -23,6 +26,10 @@ public class SDRL
     public void setSdrlInfo(String sdrlInfo) {
         this.sdrlInfo = sdrlInfo;
     }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
     
     public String getName() {
     	return name;
@@ -31,8 +38,12 @@ public class SDRL
     public String getSdrlInfo() {
     	return sdrlInfo;
     }
+
+    public String getVersion() {
+        return version;
+    }
     
     public String toString() {
-    	return name + "\n" + sdrlInfo;
+    	return name + ", v" + version + "\n" + sdrlInfo;
     }
 }

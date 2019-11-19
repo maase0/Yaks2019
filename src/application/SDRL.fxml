@@ -50,7 +50,7 @@
             <Button fx:id="sdrlClose" mnemonicParsing="false" onAction="#close" prefHeight="25.0" prefWidth="70.0" styleClass="btn-rich-blue" text="Close" GridPane.columnIndex="5" />
             <Button fx:id="sdrlSaveAndClose" mnemonicParsing="false" onAction="#SaveAndClose" prefHeight="25.0" prefWidth="130.0" styleClass="btn-rich-blue" text="Save and Close" GridPane.columnIndex="4" />
             <Label text="    Version:" />
-            <TextField prefHeight="27.0" prefWidth="239.0" GridPane.columnIndex="1" />
+            <TextField fx:id="sdrlVersion" prefHeight="27.0" prefWidth="239.0" GridPane.columnIndex="1" />
          </children>
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="852.0" minWidth="10.0" prefWidth="65.0" />

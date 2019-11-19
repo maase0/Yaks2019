@@ -41,7 +41,7 @@
             <Button fx:id="sowClose" mnemonicParsing="false" onAction="#close" prefHeight="25.0" prefWidth="70.0" styleClass="btn-rich-blue" text="Close" GridPane.columnIndex="5" GridPane.rowIndex="1" />
             <Button fx:id="sowSaveAndClose" mnemonicParsing="false" onAction="#SaveAndClose" prefHeight="25.0" prefWidth="120.0" styleClass="btn-rich-blue" text="Save and Close" GridPane.columnIndex="4" GridPane.rowIndex="1" />
             <Label text="    Version:" GridPane.rowIndex="1" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="sowVersion" GridPane.columnIndex="1" GridPane.rowIndex="1" />
          </children>
       </GridPane>
       <GridPane>

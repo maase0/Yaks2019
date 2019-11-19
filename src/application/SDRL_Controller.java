@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import javax.xml.soap.Text;
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -25,6 +26,7 @@ public class SDRL_Controller extends ListCell<SDRL> implements Initializable {
     @FXML private TextField sdrlName;
     @FXML private TextArea sdrlInfo;
     @FXML private MenuButton attachments;
+    @FXML private TextField sdrlVersion;
 
     SDRL sdrl;
     private ObservableList<SDRL> sdrlObservableList;
@@ -33,9 +35,10 @@ public class SDRL_Controller extends ListCell<SDRL> implements Initializable {
 
         String name = sdrlName.getText();
         String info = sdrlInfo.getText();
+        String version = sdrlVersion.getText();
 
         if(sdrl == null) {
-            sdrl = new SDRL(name, info);
+            sdrl = new SDRL(name, info, version);
             sdrlObservableList.add(sdrl);
         } else {
             sdrl.setName(name);

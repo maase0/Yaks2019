@@ -19,31 +19,41 @@ import java.util.ResourceBundle;
 public class EstimateProject_Controller implements Initializable {
 
 	private ProjectVersion project;
-	
-    @FXML
-    private Button discardButton;
-    @FXML private Label projectName;
-    @FXML private Label projectManager;
-    @FXML private Label propNumber;
-    @FXML private Label versionNumber;
-    @FXML private DatePicker startDate;
-    @FXML private DatePicker endDate;
-    
-    @FXML private ListView<CLIN> clinListView;
-    @FXML private ListView<SDRL> sdrlListView;
-    @FXML private ListView<SOW> sowListView;
+	private boolean cameFromEstimator;
 
-    private ObservableList<CLIN> clinObservableList;
-    private ObservableList<SDRL> sdrlObservableList;
-    private ObservableList<SOW> sowObservableList;
-    
-    public EstimateProject_Controller() {
+	@FXML
+	private Button discardButton;
+	@FXML
+	private Label projectName;
+	@FXML
+	private Label projectManager;
+	@FXML
+	private Label propNumber;
+	@FXML
+	private Label versionNumber;
+	@FXML
+	private DatePicker startDate;
+	@FXML
+	private DatePicker endDate;
 
-    }
+	@FXML
+	private ListView<CLIN> clinListView;
+	@FXML
+	private ListView<SDRL> sdrlListView;
+	@FXML
+	private ListView<SOW> sowListView;
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-    	clinObservableList = FXCollections.observableArrayList();
+	private ObservableList<CLIN> clinObservableList;
+	private ObservableList<SDRL> sdrlObservableList;
+	private ObservableList<SOW> sowObservableList;
+
+	public EstimateProject_Controller() {
+
+	}
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		clinObservableList = FXCollections.observableArrayList();
 		clinListView.setItems(clinObservableList);
 
 		sdrlObservableList = FXCollections.observableArrayList();
@@ -52,51 +62,62 @@ public class EstimateProject_Controller implements Initializable {
 		sowObservableList = FXCollections.observableArrayList();
 		sowListView.setItems(sowObservableList);
 
-    }
+	}
 
-    public void submitApproval(ActionEvent event) {
+	public void submitApproval(ActionEvent event) {
 
-    }
+	}
 
-    public void saveNewChanges(ActionEvent event) {
+	public void saveNewChanges(ActionEvent event) {
 
-    }
+	}
 
-    public void discardChanges(ActionEvent event) {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("Estimator_Projects.fxml"));
+	public void discardChanges(ActionEvent event) {
+		try {
+			Stage pmProjectsStage;
+			Parent root;
+			if (cameFromEstimator) {
+				root = FXMLLoader.load(getClass().getResource("Estimator_Projects.fxml"));
 
-            Stage pmProjectsStage = new Stage();
-            pmProjectsStage.setTitle("Estimation Suite - Estimator - Projects");
-            pmProjectsStage.setScene(new Scene(root));
-            pmProjectsStage.show();
+				pmProjectsStage = new Stage();
+				pmProjectsStage.setTitle("Estimation Suite - Estimator - Projects");
+			} else {
+				root = FXMLLoader.load(getClass().getResource("PM_Projects.fxml"));
 
-            Stage stage = (Stage) discardButton.getScene().getWindow();
-            stage.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    
-    public void setProjectVersion(ProjectVersion proj) {
-    	this.project = proj;
-    	setAllFields();
-    }
-    
-    private void setAllFields () {
+				pmProjectsStage = new Stage();
+				pmProjectsStage.setTitle("Estimation Suite - Product Manager - Projects");
+			}
+			pmProjectsStage.setScene(new Scene(root));
+			pmProjectsStage.show();
+
+			Stage stage = (Stage) discardButton.getScene().getWindow();
+
+			stage.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void setProjectVersion(ProjectVersion proj) {
+		this.project = proj;
+		setAllFields();
+	}
+
+	private void setAllFields() {
 		clinObservableList.addAll(project.getCLINList());
 		sowObservableList.addAll(project.getSOWList());
 		sdrlObservableList.addAll(project.getSDRLList());
 
-		
-		//TODO: Link these in FXML before uncommenting
-		
-		//versionNumber.setText(project.getVersionNumber());
-		//projectName.setText(project.getName());
-		//projectManager.setText(project.getProjectManager());
-		//propNumber.setText(project.getProposalNumber());
+		versionNumber.setText(project.getVersionNumber());
+		projectName.setText(project.getName());
+		projectManager.setText(project.getProjectManager());
+		propNumber.setText(project.getProposalNumber());
 
-		//startDate.setValue(project.getPopStart());
-		//endDate.setValue(project.getPopEnd());
+		startDate.setValue(project.getPopStart());
+		endDate.setValue(project.getPopEnd());
+	}
+
+	public void setCameFromEstimator(boolean flag) {
+		this.cameFromEstimator = flag;
 	}
 }

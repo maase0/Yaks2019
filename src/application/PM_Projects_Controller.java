@@ -139,9 +139,16 @@ public class PM_Projects_Controller implements Initializable {
 				Project proj = new Project(projName, projID);
 				// TODO: Get the versions from the database, put them in project
 
+				ResultSet rs2 = DBUtil.dbExecuteQuery("SELECT * FROM ProjectVersion WHERE idProject=" + proj.getID());
+				while (rs2.next()) {
+					proj.addVersion(rs2.getString("Version_Number"));
+				}
+				rs2.close();
+
 				list.add(proj); // Add the project to the list
 				System.out.println("\t" + projName);
 			}
+
 			rs.close();
 		} catch (SQLException e) {
 			System.out.println("SQL Exception putting projects in list");
@@ -269,12 +276,14 @@ public class PM_Projects_Controller implements Initializable {
 
 			EstimateProject_Controller controller = fxmlLoader.getController();
 
+			controller.setCameFromEstimator(false);
+
 			ProjectVersion version = loadProjectVersion(project, versionNumber);
 
-			if(version == null) {
+			if (version == null) {
 				System.out.println("ERROR ERROR NULL ERROR ERROR");
 			}
-			
+
 			controller.setProjectVersion(version);
 
 			Stage eEstimateProjectStage = new Stage();
@@ -304,6 +313,8 @@ public class PM_Projects_Controller implements Initializable {
 			// Should only have one item, but go to latest just in case (maybe throw error?)
 			rs.last();
 
+			String versionID = rs.getString("idProjectVersion");
+
 			// Set all of the project information
 			version.setName(project.getName());
 			version.setProjectManager(rs.getString("Project_Manager"));
@@ -320,25 +331,28 @@ public class PM_Projects_Controller implements Initializable {
 			version.setPopEnd(end == null ? null : LocalDate.parse(end));
 
 			// Get all the clins, add them to the project
-			rs = DBUtil.dbExecuteQuery("CALL select_clins(" + versionNumber + ")");
+			rs = DBUtil.dbExecuteQuery("CALL select_clins(" + versionID + ")");
 			while (rs.next()) {
 				// System.out.println(rs.getString("CLIN_Index"));
-				version.addCLIN(new CLIN(rs.getString("CLIN_Index"), rs.getString("Project_Type"),
-						rs.getString("CLIN_Description")));
+				version.addCLIN(new CLIN(rs.getString("CLIN_Index"), rs.getString("Version_Number")
+						,rs.getString("Project_Type"), rs.getString("CLIN_Description")
+						,rs.getString("PoP_Start"), rs.getString("PoP_End")));
 			}
 
 			// Get all the SDRLs, add them to the project
-			rs = DBUtil.dbExecuteQuery("CALL select_sdrls(" + versionNumber + ")");
+			rs = DBUtil.dbExecuteQuery("CALL select_sdrls(" + versionID + ")");
 			while (rs.next()) {
 				// System.out.println(rs.getString("CLIN_Index"));
-				version.addSDRL(new SDRL(rs.getString("SDRL_Title"), rs.getString("SDRL_Description")));
+				version.addSDRL(new SDRL(rs.getString("SDRL_Title"), rs.getString("Version_Number"),
+						rs.getString("SDRL_Description")));
 			}
 
 			// Get all the SOWs, add them to the project
-			rs = DBUtil.dbExecuteQuery("CALL select_sows(" + versionNumber + ")");
+			rs = DBUtil.dbExecuteQuery("CALL select_sows(" + versionID + ")");
 			while (rs.next()) {
 				// System.out.println(rs.getString("CLIN_Index"));
-				version.addSOW(new SOW(rs.getString("Reference_Number"), rs.getString("SoW_Description")));
+				version.addSOW(new SOW(rs.getString("Reference_Number"), rs.getString("Version_Number"),
+						rs.getString("SoW_Description")));
 			}
 
 			rs.close();
@@ -390,20 +404,8 @@ public class PM_Projects_Controller implements Initializable {
 				label.setText(item != null ? item.toString() : "<null>");
 				setGraphic(hbox);
 
-				try {
-					ResultSet rs = DBUtil
-							.dbExecuteQuery("SELECT * FROM ProjectVersion WHERE idProject=" + getItem().getID());
-					while (rs.next()) {
-						versionList.getItems().add(rs.getString("Version_Number"));
-					}
-					rs.close();
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				versionList.getItems().addAll(this.getItem().getVersionStrings());
+
 			}
 
 			versionList.getSelectionModel().select(versionList.getItems().size() - 1);
@@ -430,6 +432,7 @@ public class PM_Projects_Controller implements Initializable {
 					System.out.println("EDIT ITEM: " + getItem() + "  VERSION: "
 							+ versionList.getSelectionModel().getSelectedItem());
 
+					// Get item and Version Number from combo box
 					editProject(getItem(), versionList.getSelectionModel().getSelectedItem());
 				}
 			});
@@ -475,10 +478,9 @@ public class PM_Projects_Controller implements Initializable {
 
 					estimateProject(getItem(), versionList.getSelectionModel().getSelectedItem());
 
-					Stage stage = (Stage) estimateButton .getScene().getWindow();
+					Stage stage = (Stage) estimateButton.getScene().getWindow();
 					stage.close();
 
-					
 				}
 			});
 
@@ -486,6 +488,18 @@ public class PM_Projects_Controller implements Initializable {
 				@Override
 				public void handle(ActionEvent event) {
 					System.out.println("Return ITEM" + getItem());
+
+					try {
+						DBUtil.dbExecuteUpdate("UPDATE Project SET Submit_Date = NULL WHERE (idProject = '"
+														+ getItem().getID() + "')");
+
+						unsubmittedObservableList.add(getItem());
+						unestimatedObservableList.remove(getItem());
+
+
+					} catch (SQLException | ClassNotFoundException e ) {
+						e.printStackTrace();
+					}
 				}
 			});
 		}

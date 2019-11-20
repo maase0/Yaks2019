@@ -18,6 +18,7 @@ public class CLIN
 	private String popEnd;
 	private String clinContent;
 	private String version;
+	private String id;
 	
     public CLIN() {
     	index = null;
@@ -29,9 +30,10 @@ public class CLIN
     
     }
     
-    public CLIN(String index, String projectType,
+    public CLIN(String id, String index, String projectType,
     		String clinContent, String version, String popStart,
             String popEnd) {
+    	this.id = id;
     	this.index = index;
         this.version = version;
     	this.projectType = projectType;
@@ -40,6 +42,14 @@ public class CLIN
     	this.popEnd = popEnd;
     }
 		
+    public void setID(String id) {
+    	this.id = id;
+    }
+    
+    public String getID() {
+    	return id;
+    }
+    
     public void setIndex(String index) {
     	this.index = index;
     }

@@ -37,7 +37,7 @@ public class SDRL_Controller extends ListCell<SDRL> implements Initializable {
         String version = sdrlVersion.getText();
 
         if(sdrl == null) {
-            sdrl = new SDRL(name, info, version);
+            sdrl = new SDRL(null, name, info, version);
             sdrlObservableList.add(sdrl);
         } else {
             sdrl.setName(name);

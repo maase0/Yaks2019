@@ -45,7 +45,7 @@ public class SOW_Controller extends ListCell<SOW> implements Initializable {
         String version = sowVersion.getText();
 
         if(sow == null) {
-            sow = new SOW(ref, content, version);
+            sow = new SOW(null, ref, content, version);
             sowObservableList.add(sow);
         } else {
             sow.setReference(ref);

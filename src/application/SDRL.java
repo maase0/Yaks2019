@@ -5,7 +5,7 @@ public class SDRL
 	private String name;
 	private String sdrlInfo;
 	private String version;
-		
+	private String id;
 	
     public SDRL() {
     	name = null;
@@ -13,12 +13,21 @@ public class SDRL
     	version = null;
     }
 
-    public SDRL(String name, String sdrlInfo, String version) {
-        this.name = name;
+    public SDRL(String id, String name, String sdrlInfo, String version) {
+        this.id = id;
+    	this.name = name;
         this.sdrlInfo = sdrlInfo;
         this.version = version;
     }
 		
+    public void setID(String id) {
+    	this.id = id;
+    }
+    
+    public String getID() {
+    	return id;
+    }
+    
     public void setName(String name) {
     	this.name = name;
     }

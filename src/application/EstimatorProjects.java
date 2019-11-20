@@ -7,7 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 
 
-public class Estimator_Projects extends Application {
+public class EstimatorProjects extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {

@@ -112,7 +112,7 @@ public class PM_NewProjectController implements Initializable {
 			stage.setScene(new Scene(root1));
 
 			// Grab the controller from the loader
-			CLIN_Controller controller = fxmlLoader.<CLIN_Controller>getController();
+			CLINController controller = fxmlLoader.<CLINController>getController();
 			// Set the controller's list to allow message passing
 			controller.setList(clinObservableList);
 
@@ -149,7 +149,7 @@ public class PM_NewProjectController implements Initializable {
 			stage.setScene(new Scene(root1));
 
 			// Grab the controller from the loader and set it's list for message passing
-			CLIN_Controller controller = fxmlLoader.<CLIN_Controller>getController();
+			CLINController controller = fxmlLoader.<CLINController>getController();
 			controller.setList(clinObservableList);
 
 			// Set the controller's CLIN to the existing one

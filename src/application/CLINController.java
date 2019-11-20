@@ -25,7 +25,7 @@ import java.util.ResourceBundle;
  * Interface to create / edit CLINs. 
  */
 
-public class CLIN_Controller extends ListCell<CLIN> implements Initializable {
+public class CLINController extends ListCell<CLIN> implements Initializable {
 		//fxml elements for the editor
 		@FXML private Button clinSaveButton;
 		@FXML private Button clinClose;

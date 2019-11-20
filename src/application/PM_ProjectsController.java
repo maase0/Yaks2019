@@ -34,7 +34,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Callback;
 
-public class PM_Projects_Controller implements Initializable {
+public class PM_ProjectsController implements Initializable {
 
 	@FXML
 	private Button newProjectBtn;
@@ -274,7 +274,7 @@ public class PM_Projects_Controller implements Initializable {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Estimate-Project.fxml"));
 			Parent root = fxmlLoader.load();
 
-			EstimateProject_Controller controller = fxmlLoader.getController();
+			EstimateProjectController controller = fxmlLoader.getController();
 
 			controller.setCameFromEstimator(false);
 

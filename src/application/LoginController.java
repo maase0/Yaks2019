@@ -16,7 +16,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
-public class Login_Controller implements Initializable{
+public class LoginController implements Initializable{
 
 	@FXML
 	private Button loginBtn;
@@ -41,7 +41,7 @@ public class Login_Controller implements Initializable{
 						FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Error_Window.fxml"));
 						Parent root = fxmlLoader.load();
 
-						Error_Window controller = fxmlLoader.getController();
+						ErrorWindow controller = fxmlLoader.getController();
 						
 						//Loads the Code to change the error text for this type of error
 						controller.errorMessage("Please select a role");

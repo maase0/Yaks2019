@@ -16,7 +16,7 @@ import javafx.stage.Stage;
 import javafx.scene.text.Text;
 
 
-public class Error_Window extends Application implements Initializable{
+public class ErrorWindow extends Application implements Initializable{
 	
 	@FXML
 	private Button exitBtn;

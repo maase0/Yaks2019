@@ -51,7 +51,7 @@ public class EstimatorProjectsController implements Initializable{
 		estimatedListView.setCellFactory(new Callback<ListView<Project>, ListCell<Project>>() {
 			@Override
 			public ListCell<Project> call(ListView<Project> param) {
-				return new Estimator_Projects_Controller.EstimatedCell();
+				return new EstimatorProjectsController.EstimatedCell();
 			}
 		});
 
@@ -61,7 +61,7 @@ public class EstimatorProjectsController implements Initializable{
 		notEstimatedListView.setCellFactory(new Callback<ListView<Project>, ListCell<Project>>() {
 			@Override
 			public ListCell<Project> call(ListView<Project> param) {
-				return new Estimator_Projects_Controller.notEstimatedCell();
+				return new EstimatorProjectsController.notEstimatedCell();
 			}
 		});
 

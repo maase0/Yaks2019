@@ -43,6 +43,8 @@ public class Error_Window extends Application implements Initializable{
    
     public void errorMessage(String words){
         errorTxt.setText(words);
+      //Should be able to use this to append multiple errors to the same window, when implemented
+      //errorTxt.setText(errorTxt + words);
     }
 	
 	public void Exit(ActionEvent event) {

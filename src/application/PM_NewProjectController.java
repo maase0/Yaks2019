@@ -294,7 +294,7 @@ public class PM_NewProjectController implements Initializable {
 				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Error_Window.fxml"));
 				Parent root = fxmlLoader.load();
 
-				Error_Window controller = fxmlLoader.getController();
+				ErrorWindow controller = fxmlLoader.getController();
 				
 				controller.errorMessage("Version Text \"" + versionText.getText() + "\" does not match regexp " + versionReg);
 				
@@ -319,7 +319,7 @@ public class PM_NewProjectController implements Initializable {
 				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Error_Window.fxml"));
 				Parent root = fxmlLoader.load();
 
-				Error_Window controller = fxmlLoader.getController();
+				ErrorWindow controller = fxmlLoader.getController();
 				
 				controller.errorMessage("Version Proposal Number \"" + propNumText.getText() + "\" does not match regexp " + propReg);
 				
@@ -344,7 +344,7 @@ public class PM_NewProjectController implements Initializable {
 					FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Error_Window.fxml"));
 					Parent root = fxmlLoader.load();
 
-					Error_Window controller = fxmlLoader.getController();
+					ErrorWindow controller = fxmlLoader.getController();
 					
 					controller.errorMessage("Sow Reference \"" + "" + s.getReference() + "\" does not match regexp " + sowRefReg);
 					

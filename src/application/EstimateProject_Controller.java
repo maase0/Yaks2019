@@ -114,7 +114,9 @@ public class EstimateProject_Controller implements Initializable {
 		propNumber.setText(project.getProposalNumber());
 
 		startDate.setValue(project.getPopStart());
+		startDate.setDisable(true);
 		endDate.setValue(project.getPopEnd());
+		endDate.setDisable(true);
 	}
 
 	public void setCameFromEstimator(boolean flag) {

@@ -8,7 +8,6 @@ import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import javax.xml.soap.Text;
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;

@@ -33,8 +33,8 @@ public class CLIN
     		String clinContent, String version, String popStart,
             String popEnd) {
     	this.index = index;
-    	this.projectType = projectType;
         this.version = version;
+    	this.projectType = projectType;
     	this.clinContent = clinContent;
     	this.popStart = popStart;
     	this.popEnd = popEnd;

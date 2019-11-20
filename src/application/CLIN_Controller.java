@@ -65,11 +65,11 @@ public class CLIN_Controller extends ListCell<CLIN> implements Initializable {
 		} else {
 			//Update CLIN with new information
 			clin.setIndex(index);
+			clin.setVersion(version);
 			clin.setProjectType(projectType);
 			clin.setClinContent(text);
 			clin.setPopStart(start);
 			clin.setPopEnd(end);
-			clin.setVersion(version);
 			clinObservableList.set(clinObservableList.indexOf(clin), clin);  //probably not the "right" way to update the list
 			//   https://coderanch.com/t/666722/java/Notify-ObservableList-Listeners-Change-Elements
 		}
@@ -121,9 +121,9 @@ public class CLIN_Controller extends ListCell<CLIN> implements Initializable {
     public void setInputFields() {
     	if(clin != null) {
     		clinIndex.setText(clin.getIndex());
+			clinVersion.setText(clin.getVersion());
     		clinProjectType.setText(clin.getProjectType());
     		clinTextArea.setText(clin.getClinContent());
-    		clinVersion.setText(clin.getVersion());
     		clinPoPStart.setValue(LocalDate.parse(clin.getPopStart()));
 			clinPoPEnd.setValue(LocalDate.parse(clin.getPopEnd()));
     	}

@@ -111,6 +111,7 @@ public class Estimator_Projects_Controller implements Initializable{
 				System.out.println("ERROR ERROR NULL ERROR ERROR");
 			}
 
+			controller.setCameFromEstimator(true);
 			controller.setProjectVersion(version);
 
 			Stage eEstimateProjectStage = new Stage();
@@ -159,22 +160,25 @@ public class Estimator_Projects_Controller implements Initializable{
 			rs = DBUtil.dbExecuteQuery("CALL select_clins(" + versionNumber + ")");
 			while (rs.next()) {
 				// System.out.println(rs.getString("CLIN_Index"));
-				version.addCLIN(new CLIN(rs.getString("CLIN_Index"), rs.getString("Project_Type"),
-						rs.getString("CLIN_Description")));
+				version.addCLIN(new CLIN(rs.getString("CLIN_Index"), rs.getString("Version_Number"),
+						rs.getString("Project_Type"), rs.getString("CLIN_Description"),
+						rs.getString("PoP_Start"), rs.getString("PoP_End")));
 			}
 
 			// Get all the SDRLs, add them to the project
 			rs = DBUtil.dbExecuteQuery("CALL select_sdrls(" + versionNumber + ")");
 			while (rs.next()) {
 				// System.out.println(rs.getString("CLIN_Index"));
-				version.addSDRL(new SDRL(rs.getString("SDRL_Title"), rs.getString("SDRL_Description")));
+				version.addSDRL(new SDRL(rs.getString("SDRL_Title"), rs.getString("Version_Number")
+						,rs.getString("SDRL_Description")));
 			}
 
 			// Get all the SOWs, add them to the project
 			rs = DBUtil.dbExecuteQuery("CALL select_sows(" + versionNumber + ")");
 			while (rs.next()) {
 				// System.out.println(rs.getString("CLIN_Index"));
-				version.addSOW(new SOW(rs.getString("Reference_Number"), rs.getString("SoW_Description")));
+				version.addSOW(new SOW(rs.getString("Reference_Number"), rs.getString("Version_Number")
+						,rs.getString("SoW_Description")));
 			}
 
 			rs.close();
@@ -260,6 +264,18 @@ public class Estimator_Projects_Controller implements Initializable{
 				@Override
 				public void handle(ActionEvent event) {
 					System.out.println("Return ITEM" + getItem());
+
+					try {
+						DBUtil.dbExecuteUpdate("UPDATE Project SET Submit_Date = NULL WHERE (idProject = '"
+								+ getItem().getID() + "')");
+
+						notEstimatedObservableList.remove(getItem());
+
+					} catch (SQLException | ClassNotFoundException e ) {
+						e.printStackTrace();
+					}
+
+
 				}
 			});
 		}

@@ -47,7 +47,6 @@ public class CLIN_Controller extends ListCell<CLIN> implements Initializable {
      * if the CLIN has not been saved yet, otherwise updates
      * existing CLIN.
      *
-     * @param event
      */
 	public void saveCLIN() {
 
@@ -55,20 +54,22 @@ public class CLIN_Controller extends ListCell<CLIN> implements Initializable {
 		String index = clinIndex.getText();
 		String projectType = clinProjectType.getText();
 		String text = clinTextArea.getText();
-		//String start = clinPoPStart.getValue().toString();
-		//String end = clinPoPEnd.getValue().toString();
+		String version = clinVersion.getText();
+		String start = clinPoPStart.getValue().toString();
+		String end = clinPoPEnd.getValue().toString();
 
 		if(clin == null) {
 			//Create a new object if not yet saved
-			clin = new CLIN(index, projectType, text);
+			clin = new CLIN(index, projectType, text, version, start, end);
 			clinObservableList.add(clin);
 		} else {
 			//Update CLIN with new information
 			clin.setIndex(index);
+			clin.setVersion(version);
 			clin.setProjectType(projectType);
 			clin.setClinContent(text);
-			//clin.setPopStart(start);
-			//clin.setPopEnd(end);
+			clin.setPopStart(start);
+			clin.setPopEnd(end);
 			clinObservableList.set(clinObservableList.indexOf(clin), clin);  //probably not the "right" way to update the list
 			//   https://coderanch.com/t/666722/java/Notify-ObservableList-Listeners-Change-Elements
 		}
@@ -120,10 +121,11 @@ public class CLIN_Controller extends ListCell<CLIN> implements Initializable {
     public void setInputFields() {
     	if(clin != null) {
     		clinIndex.setText(clin.getIndex());
+			clinVersion.setText(clin.getVersion());
     		clinProjectType.setText(clin.getProjectType());
     		clinTextArea.setText(clin.getClinContent());
-    		//clinPoPStart.setValue(LocalDate.parse(clin.getPopStart()));
-			//clinPoPEnd.setValue(LocalDate.parse(clin.getPopEnd()));
+    		clinPoPStart.setValue(LocalDate.parse(clin.getPopStart()));
+			clinPoPEnd.setValue(LocalDate.parse(clin.getPopEnd()));
     	}
     }
 

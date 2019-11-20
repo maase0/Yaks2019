@@ -6,7 +6,7 @@ public class Project
 {
 	private String name;
 	private String id;
-	private ArrayList<ProjectVersion> versions = new ArrayList();
+	private ArrayList<String> versions = new ArrayList();
 	
     public Project() {
     	name = null;
@@ -37,8 +37,12 @@ public class Project
     	return name;
     }
     
-    public void addVersion(ProjectVersion version) {
+    public void addVersion(String version) {
     	this.versions.add(version);
+    }
+    
+    public ArrayList<String> getVersionStrings() {
+    	return versions;
     }
     
     public void removeVersion(ProjectVersion version) {

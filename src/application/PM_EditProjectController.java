@@ -30,9 +30,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import javafx.util.Callback;
-import org.omg.PortableInterceptor.ACTIVE;
 
 import javax.swing.*;
 

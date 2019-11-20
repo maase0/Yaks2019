@@ -2,15 +2,12 @@ package application;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 import DB.DBUtil;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,18 +17,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
-import javafx.scene.text.Text;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import javafx.util.Callback;
-import org.omg.PortableInterceptor.ACTIVE;
+
 
 import javax.swing.*;
 
@@ -316,7 +305,7 @@ public class PM_NewProjectController implements Initializable {
 		if (passed) {
 			System.out.println("Save Changes Button");
 			ResultSet rs = DBUtil.dbExecuteQuery("CALL insert_new_project('" + versionText.getText() + "', \""
-					+ projectNameText.getText() + "\", \"" + pmText.getText() + "\", " + propNumText.getText() + ",'"
+					+ projectNameText.getText() + "\", \"" + pmText.getText() + "\", " + propNumText.getText() + ", '"
 					+ startDate.getValue().toString() + "', '" + endDate.getValue().toString() + "')");
 			while (rs.next()) {
 				vid = rs.getInt("idProjectVersion");
@@ -325,18 +314,18 @@ public class PM_NewProjectController implements Initializable {
 
 			for (CLIN c : clinObservableList) {
 				DBUtil.dbExecuteUpdate("CALL insert_clin(" + vid + ", \"" + c.getIndex()
-						+ "\", \"" + c.getProjectType() + "\", \""
-						+ c.getClinContent() + "\")");
+						+ "\", \"" + c.getVersion() + "\", \"" + c.getProjectType() + "\", \""
+						+ c.getClinContent() + "\", '" + c.getPopStart() + "', '" + c.getPopEnd() + "')");
 			}
 
 			for (SDRL s : sdrlObservableList) {
 				DBUtil.dbExecuteUpdate("CALL insert_sdrl(" + vid + ", \"" + s.getName()
-						+ "\", \"" + s.getSdrlInfo() + "\")");
+						+ "\", \"" + s.getVersion() + "\", \""+ s.getSdrlInfo() + "\")");
 			}
 
 			for (SOW s : sowObservableList) {
-				DBUtil.dbExecuteQuery("CALL insert_sow(" + vid + ", " + s.getReference()
-						+ ", \"" + s.getSowContent() + "\")");
+				DBUtil.dbExecuteUpdate("CALL insert_sow(" + vid + ", " + s.getReference()
+						+ ", \"" + s.getVersion() + "\", \""+ s.getSowContent() + "\")");
 			}
 
 			try {

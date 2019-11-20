@@ -33,6 +33,7 @@ public class SOW_Controller extends ListCell<SOW> implements Initializable {
     @FXML private Button sowSaveAndClose;
     @FXML private TextField sowReference;
     @FXML private TextArea sowContent;
+    @FXML private TextField sowVersion;
 
     SOW sow;
     private ObservableList<SOW> sowObservableList;
@@ -41,9 +42,10 @@ public class SOW_Controller extends ListCell<SOW> implements Initializable {
 
         String ref = sowReference.getText();
         String content = sowContent.getText();
+        String version = sowVersion.getText();
 
         if(sow == null) {
-            sow = new SOW(ref, content);
+            sow = new SOW(ref, content, version);
             sowObservableList.add(sow);
         } else {
             sow.setReference(ref);

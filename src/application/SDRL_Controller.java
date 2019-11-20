@@ -25,6 +25,7 @@ public class SDRL_Controller extends ListCell<SDRL> implements Initializable {
     @FXML private TextField sdrlName;
     @FXML private TextArea sdrlInfo;
     @FXML private MenuButton attachments;
+    @FXML private TextField sdrlVersion;
 
     SDRL sdrl;
     private ObservableList<SDRL> sdrlObservableList;
@@ -33,9 +34,10 @@ public class SDRL_Controller extends ListCell<SDRL> implements Initializable {
 
         String name = sdrlName.getText();
         String info = sdrlInfo.getText();
+        String version = sdrlVersion.getText();
 
         if(sdrl == null) {
-            sdrl = new SDRL(name, info);
+            sdrl = new SDRL(name, info, version);
             sdrlObservableList.add(sdrl);
         } else {
             sdrl.setName(name);

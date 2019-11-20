@@ -431,11 +431,15 @@ public class PM_EditProjectController implements Initializable {
 			String endString = endDate.getValue() == null ? "" : endDate.getValue().toString();
 			
 			
-			System.out.println("Save Changes Button");
-			ResultSet rs = DBUtil.dbExecuteQuery("CALL sfe_insert(" + versionText.getText() + ", \""
-					+ projectNameText.getText() + "\", \"" + pmText.getText() + "\", " + propNumText.getText() + ",'"
-					+ startString + "', '" + endString + "', '" + java.time.LocalDate.now() + "')");
-			while (rs.next()) {
+			System.out.println("Submit for Estimation Button");
+
+
+			DBUtil.dbExecuteUpdate("UPDATE Project SET Submit_Date = '" + LocalDate.now().toString()
+					+ "' WHERE idProject = " + proj.getProjectID());
+
+			DBUtil.dbExecuteUpdate("CALL submit_project(" + proj.getProjectID() + ", '"
+													+ LocalDate.now().toString() + "')");
+			/*while (rs.next()) {
 				vid = rs.getInt("idProjectVersion");
 			}
 			rs.close();
@@ -454,12 +458,8 @@ public class PM_EditProjectController implements Initializable {
 			for (SOW s : sowObservableList) {
 				DBUtil.dbExecuteQuery("CALL insert_sow(" + vid + ", " + s.getReference()
 						+ ", \"" + s.getSowContent() + "\")");
-			}
+			}*/
 
-			
-			
-			DBUtil.dbExecuteUpdate("UPDATE Project SET Submit_Date = '" + LocalDate.now().toString() 
-					+ "' WHERE idProject = " + proj.getProjectID());
 			
 			// TODO Maybe find a way to make this transition faster, doesn't transition until the query fully connects.
 			// TODO Doesn't transition back to the Projects page!!!!

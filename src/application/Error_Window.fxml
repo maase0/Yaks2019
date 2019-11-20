@@ -11,9 +11,14 @@
       <Pane layoutX="-28.0" layoutY="-76.0" prefHeight="300.0" prefWidth="500.0">
          <children>
             <Button fx:id="exitBtn" layoutX="227.0" layoutY="235.0" mnemonicParsing="false" onAction="#Exit" text="Exit" />
-            <Text fx:id="errorTxt" layoutX="201.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Error">
+            <Text fx:id="error" layoutX="201.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Error:">
                <font>
                   <Font size="40.0" />
+               </font>
+            </Text>
+            <Text fx:id="errorTxt" layoutX="225.0" layoutY="206.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Error">
+               <font>
+                  <Font size="18.0" />
                </font>
             </Text>
          </children>

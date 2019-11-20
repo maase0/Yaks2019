@@ -41,8 +41,8 @@ public class Error_Window extends Application implements Initializable{
 	}
 
    
-    public void errorRole(){
-        errorTxt.setText("Error: Please Select a role.");
+    public void errorMessage(String words){
+        errorTxt.setText(words);
     }
 	
 	public void Exit(ActionEvent event) {

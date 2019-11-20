@@ -44,7 +44,7 @@ public class Login_Controller implements Initializable{
 						Error_Window controller = fxmlLoader.getController();
 						
 						//Loads the Code to change the error text for this type of error
-						controller.errorRole();
+						controller.errorMessage("Please select a role");
 						
 						Stage errorStage = new Stage();
 						errorStage.setTitle("ERROR");

@@ -490,8 +490,7 @@ public class PM_Projects_Controller implements Initializable {
 					System.out.println("Return ITEM" + getItem());
 
 					try {
-						DBUtil.dbExecuteUpdate("UPDATE Project SET Submit_Date = NULL WHERE (idProject = '"
-														+ getItem().getID() + "')");
+						DBUtil.dbExecuteUpdate("CALL return_project('" + getItem().getID() + "')");
 
 						unsubmittedObservableList.add(getItem());
 						unestimatedObservableList.remove(getItem());

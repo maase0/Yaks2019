@@ -34,7 +34,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Callback;
 
-public class PM_Projects_Controller implements Initializable {
+public class PM_ProjectsController implements Initializable {
 
 	@FXML
 	private Button newProjectBtn;
@@ -274,7 +274,7 @@ public class PM_Projects_Controller implements Initializable {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Estimate-Project.fxml"));
 			Parent root = fxmlLoader.load();
 
-			EstimateProject_Controller controller = fxmlLoader.getController();
+			EstimateProjectController controller = fxmlLoader.getController();
 
 			controller.setCameFromEstimator(false);
 
@@ -491,8 +491,7 @@ public class PM_Projects_Controller implements Initializable {
 					System.out.println("Return ITEM" + getItem());
 
 					try {
-						DBUtil.dbExecuteUpdate("UPDATE Project SET Submit_Date = NULL WHERE (idProject = '"
-														+ getItem().getID() + "')");
+						DBUtil.dbExecuteUpdate("CALL return_project('" + getItem().getID() + "')");
 
 						unsubmittedObservableList.add(getItem());
 						unestimatedObservableList.remove(getItem());

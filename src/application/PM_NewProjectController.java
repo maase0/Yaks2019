@@ -112,7 +112,7 @@ public class PM_NewProjectController implements Initializable {
 			stage.setScene(new Scene(root1));
 
 			// Grab the controller from the loader
-			CLIN_Controller controller = fxmlLoader.<CLIN_Controller>getController();
+			CLINController controller = fxmlLoader.<CLINController>getController();
 			// Set the controller's list to allow message passing
 			controller.setList(clinObservableList);
 
@@ -149,7 +149,7 @@ public class PM_NewProjectController implements Initializable {
 			stage.setScene(new Scene(root1));
 
 			// Grab the controller from the loader and set it's list for message passing
-			CLIN_Controller controller = fxmlLoader.<CLIN_Controller>getController();
+			CLINController controller = fxmlLoader.<CLINController>getController();
 			controller.setList(clinObservableList);
 
 			// Set the controller's CLIN to the existing one
@@ -289,16 +289,76 @@ public class PM_NewProjectController implements Initializable {
 
 		if (!versionText.getText().matches(versionReg)) {
 			passed = false;
-			System.out.println("Error: Version Text \"" + versionText.getText() + "\" does not match regexp " + versionReg);
+			try {
+				
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Error_Window.fxml"));
+				Parent root = fxmlLoader.load();
+
+				Error_Window controller = fxmlLoader.getController();
+				
+				controller.errorMessage("Version Text \"" + versionText.getText() + "\" does not match regexp " + versionReg);
+				
+				Stage errorStage = new Stage();
+				errorStage.setTitle("ERROR");
+				errorStage.setScene(new Scene(root));
+
+				errorStage.show();
+				}
+			catch(Exception e) {
+				e.printStackTrace();
+				}
+			
+			
+			//System.out.println("Error: Version Text \"" + versionText.getText() + "\" does not match regexp " + versionReg);
 		}
 		if (!propNumText.getText().matches(propReg)) {
 			passed = false;
-			System.out.println("Error: Version Proposal Number \"" + propNumText.getText() + "\" does not match regexp " + propReg);
+			
+			try {
+				
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Error_Window.fxml"));
+				Parent root = fxmlLoader.load();
+
+				Error_Window controller = fxmlLoader.getController();
+				
+				controller.errorMessage("Version Proposal Number \"" + propNumText.getText() + "\" does not match regexp " + propReg);
+				
+				Stage errorStage = new Stage();
+				errorStage.setTitle("ERROR");
+				errorStage.setScene(new Scene(root));
+
+				errorStage.show();
+				}
+			catch(Exception e) {
+				e.printStackTrace();
+				}
+			
+//			System.out.println("Error: Version Proposal Number \"" + propNumText.getText() + "\" does not match regexp " + propReg);
 		}
 		for (SOW s : sowObservableList) {
 			if (!s.getReference().matches(sowRefReg)) {
 				passed = false;
-				System.out.println("Error: Sow Reference \"" + "" + s.getReference() + "\" does not match regexp " + sowRefReg);
+				
+				try {
+					
+					FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Error_Window.fxml"));
+					Parent root = fxmlLoader.load();
+
+					Error_Window controller = fxmlLoader.getController();
+					
+					controller.errorMessage("Sow Reference \"" + "" + s.getReference() + "\" does not match regexp " + sowRefReg);
+					
+					Stage errorStage = new Stage();
+					errorStage.setTitle("ERROR");
+					errorStage.setScene(new Scene(root));
+
+					errorStage.show();
+					}
+				catch(Exception e) {
+					e.printStackTrace();
+					}
+				
+//				System.out.println("Error: Sow Reference \"" + "" + s.getReference() + "\" does not match regexp " + sowRefReg);
 			}
 		}
 

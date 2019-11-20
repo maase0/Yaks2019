@@ -24,7 +24,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
-public class Estimator_Projects_Controller implements Initializable{
+public class EstimatorProjectsController implements Initializable{
 
 	@FXML
 	private Button logoutButton;
@@ -103,7 +103,7 @@ public class Estimator_Projects_Controller implements Initializable{
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Estimate-Project.fxml"));
 			Parent root = fxmlLoader.load();
 
-			EstimateProject_Controller controller = fxmlLoader.getController();
+			EstimateProjectController controller = fxmlLoader.getController();
 
 			ProjectVersion version = loadProjectVersion(project, versionNumber);
 

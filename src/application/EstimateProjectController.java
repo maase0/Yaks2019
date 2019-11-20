@@ -16,7 +16,7 @@ import javafx.event.ActionEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class EstimateProject_Controller implements Initializable {
+public class EstimateProjectController implements Initializable {
 
 	private ProjectVersion project;
 	private boolean cameFromEstimator;
@@ -47,7 +47,7 @@ public class EstimateProject_Controller implements Initializable {
 	private ObservableList<SDRL> sdrlObservableList;
 	private ObservableList<SOW> sowObservableList;
 
-	public EstimateProject_Controller() {
+	public EstimateProjectController() {
 
 	}
 
@@ -114,7 +114,9 @@ public class EstimateProject_Controller implements Initializable {
 		propNumber.setText(project.getProposalNumber());
 
 		startDate.setValue(project.getPopStart());
+		startDate.setDisable(true);
 		endDate.setValue(project.getPopEnd());
+		endDate.setDisable(true);
 	}
 
 	public void setCameFromEstimator(boolean flag) {

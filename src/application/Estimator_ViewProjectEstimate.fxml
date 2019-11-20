@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" styleClass="project" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.EstimateProject_Controller">
+<BorderPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" styleClass="project" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.EstimateProjectController">
 	<top>
 		<BorderPane styleClass="project-header" BorderPane.alignment="CENTER">
 			<right>
@@ -15,27 +15,20 @@
 					<BorderPane.margin>
                   		<Insets />
                		</BorderPane.margin>
-               		<top>
-               			<Button mnemonicParsing="false" prefWidth="150.0" styleClass="btn-rich-blue" text="Return for Estimation" BorderPane.alignment="CENTER">
-               				<BorderPane.margin>
-               					<Insets top="5.0" />
-               				</BorderPane.margin>
-               			</Button>
-               		</top>
-               		<center>
-               			<Button mnemonicParsing="false" prefWidth="150.0" styleClass="btn-save" text="Approve Project" BorderPane.alignment="CENTER">
-               				<BorderPane.margin>
-                        		<Insets />
-                     		</BorderPane.margin>
-               			</Button>
-               		</center>
-               		<bottom>
-	                  	<Button fx:id="discardButton" mnemonicParsing="false" onAction="#discardChanges" prefWidth="150.0" styleClass="btn-discard" text="Deny Project" BorderPane.alignment="CENTER">
-	                     	<BorderPane.margin>
-	                        	<Insets bottom="5.0" top="2.0" />
-	                     	</BorderPane.margin>
-	                  	</Button>
-               		</bottom>
+               <top>
+                  <Label text="Project Status:" BorderPane.alignment="CENTER">
+                     <padding>
+                        <Insets top="25.0" />
+                     </padding>
+                  </Label>
+               </top>
+               <center>
+                  <Label text="PROJECT_STATUS" BorderPane.alignment="CENTER">
+                     <padding>
+                        <Insets bottom="20.0" />
+                     </padding>
+                  </Label>
+               </center>
 				</BorderPane>
 			</right>
 			<center>

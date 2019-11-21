@@ -23,19 +23,15 @@
    <center>
       <TabPane minHeight="50.0" prefHeight="508.0" prefWidth="650.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
+          <Tab fx:id="unsubmittedTab" text="Unsubmitted">
+               <content>
+                  <ListView fx:id="unsubmittedListView" prefHeight="200.0" prefWidth="200.0" />
+               </content>
+          </Tab>
           <Tab fx:id="submittedTab" text="Submitted">
                <content>
                   <TabPane prefHeight="200.0" prefWidth="200.0" styleClass="submitted-tab" tabClosingPolicy="UNAVAILABLE">
                     <tabs>
-                      <Tab text="Estimated">
-                           <content>
-                              <BorderPane prefHeight="200.0" prefWidth="200.0">
-                                 <center>
-                                    <ListView fx:id="estimatedListView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
-                                 </center>
-                              </BorderPane>
-                           </content>
-                      </Tab>
                       <Tab text="Not Estimated">
                            <content>
                               <BorderPane prefHeight="200.0" prefWidth="200.0">
@@ -44,13 +40,43 @@
                                  </center></BorderPane>
                            </content>
                       </Tab>
+                      <Tab text="Estimated">
+                           <content>
+                              <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+                                <tabs>
+                                  <Tab text="Pending">
+                                       <content>
+                                          <BorderPane prefHeight="200.0" prefWidth="200.0">
+                                             <center>
+                                                <ListView fx:id="estimatedListView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+                                             </center>
+                                          </BorderPane>
+                                       </content>
+                                    </Tab>
+                                  <Tab text="Approved">
+                                       <content>
+                                          <BorderPane prefHeight="200.0" prefWidth="200.0">
+                                             <center>
+                                                <ListView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+                                             </center>
+                                          </BorderPane>
+                                       </content>
+                                    </Tab>
+                                    <Tab text="Denied">
+                                       <content>
+                                          <BorderPane prefHeight="200.0" prefWidth="200.0">
+                                             <center>
+                                                <ListView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+                                             </center>
+                                          </BorderPane>
+                                       </content>
+                                    </Tab>
+                                </tabs>
+                              </TabPane>
+                           </content>
+                      </Tab>
                     </tabs>
                   </TabPane>
-               </content>
-          </Tab>
-          <Tab fx:id="unsubmittedTab" text="Unsubmitted">
-               <content>
-                  <ListView fx:id="unsubmittedListView" prefHeight="200.0" prefWidth="200.0" />
                </content>
           </Tab>
         </tabs>

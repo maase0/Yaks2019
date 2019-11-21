@@ -176,7 +176,7 @@ public class PM_NewProjectController implements Initializable {
 			stage.setScene(new Scene(root1));
 
 			// Grab the controller from the loader
-			SDRL_Controller controller = fxmlLoader.<SDRL_Controller>getController();
+			SDRLController controller = fxmlLoader.<SDRLController>getController();
 			// Set the controller's list to allow message passing
 			controller.setList(sdrlObservableList);
 
@@ -198,7 +198,7 @@ public class PM_NewProjectController implements Initializable {
 			stage.setScene(new Scene(root));
 
 			// Grab the controller from the loader and set it's list for message passing
-			SDRL_Controller controller = fxmlLoader.<SDRL_Controller>getController();
+			SDRLController controller = fxmlLoader.<SDRLController>getController();
 			controller.setList(sdrlObservableList);
 
 			controller.setSDRL(sdrl);
@@ -227,7 +227,7 @@ public class PM_NewProjectController implements Initializable {
 			stage.setScene(new Scene(root1));
 
 			// Grab the controller from the loader
-			SOW_Controller controller = fxmlLoader.<SOW_Controller>getController();
+			SOWController controller = fxmlLoader.<SOWController>getController();
 			// Set the controller's list to allow message passing
 			controller.setList(sowObservableList);
 
@@ -247,7 +247,7 @@ public class PM_NewProjectController implements Initializable {
 			Stage stage = new Stage();
 			stage.setScene(new Scene(root));
 
-			SOW_Controller controller = fxmlLoader.<SOW_Controller>getController();
+			SOWController controller = fxmlLoader.<SOWController>getController();
 			controller.setList(sowObservableList);
 
 			controller.setSOW(sow);
@@ -294,7 +294,7 @@ public class PM_NewProjectController implements Initializable {
 				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Error_Window.fxml"));
 				Parent root = fxmlLoader.load();
 
-				Error_Window controller = fxmlLoader.getController();
+				ErrorWindow controller = fxmlLoader.getController();
 				
 				controller.errorMessage("Version Text \"" + versionText.getText() + "\" does not match regexp " + versionReg);
 				
@@ -319,7 +319,7 @@ public class PM_NewProjectController implements Initializable {
 				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Error_Window.fxml"));
 				Parent root = fxmlLoader.load();
 
-				Error_Window controller = fxmlLoader.getController();
+				ErrorWindow controller = fxmlLoader.getController();
 				
 				controller.errorMessage("Version Proposal Number \"" + propNumText.getText() + "\" does not match regexp " + propReg);
 				
@@ -344,7 +344,7 @@ public class PM_NewProjectController implements Initializable {
 					FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Error_Window.fxml"));
 					Parent root = fxmlLoader.load();
 
-					Error_Window controller = fxmlLoader.getController();
+					ErrorWindow controller = fxmlLoader.getController();
 					
 					controller.errorMessage("Sow Reference \"" + "" + s.getReference() + "\" does not match regexp " + sowRefReg);
 					

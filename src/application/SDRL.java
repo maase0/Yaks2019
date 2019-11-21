@@ -13,11 +13,11 @@ public class SDRL
     	version = null;
     }
 
-    public SDRL(String id, String name, String sdrlInfo, String version) {
+    public SDRL(String id, String name, String version, String sdrlInfo) {
         this.id = id;
     	this.name = name;
-        this.sdrlInfo = sdrlInfo;
         this.version = version;
+        this.sdrlInfo = sdrlInfo;
     }
 		
     public void setID(String id) {

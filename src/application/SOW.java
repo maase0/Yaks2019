@@ -14,11 +14,11 @@ public class SOW {
     	version = null;
     }
 
-    public SOW(String id, String reference, String sowContent, String version) {
+    public SOW(String id, String reference, String version, String sowContent) {
     	this.id = id;
         this.reference = reference;
-        this.sowContent = sowContent;
         this.version = version;
+        this.sowContent = sowContent;
     }
 		
     public void setID(String id) {

@@ -335,8 +335,8 @@ public class PM_ProjectsController implements Initializable {
 			while (rs.next()) {
 				// System.out.println(rs.getString("CLIN_Index"));
 
-				version.addCLIN(new CLIN(rs.getString("idCLIN"), rs.getString("CLIN_Index")
-						,rs.getString("Project_Type"), rs.getString("CLIN_Description") , rs.getString("Version_Number")
+				version.addCLIN(new CLIN(rs.getString("idCLIN"), rs.getString("CLIN_Index"),
+						rs.getString("Version_Number"),rs.getString("Project_Type"), rs.getString("CLIN_Description")
 						,rs.getString("PoP_Start"), rs.getString("PoP_End")));
 			}
 

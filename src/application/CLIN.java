@@ -30,9 +30,9 @@ public class CLIN
     
     }
     
-    public CLIN(String id, String index, String projectType,
-    		String clinContent, String version, String popStart,
-            String popEnd) {
+    public CLIN(String id, String index, String version,
+                String projectType, String clinContent,
+                String popStart, String popEnd) {
     	this.id = id;
     	this.index = index;
         this.version = version;

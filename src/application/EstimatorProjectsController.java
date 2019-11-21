@@ -20,7 +20,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
@@ -100,7 +99,7 @@ public class EstimatorProjectsController implements Initializable{
 
 	public void estimateProject(Project project, String versionNumber) {
 		try {
-			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Estimate-Project.fxml"));
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("EstimateProject.fxml"));
 			Parent root = fxmlLoader.load();
 
 			EstimateProjectController controller = fxmlLoader.getController();

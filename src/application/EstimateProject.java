@@ -12,7 +12,7 @@ public class EstimateProject extends Application {
     public void start(Stage primaryStage) {
         try {
             Parent root = FXMLLoader.load(getClass()
-                    .getResource("Estimate-Project.fxml"));
+                    .getResource("EstimateProject.fxml"));
 
             primaryStage.setTitle("Estimation Suite - Estimator - Estimate Project");
             primaryStage.setScene(new Scene(root));

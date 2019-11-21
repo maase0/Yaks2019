@@ -1,14 +1,5 @@
 package application;
 
-import java.io.IOException;
-
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.stage.Stage;
 // TODO: change this class to function in a similar manner to Project.java, as there is now a CLINVersion class
 public class CLIN
 {

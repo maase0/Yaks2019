@@ -2,16 +2,12 @@ package application;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
-
 import DB.DBUtil;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,17 +17,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
-import javafx.scene.text.Text;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-
-import javax.swing.*;
 
 public class PM_EditProjectController implements Initializable {
 
@@ -60,34 +48,16 @@ public class PM_EditProjectController implements Initializable {
 	// CLIN List fields
 	@FXML
 	private ListView<CLIN> CLINListView;
-	@FXML
-	private Button addCLINButton;
-	@FXML
-	private Button editCLINButton;
-	@FXML
-	private Button removeCLINButton;
 	private ObservableList<CLIN> clinObservableList;
 
 	// SDRL List fields
 	@FXML
 	private ListView<SDRL> SDRLListView;
-	@FXML
-	private Button addSDRLButton;
-	@FXML
-	private Button editSDRLButton;
-	@FXML
-	private Button removeSDRLButton;
 	private ObservableList<SDRL> sdrlObservableList;
 
 	// SOW List fields
 	@FXML
 	private ListView<SOW> SOWListView;
-	@FXML
-	private Button addSOWButton;
-	@FXML
-	private Button editSOWButton;
-	@FXML
-	private Button removeSOWButton;
 	private ObservableList<SOW> sowObservableList;
 
 	public PM_EditProjectController() {
@@ -283,14 +253,9 @@ public class PM_EditProjectController implements Initializable {
 	 * @throws ClassNotFoundException
 	 */
 	public void saveNewChanges(ActionEvent event) throws SQLException, ClassNotFoundException {
-		// TODO possibly do a datatype check before actually saving anything.
 		int vid = 0;
 
 		boolean passed = true;
-
-		// TODO: Find acceptable regexps for each field
-		// add checks for clin dates etc discussed in sprint review
-		// change to an error popup instead of printing to console
 
 		String versionReg = "\\d(.\\d)*";
 		String propReg = "^[0-9]*$";
@@ -368,8 +333,6 @@ public class PM_EditProjectController implements Initializable {
 				 */
 			}
 
-			// TODO Maybe find a way to make this transition faster, doesn't transition
-			// until the query fully connects.
 			try {
 				Parent root = FXMLLoader.load(getClass().getResource("PM_Projects.fxml"));
 
@@ -383,20 +346,7 @@ public class PM_EditProjectController implements Initializable {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-
 		}
-
-		/**
-		 * System.out.println("Project Name: " + projectNameText.getText());
-		 * System.out.println("Project Manager: " + pmText.getText());
-		 * System.out.println("Project Label: " + labelText.getText());
-		 * System.out.println("Version Number: " + versionText.getText());
-		 * System.out.println("Start Date: " + startDate.getValue());
-		 * System.out.println("End Date: " + endDate.getValue());
-		 */
-		// DBUtil.dbExecuteUpdate("INSERT INTO Project (Name) VALUES (' " +
-		// projectNameText.getText() + "')"); //THIS WORK YAY
-
 	}
 
 	@FXML
@@ -429,14 +379,9 @@ public class PM_EditProjectController implements Initializable {
 	 *
 	 */
 	public void submitForEstimation(ActionEvent event) throws SQLException, ClassNotFoundException {
-		// TODO possibly do a datatype check before actually saving anything.
 		int vid = 0;
 
 		boolean passed = true;
-
-		// TODO: Find acceptable regexps for each field
-		// add checks for clin dates etc discussed in sprint review
-		// change to an error popup instead of printing to console
 
 		String versionReg = "\\d*(.\\d*)*";
 		String propReg = "^[0-9]*$";
@@ -486,9 +431,6 @@ public class PM_EditProjectController implements Initializable {
 			 * vid + ", " + s.getReference() + ", \"" + s.getSowContent() + "\")"); }
 			 */
 
-			// TODO Maybe find a way to make this transition faster, doesn't transition
-			// until the query fully connects.
-			// TODO Doesn't transition back to the Projects page!!!!
 			try {
 				Parent root = FXMLLoader.load(getClass().getResource("PM_Projects.fxml"));
 

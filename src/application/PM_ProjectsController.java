@@ -5,7 +5,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
-
 import DB.DBUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

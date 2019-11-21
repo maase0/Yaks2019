@@ -252,7 +252,7 @@ public class PM_EditProjectController implements Initializable {
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
 	 */
-	public void saveNewChanges(ActionEvent event) throws SQLException, ClassNotFoundException {
+	public void saveNewChanges() throws SQLException, ClassNotFoundException {
 		int vid = 0;
 
 		boolean passed = true;
@@ -325,8 +325,8 @@ public class PM_EditProjectController implements Initializable {
 			for (SOW s : sowObservableList) {
 				// `update_sow`(SOWID int, VID int, sowRef VARCHAR(45), versionNumber
 				// VARCHAR(45), sowDescription VARCHAR(1000))
-				DBUtil.dbExecuteUpdate("CALL update_sow(" + s.getID() + ", " + vid + ", \"" + s.getReference()
-						+ "\", \"" + s.getVersion() + "\", \"" + s.getSowContent() + "\")");
+				DBUtil.dbExecuteUpdate("CALL update_sow(" + s.getID() + ", " + vid + ", " + s.getReference()
+						+ ", \"" + s.getVersion() + "\", \"" + s.getSowContent() + "\")");
 				/*
 				 * DBUtil.dbExecuteQuery( "CALL insert_sow(" + vid + ", " + s.getReference() +
 				 * ", \"" + s.getSowContent() + "\")");
@@ -406,13 +406,11 @@ public class PM_EditProjectController implements Initializable {
 		}
 
 		if (passed) {
+			saveNewChanges();
 			String startString = startDate.getValue() == null ? "" : startDate.getValue().toString();
 			String endString = endDate.getValue() == null ? "" : endDate.getValue().toString();
 
 			System.out.println("Submit for Estimation Button");
-
-			DBUtil.dbExecuteUpdate("UPDATE Project SET Submit_Date = '" + LocalDate.now().toString()
-					+ "' WHERE idProject = " + proj.getProjectID());
 
 			DBUtil.dbExecuteUpdate(
 					"CALL submit_project(" + proj.getProjectID() + ", '" + LocalDate.now().toString() + "')");

@@ -17,7 +17,7 @@ import java.util.ResourceBundle;
  *
  */
 
-public class SDRL_Controller extends ListCell<SDRL> implements Initializable {
+public class SDRLController extends ListCell<SDRL> implements Initializable {
 
     @FXML private Button sdrlSaveButton;
     @FXML private Button sdrlClose;

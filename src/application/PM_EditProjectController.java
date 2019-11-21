@@ -185,7 +185,7 @@ public class PM_EditProjectController implements Initializable {
 			stage.setScene(new Scene(root1));
 
 			// Grab the controller from the loader
-			SDRL_Controller controller = fxmlLoader.<SDRL_Controller>getController();
+			SDRLController controller = fxmlLoader.<SDRLController>getController();
 			// Set the controller's list to allow message passing
 			controller.setList(sdrlObservableList);
 
@@ -207,7 +207,7 @@ public class PM_EditProjectController implements Initializable {
 			stage.setScene(new Scene(root));
 
 			// Grab the controller from the loader and set it's list for message passing
-			SDRL_Controller controller = fxmlLoader.<SDRL_Controller>getController();
+			SDRLController controller = fxmlLoader.<SDRLController>getController();
 			controller.setList(sdrlObservableList);
 
 			controller.setSDRL(sdrl);
@@ -236,7 +236,7 @@ public class PM_EditProjectController implements Initializable {
 			stage.setScene(new Scene(root1));
 
 			// Grab the controller from the loader
-			SOW_Controller controller = fxmlLoader.<SOW_Controller>getController();
+			SOWController controller = fxmlLoader.<SOWController>getController();
 			// Set the controller's list to allow message passing
 			controller.setList(sowObservableList);
 
@@ -256,7 +256,7 @@ public class PM_EditProjectController implements Initializable {
 			Stage stage = new Stage();
 			stage.setScene(new Scene(root));
 
-			SOW_Controller controller = fxmlLoader.<SOW_Controller>getController();
+			SOWController controller = fxmlLoader.<SOWController>getController();
 			controller.setList(sowObservableList);
 
 			controller.setSOW(sow);

@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane minWidth="282.0" prefHeight="384.0" prefWidth="962.0" style="-fx-background-color: linear-gradient(#ffffff, #cccccc);" stylesheets="@application.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SOW_Controller">
+<GridPane minWidth="282.0" prefHeight="384.0" prefWidth="962.0" style="-fx-background-color: linear-gradient(#ffffff, #cccccc);" stylesheets="@application.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SOWController">
     <columnConstraints>
         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="0.0" prefWidth="164.0" />
     </columnConstraints>

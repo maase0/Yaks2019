@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane minWidth="282.0" prefHeight="384.0" prefWidth="962.0" style="-fx-background-color: linear-gradient(#ffffff, #cccccc);" stylesheets="@application.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SDRL_Controller">
+<GridPane minWidth="282.0" prefHeight="384.0" prefWidth="962.0" style="-fx-background-color: linear-gradient(#ffffff, #cccccc);" stylesheets="@application.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SDRLController">
    <children>
       <GridPane hgap="5.0" minWidth="500.0">
          <children>

@@ -26,7 +26,7 @@ import java.util.ResourceBundle;
  *
  */
 
-public class SOW_Controller extends ListCell<SOW> implements Initializable {
+public class SOWController extends ListCell<SOW> implements Initializable {
 
     @FXML private Button sowSaveButton;
     @FXML private Button sowClose;

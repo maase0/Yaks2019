@@ -60,7 +60,7 @@ public class CLINController extends ListCell<CLIN> implements Initializable {
 
 		if(clin == null) {
 			//Create a new object if not yet saved
-			clin = new CLIN(index, projectType, text, version, start, end);
+			clin = new CLIN(null, index, projectType, text, version, start, end);
 			clinObservableList.add(clin);
 		} else {
 			//Update CLIN with new information

@@ -160,8 +160,8 @@ public class EstimatorProjectsController implements Initializable{
 			rs = DBUtil.dbExecuteQuery("CALL select_clins(" + versionNumber + ")");
 			while (rs.next()) {
 				// System.out.println(rs.getString("CLIN_Index"));
-				version.addCLIN(new CLIN(rs.getString("CLIN_Index"), rs.getString("Version_Number"),
-						rs.getString("Project_Type"), rs.getString("CLIN_Description"),
+				version.addCLIN(new CLIN(rs.getString("idCLIN"),rs.getString("CLIN_Index"),
+						rs.getString("Project_Type"), rs.getString("CLIN_Description"), rs.getString("Version_Number"),
 						rs.getString("PoP_Start"), rs.getString("PoP_End")));
 			}
 
@@ -169,7 +169,7 @@ public class EstimatorProjectsController implements Initializable{
 			rs = DBUtil.dbExecuteQuery("CALL select_sdrls(" + versionNumber + ")");
 			while (rs.next()) {
 				// System.out.println(rs.getString("CLIN_Index"));
-				version.addSDRL(new SDRL(rs.getString("SDRL_Title"), rs.getString("Version_Number")
+				version.addSDRL(new SDRL(rs.getString("idSDRL"), rs.getString("SDRL_Title"), rs.getString("Version_Number")
 						,rs.getString("SDRL_Description")));
 			}
 
@@ -177,7 +177,7 @@ public class EstimatorProjectsController implements Initializable{
 			rs = DBUtil.dbExecuteQuery("CALL select_sows(" + versionNumber + ")");
 			while (rs.next()) {
 				// System.out.println(rs.getString("CLIN_Index"));
-				version.addSOW(new SOW(rs.getString("Reference_Number"), rs.getString("Version_Number")
+				version.addSOW(new SOW(rs.getString("idSoW"), rs.getString("Reference_Number"), rs.getString("Version_Number")
 						,rs.getString("SoW_Description")));
 			}
 

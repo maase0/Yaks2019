@@ -321,7 +321,7 @@ public class PM_ProjectsController implements Initializable {
 			version.setVersionNumber(rs.getString("Version_Number"));
 			version.setProposalNumber(rs.getString("Proposal_Number"));
 			version.setProjectID(project.getID());
-
+			version.setProjectVersionID(rs.getString("idProjectVersion"));
 			// Save dates since some are null, causes errors parsing
 			// TODO: should have null checks for all fields maybe
 			String start = rs.getString("PoP_Start");
@@ -334,8 +334,9 @@ public class PM_ProjectsController implements Initializable {
 			rs = DBUtil.dbExecuteQuery("CALL select_clins(" + versionID + ")");
 			while (rs.next()) {
 				// System.out.println(rs.getString("CLIN_Index"));
-				version.addCLIN(new CLIN(rs.getString("CLIN_Index"), rs.getString("Version_Number")
-						,rs.getString("Project_Type"), rs.getString("CLIN_Description")
+
+				version.addCLIN(new CLIN(rs.getString("idCLIN"), rs.getString("CLIN_Index")
+						,rs.getString("Project_Type"), rs.getString("CLIN_Description") , rs.getString("Version_Number")
 						,rs.getString("PoP_Start"), rs.getString("PoP_End")));
 			}
 
@@ -343,7 +344,7 @@ public class PM_ProjectsController implements Initializable {
 			rs = DBUtil.dbExecuteQuery("CALL select_sdrls(" + versionID + ")");
 			while (rs.next()) {
 				// System.out.println(rs.getString("CLIN_Index"));
-				version.addSDRL(new SDRL(rs.getString("SDRL_Title"), rs.getString("Version_Number"),
+				version.addSDRL(new SDRL(rs.getString("idSDRL"), rs.getString("SDRL_Title"), rs.getString("Version_Number"),
 						rs.getString("SDRL_Description")));
 			}
 
@@ -351,7 +352,7 @@ public class PM_ProjectsController implements Initializable {
 			rs = DBUtil.dbExecuteQuery("CALL select_sows(" + versionID + ")");
 			while (rs.next()) {
 				// System.out.println(rs.getString("CLIN_Index"));
-				version.addSOW(new SOW(rs.getString("Reference_Number"), rs.getString("Version_Number"),
+				version.addSOW(new SOW(rs.getString("idSoW"), rs.getString("Reference_Number"), rs.getString("Version_Number"),
 						rs.getString("SoW_Description")));
 			}
 

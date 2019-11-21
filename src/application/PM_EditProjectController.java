@@ -289,55 +289,87 @@ public class PM_EditProjectController implements Initializable {
 		boolean passed = true;
 
 		// TODO: Find acceptable regexps for each field
-		//       add checks for clin dates etc discussed in sprint review
-		//       change to an error popup instead of printing to console
+		// add checks for clin dates etc discussed in sprint review
+		// change to an error popup instead of printing to console
 
 		String versionReg = "\\d(.\\d)*";
 		String propReg = "^[0-9]*$";
 		String sowRefReg = "^[0-9]*$";
 
-		if(!versionText.getText().matches(versionReg)) {
+		if (!versionText.getText().matches(versionReg)) {
 			passed = false;
-			System.out.println("Error: Version Text \"" + versionText.getText() + "\" does not match regexp " + versionReg);
+			System.out.println(
+					"Error: Version Text \"" + versionText.getText() + "\" does not match regexp " + versionReg);
 		}
-		if(!propNumText.getText().matches(propReg)) {
+		if (!propNumText.getText().matches(propReg)) {
 			passed = false;
-			System.out.println("Error: Version Proposal Number \"" + propNumText.getText() + "\" does not match regexp " + propReg);
+			System.out.println("Error: Version Proposal Number \"" + propNumText.getText() + "\" does not match regexp "
+					+ propReg);
 		}
 		for (SOW s : sowObservableList) {
-			if(!s.getReference().matches(sowRefReg)) {
+			if (!s.getReference().matches(sowRefReg)) {
 				passed = false;
-				System.out.println("Error: Sow Reference \"" + "" + s.getReference() + "\" does not match regexp " + sowRefReg);
+				System.out.println(
+						"Error: Sow Reference \"" + "" + s.getReference() + "\" does not match regexp " + sowRefReg);
 			}
 		}
 
 		if (passed) {
 			System.out.println("Save Changes Button");
-			ResultSet rs = DBUtil.dbExecuteQuery("CALL insert_new_project(" + versionText.getText() + ", \""
-					+ projectNameText.getText() + "\", \"" + pmText.getText() + "\", " + propNumText.getText() + ",'"
-					+ startDate.getValue().toString() + "', '" + endDate.getValue().toString() + "')");
+			// `update_projectVersion`(VID int, versionNumber varchar(45), projectName
+			// varchar(45), projectManager varchar(45), propNum int, popStart date, popEnd
+			// date)
+			ResultSet rs = DBUtil.dbExecuteQuery("CALL update_projectVersion(" + proj.getProjectVersionID() + ", \""
+					+ versionText.getText() + "\", \"" + projectNameText.getText() + "\", \"" + pmText.getText()
+					+ "\", " + propNumText.getText() + ", '" + startDate.getValue() + "', '" + endDate.getValue()
+					+ "')");
+			/*
+			 * ResultSet rs = DBUtil.dbExecuteQuery("CALL insert_new_project(" +
+			 * versionText.getText() + ", \"" + projectNameText.getText() + "\", \"" +
+			 * pmText.getText() + "\", " + propNumText.getText() + ",'" +
+			 * startDate.getValue().toString() + "', '" + endDate.getValue().toString() +
+			 * "')");
+			 */
 			while (rs.next()) {
 				vid = rs.getInt("idProjectVersion");
 			}
 			rs.close();
 
-			for(CLIN c : clinObservableList) {
-				DBUtil.dbExecuteUpdate("CALL insert_clin(" + vid + ", \"" + c.getIndex()
-						+ "\", \"" + c.getProjectType() + "\", \""
-						+ c.getClinContent() + "\")");
+			for (CLIN c : clinObservableList) {
+				DBUtil.dbExecuteUpdate("CALL update_clin(" + c.getID() + ", " + vid + ", \"" + c.getIndex() + "\" , \""
+						+ c.getVersion() + "\", \"" + c.getProjectType() + "\", \"" + c.getClinContent() + "\", '"
+						+ c.getPopStart() + "', '" + c.getPopEnd() + "')");
+
+				/*
+				 * DBUtil.dbExecuteUpdate("CALL insert_clin(" + vid + ", \"" + c.getIndex() +
+				 * "\", \"" + c.getProjectType() + "\", \"" + c.getClinContent() + "\")");
+				 */
 			}
 
-			for(SDRL s : sdrlObservableList) {
-				DBUtil.dbExecuteUpdate("CALL insert_sdrl(" + vid + ", \"" + s.getName()
-						+ "\", \"" + s.getSdrlInfo() + "\")");
+			for (SDRL s : sdrlObservableList) {
+				// update_sdrl`(SDRLID int, VID int, sdrlTitle VARCHAR(45), versionNumber
+				// VARCHAR(45), sdrlDescription VARCHAR(1000))
+				DBUtil.dbExecuteUpdate("CALL update_sdrl(" + s.getID() + ", " + vid + ", \"" + s.getName() + "\", \""
+						+ s.getVersion() + "\", \"" + s.getSdrlInfo() + "\")");
+				/*
+				 * DBUtil.dbExecuteUpdate("CALL insert_sdrl(" + vid + ", \"" + s.getName() +
+				 * "\", \"" + s.getSdrlInfo() + "\")");
+				 */
 			}
 
-			for(SOW s : sowObservableList) 	{
-				DBUtil.dbExecuteQuery("CALL insert_sow(" + vid + ", " + s.getReference()
-						+ ", \"" + s.getSowContent() + "\")");
+			for (SOW s : sowObservableList) {
+				// `update_sow`(SOWID int, VID int, sowRef VARCHAR(45), versionNumber
+				// VARCHAR(45), sowDescription VARCHAR(1000))
+				DBUtil.dbExecuteUpdate("CALL update_sow(" + s.getID() + ", " + vid + ", \"" + s.getReference()
+						+ "\", \"" + s.getVersion() + "\", \"" + s.getSowContent() + "\")");
+				/*
+				 * DBUtil.dbExecuteQuery( "CALL insert_sow(" + vid + ", " + s.getReference() +
+				 * ", \"" + s.getSowContent() + "\")");
+				 */
 			}
 
-			// TODO Maybe find a way to make this transition faster, doesn't transition until the query fully connects.
+			// TODO Maybe find a way to make this transition faster, doesn't transition
+			// until the query fully connects.
 			try {
 				Parent root = FXMLLoader.load(getClass().getResource("PM_Projects.fxml"));
 
@@ -391,10 +423,9 @@ public class PM_EditProjectController implements Initializable {
 
 	@FXML
 	/**
-	 * Submits the project for estimation
-	 * Code is similar to saveChanges, except
-	 * Submit for Estimation in the New Project Page
-	 * saves the project and adds a submission date.
+	 * Submits the project for estimation Code is similar to saveChanges, except
+	 * Submit for Estimation in the New Project Page saves the project and adds a
+	 * submission date.
 	 *
 	 */
 	public void submitForEstimation(ActionEvent event) throws SQLException, ClassNotFoundException {
@@ -404,8 +435,8 @@ public class PM_EditProjectController implements Initializable {
 		boolean passed = true;
 
 		// TODO: Find acceptable regexps for each field
-		//       add checks for clin dates etc discussed in sprint review
-		//       change to an error popup instead of printing to console
+		// add checks for clin dates etc discussed in sprint review
+		// change to an error popup instead of printing to console
 
 		String versionReg = "\\d*(.\\d*)*";
 		String propReg = "^[0-9]*$";
@@ -413,55 +444,50 @@ public class PM_EditProjectController implements Initializable {
 
 		if (!versionText.getText().matches(versionReg)) {
 			passed = false;
-			System.out.println("Error: Version Text \"" + versionText.getText() + "\" does not match regexp " + versionReg);
+			System.out.println(
+					"Error: Version Text \"" + versionText.getText() + "\" does not match regexp " + versionReg);
 		}
 		if (!propNumText.getText().matches(propReg)) {
 			passed = false;
-			System.out.println("Error: Version Proposal Number \"" + propNumText.getText() + "\" does not match regexp " + propReg);
+			System.out.println("Error: Version Proposal Number \"" + propNumText.getText() + "\" does not match regexp "
+					+ propReg);
 		}
 		for (SOW s : sowObservableList) {
 			if (!s.getReference().matches(sowRefReg)) {
 				passed = false;
-				System.out.println("Error: Sow Reference \"" + "" + s.getReference() + "\" does not match regexp " + sowRefReg);
+				System.out.println(
+						"Error: Sow Reference \"" + "" + s.getReference() + "\" does not match regexp " + sowRefReg);
 			}
 		}
 
 		if (passed) {
 			String startString = startDate.getValue() == null ? "" : startDate.getValue().toString();
 			String endString = endDate.getValue() == null ? "" : endDate.getValue().toString();
-			
-			
-			System.out.println("Submit for Estimation Button");
 
+			System.out.println("Submit for Estimation Button");
 
 			DBUtil.dbExecuteUpdate("UPDATE Project SET Submit_Date = '" + LocalDate.now().toString()
 					+ "' WHERE idProject = " + proj.getProjectID());
 
-			DBUtil.dbExecuteUpdate("CALL submit_project(" + proj.getProjectID() + ", '"
-													+ LocalDate.now().toString() + "')");
-			/*while (rs.next()) {
-				vid = rs.getInt("idProjectVersion");
-			}
-			rs.close();
+			DBUtil.dbExecuteUpdate(
+					"CALL submit_project(" + proj.getProjectID() + ", '" + LocalDate.now().toString() + "')");
+			/*
+			 * while (rs.next()) { vid = rs.getInt("idProjectVersion"); } rs.close();
+			 * 
+			 * for (CLIN c : clinObservableList) {
+			 * DBUtil.dbExecuteUpdate("CALL insert_clin(" + vid + ", \"" + c.getIndex() +
+			 * "\", \"" + c.getProjectType() + "\", \"" + c.getClinContent() + "\")"); }
+			 * 
+			 * for (SDRL s : sdrlObservableList) { DBUtil.dbExecuteUpdate(
+			 * "CALL insert_sdrl(" + vid + ", \"" + s.getName() + "\", \"" + s.getSdrlInfo()
+			 * + "\")"); }
+			 * 
+			 * for (SOW s : sowObservableList) { DBUtil.dbExecuteQuery("CALL insert_sow(" +
+			 * vid + ", " + s.getReference() + ", \"" + s.getSowContent() + "\")"); }
+			 */
 
-			for (CLIN c : clinObservableList) {
-				DBUtil.dbExecuteUpdate("CALL insert_clin(" + vid + ", \"" + c.getIndex()
-						+ "\", \"" + c.getProjectType() + "\", \""
-						+ c.getClinContent() + "\")");
-			}
-
-			for (SDRL s : sdrlObservableList) {
-				DBUtil.dbExecuteUpdate("CALL insert_sdrl(" + vid + ", \"" + s.getName()
-						+ "\", \"" + s.getSdrlInfo() + "\")");
-			}
-
-			for (SOW s : sowObservableList) {
-				DBUtil.dbExecuteQuery("CALL insert_sow(" + vid + ", " + s.getReference()
-						+ ", \"" + s.getSowContent() + "\")");
-			}*/
-
-			
-			// TODO Maybe find a way to make this transition faster, doesn't transition until the query fully connects.
+			// TODO Maybe find a way to make this transition faster, doesn't transition
+			// until the query fully connects.
 			// TODO Doesn't transition back to the Projects page!!!!
 			try {
 				Parent root = FXMLLoader.load(getClass().getResource("PM_Projects.fxml"));

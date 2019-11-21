@@ -316,9 +316,20 @@ public class PM_EditProjectController implements Initializable {
 
 		if (passed) {
 			System.out.println("Save Changes Button");
-			ResultSet rs = DBUtil.dbExecuteQuery("CALL insert_new_project(" + versionText.getText() + ", \""
-					+ projectNameText.getText() + "\", \"" + pmText.getText() + "\", " + propNumText.getText() + ",'"
-					+ startDate.getValue().toString() + "', '" + endDate.getValue().toString() + "')");
+			// `update_projectVersion`(VID int, versionNumber varchar(45), projectName
+			// varchar(45), projectManager varchar(45), propNum int, popStart date, popEnd
+			// date)
+			ResultSet rs = DBUtil.dbExecuteQuery("CALL update_projectVersion(" + proj.getProjectVersionID() + ", \""
+					+ versionText.getText() + "\", \"" + projectNameText.getText() + "\", \"" + pmText.getText()
+					+ "\", " + propNumText.getText() + ", '" + startDate.getValue() + "', '" + endDate.getValue()
+					+ "')");
+			/*
+			 * ResultSet rs = DBUtil.dbExecuteQuery("CALL insert_new_project(" +
+			 * versionText.getText() + ", \"" + projectNameText.getText() + "\", \"" +
+			 * pmText.getText() + "\", " + propNumText.getText() + ",'" +
+			 * startDate.getValue().toString() + "', '" + endDate.getValue().toString() +
+			 * "')");
+			 */
 			while (rs.next()) {
 				vid = rs.getInt("idProjectVersion");
 			}
@@ -453,37 +464,30 @@ public class PM_EditProjectController implements Initializable {
 			String startString = startDate.getValue() == null ? "" : startDate.getValue().toString();
 			String endString = endDate.getValue() == null ? "" : endDate.getValue().toString();
 
-
 			System.out.println("Submit for Estimation Button");
-
 
 			DBUtil.dbExecuteUpdate("UPDATE Project SET Submit_Date = '" + LocalDate.now().toString()
 					+ "' WHERE idProject = " + proj.getProjectID());
 
-			DBUtil.dbExecuteUpdate("CALL submit_project(" + proj.getProjectID() + ", '"
-													+ LocalDate.now().toString() + "')");
-			/*while (rs.next()) {
-				vid = rs.getInt("idProjectVersion");
-			}
-			rs.close();
+			DBUtil.dbExecuteUpdate(
+					"CALL submit_project(" + proj.getProjectID() + ", '" + LocalDate.now().toString() + "')");
+			/*
+			 * while (rs.next()) { vid = rs.getInt("idProjectVersion"); } rs.close();
+			 * 
+			 * for (CLIN c : clinObservableList) {
+			 * DBUtil.dbExecuteUpdate("CALL insert_clin(" + vid + ", \"" + c.getIndex() +
+			 * "\", \"" + c.getProjectType() + "\", \"" + c.getClinContent() + "\")"); }
+			 * 
+			 * for (SDRL s : sdrlObservableList) { DBUtil.dbExecuteUpdate(
+			 * "CALL insert_sdrl(" + vid + ", \"" + s.getName() + "\", \"" + s.getSdrlInfo()
+			 * + "\")"); }
+			 * 
+			 * for (SOW s : sowObservableList) { DBUtil.dbExecuteQuery("CALL insert_sow(" +
+			 * vid + ", " + s.getReference() + ", \"" + s.getSowContent() + "\")"); }
+			 */
 
-			for (CLIN c : clinObservableList) {
-				DBUtil.dbExecuteUpdate("CALL insert_clin(" + vid + ", \"" + c.getIndex() + "\", \"" + c.getProjectType()
-						+ "\", \"" + c.getClinContent() + "\")");
-			}
-
-			for (SDRL s : sdrlObservableList) {
-				DBUtil.dbExecuteUpdate(
-						"CALL insert_sdrl(" + vid + ", \"" + s.getName() + "\", \"" + s.getSdrlInfo() + "\")");
-			}
-
-			for (SOW s : sowObservableList) {
-				DBUtil.dbExecuteQuery("CALL insert_sow(" + vid + ", " + s.getReference()
-						+ ", \"" + s.getSowContent() + "\")");
-			}*/
-
-
-			// TODO Maybe find a way to make this transition faster, doesn't transition until the query fully connects.
+			// TODO Maybe find a way to make this transition faster, doesn't transition
+			// until the query fully connects.
 			// TODO Doesn't transition back to the Projects page!!!!
 			try {
 				Parent root = FXMLLoader.load(getClass().getResource("PM_Projects.fxml"));

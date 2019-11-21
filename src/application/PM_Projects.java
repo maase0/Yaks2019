@@ -1,17 +1,11 @@
 package application;
 
-import DB.DBUtil;
 import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.stage.WindowEvent;
-
 import java.sql.SQLException;
-
 
 public class PM_Projects extends Application {
 	@Override

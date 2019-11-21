@@ -6,9 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-
 import java.sql.SQLException;
-
 
 public class Login extends Application {
 	@Override

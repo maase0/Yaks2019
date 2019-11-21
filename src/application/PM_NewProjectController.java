@@ -5,7 +5,6 @@ import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
-
 import DB.DBUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,9 +19,6 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
-
-import javax.swing.*;
 
 public class PM_NewProjectController implements Initializable {
 

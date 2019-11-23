@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="376.0" prefWidth="900.0" style="-fx-background-color: linear-gradient(#ffffff, #cccccc);" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="376.0" prefWidth="900.0" style="-fx-background-color: linear-gradient(#ffffff, #cccccc);" stylesheets="@application.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.OrganizationBOE_Controller">
    <top>
       <GridPane BorderPane.alignment="CENTER">
         <columnConstraints>
@@ -84,18 +87,18 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" styleClass="btn-rich-blue" text="Close" GridPane.columnIndex="3">
+            <Button fx:id="closeButton" mnemonicParsing="false" onAction="#close" prefHeight="25.0" prefWidth="60.0" styleClass="btn-rich-blue" text="Close" GridPane.columnIndex="3">
                <GridPane.margin>
                   <Insets right="10.0" />
                </GridPane.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="140.0" styleClass="btn-rich-blue" text="Add Work Package">
+            <Button fx:id="addWorkPackButton" mnemonicParsing="false" onAction="#addWorkPack" prefHeight="25.0" prefWidth="140.0" styleClass="btn-rich-blue" text="Add Work Package">
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="140.0" styleClass="btn-rich-blue" text="Edit Work Package" GridPane.columnIndex="1" />
-            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="165.0" styleClass="btn-rich-blue" text="Remove Work Package" GridPane.columnIndex="2" />
+            <Button fx:id="editWorkPackButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="140.0" styleClass="btn-rich-blue" text="Edit Work Package" GridPane.columnIndex="1" />
+            <Button fx:id="removeWorkPackButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="165.0" styleClass="btn-rich-blue" text="Remove Work Package" GridPane.columnIndex="2" />
          </children>
          <padding>
             <Insets bottom="10.0" />

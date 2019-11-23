@@ -35,6 +35,8 @@ public class EstimateProjectController implements Initializable {
 	private DatePicker startDate;
 	@FXML
 	private DatePicker endDate;
+	@FXML
+	private Button estCLINButton;
 
 	@FXML
 	private ListView<CLIN> clinListView;
@@ -93,6 +95,27 @@ public class EstimateProjectController implements Initializable {
 			Stage stage = (Stage) discardButton.getScene().getWindow();
 
 			stage.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void estimateCLIN(ActionEvent event) {
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CLIN_Estimate.fxml"));
+			Parent root = fxmlLoader.load();
+
+			Stage clinEstimateStage = new Stage();
+			clinEstimateStage.setTitle("Estimation Suite - Estimator - Estimate Project");
+			clinEstimateStage.setScene(new Scene(root));
+
+			clinEstimateStage.show();
+			clinEstimateStage.setResizable(true);
+			clinEstimateStage.sizeToScene();
+
+			Stage stage = (Stage) estCLINButton.getScene().getWindow();
+			stage.close();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

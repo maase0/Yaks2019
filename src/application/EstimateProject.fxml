@@ -289,7 +289,7 @@
                         </ListView>
                      </center>
                      <top>
-                        <Button mnemonicParsing="false" styleClass="btn-rich-blue" text="Estimate Contract Line Item" BorderPane.alignment="CENTER">
+                        <Button fx:id="estCLINButton" mnemonicParsing="false" onAction="#estimateCLIN" styleClass="btn-rich-blue" text="Estimate Contract Line Item" BorderPane.alignment="CENTER">
                            <BorderPane.margin>
                               <Insets bottom="5.0" />
                            </BorderPane.margin>

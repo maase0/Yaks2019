@@ -5,6 +5,7 @@ import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import DB.DBUtil;
 import javafx.collections.FXCollections;
@@ -60,6 +61,13 @@ public class PM_EditProjectController implements Initializable {
 	private ListView<SOW> SOWListView;
 	private ObservableList<SOW> sowObservableList;
 
+	
+
+	private ArrayList<CLIN> clinDelete = new ArrayList<CLIN>();
+	private ArrayList<SOW> sowDelete = new ArrayList<SOW>();
+	private ArrayList<SDRL> sdrlDelete = new ArrayList<SDRL>();
+	
+	
 	public PM_EditProjectController() {
 
 	}
@@ -107,7 +115,8 @@ public class PM_EditProjectController implements Initializable {
 	 * @param event
 	 */
 	public void discardCLIN(ActionEvent event) {
-		clinObservableList.remove(CLINListView.getSelectionModel().getSelectedItem());
+		//clinObservableList.remove(CLINListView.getSelectionModel().getSelectedItem());
+		clinDelete.add(clinObservableList.remove(CLINListView.getSelectionModel().getSelectedIndex()));
 	}
 
 	/**
@@ -193,7 +202,7 @@ public class PM_EditProjectController implements Initializable {
 	}
 
 	public void removeSDRL(ActionEvent event) {
-		sdrlObservableList.remove(SDRLListView.getSelectionModel().getSelectedItem());
+		sdrlDelete.add(sdrlObservableList.remove(SDRLListView.getSelectionModel().getSelectedIndex()));
 	}
 
 	public void addSOW(ActionEvent event) {
@@ -241,7 +250,7 @@ public class PM_EditProjectController implements Initializable {
 	}
 
 	public void removeSOW(ActionEvent event) {
-		sowObservableList.remove(SOWListView.getSelectionModel().getSelectedItem());
+		sowDelete.add(sowObservableList.remove(SOWListView.getSelectionModel().getSelectedIndex()));
 	}
 
 	@FXML
@@ -332,6 +341,20 @@ public class PM_EditProjectController implements Initializable {
 				 * ", \"" + s.getSowContent() + "\")");
 				 */
 			}
+			
+			for(CLIN c : clinDelete) {
+				DBUtil.dbExecuteUpdate("CALL delete_clin(" + c.getID() + ")");
+			}
+			
+			for(SOW s : sowDelete) {
+				DBUtil.dbExecuteUpdate("CALL delete_sow(" + s.getID() + ")");
+			}
+			
+			for(SDRL s : sdrlDelete) {
+				DBUtil.dbExecuteUpdate("CALL delete_sdrl(" + s.getID() + ")");
+			}
+			
+			
 
 			try {
 				Parent root = FXMLLoader.load(getClass().getResource("PM_Projects.fxml"));

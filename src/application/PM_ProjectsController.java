@@ -4,6 +4,7 @@ import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import DB.DBUtil;
 import javafx.collections.FXCollections;
@@ -65,6 +66,12 @@ public class PM_ProjectsController implements Initializable {
 	@FXML
 	private ListView<Project> unestimatedListView;
 	private ObservableList<Project> unestimatedObservableList;
+	
+
+	private ArrayList<CLIN> clinDelete = new ArrayList<CLIN>();
+	private ArrayList<SOW> sowDelete = new ArrayList<SOW>();
+	private ArrayList<SDRL> sdrlDelete = new ArrayList<SDRL>();
+	
 
 	/**
 	 * Initialize the page, create the lists, fill all the lists with data from the

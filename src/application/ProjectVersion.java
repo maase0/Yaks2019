@@ -17,6 +17,10 @@ public class ProjectVersion
 	private ArrayList<SDRL> sdrls = new ArrayList();
 	private ArrayList<SOW> sows = new ArrayList();
 	
+	private ArrayList<CLIN> clinDelete = new ArrayList<CLIN>();
+	private ArrayList<SOW> sowDelete = new ArrayList<SOW>();
+	private ArrayList<SDRL> sdrlDelete = new ArrayList<SDRL>();
+	
     public ProjectVersion() {
     }
 	

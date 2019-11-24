@@ -1,27 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ErrorWindow">
-   <children>
-      <Pane layoutX="-28.0" layoutY="-76.0" prefHeight="300.0" prefWidth="500.0">
+<BorderPane prefHeight="176.0" prefWidth="450.0" style="-fx-background-color: linear-gradient(from 100% 40% to 100% 100%, #ffffff, #a10404);" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <bottom>
+      <Button fx:id="exitBtn" mnemonicParsing="false" onAction="#Exit" prefHeight="25.0" prefWidth="60.0" style="-fx-background-color: #ffffff; -fx-text-fill: #000000;;" stylesheets="@application.css" text="Close" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets bottom="15.0" left="365.0" />
+         </BorderPane.margin></Button>
+   </bottom>
+   <top>
+      <GridPane prefHeight="63.0" prefWidth="450.0" BorderPane.alignment="CENTER">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="225.0" minWidth="10.0" prefWidth="70.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="385.0" minWidth="10.0" prefWidth="380.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
          <children>
-            <Button fx:id="exitBtn" layoutX="227.0" layoutY="235.0" mnemonicParsing="false" onAction="#Exit" text="Exit" />
-            <Text fx:id="error" layoutX="201.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Error:">
+            <ImageView fitHeight="54.0" fitWidth="69.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@error-logo3.png.jpg" />
+               </image>
+               <GridPane.margin>
+                  <Insets left="5.0" />
+               </GridPane.margin>
+            </ImageView>
+            <Text fx:id="error" fill="#cd0909" strokeType="OUTSIDE" strokeWidth="0.0" text="Error" GridPane.columnIndex="1">
                <font>
                   <Font size="40.0" />
                </font>
-            </Text>
-            <Text fx:id="errorTxt" layoutX="225.0" layoutY="206.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Error">
-               <font>
-                  <Font size="18.0" />
-               </font>
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin>
             </Text>
          </children>
-      </Pane>
-   </children>
-</AnchorPane>
+      </GridPane>
+   </top>
+   <center>
+      <Text fx:id="errorTxt" strokeType="OUTSIDE" strokeWidth="0.0" text="Error_Details" BorderPane.alignment="CENTER">
+         <font>
+            <Font size="18.0" />
+         </font>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+      </Text>
+   </center>
+</BorderPane>

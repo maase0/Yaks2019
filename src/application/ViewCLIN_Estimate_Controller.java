@@ -25,7 +25,24 @@ public class ViewCLIN_Estimate_Controller implements Initializable {
     }
 
     public void viewOrganization(ActionEvent event) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ViewOrganizationBOE.fxml"));
+            Parent root = fxmlLoader.load();
 
+            Stage viewOrg = new Stage();
+            viewOrg.setTitle("Estimation Suite - Project Manager - Project");
+            viewOrg.setScene(new Scene(root));
+
+            viewOrg.show();
+            viewOrg.setResizable(true);
+            viewOrg.sizeToScene();
+
+            Stage stage = (Stage) viewOrganizationButton.getScene().getWindow();
+            stage.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void close(ActionEvent event) {

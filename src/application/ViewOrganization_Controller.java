@@ -25,12 +25,29 @@ public class ViewOrganization_Controller implements Initializable {
     }
 
     public void viewWorkPackage(ActionEvent event) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ViewWorkPackage.fxml"));
+            Parent root = fxmlLoader.load();
 
+            Stage viewWP = new Stage();
+            viewWP.setTitle("Estimation Suite - Project Manager - Project");
+            viewWP.setScene(new Scene(root));
+
+            viewWP.show();
+            viewWP.setResizable(true);
+            viewWP.sizeToScene();
+
+            Stage stage = (Stage) viewWorkPackageButton.getScene().getWindow();
+            stage.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void close(ActionEvent event) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("PM_ViewProjectEstimate.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ViewCLINEStimate.fxml"));
             Parent root = fxmlLoader.load();
 
             Stage closeStage = new Stage();

@@ -86,7 +86,7 @@
                   <Insets right="10.0" />
                </GridPane.margin>
             </Button>
-            <Button fx:id="viewOrganizationButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="130.0" styleClass="btn-rich-blue" text="View Organization">
+            <Button fx:id="viewOrganizationButton" mnemonicParsing="false" onAction="#viewOrganization" prefHeight="25.0" prefWidth="130.0" styleClass="btn-rich-blue" text="View Organization">
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin>

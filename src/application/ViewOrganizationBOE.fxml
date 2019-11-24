@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="376.0" prefWidth="900.0" style="-fx-background-color: linear-gradient(#ffffff, #cccccc);" stylesheets="@application.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="376.0" prefWidth="900.0" style="-fx-background-color: linear-gradient(#ffffff, #cccccc);" stylesheets="@application.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ViewOrganization_Controller">
    <top>
       <GridPane BorderPane.alignment="CENTER">
         <columnConstraints>
@@ -97,7 +97,7 @@
                   <Insets right="10.0" />
                </GridPane.margin>
             </Button>
-            <Button fx:id="viewWorkPackageButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="140.0" styleClass="btn-rich-blue" text="View Work Package">
+            <Button fx:id="viewWorkPackageButton" mnemonicParsing="false" onAction="#viewWorkPackage" prefHeight="25.0" prefWidth="140.0" styleClass="btn-rich-blue" text="View Work Package">
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin>

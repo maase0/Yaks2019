@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
@@ -16,7 +22,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="605.0" styleClass="project" stylesheets="@application.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PM_VPE_Controller">
+<BorderPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="605.0" styleClass="project" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PM_VPE_Controller">
 	<top>
 		<BorderPane styleClass="project-header" BorderPane.alignment="CENTER">
 			<right>
@@ -187,7 +193,7 @@
                                                 <Insets left="10.0" />
                                              </GridPane.margin>
                                           </Label>
-                                          <Label text="PROJECT_MANAGER GOES HERE" GridPane.columnIndex="1" />
+                                          <Label fx:id="projectManager" text="PROJECT_MANAGER GOES HERE" GridPane.columnIndex="1" />
                                        </children>
                                        <GridPane.margin>
                                           <Insets />
@@ -207,7 +213,7 @@
                                                 <Insets left="10.0" />
                                              </GridPane.margin>
                                           </Label>
-                                          <Label text="PROPOSAL_NUMBER GOES HERE" GridPane.columnIndex="1" />
+                                          <Label fx:id="propNum" text="PROPOSAL_NUMBER GOES HERE" GridPane.columnIndex="1" />
                                        </children>
                                        <GridPane.margin>
                                           <Insets top="5.0" />
@@ -227,7 +233,7 @@
                                                 <Insets left="10.0" />
                                              </GridPane.margin>
                                           </Label>
-                                          <Label text="VERSION_NUMBER GOES HERE" GridPane.columnIndex="1" />
+                                          <Label fx:id="versionNum" text="VERSION_NUMBER GOES HERE" GridPane.columnIndex="1" />
                                        </children>
                                        <GridPane.margin>
                                           <Insets top="5.0" />
@@ -258,8 +264,8 @@
                                             </rowConstraints>
                                              <children>
                                                 <Label text="to" GridPane.columnIndex="1" />
-                                                <DatePicker editable="false" />
-                                                <DatePicker editable="false" GridPane.columnIndex="2" />
+                                                <DatePicker fx:id="startDate" editable="false" />
+                                                <DatePicker fx:id="endDate" editable="false" GridPane.columnIndex="2" />
                                              </children>
                                           </GridPane>
                                        </children>

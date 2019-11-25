@@ -303,22 +303,26 @@ public class PM_ProjectsController implements Initializable {
 		}
 	}
 
-	public void viewProjectEstimate() {
+	public void viewProjectEstimate(Project proj, String versionNumber) {
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("PM_ViewProjectEstimate.fxml"));
 			Parent root = fxmlLoader.load();
 
+			
 			//EstimateProjectController controller = fxmlLoader.getController();
 
 			//controller.setCameFromEstimator(false);
 
-			//ProjectVersion version = loadProjectVersion(project, versionNumber);
+			ProjectVersion version = loadProjectVersion(proj, versionNumber);
 
 			/*if (version == null) {
 				System.out.println("ERROR ERROR NULL ERROR ERROR");
 			}*/
 
-			//controller.setProjectVersion(version);
+			PM_VPE_Controller controller = fxmlLoader.getController();
+
+			
+			controller.setProject(version);
 
 			Stage eEstimateProjectStage = new Stage();
 			eEstimateProjectStage.setTitle("Estimation Suite - Project Manager - Estimate Project");
@@ -555,7 +559,7 @@ public class PM_ProjectsController implements Initializable {
 				public void handle(ActionEvent event) {
 					System.out.println("VIEW ITEM: " + getItem());
 
-					viewProjectEstimate();
+					viewProjectEstimate(getItem(), versionList.getSelectionModel().getSelectedItem());
 
 					Stage stage = (Stage) viewButton.getScene().getWindow();
 					stage.close();

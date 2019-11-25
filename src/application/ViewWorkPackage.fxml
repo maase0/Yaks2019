@@ -162,8 +162,8 @@
    <bottom>
       <GridPane BorderPane.alignment="CENTER">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="117.0" minWidth="10.0" prefWidth="88.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="165.0" minWidth="10.0" prefWidth="88.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="139.0" minWidth="10.0" prefWidth="139.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="165.0" minWidth="10.0" prefWidth="39.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="555.0" minWidth="10.0" prefWidth="550.0" />
             <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="192.0" minWidth="0.0" prefWidth="45.0" />
         </columnConstraints>
@@ -171,9 +171,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" styleClass="btn-rich-blue" text="Add Task" />
-            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" styleClass="btn-rich-blue" text="Edit Task" GridPane.columnIndex="1" />
-            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" styleClass="btn-rich-blue" text="Remove Task" GridPane.columnIndex="2" />
+            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="85.0" styleClass="btn-rich-blue" text="View Task" />
             <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" styleClass="btn-rich-blue" text="Close" GridPane.columnIndex="3" />
          </children>
          <BorderPane.margin>

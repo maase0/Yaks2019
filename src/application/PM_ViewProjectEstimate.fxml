@@ -24,33 +24,40 @@
 
 <BorderPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="605.0" styleClass="project" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PM_VPE_Controller">
 	<top>
-		<BorderPane styleClass="project-header" BorderPane.alignment="CENTER">
+		<BorderPane prefHeight="100.0" prefWidth="603.0" styleClass="project-header" BorderPane.alignment="CENTER">
 			<right>
-				<BorderPane minHeight="75.0" minWidth="167.0" prefHeight="94.0" prefWidth="167.0" style="-fx-background-color: transparent;" BorderPane.alignment="CENTER">
+				<BorderPane minHeight="75.0" minWidth="167.0" prefHeight="94.0" prefWidth="170.0" style="-fx-background-color: transparent;" BorderPane.alignment="CENTER">
 					<BorderPane.margin>
                   		<Insets />
                		</BorderPane.margin>
-               		<top>
-               			<Button fx:id="returnEstimationButton" mnemonicParsing="false" onAction="#returnEstimation" prefWidth="150.0" styleClass="btn-rich-blue" text="Return for Estimation" BorderPane.alignment="CENTER">
-               				<BorderPane.margin>
-               					<Insets top="5.0" />
-               				</BorderPane.margin>
-               			</Button>
-               		</top>
-               		<center>
-               			<Button fx:id="approveButton" mnemonicParsing="false" prefWidth="150.0" styleClass="btn-save" text="Approve Project" BorderPane.alignment="CENTER">
+               <left>
+               			<Button fx:id="approveButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" styleClass="btn-save" text="Approve" BorderPane.alignment="CENTER">
                				<BorderPane.margin>
                         		<Insets />
                      		</BorderPane.margin>
                			</Button>
-               		</center>
-               		<bottom>
-	                  	<Button fx:id="denyButton" mnemonicParsing="false" prefWidth="150.0" styleClass="btn-discard" text="Deny Project" BorderPane.alignment="CENTER">
+               </left>
+               <right>
+	                  	<Button fx:id="denyButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" styleClass="btn-discard" text="Deny" BorderPane.alignment="CENTER">
 	                     	<BorderPane.margin>
-	                        	<Insets bottom="5.0" top="2.0" />
+	                        	<Insets right="10.0" />
 	                     	</BorderPane.margin>
 	                  	</Button>
-               		</bottom>
+               </right>
+               <bottom>
+               			<Button fx:id="returnEstimationButton" mnemonicParsing="false" onAction="#returnEstimation" prefHeight="25.0" prefWidth="160.0" styleClass="btn-return" text="Return for Estimation" BorderPane.alignment="CENTER">
+               				<BorderPane.margin>
+               					<Insets bottom="5.0" right="10.0" top="1.0" />
+               				</BorderPane.margin>
+               			</Button>
+               </bottom>
+               <top>
+                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="160.0" styleClass="btn-rich-blue" text="Close Project Estimate" BorderPane.alignment="CENTER">
+                     <BorderPane.margin>
+                        <Insets right="10.0" top="5.0" />
+                     </BorderPane.margin>
+                  </Button>
+               </top>
 				</BorderPane>
 			</right>
 			<center>

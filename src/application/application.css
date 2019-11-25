@@ -38,7 +38,20 @@
     -fx-background-color: linear-gradient(from 25% 100% to 100% 100%, #ffffff, #5077bf);
 }
 
-.project .btn-discard {
+.btn-return {
+	-fx-text-fill: #ffffff;
+    -fx-font-family: "Arial Narrow";
+    -fx-font-weight: bold;
+    -fx-background-color: linear-gradient(#ccc200, #949100);
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+}
+
+.btn-return:hover {
+	-fx-background-color: linear-gradient(#949100, #ccc200);
+	-fx-cursor: hand;
+}
+
+.btn-discard {
 	-fx-text-fill: #ffffff;
     -fx-font-family: "Arial Narrow";
     -fx-font-weight: bold;
@@ -46,12 +59,12 @@
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
 }
 
-.project .btn-discard:hover {
+.btn-discard:hover {
 	-fx-background-color: linear-gradient(#961912, #c75650);
 	-fx-cursor: hand;
 }
 
-.project .btn-save {
+.btn-save {
 	-fx-text-fill: #ffffff;
     -fx-font-family: "Arial Narrow";
     -fx-font-weight: bold;
@@ -59,7 +72,7 @@
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
 }
 
-.project .btn-save:hover {
+.btn-save:hover {
 	-fx-background-color: linear-gradient(#45871c, #77bf52);
 	-fx-cursor: hand;
 }

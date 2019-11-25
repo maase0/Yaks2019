@@ -25,6 +25,8 @@ public class PM_VPE_Controller implements Initializable {
 	@FXML
 	private Button denyButton;
 	@FXML
+	private Button closeEstimationButton;
+	@FXML
 	private Button viewCLINestimateButton;
 	@FXML
 	private Label projectManager;
@@ -64,24 +66,28 @@ public class PM_VPE_Controller implements Initializable {
 		sowListView.setItems(sowObservableList);
 	}
 
-	public void returnEstimation(ActionEvent event) {
+	public void closeEstimation(ActionEvent event) {
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("PM_Projects.fxml"));
 			Parent root = fxmlLoader.load();
 
-			Stage returnEst = new Stage();
-			returnEst.setTitle("Estimation Suite - Project Manager - Estimate Project");
-			returnEst.setScene(new Scene(root));
+			Stage closeEst = new Stage();
+			closeEst.setTitle("Estimation Suite - Project Manager - Estimate Project");
+			closeEst.setScene(new Scene(root));
 
-			returnEst.show();
-			returnEst.setResizable(true);
-			returnEst.sizeToScene();
+			closeEst.show();
+			closeEst.setResizable(true);
+			closeEst.sizeToScene();
 
-			Stage stage = (Stage) returnEstimationButton.getScene().getWindow();
+			Stage stage = (Stage) closeEstimationButton.getScene().getWindow();
 			stage.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void returnEstimation(ActionEvent event) {
+
 	}
 
 	public void approveProject(ActionEvent event) {

@@ -61,13 +61,10 @@ public class PM_EditProjectController implements Initializable {
 	private ListView<SOW> SOWListView;
 	private ObservableList<SOW> sowObservableList;
 
-	
-
 	private ArrayList<CLIN> clinDelete = new ArrayList<CLIN>();
 	private ArrayList<SOW> sowDelete = new ArrayList<SOW>();
 	private ArrayList<SDRL> sdrlDelete = new ArrayList<SDRL>();
-	
-	
+
 	public PM_EditProjectController() {
 
 	}
@@ -115,7 +112,7 @@ public class PM_EditProjectController implements Initializable {
 	 * @param event
 	 */
 	public void discardCLIN(ActionEvent event) {
-		//clinObservableList.remove(CLINListView.getSelectionModel().getSelectedItem());
+		// clinObservableList.remove(CLINListView.getSelectionModel().getSelectedItem());
 		clinDelete.add(clinObservableList.remove(CLINListView.getSelectionModel().getSelectedIndex()));
 	}
 
@@ -309,52 +306,78 @@ public class PM_EditProjectController implements Initializable {
 			}
 			rs.close();
 
-			for (CLIN c : clinObservableList) {
-				DBUtil.dbExecuteUpdate("CALL update_clin(" + c.getID() + ", " + vid + ", \"" + c.getIndex() + "\" , \""
-						+ c.getVersion() + "\", \"" + c.getProjectType() + "\", \"" + c.getClinContent() + "\", '"
-						+ c.getPopStart() + "', '" + c.getPopEnd() + "')");
+			if (proj.getVersionNumber().equals(versionText.getText())) {
 
-				/*
-				 * DBUtil.dbExecuteUpdate("CALL insert_clin(" + vid + ", \"" + c.getIndex() +
-				 * "\", \"" + c.getProjectType() + "\", \"" + c.getClinContent() + "\")");
-				 */
+				//If the item has an id, then it was loaded from the database and already exists
+				//update existing items, insert new items.
+				for (CLIN c : clinObservableList) {
+					if (c.getID() != null) {
+						DBUtil.dbExecuteUpdate("CALL update_clin(" + c.getID() + ", " + vid + ", \"" + c.getIndex()
+								+ "\" , \"" + c.getVersion() + "\", \"" + c.getProjectType() + "\", \""
+								+ c.getClinContent() + "\", '" + c.getPopStart() + "', '" + c.getPopEnd() + "')");
+					} else {
+						DBUtil.dbExecuteUpdate("CALL insert_clin(" + vid + ", \"" + c.getIndex() + "\", \""
+								+ c.getVersion() + "\", \"" + c.getProjectType() + "\", \"" + c.getClinContent()
+								+ "\", '" + c.getPopStart() + "', '" + c.getPopEnd() + "')");
+					}
+				}
+
+				for (SDRL s : sdrlObservableList) {
+					if (s.getID() != null) {
+						DBUtil.dbExecuteUpdate("CALL update_sdrl(" + s.getID() + ", " + vid + ", \"" + s.getName()
+								+ "\", \"" + s.getVersion() + "\", \"" + s.getSdrlInfo() + "\")");
+					} else {
+						DBUtil.dbExecuteUpdate("CALL insert_sdrl(" + vid + ", \"" + s.getName() + "\", \""
+								+ s.getVersion() + "\", \"" + s.getSdrlInfo() + "\")");
+					}
+				}
+
+				for (SOW s : sowObservableList) {
+					if (s.getID() != null) {
+						DBUtil.dbExecuteUpdate("CALL update_sow(" + s.getID() + ", " + vid + ", " + s.getReference()
+								+ ", \"" + s.getVersion() + "\", \"" + s.getSowContent() + "\")");
+					} else {
+						DBUtil.dbExecuteUpdate("CALL insert_sow(" + vid + ", " + s.getReference() + ", \""
+								+ s.getVersion() + "\", \"" + s.getSowContent() + "\")");
+					}
+				}
+
+				// Delete all the list items that were saved for deletion
+				// delete only if version is the same, if version has changed
+				// "deleted" items are just not copied over
+				for (CLIN c : clinDelete) {
+					DBUtil.dbExecuteUpdate("CALL delete_clin(" + c.getID() + ")");
+				}
+
+				for (SOW s : sowDelete) {
+					DBUtil.dbExecuteUpdate("CALL delete_sow(" + s.getID() + ")");
+				}
+
+				for (SDRL s : sdrlDelete) {
+					DBUtil.dbExecuteUpdate("CALL delete_sdrl(" + s.getID() + ")");
+				}
 			}
 
-			for (SDRL s : sdrlObservableList) {
-				// update_sdrl`(SDRLID int, VID int, sdrlTitle VARCHAR(45), versionNumber
-				// VARCHAR(45), sdrlDescription VARCHAR(1000))
-				DBUtil.dbExecuteUpdate("CALL update_sdrl(" + s.getID() + ", " + vid + ", \"" + s.getName() + "\", \""
-						+ s.getVersion() + "\", \"" + s.getSdrlInfo() + "\")");
-				/*
-				 * DBUtil.dbExecuteUpdate("CALL insert_sdrl(" + vid + ", \"" + s.getName() +
-				 * "\", \"" + s.getSdrlInfo() + "\")");
-				 */
-			}
+			// This is if the version number changed.
+			// Re-insert all the items with the new vid(version id)
+			else {
+				for (CLIN c : clinObservableList) {
+					DBUtil.dbExecuteUpdate("CALL insert_clin(" + vid + ", \"" + c.getIndex() + "\", \"" + c.getVersion()
+							+ "\", \"" + c.getProjectType() + "\", \"" + c.getClinContent() + "\", '" + c.getPopStart()
+							+ "', '" + c.getPopEnd() + "')");
+				}
 
-			for (SOW s : sowObservableList) {
-				// `update_sow`(SOWID int, VID int, sowRef VARCHAR(45), versionNumber
-				// VARCHAR(45), sowDescription VARCHAR(1000))
-				DBUtil.dbExecuteUpdate("CALL update_sow(" + s.getID() + ", " + vid + ", " + s.getReference()
-						+ ", \"" + s.getVersion() + "\", \"" + s.getSowContent() + "\")");
-				/*
-				 * DBUtil.dbExecuteQuery( "CALL insert_sow(" + vid + ", " + s.getReference() +
-				 * ", \"" + s.getSowContent() + "\")");
-				 */
+				for (SDRL s : sdrlObservableList) {
+					DBUtil.dbExecuteUpdate("CALL insert_sdrl(" + vid + ", \"" + s.getName() + "\", \"" + s.getVersion()
+							+ "\", \"" + s.getSdrlInfo() + "\")");
+				}
+
+				for (SOW s : sowObservableList) {
+					DBUtil.dbExecuteUpdate("CALL insert_sow(" + vid + ", " + s.getReference() + ", \"" + s.getVersion()
+							+ "\", \"" + s.getSowContent() + "\")");
+				}
+
 			}
-			
-			for(CLIN c : clinDelete) {
-				DBUtil.dbExecuteUpdate("CALL delete_clin(" + c.getID() + ")");
-			}
-			
-			for(SOW s : sowDelete) {
-				DBUtil.dbExecuteUpdate("CALL delete_sow(" + s.getID() + ")");
-			}
-			
-			for(SDRL s : sdrlDelete) {
-				DBUtil.dbExecuteUpdate("CALL delete_sdrl(" + s.getID() + ")");
-			}
-			
-			
 
 			try {
 				Parent root = FXMLLoader.load(getClass().getResource("PM_Projects.fxml"));

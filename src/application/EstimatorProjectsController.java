@@ -127,6 +127,42 @@ public class EstimatorProjectsController implements Initializable{
 		}
 	}
 
+	public void viewProjectEstimate(Project proj, String versionNumber) {
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Estimator_ViewProjectEstimate.fxml"));
+			Parent root = fxmlLoader.load();
+
+
+			//EstimateProjectController controller = fxmlLoader.getController();
+
+			//controller.setCameFromEstimator(false);
+
+			ProjectVersion version = loadProjectVersion(proj, versionNumber);
+
+			/*if (version == null) {
+				System.out.println("ERROR ERROR NULL ERROR ERROR");
+			}*/
+
+			//Estimator_VPE_Controller controller = fxmlLoader.getController();
+
+
+			//controller.setProject(version);
+
+			Stage eEstimateProjectStage = new Stage();
+			eEstimateProjectStage.setTitle("Estimation Suite - Project Manager - Estimate Project");
+			eEstimateProjectStage.setScene(new Scene(root));
+
+			// EstimateProject_Controller controller = fxmlLoader.getController();
+
+			eEstimateProjectStage.show();
+			eEstimateProjectStage.setResizable(true);
+			eEstimateProjectStage.sizeToScene();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public ProjectVersion loadProjectVersion(Project project, String versionNumber) {
 		ProjectVersion version = new ProjectVersion();
 
@@ -292,6 +328,11 @@ public class EstimatorProjectsController implements Initializable{
 				@Override
 				public void handle(ActionEvent event) {
 					System.out.println("VIEW ITEM: " + getItem());
+
+					viewProjectEstimate(getItem(), versionList.getSelectionModel().getSelectedItem());
+
+					Stage stage = (Stage) viewButton.getScene().getWindow();
+					stage.close();
 				}
 			});
 		}

@@ -282,7 +282,7 @@
                <content>
                   <BorderPane prefHeight="200.0" prefWidth="200.0">
                      <center>
-                        <ListView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                        <ListView fx:id="clinEstimateListView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                            <BorderPane.margin>
                               <Insets top="5.0" />
                            </BorderPane.margin>

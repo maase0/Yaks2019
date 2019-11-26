@@ -44,6 +44,8 @@ public class EstimateProjectController implements Initializable {
 	private ListView<SDRL> sdrlListView;
 	@FXML
 	private ListView<SOW> sowListView;
+	@FXML
+	private ListView<CLIN> clinEstimateListView;
 
 	private ObservableList<CLIN> clinObservableList;
 	private ObservableList<SDRL> sdrlObservableList;
@@ -57,6 +59,7 @@ public class EstimateProjectController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		clinObservableList = FXCollections.observableArrayList();
 		clinListView.setItems(clinObservableList);
+		clinEstimateListView.setItems(clinObservableList);
 
 		sdrlObservableList = FXCollections.observableArrayList();
 		sdrlListView.setItems(sdrlObservableList);

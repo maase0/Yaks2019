@@ -90,7 +90,7 @@ public class CLIN
     }
     
     public String toString() {
-    	return index + ", v" + version + ", " + projectType + ", \n"
-                + popStart + " to " + popEnd + "\n" + clinContent;
+    	return "Index: " + index + " v" + version + "\n" + "Project Type: " + projectType + "\n"
+                + "PoP: " + popStart + " to " + popEnd + "\n" + "Content:\n\t" + clinContent;
     }
 }

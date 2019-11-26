@@ -40,6 +40,7 @@ public class SDRLController extends ListCell<SDRL> implements Initializable {
             sdrlObservableList.add(sdrl);
         } else {
             sdrl.setName(name);
+            sdrl.setVersion(version);
             sdrl.setSdrlInfo(info);
             sdrlObservableList.set(sdrlObservableList.indexOf(sdrl), sdrl);
         }

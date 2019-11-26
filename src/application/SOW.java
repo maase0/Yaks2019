@@ -54,7 +54,7 @@ public class SOW {
     }
     
     public String toString() {
-    	return reference + ", v" + version + ", " + "\n" + sowContent;
+    	return "Reference: " + reference + " v" + version + "\nContent:\n\t" + sowContent;
     }
 
 }

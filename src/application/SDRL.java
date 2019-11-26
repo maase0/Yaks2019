@@ -53,6 +53,6 @@ public class SDRL
     }
     
     public String toString() {
-    	return name + ", v" + version + "\n" + sdrlInfo;
+    	return "Name: " + name + " v" + version + "\nInformation:\n\t" + sdrlInfo;
     }
 }

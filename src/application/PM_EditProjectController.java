@@ -259,6 +259,26 @@ public class PM_EditProjectController implements Initializable {
 	 * @throws ClassNotFoundException
 	 */
 	public void saveNewChanges() throws SQLException, ClassNotFoundException {
+
+		save();
+
+		try {
+			Parent root = FXMLLoader.load(getClass().getResource("PM_Projects.fxml"));
+
+			Stage pmProjectsStage = new Stage();
+			pmProjectsStage.setTitle("Estimation Suite - Product Manager - Projects");
+			pmProjectsStage.setScene(new Scene(root));
+			pmProjectsStage.show();
+
+			Stage stage = (Stage) saveChangesButton.getScene().getWindow();
+			stage.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	private void save() throws ClassNotFoundException, SQLException {
 		int vid = 0;
 
 		boolean passed = true;
@@ -273,31 +293,30 @@ public class PM_EditProjectController implements Initializable {
 					"Error: Version Text \"" + versionText.getText() + "\" does not match regexp " + versionReg);
 		}
 
-		//Checks that version number has not decreased.
+		// Checks that version number has not decreased.
 		String[] newVer = versionText.getText().split("\\.");
 		String[] oldVer = proj.getVersionNumber().split("\\.");
 		for (int i = 0; i < newVer.length & i < oldVer.length; i++) {
 			if (Integer.parseInt(newVer[i]) > Integer.parseInt(oldVer[i])) {
 				break;
-				//If greater, then rest is fine
-			}
-			else if(Integer.parseInt(newVer[i]) < Integer.parseInt(oldVer[i])) {
+				// If greater, then rest is fine
+			} else if (Integer.parseInt(newVer[i]) < Integer.parseInt(oldVer[i])) {
 				passed = false;
 				System.err.println("ERROR: Cannot change to a lower version number!");
 				break;
 			}
-			//no else, if they are equal keep going.
+			// no else, if they are equal keep going.
 		}
-		
+
 		ResultSet rs = DBUtil.dbExecuteQuery("SELECT * FROM ProjectVersion WHERE idProject=" + proj.getProjectID()
-		+ " AND Version_Number=\"" + versionText.getText() + "\"");
-		
-		if(rs.next() && !versionText.getText().equals(proj.getVersionNumber())) {
+				+ " AND Version_Number=\"" + versionText.getText() + "\"");
+
+		if (rs.next() && !versionText.getText().equals(proj.getVersionNumber())) {
 			passed = false;
 			System.err.println("ERROR: Cannot change to an existing version number!");
 		}
 		rs.close();
-		
+
 		if (!propNumText.getText().matches(propReg)) {
 			passed = false;
 			System.out.println("Error: Version Proposal Number \"" + propNumText.getText() + "\" does not match regexp "
@@ -407,20 +426,6 @@ public class PM_EditProjectController implements Initializable {
 				}
 
 			}
-
-			try {
-				Parent root = FXMLLoader.load(getClass().getResource("PM_Projects.fxml"));
-
-				Stage pmProjectsStage = new Stage();
-				pmProjectsStage.setTitle("Estimation Suite - Product Manager - Projects");
-				pmProjectsStage.setScene(new Scene(root));
-				pmProjectsStage.show();
-
-				Stage stage = (Stage) saveChangesButton.getScene().getWindow();
-				stage.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
 		}
 	}
 
@@ -458,30 +463,8 @@ public class PM_EditProjectController implements Initializable {
 
 		boolean passed = true;
 
-		String versionReg = "\\d*(.\\d*)*";
-		String propReg = "^[0-9]*$";
-		String sowRefReg = "^[0-9]*$";
-
-		if (!versionText.getText().matches(versionReg)) {
-			passed = false;
-			System.out.println(
-					"Error: Version Text \"" + versionText.getText() + "\" does not match regexp " + versionReg);
-		}
-		if (!propNumText.getText().matches(propReg)) {
-			passed = false;
-			System.out.println("Error: Version Proposal Number \"" + propNumText.getText() + "\" does not match regexp "
-					+ propReg);
-		}
-		for (SOW s : sowObservableList) {
-			if (!s.getReference().matches(sowRefReg)) {
-				passed = false;
-				System.out.println(
-						"Error: Sow Reference \"" + "" + s.getReference() + "\" does not match regexp " + sowRefReg);
-			}
-		}
-
 		if (passed) {
-			saveNewChanges();
+			save();
 			String startString = startDate.getValue() == null ? "" : startDate.getValue().toString();
 			String endString = endDate.getValue() == null ? "" : endDate.getValue().toString();
 
@@ -489,20 +472,6 @@ public class PM_EditProjectController implements Initializable {
 
 			DBUtil.dbExecuteUpdate(
 					"CALL submit_project(" + proj.getProjectID() + ", '" + LocalDate.now().toString() + "')");
-			/*
-			 * while (rs.next()) { vid = rs.getInt("idProjectVersion"); } rs.close();
-			 * 
-			 * for (CLIN c : clinObservableList) {
-			 * DBUtil.dbExecuteUpdate("CALL insert_clin(" + vid + ", \"" + c.getIndex() +
-			 * "\", \"" + c.getProjectType() + "\", \"" + c.getClinContent() + "\")"); }
-			 * 
-			 * for (SDRL s : sdrlObservableList) { DBUtil.dbExecuteUpdate(
-			 * "CALL insert_sdrl(" + vid + ", \"" + s.getName() + "\", \"" + s.getSdrlInfo()
-			 * + "\")"); }
-			 * 
-			 * for (SOW s : sowObservableList) { DBUtil.dbExecuteQuery("CALL insert_sow(" +
-			 * vid + ", " + s.getReference() + ", \"" + s.getSowContent() + "\")"); }
-			 */
 
 			try {
 				Parent root = FXMLLoader.load(getClass().getResource("PM_Projects.fxml"));

@@ -289,7 +289,15 @@ public class PM_EditProjectController implements Initializable {
 			//no else, if they are equal keep going.
 		}
 		
-
+		ResultSet rs = DBUtil.dbExecuteQuery("SELECT * FROM ProjectVersion WHERE idProject=" + proj.getProjectID()
+		+ " AND Version_Number=\"" + versionText.getText() + "\"");
+		
+		if(rs.next() && !versionText.getText().equals(proj.getVersionNumber())) {
+			passed = false;
+			System.err.println("ERROR: Cannot change to an existing version number!");
+		}
+		rs.close();
+		
 		if (!propNumText.getText().matches(propReg)) {
 			passed = false;
 			System.out.println("Error: Version Proposal Number \"" + propNumText.getText() + "\" does not match regexp "
@@ -310,7 +318,7 @@ public class PM_EditProjectController implements Initializable {
 			// `update_projectVersion`(VID int, versionNumber varchar(45), projectName
 			// varchar(45), projectManager varchar(45), propNum int, popStart date, popEnd
 			// date)
-			ResultSet rs = DBUtil.dbExecuteQuery("CALL update_projectVersion(" + proj.getProjectVersionID() + ", \""
+			rs = DBUtil.dbExecuteQuery("CALL update_projectVersion(" + proj.getProjectVersionID() + ", \""
 					+ versionText.getText() + "\", \"" + projectNameText.getText() + "\", \"" + pmText.getText()
 					+ "\", " + propNumText.getText() + ", '" + startDate.getValue() + "', '" + endDate.getValue()
 					+ "')");

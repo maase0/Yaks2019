@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import DB.DBUtil;
 import javafx.collections.FXCollections;
@@ -16,7 +17,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
@@ -74,12 +79,10 @@ public class PM_ProjectsController implements Initializable {
 	@FXML
 	private ListView<Project> deniedListView;
 	private ObservableList<Project> deniedObservableList;
-	
 
 	private ArrayList<CLIN> clinDelete = new ArrayList<CLIN>();
 	private ArrayList<SOW> sowDelete = new ArrayList<SOW>();
 	private ArrayList<SDRL> sdrlDelete = new ArrayList<SDRL>();
-	
 
 	/**
 	 * Initialize the page, create the lists, fill all the lists with data from the
@@ -121,22 +124,24 @@ public class PM_ProjectsController implements Initializable {
 		approvedObservableList = FXCollections.observableArrayList();
 		approvedListView.setItems(approvedObservableList);
 
-		/*approvedListView.setCellFactory(new Callback<ListView<Project>, ListCell<Project>>() {
-			@Override
-			public ListCell<Project> call(ListView<Project> param) {
-				return null;
-			}
-		});*/
+		/*
+		 * approvedListView.setCellFactory(new Callback<ListView<Project>,
+		 * ListCell<Project>>() {
+		 * 
+		 * @Override public ListCell<Project> call(ListView<Project> param) { return
+		 * null; } });
+		 */
 
 		deniedObservableList = FXCollections.observableArrayList();
 		deniedListView.setItems(deniedObservableList);
 
-		/*deniedListView.setCellFactory(new Callback<ListView<Project>, ListCell<Project>>() {
-			@Override
-			public ListCell<Project> call(ListView<Project> param) {
-				return null;
-			}
-		});*/
+		/*
+		 * deniedListView.setCellFactory(new Callback<ListView<Project>,
+		 * ListCell<Project>>() {
+		 * 
+		 * @Override public ListCell<Project> call(ListView<Project> param) { return
+		 * null; } });
+		 */
 
 		// Fill each list with relevant projects from database
 		System.out.println("\nUnsubmitted Project Names");
@@ -147,16 +152,16 @@ public class PM_ProjectsController implements Initializable {
 				unestimatedObservableList);
 
 		System.out.println("\nEstimated Project Names");
-		fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NOT NULL AND Estimated_Date IS NOT NULL AND" +
-								" Approved_Date IS NULL AND Denied_Date IS NULL", estimatedObservableList);
+		fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NOT NULL AND Estimated_Date IS NOT NULL AND"
+				+ " Approved_Date IS NULL AND Denied_Date IS NULL", estimatedObservableList);
 
 		System.out.println("\nApproved Project Names");
-		fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NOT NULL AND Estimated_Date IS NOT NULL AND" +
-								" Approved_Date IS NOT NULL", approvedObservableList);
+		fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NOT NULL AND Estimated_Date IS NOT NULL AND"
+				+ " Approved_Date IS NOT NULL", approvedObservableList);
 
 		System.out.println("\nDenied Project Names");
-		fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NOT NULL AND Estimated_Date IS NOT NULL AND" +
-				" Denied_Date IS NOT NULL", deniedObservableList);
+		fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NOT NULL AND Estimated_Date IS NOT NULL AND"
+				+ " Denied_Date IS NOT NULL", deniedObservableList);
 	}
 
 	/**
@@ -302,9 +307,21 @@ public class PM_ProjectsController implements Initializable {
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
 	 */
-	public void discardProject(Project project) throws SQLException, ClassNotFoundException {
-		DBUtil.dbExecuteUpdate("CALL delete_project(" + project.getID() + ")");
-		unsubmittedObservableList.remove(project);
+	public void discardProject(Project project, String versionNumber) throws SQLException, ClassNotFoundException {
+
+		ResultSet rs = DBUtil.dbExecuteQuery("SELECT * FROM ProjectVersion WHERE idProject=" + project.getID()
+				+ " AND Version_Number=\"" + versionNumber + "\"");
+
+		// Should only have one item, but go to latest just in case (maybe throw error?)
+		rs.last();
+
+		String versionID = rs.getString("idProjectVersion");
+
+		// DBUtil.dbExecuteUpdate("CALL delete_project(" + project.getID() + ")");
+		// unsubmittedObservableList.remove(project);
+
+		DBUtil.dbExecuteUpdate("CALL delete_projectVersion(" + versionID + ")");
+
 	}
 
 	public void estimateProject(Project project, String versionNumber) {
@@ -344,20 +361,18 @@ public class PM_ProjectsController implements Initializable {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("PM_ViewProjectEstimate.fxml"));
 			Parent root = fxmlLoader.load();
 
-			
-			//EstimateProjectController controller = fxmlLoader.getController();
+			// EstimateProjectController controller = fxmlLoader.getController();
 
-			//controller.setCameFromEstimator(false);
+			// controller.setCameFromEstimator(false);
 
 			ProjectVersion version = loadProjectVersion(proj, versionNumber);
 
-			/*if (version == null) {
-				System.out.println("ERROR ERROR NULL ERROR ERROR");
-			}*/
+			/*
+			 * if (version == null) { System.out.println("ERROR ERROR NULL ERROR ERROR"); }
+			 */
 
 			PM_VPE_Controller controller = fxmlLoader.getController();
 
-			
 			controller.setProject(version);
 
 			Stage eEstimateProjectStage = new Stage();
@@ -410,24 +425,24 @@ public class PM_ProjectsController implements Initializable {
 				// System.out.println(rs.getString("CLIN_Index"));
 
 				version.addCLIN(new CLIN(rs.getString("idCLIN"), rs.getString("CLIN_Index"),
-						rs.getString("Version_Number"),rs.getString("Project_Type"), rs.getString("CLIN_Description")
-						,rs.getString("PoP_Start"), rs.getString("PoP_End")));
+						rs.getString("Version_Number"), rs.getString("Project_Type"), rs.getString("CLIN_Description"),
+						rs.getString("PoP_Start"), rs.getString("PoP_End")));
 			}
 
 			// Get all the SDRLs, add them to the project
 			rs = DBUtil.dbExecuteQuery("CALL select_sdrls(" + versionID + ")");
 			while (rs.next()) {
 				// System.out.println(rs.getString("CLIN_Index"));
-				version.addSDRL(new SDRL(rs.getString("idSDRL"), rs.getString("SDRL_Title"), rs.getString("Version_Number"),
-						rs.getString("SDRL_Description")));
+				version.addSDRL(new SDRL(rs.getString("idSDRL"), rs.getString("SDRL_Title"),
+						rs.getString("Version_Number"), rs.getString("SDRL_Description")));
 			}
 
 			// Get all the SOWs, add them to the project
 			rs = DBUtil.dbExecuteQuery("CALL select_sows(" + versionID + ")");
 			while (rs.next()) {
 				// System.out.println(rs.getString("CLIN_Index"));
-				version.addSOW(new SOW(rs.getString("idSoW"), rs.getString("Reference_Number"), rs.getString("Version_Number"),
-						rs.getString("SoW_Description")));
+				version.addSOW(new SOW(rs.getString("idSoW"), rs.getString("Reference_Number"),
+						rs.getString("Version_Number"), rs.getString("SoW_Description")));
 			}
 
 			rs.close();
@@ -519,7 +534,42 @@ public class PM_ProjectsController implements Initializable {
 					System.out.println("REMOVE ITEM" + getItem());
 
 					try {
-						discardProject(getItem());
+						Project project = getItem();
+						String versionNumber = versionList.getSelectionModel().getSelectedItem();
+						int index = versionList.getSelectionModel().getSelectedIndex();
+
+						Alert alert = new Alert(AlertType.CONFIRMATION);
+						alert.setTitle("Remove Project");
+						alert.setHeaderText("Do you want to remove the selected version (" + versionNumber
+								+ ") or the entire project?");
+						alert.setContentText("Choose your option.");
+
+						ButtonType buttonTypeOne = new ButtonType("Remove Version " + versionNumber);
+						ButtonType buttonTypeTwo = new ButtonType("Remove Entire Project");
+						ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
+
+						alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo, buttonTypeCancel);
+
+						Optional<ButtonType> result = alert.showAndWait();
+						if (result.get() == buttonTypeOne) {
+							ResultSet rs = DBUtil.dbExecuteQuery("SELECT * FROM ProjectVersion WHERE idProject="
+									+ project.getID() + " AND Version_Number=\"" + versionNumber + "\"");
+
+							// Should only have one item, but go to latest just in case (maybe throw error?)
+							rs.last();
+
+							String versionID = rs.getString("idProjectVersion");
+
+							DBUtil.dbExecuteUpdate("CALL delete_projectVersion(" + versionID + ")");
+							versionList.getItems().remove(index);
+
+						} else if (result.get() == buttonTypeTwo) {
+							DBUtil.dbExecuteUpdate("CALL delete_project(" + project.getID() + ")");
+							unsubmittedObservableList.remove(project);
+						} else {
+							// ... user chose CANCEL or closed the dialog
+						}
+
 					} catch (SQLException | ClassNotFoundException e) {
 						e.printStackTrace();
 					}
@@ -570,8 +620,7 @@ public class PM_ProjectsController implements Initializable {
 						unsubmittedObservableList.add(getItem());
 						unestimatedObservableList.remove(getItem());
 
-
-					} catch (SQLException | ClassNotFoundException e ) {
+					} catch (SQLException | ClassNotFoundException e) {
 						e.printStackTrace();
 					}
 				}

@@ -346,7 +346,7 @@ public class PM_ProjectsController implements Initializable {
 
 			// Get all versions of the given project
 			ResultSet rs = DBUtil.dbExecuteQuery("SELECT * FROM ProjectVersion WHERE idProject=" + project.getID()
-					+ " AND Version_Number=" + versionNumber);
+					+ " AND Version_Number=\"" + versionNumber + "\"");
 
 			// Should only have one item, but go to latest just in case (maybe throw error?)
 			rs.last();

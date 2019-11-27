@@ -272,12 +272,32 @@ public class PM_EditProjectController implements Initializable {
 			System.out.println(
 					"Error: Version Text \"" + versionText.getText() + "\" does not match regexp " + versionReg);
 		}
+
+		//Checks that version number has not decreased.
+		String[] newVer = versionText.getText().split("\\.");
+		String[] oldVer = proj.getVersionNumber().split("\\.");
+		for (int i = 0; i < newVer.length & i < oldVer.length; i++) {
+			if (Integer.parseInt(newVer[i]) > Integer.parseInt(oldVer[i])) {
+				break;
+				//If greater, then rest is fine
+			}
+			else if(Integer.parseInt(newVer[i]) < Integer.parseInt(oldVer[i])) {
+				passed = false;
+				System.err.println("ERROR: Cannot change to a lower version number!");
+				break;
+			}
+			//no else, if they are equal keep going.
+		}
+		
+
 		if (!propNumText.getText().matches(propReg)) {
 			passed = false;
 			System.out.println("Error: Version Proposal Number \"" + propNumText.getText() + "\" does not match regexp "
 					+ propReg);
 		}
-		for (SOW s : sowObservableList) {
+		for (
+
+		SOW s : sowObservableList) {
 			if (!s.getReference().matches(sowRefReg)) {
 				passed = false;
 				System.out.println(
@@ -308,8 +328,9 @@ public class PM_EditProjectController implements Initializable {
 
 			if (proj.getVersionNumber().equals(versionText.getText())) {
 
-				//If the item has an id, then it was loaded from the database and already exists
-				//update existing items, insert new items.
+				// If the item has an id, then it was loaded from the database and already
+				// exists
+				// update existing items, insert new items.
 				for (CLIN c : clinObservableList) {
 					if (c.getID() != null) {
 						DBUtil.dbExecuteUpdate("CALL update_clin(" + c.getID() + ", " + vid + ", \"" + c.getIndex()

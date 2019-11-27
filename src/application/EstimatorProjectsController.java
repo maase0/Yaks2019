@@ -190,8 +190,11 @@ public class EstimatorProjectsController implements Initializable{
 			version.setPopStart(start == null ? null : LocalDate.parse(start));
 			version.setPopEnd(end == null ? null : LocalDate.parse(end));
 
+			String versionID = rs.getString("idProjectVersion");
+			
+			
 			// Get all the clins, add them to the project
-			rs = DBUtil.dbExecuteQuery("CALL select_clins(" + versionNumber + ")");
+			rs = DBUtil.dbExecuteQuery("CALL select_clins(" + versionID + ")");
 			while (rs.next()) {
 				// System.out.println(rs.getString("CLIN_Index"));
 				version.addCLIN(new CLIN(rs.getString("idCLIN"),rs.getString("CLIN_Index"),
@@ -200,7 +203,7 @@ public class EstimatorProjectsController implements Initializable{
 			}
 
 			// Get all the SDRLs, add them to the project
-			rs = DBUtil.dbExecuteQuery("CALL select_sdrls(" + versionNumber + ")");
+			rs = DBUtil.dbExecuteQuery("CALL select_sdrls(" + versionID + ")");
 			while (rs.next()) {
 				// System.out.println(rs.getString("CLIN_Index"));
 				version.addSDRL(new SDRL(rs.getString("idSDRL"), rs.getString("SDRL_Title"), rs.getString("Version_Number")
@@ -208,7 +211,7 @@ public class EstimatorProjectsController implements Initializable{
 			}
 
 			// Get all the SOWs, add them to the project
-			rs = DBUtil.dbExecuteQuery("CALL select_sows(" + versionNumber + ")");
+			rs = DBUtil.dbExecuteQuery("CALL select_sows(" + versionID + ")");
 			while (rs.next()) {
 				// System.out.println(rs.getString("CLIN_Index"));
 				version.addSOW(new SOW(rs.getString("idSoW"), rs.getString("Reference_Number"), rs.getString("Version_Number")

@@ -2,6 +2,7 @@ package ProjectListCells;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Optional;
 
 import DB.DBUtil;
@@ -29,7 +30,7 @@ public class ProjectListCell extends ListCell<Project> {
 	protected HBox hbox = new HBox();
 	protected Label label = new Label("(empty)");
 	protected Pane pane = new Pane();
-	protected ComboBox<String> versionList = new ComboBox<String>();
+	protected ComboBox<String> versionList = new ComboBox<String>();;
 
 	public ProjectListCell() {
 		super();
@@ -60,8 +61,11 @@ public class ProjectListCell extends ListCell<Project> {
 			label.setText(item != null ? item.toString() : "<null>");
 			setGraphic(hbox);
 
-			versionList.getItems().addAll(this.getItem().getVersionStrings());
-
+			//Needed, otherwise box can have invalid values??
+			//TODO: why?
+			versionList.getItems().clear();
+			
+			versionList.getItems().addAll(item.getVersionStrings());
 		}
 
 		versionList.getSelectionModel().select(versionList.getItems().size() - 1);

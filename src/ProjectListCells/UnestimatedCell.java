@@ -24,7 +24,7 @@ public class UnestimatedCell extends ProjectListCell {
 		hbox.getChildren().addAll(estimateButton, returnButton);
 		
 		setEstimateButton(estimateMethod);
-		setRemoveButton(unsubmittedObservableList, unestimatedObservableList);
+		setReturnButton(unsubmittedObservableList, unestimatedObservableList);
 
 	}
 	
@@ -33,7 +33,7 @@ public class UnestimatedCell extends ProjectListCell {
 		hbox.getChildren().addAll(estimateButton, returnButton);
 		
 		setEstimateButton(estimateMethod);
-		setRemoveButton(unestimatedObservableList);
+		setReturnButton(unestimatedObservableList);
 
 	}
 	
@@ -57,17 +57,22 @@ public class UnestimatedCell extends ProjectListCell {
 		});
 	}
 	
-	private void setRemoveButton(ObservableList<Project> unsubmittedObservableList, ObservableList<Project> unestimatedObservableList) {
+	private void setReturnButton(ObservableList<Project> unsubmittedObservableList, ObservableList<Project> unestimatedObservableList) {
 		returnButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				System.out.println("Return ITEM" + getItem());
+				Project p = getItem();
+
+				System.out.println("Return ITEM" + p);
 
 				try {
-					DBUtil.dbExecuteUpdate("CALL return_project('" + getItem().getID() + "')");
 
-					unsubmittedObservableList.add(getItem());
-					unestimatedObservableList.remove(getItem());
+					DBUtil.dbExecuteUpdate("CALL return_project('" + p.getID() + "')");
+					
+					
+					unestimatedObservableList.remove(p);
+					unsubmittedObservableList.add(p);
+
 
 				} catch (SQLException | ClassNotFoundException e) {
 					e.printStackTrace();
@@ -76,7 +81,7 @@ public class UnestimatedCell extends ProjectListCell {
 		});
 	}
 	
-	private void setRemoveButton(ObservableList<Project> unestimatedObservableList) {
+	private void setReturnButton(ObservableList<Project> unestimatedObservableList) {
 		returnButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {

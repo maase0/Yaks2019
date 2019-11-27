@@ -92,7 +92,6 @@ public class PM_VPE_Controller implements Initializable {
 
 	}
 
-	// Doesn't currently work, Approved_Date doesn't seem to be updated
 	public void approveProject(ActionEvent event) throws SQLException, ClassNotFoundException {
 		DBUtil.dbExecuteUpdate("CALL approve_project(" + project.getProjectID() + ")");
 		try {
@@ -110,9 +109,8 @@ public class PM_VPE_Controller implements Initializable {
 		}
 	}
 
-	// Doesn't currently work, Denied_Date doesn't seem to be updated
 	public void denyProject(ActionEvent event) throws SQLException, ClassNotFoundException {
-		DBUtil.dbExecuteUpdate("CALL deny_project(" + project.getProjectVersionID() + ")");
+		DBUtil.dbExecuteUpdate("CALL deny_project(" + project.getProjectID() + ")");
 		try {
 			Parent root = FXMLLoader.load(getClass().getResource("PM_Projects.fxml"));
 

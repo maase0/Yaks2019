@@ -7,7 +7,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.function.BiFunction;
+
 import DB.DBUtil;
+import ProjectListCells.EstimatedCell;
+import ProjectListCells.UnestimatedCell;
+import ProjectListCells.UnsubmittedCell;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -95,9 +100,11 @@ public class PM_ProjectsController implements Initializable {
 
 		// Give the list view the custom HBox so that it has per-element buttons
 		unsubmittedListView.setCellFactory(new Callback<ListView<Project>, ListCell<Project>>() {
+			
+			//BiFunction<Project, String, Boolean> edit = (a, b)-> editProject(a, b);
 			@Override
 			public ListCell<Project> call(ListView<Project> param) {
-				return new UnsubmittedCell();
+				return new UnsubmittedCell((a,b)->editProject(a,b), unsubmittedObservableList);
 			}
 		}); // https://stackoverflow.com/questions/15661500/javafx-listview-item-with-an-image-button
 
@@ -105,10 +112,12 @@ public class PM_ProjectsController implements Initializable {
 		estimatedListView.setItems(estimatedObservableList);
 
 		estimatedListView.setCellFactory(new Callback<ListView<Project>, ListCell<Project>>() {
+			
+			
 			@Override
 			public ListCell<Project> call(ListView<Project> param) {
-				return new EstimatedCell();
-			}
+				return new EstimatedCell((a,b)->viewProjectEstimate(a,b));
+			}	
 		});
 
 		unestimatedObservableList = FXCollections.observableArrayList();
@@ -117,7 +126,7 @@ public class PM_ProjectsController implements Initializable {
 		unestimatedListView.setCellFactory(new Callback<ListView<Project>, ListCell<Project>>() {
 			@Override
 			public ListCell<Project> call(ListView<Project> param) {
-				return new UnestimatedCell();
+				return new UnestimatedCell((a,b)->estimateProject(a, b), unsubmittedObservableList, unestimatedObservableList);
 			}
 		});
 
@@ -297,8 +306,7 @@ public class PM_ProjectsController implements Initializable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-	}
+		}
 
 	/**
 	 * Remove the given project from the database and the list
@@ -455,202 +463,6 @@ public class PM_ProjectsController implements Initializable {
 		return version;
 	}
 
-	/**
-	 * Generic List cell to hold all of the things common to the other list cells
-	 */
-	class ProjectListCell extends ListCell<Project> {
-		// https://stackoverflow.com/questions/15661500/javafx-listview-item-with-an-image-button
-		HBox hbox = new HBox();
-		Label label = new Label("(empty)");
-		Pane pane = new Pane();
-		ComboBox<String> versionList = new ComboBox<String>();
 
-		public ProjectListCell() {
-			super();
-			hbox.getChildren().addAll(label, pane, versionList);
-			HBox.setHgrow(pane, Priority.ALWAYS); // pushes buttons to right side
-			hbox.setSpacing(10); // keeps buttons from touching
-		}
-
-		/**
-		 * Add a button to the HBox
-		 * 
-		 * @param b
-		 */
-		protected void addButton(Button b) {
-			hbox.getChildren().add(b);
-		}
-
-		@Override
-		/**
-		 * Updates the list when something is added?
-		 */
-		protected void updateItem(Project item, boolean empty) {
-			super.updateItem(item, empty);
-			setText(null); // No text in label of super class
-			if (empty) {
-				setGraphic(null);
-			} else {
-				label.setText(item != null ? item.toString() : "<null>");
-				setGraphic(hbox);
-
-				versionList.getItems().addAll(this.getItem().getVersionStrings());
-
-			}
-
-			versionList.getSelectionModel().select(versionList.getItems().size() - 1);
-
-		}
-	}
-
-	/**
-	 * List Cell to hold buttons for unsubmitted list
-	 */
-	class UnsubmittedCell extends ProjectListCell {
-		Button edit = new Button("Edit");
-		Button remove = new Button("Remove");
-
-		public UnsubmittedCell() {
-			super();
-
-			hbox.getChildren().addAll(edit, remove);
-
-			// Edits selected project
-			edit.setOnAction(new EventHandler<ActionEvent>() {
-				@Override
-				public void handle(ActionEvent event) {
-					System.out.println("EDIT ITEM: " + getItem() + "  VERSION: "
-							+ versionList.getSelectionModel().getSelectedItem());
-
-					// Get item and Version Number from combo box
-					editProject(getItem(), versionList.getSelectionModel().getSelectedItem());
-				}
-			});
-
-			// Removes selected project
-			remove.setOnAction(new EventHandler<ActionEvent>() {
-				@Override
-				public void handle(ActionEvent event) {
-					System.out.println("REMOVE ITEM" + getItem());
-
-					try {
-						Project project = getItem();
-						String versionNumber = versionList.getSelectionModel().getSelectedItem();
-						int index = versionList.getSelectionModel().getSelectedIndex();
-
-						Alert alert = new Alert(AlertType.CONFIRMATION);
-						alert.setTitle("Remove Project");
-						alert.setHeaderText("Do you want to remove the selected version (" + versionNumber
-								+ ") or the entire project?");
-						alert.setContentText("Choose your option.");
-
-						ButtonType buttonTypeOne = new ButtonType("Remove Version " + versionNumber);
-						ButtonType buttonTypeTwo = new ButtonType("Remove Entire Project");
-						ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
-
-						alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo, buttonTypeCancel);
-
-						Optional<ButtonType> result = alert.showAndWait();
-						if (result.get() == buttonTypeOne) {
-							ResultSet rs = DBUtil.dbExecuteQuery("SELECT * FROM ProjectVersion WHERE idProject="
-									+ project.getID() + " AND Version_Number=\"" + versionNumber + "\"");
-
-							// Should only have one item, but go to latest just in case (maybe throw error?)
-							rs.last();
-
-							String versionID = rs.getString("idProjectVersion");
-
-							DBUtil.dbExecuteUpdate("CALL delete_projectVersion(" + versionID + ")");
-							versionList.getItems().remove(index);
-
-						} else if (result.get() == buttonTypeTwo) {
-							DBUtil.dbExecuteUpdate("CALL delete_project(" + project.getID() + ")");
-							unsubmittedObservableList.remove(project);
-						} else {
-							// ... user chose CANCEL or closed the dialog
-						}
-
-					} catch (SQLException | ClassNotFoundException e) {
-						e.printStackTrace();
-					}
-				}
-			});
-		}
-
-	}
-
-	/**
-	 * List Cell to hold the buttons for an unestimated project
-	 */
-	class UnestimatedCell extends ProjectListCell {
-		Button estimateButton = new Button("Estimate");
-		Button returnButton = new Button("Return");
-
-		public UnestimatedCell() {
-			super();
-
-			hbox.getChildren().addAll(estimateButton, returnButton);
-
-			estimateButton.setOnAction(new EventHandler<ActionEvent>() {
-				@Override
-				public void handle(ActionEvent event) {
-					System.out.println("Estimate ITEM: " + getItem());
-
-					/**
-					 * TODO As of right now, estimating a project as a PM, when you click discard,
-					 * it brings user to Estimator page, need to fix.
-					 */
-
-					estimateProject(getItem(), versionList.getSelectionModel().getSelectedItem());
-
-					Stage stage = (Stage) estimateButton.getScene().getWindow();
-					stage.close();
-
-				}
-			});
-
-			returnButton.setOnAction(new EventHandler<ActionEvent>() {
-				@Override
-				public void handle(ActionEvent event) {
-					System.out.println("Return ITEM" + getItem());
-
-					try {
-						DBUtil.dbExecuteUpdate("CALL return_project('" + getItem().getID() + "')");
-
-						unsubmittedObservableList.add(getItem());
-						unestimatedObservableList.remove(getItem());
-
-					} catch (SQLException | ClassNotFoundException e) {
-						e.printStackTrace();
-					}
-				}
-			});
-		}
-	}
-
-	/**
-	 * List cell to hold buttons for the Estimated Project List
-	 */
-	class EstimatedCell extends ProjectListCell {
-		Button viewButton = new Button("View Project Estimate");
-
-		public EstimatedCell() {
-			super();
-
-			hbox.getChildren().addAll(viewButton);
-
-			viewButton.setOnAction(new EventHandler<ActionEvent>() {
-				@Override
-				public void handle(ActionEvent event) {
-					System.out.println("VIEW ITEM: " + getItem());
-
-					viewProjectEstimate(getItem(), versionList.getSelectionModel().getSelectedItem());
-
-					Stage stage = (Stage) viewButton.getScene().getWindow();
-					stage.close();
-				}
-			});
-		}
-	}
 
 }

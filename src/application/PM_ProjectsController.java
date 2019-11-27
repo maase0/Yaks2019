@@ -66,6 +66,14 @@ public class PM_ProjectsController implements Initializable {
 	@FXML
 	private ListView<Project> unestimatedListView;
 	private ObservableList<Project> unestimatedObservableList;
+
+	@FXML
+	private ListView<Project> approvedListView;
+	private ObservableList<Project> approvedObservableList;
+
+	@FXML
+	private ListView<Project> deniedListView;
+	private ObservableList<Project> deniedObservableList;
 	
 
 	private ArrayList<CLIN> clinDelete = new ArrayList<CLIN>();
@@ -110,6 +118,26 @@ public class PM_ProjectsController implements Initializable {
 			}
 		});
 
+		approvedObservableList = FXCollections.observableArrayList();
+		approvedListView.setItems(approvedObservableList);
+
+		/*approvedListView.setCellFactory(new Callback<ListView<Project>, ListCell<Project>>() {
+			@Override
+			public ListCell<Project> call(ListView<Project> param) {
+				return null;
+			}
+		});*/
+
+		deniedObservableList = FXCollections.observableArrayList();
+		deniedListView.setItems(deniedObservableList);
+
+		/*deniedListView.setCellFactory(new Callback<ListView<Project>, ListCell<Project>>() {
+			@Override
+			public ListCell<Project> call(ListView<Project> param) {
+				return null;
+			}
+		});*/
+
 		// Fill each list with relevant projects from database
 		System.out.println("\nUnsubmitted Project Names");
 		fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NULL", unsubmittedObservableList);
@@ -119,8 +147,16 @@ public class PM_ProjectsController implements Initializable {
 				unestimatedObservableList);
 
 		System.out.println("\nEstimated Project Names");
-		fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NOT NULL AND Estimated_Date IS NOT NULL",
-				estimatedObservableList);
+		fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NOT NULL AND Estimated_Date IS NOT NULL AND" +
+								" Approved_Date IS NULL AND Denied_Date IS NULL", estimatedObservableList);
+
+		System.out.println("\nApproved Project Names");
+		fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NOT NULL AND Estimated_Date IS NOT NULL AND" +
+								" Approved_Date IS NOT NULL", approvedObservableList);
+
+		System.out.println("\nDenied Project Names");
+		fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NOT NULL AND Estimated_Date IS NOT NULL AND" +
+				" Denied_Date IS NOT NULL", deniedObservableList);
 	}
 
 	/**

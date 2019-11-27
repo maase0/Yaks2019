@@ -21,9 +21,23 @@ public class UnestimatedCell extends ProjectListCell {
 
 	public UnestimatedCell(BiConsumer<Project, String> estimateMethod, ObservableList<Project> unsubmittedObservableList, ObservableList<Project> unestimatedObservableList) {
 		super();
-
 		hbox.getChildren().addAll(estimateButton, returnButton);
+		
+		setEstimateButton(estimateMethod);
+		setRemoveButton(unsubmittedObservableList, unestimatedObservableList);
 
+	}
+	
+	public UnestimatedCell(BiConsumer<Project, String> estimateMethod, ObservableList<Project> unestimatedObservableList) {
+		super();
+		hbox.getChildren().addAll(estimateButton, returnButton);
+		
+		setEstimateButton(estimateMethod);
+		setRemoveButton(unestimatedObservableList);
+
+	}
+	
+	private void setEstimateButton(BiConsumer<Project, String> estimateMethod) {
 		estimateButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
@@ -41,7 +55,9 @@ public class UnestimatedCell extends ProjectListCell {
 
 			}
 		});
-
+	}
+	
+	private void setRemoveButton(ObservableList<Project> unsubmittedObservableList, ObservableList<Project> unestimatedObservableList) {
 		returnButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
@@ -51,6 +67,24 @@ public class UnestimatedCell extends ProjectListCell {
 					DBUtil.dbExecuteUpdate("CALL return_project('" + getItem().getID() + "')");
 
 					unsubmittedObservableList.add(getItem());
+					unestimatedObservableList.remove(getItem());
+
+				} catch (SQLException | ClassNotFoundException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+	
+	private void setRemoveButton(ObservableList<Project> unestimatedObservableList) {
+		returnButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				System.out.println("Return ITEM" + getItem());
+
+				try {
+					DBUtil.dbExecuteUpdate("CALL return_project('" + getItem().getID() + "')");
+
 					unestimatedObservableList.remove(getItem());
 
 				} catch (SQLException | ClassNotFoundException e) {

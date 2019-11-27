@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 import DB.DBUtil;
+import ProjectListCells.EstimatedCell;
+import ProjectListCells.UnestimatedCell;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,6 +23,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+
+import ProjectListCells.*;
 
 public class EstimatorProjectsController implements Initializable{
 
@@ -49,7 +53,7 @@ public class EstimatorProjectsController implements Initializable{
 		estimatedListView.setCellFactory(new Callback<ListView<Project>, ListCell<Project>>() {
 			@Override
 			public ListCell<Project> call(ListView<Project> param) {
-				return new EstimatorProjectsController.EstimatedCell();
+				return new EstimatedCell((a,b)->viewProjectEstimate(a,b));
 			}
 		});
 
@@ -59,41 +63,17 @@ public class EstimatorProjectsController implements Initializable{
 		notEstimatedListView.setCellFactory(new Callback<ListView<Project>, ListCell<Project>>() {
 			@Override
 			public ListCell<Project> call(ListView<Project> param) {
-				return new EstimatorProjectsController.notEstimatedCell();
+				return new UnestimatedCell((a,b)->estimateProject(a, b), notEstimatedObservableList);
 			}
 		});
 
 		System.out.println("\nNot Estimated Project Names");
-		fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NOT NULL AND Estimated_Date IS NULL",
+		ProjectHandler.fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NOT NULL AND Estimated_Date IS NULL",
 				notEstimatedObservableList);
 
 		System.out.println("\nEstimated Project Names");
-		fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NOT NULL AND Estimated_Date IS NOT NULL",
+		ProjectHandler.fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NOT NULL AND Estimated_Date IS NOT NULL",
 				estimatedObservableList);
-	}
-
-	private void fillProjectList(String query, ObservableList<Project> list) {
-		try {
-
-			ResultSet rs = DBUtil.dbExecuteQuery(query);
-
-			while (rs.next()) {
-				String projName = rs.getString("Project_Name");
-				String projID = rs.getString("idProject");
-				Project proj = new Project(projName, projID);
-				// TODO: Get the versions from the database, put them in project
-
-				list.add(proj);
-				System.out.println("\t" + projName);
-			}
-			rs.close();
-		} catch (SQLException e) {
-			System.out.println("SQL Exception putting projects in list");
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			System.out.println("ClassNotFoundException putting projects into list");
-			e.printStackTrace();
-		}
 	}
 
 	public void estimateProject(Project project, String versionNumber) {
@@ -103,7 +83,7 @@ public class EstimatorProjectsController implements Initializable{
 
 			EstimateProjectController controller = fxmlLoader.getController();
 
-			ProjectVersion version = loadProjectVersion(project, versionNumber);
+			ProjectVersion version = ProjectHandler.loadProjectVersion(project, versionNumber);
 
 			if(version == null) {
 				System.out.println("ERROR ERROR NULL ERROR ERROR");
@@ -137,7 +117,7 @@ public class EstimatorProjectsController implements Initializable{
 
 			//controller.setCameFromEstimator(false);
 
-			ProjectVersion version = loadProjectVersion(proj, versionNumber);
+			ProjectVersion version = ProjectHandler.loadProjectVersion(proj, versionNumber);
 
 			/*if (version == null) {
 				System.out.println("ERROR ERROR NULL ERROR ERROR");
@@ -163,184 +143,7 @@ public class EstimatorProjectsController implements Initializable{
 		}
 	}
 
-	public ProjectVersion loadProjectVersion(Project project, String versionNumber) {
-		ProjectVersion version = new ProjectVersion();
-
-		try {
-
-			// Get all versions of the given project
-			ResultSet rs = DBUtil.dbExecuteQuery("SELECT * FROM ProjectVersion WHERE idProject=" + project.getID()
-					+ " AND Version_Number=" + versionNumber);
-
-			// Should only have one item, but go to latest just in case (maybe throw error?)
-			rs.last();
-
-			// Set all of the project information
-			version.setName(project.getName());
-			version.setProjectManager(rs.getString("Project_Manager"));
-			version.setVersionNumber(rs.getString("Version_Number"));
-			version.setProposalNumber(rs.getString("Proposal_Number"));
-			version.setProjectID(project.getID());
-
-			// Save dates since some are null, causes errors parsing
-			// TODO: should have null checks for all fields maybe
-			String start = rs.getString("PoP_Start");
-			String end = rs.getString("PoP_End");
-			// Null check the date strings to prevent errors
-			version.setPopStart(start == null ? null : LocalDate.parse(start));
-			version.setPopEnd(end == null ? null : LocalDate.parse(end));
-
-			String versionID = rs.getString("idProjectVersion");
-			
-			
-			// Get all the clins, add them to the project
-			rs = DBUtil.dbExecuteQuery("CALL select_clins(" + versionID + ")");
-			while (rs.next()) {
-				// System.out.println(rs.getString("CLIN_Index"));
-				version.addCLIN(new CLIN(rs.getString("idCLIN"),rs.getString("CLIN_Index"),
-						rs.getString("Project_Type"), rs.getString("CLIN_Description"), rs.getString("Version_Number"),
-						rs.getString("PoP_Start"), rs.getString("PoP_End")));
-			}
-
-			// Get all the SDRLs, add them to the project
-			rs = DBUtil.dbExecuteQuery("CALL select_sdrls(" + versionID + ")");
-			while (rs.next()) {
-				// System.out.println(rs.getString("CLIN_Index"));
-				version.addSDRL(new SDRL(rs.getString("idSDRL"), rs.getString("SDRL_Title"), rs.getString("Version_Number")
-						,rs.getString("SDRL_Description")));
-			}
-
-			// Get all the SOWs, add them to the project
-			rs = DBUtil.dbExecuteQuery("CALL select_sows(" + versionID + ")");
-			while (rs.next()) {
-				// System.out.println(rs.getString("CLIN_Index"));
-				version.addSOW(new SOW(rs.getString("idSoW"), rs.getString("Reference_Number"), rs.getString("Version_Number")
-						,rs.getString("SoW_Description")));
-			}
-
-			rs.close();
-		} catch (SQLException e) {
-
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return version;
-	}
-
-	class ProjectListCell extends ListCell<Project> {
-		HBox hbox = new HBox();
-		Label label = new Label("(empty)");
-		Pane pane = new Pane();
-		ComboBox<String> versionList = new ComboBox<String>();
-
-		public ProjectListCell() {
-			super();
-			hbox.getChildren().addAll(label, pane, versionList);
-			HBox.setHgrow(pane, Priority.ALWAYS);
-			hbox.setSpacing(10);
-		}
-
-		protected void addButton(Button b) {
-			hbox.getChildren().add(b);
-		}
-
-		@Override
-		protected void updateItem(Project item, boolean empty) {
-			super.updateItem(item, empty);
-			setText(null); // No text in label of super class
-			if (empty) {
-				setGraphic(null);
-			} else {
-				label.setText(item != null ? item.toString() : "<null>");
-				setGraphic(hbox);
-
-				try {
-					ResultSet rs = DBUtil
-							.dbExecuteQuery("SELECT * FROM ProjectVersion WHERE idProject=" + getItem().getID());
-					while (rs.next()) {
-						versionList.getItems().add(rs.getString("Version_Number"));
-					}
-					rs.close();
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-
-			versionList.getSelectionModel().select(versionList.getItems().size() - 1);
-
-		}
-	}
-
-	class notEstimatedCell extends ProjectListCell {
-		Button estimateButton = new Button("Estimate");
-		Button returnButton = new Button("Return");
-
-		public notEstimatedCell() {
-			super();
-
-			hbox.getChildren().addAll(estimateButton, returnButton);
-
-			estimateButton.setOnAction(new EventHandler<ActionEvent>() {
-				@Override
-				public void handle(ActionEvent event) {
-					System.out.println("Estimate ITEM: " + getItem());
-
-					estimateProject(getItem(), versionList.getSelectionModel().getSelectedItem());
-
-					Stage stage = (Stage) estimateButton .getScene().getWindow();
-					stage.close();
-				}
-			});
-
-			returnButton.setOnAction(new EventHandler<ActionEvent>() {
-				@Override
-				public void handle(ActionEvent event) {
-					System.out.println("Return ITEM" + getItem());
-
-					try {
-						DBUtil.dbExecuteUpdate("UPDATE Project SET Submit_Date = NULL WHERE (idProject = '"
-								+ getItem().getID() + "')");
-
-						notEstimatedObservableList.remove(getItem());
-
-					} catch (SQLException | ClassNotFoundException e ) {
-						e.printStackTrace();
-					}
-
-
-				}
-			});
-		}
-	}
-
-	// estimated: view estimate
-	class EstimatedCell extends ProjectListCell {
-		Button viewButton = new Button("View Project Estimate");
-
-		public EstimatedCell() {
-			super();
-
-			hbox.getChildren().addAll(viewButton);
-
-			viewButton.setOnAction(new EventHandler<ActionEvent>() {
-				@Override
-				public void handle(ActionEvent event) {
-					System.out.println("VIEW ITEM: " + getItem());
-
-					viewProjectEstimate(getItem(), versionList.getSelectionModel().getSelectedItem());
-
-					Stage stage = (Stage) viewButton.getScene().getWindow();
-					stage.close();
-				}
-			});
-		}
-	}
-
+	
 	public void logout(ActionEvent event) {
 		try {
 			// Opens Login page

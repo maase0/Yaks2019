@@ -27,20 +27,19 @@ public class UnsubmittedCell extends ProjectListCell {
 	public UnsubmittedCell(BiConsumer<Project, String> editMethod, ObservableList<Project> unsubmittedObservableList) {
 		super();
 
-		
-		
 		hbox.getChildren().addAll(edit, remove);
 
 		// Edits selected project
 		edit.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				System.out.println("EDIT ITEM: " + getItem() + "  VERSION: "
-						+ versionList.getSelectionModel().getSelectedItem());
+				System.out.println(
+						"EDIT ITEM: " + getItem() + "  VERSION: " + versionList.getSelectionModel().getSelectedItem());
 
 				// Get item and Version Number from combo box
 				editMethod.accept(getItem(), versionList.getSelectionModel().getSelectedItem());
-				//editMethod.apply((getItem(), versionList.getSelectionModel().getSelectedItem()));
+				// editMethod.apply((getItem(),
+				// versionList.getSelectionModel().getSelectedItem()));
 			}
 		});
 
@@ -55,11 +54,16 @@ public class UnsubmittedCell extends ProjectListCell {
 					String versionNumber = versionList.getSelectionModel().getSelectedItem();
 					int index = versionList.getSelectionModel().getSelectedIndex();
 
+					String warning = "";
+					if (versionList.getItems().size() == 1) {
+						warning = "This project has only one version! Removing this version will remove the entire project. ";
+					}
+
 					Alert alert = new Alert(AlertType.CONFIRMATION);
 					alert.setTitle("Remove Project");
 					alert.setHeaderText("Do you want to remove the selected version (" + versionNumber
 							+ ") or the entire project?");
-					alert.setContentText("Choose your option.");
+					alert.setContentText(warning + "Choose your option.");
 
 					ButtonType buttonTypeOne = new ButtonType("Remove Version " + versionNumber);
 					ButtonType buttonTypeTwo = new ButtonType("Remove Entire Project");
@@ -77,8 +81,13 @@ public class UnsubmittedCell extends ProjectListCell {
 
 						String versionID = rs.getString("idProjectVersion");
 
-						DBUtil.dbExecuteUpdate("CALL delete_projectVersion(" + versionID + ")");
-						versionList.getItems().remove(index);
+						if (versionList.getItems().size() == 1) {
+							DBUtil.dbExecuteUpdate("CALL delete_project(" + project.getID() + ")");
+							unsubmittedObservableList.remove(project);
+						} else {
+							DBUtil.dbExecuteUpdate("CALL delete_projectVersion(" + versionID + ")");
+							versionList.getItems().remove(index);
+						}
 
 					} else if (result.get() == buttonTypeTwo) {
 						DBUtil.dbExecuteUpdate("CALL delete_project(" + project.getID() + ")");

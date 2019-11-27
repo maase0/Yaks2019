@@ -25,14 +25,14 @@
                   		<Insets />
                		</BorderPane.margin>
                <left>
-               			<Button fx:id="approveButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" styleClass="btn-save" text="Approve" BorderPane.alignment="CENTER">
+               			<Button fx:id="approveButton" mnemonicParsing="false" onAction="#approveProject" prefHeight="25.0" prefWidth="80.0" styleClass="btn-save" text="Approve" BorderPane.alignment="CENTER">
                				<BorderPane.margin>
                         		<Insets />
                      		</BorderPane.margin>
                			</Button>
                </left>
                <right>
-	                  	<Button fx:id="denyButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" styleClass="btn-discard" text="Deny" BorderPane.alignment="CENTER">
+	                  	<Button fx:id="denyButton" mnemonicParsing="false" onAction="#denyProject" prefHeight="25.0" prefWidth="70.0" styleClass="btn-discard" text="Deny" BorderPane.alignment="CENTER">
 	                     	<BorderPane.margin>
 	                        	<Insets right="10.0" />
 	                     	</BorderPane.margin>

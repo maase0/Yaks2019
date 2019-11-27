@@ -1,5 +1,6 @@
 package application;
 
+import DB.DBUtil;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -14,6 +15,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class PM_VPE_Controller implements Initializable {
@@ -90,12 +92,38 @@ public class PM_VPE_Controller implements Initializable {
 
 	}
 
-	public void approveProject(ActionEvent event) {
+	public void approveProject(ActionEvent event) throws SQLException, ClassNotFoundException {
+		DBUtil.dbExecuteUpdate("CALL approve_project(" + project.getProjectID() + ")");
+		try {
+			Parent root = FXMLLoader.load(getClass().getResource("PM_Projects.fxml"));
 
+			Stage pmProjectsStage = new Stage();
+			pmProjectsStage.setTitle("Estimation Suite - Product Manager - Projects");
+			pmProjectsStage.setScene(new Scene(root));
+			pmProjectsStage.show();
+
+			Stage stage = (Stage) approveButton.getScene().getWindow();
+			stage.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
-	public void denyProject(ActionEvent event) {
+	public void denyProject(ActionEvent event) throws SQLException, ClassNotFoundException {
+		DBUtil.dbExecuteUpdate("CALL deny_project(" + project.getProjectVersionID() + ")");
+		try {
+			Parent root = FXMLLoader.load(getClass().getResource("PM_Projects.fxml"));
 
+			Stage pmProjectsStage = new Stage();
+			pmProjectsStage.setTitle("Estimation Suite - Product Manager - Projects");
+			pmProjectsStage.setScene(new Scene(root));
+			pmProjectsStage.show();
+
+			Stage stage = (Stage) denyButton.getScene().getWindow();
+			stage.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void viewCLINestimation(ActionEvent event) {

@@ -62,6 +62,7 @@ public class ProjectListCell extends ListCell<Project> {
 			setGraphic(hbox);
 
 			//Needed, otherwise box can have invalid values??
+			//when returned, gets an extra version 1, goes away when application opened again
 			//TODO: why?
 			versionList.getItems().clear();
 			

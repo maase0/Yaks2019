@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import DB.DBUtil;
 import javafx.collections.FXCollections;
@@ -16,10 +17,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.stage.Stage;
 
 public class PM_EditProjectController implements Initializable {
@@ -437,15 +442,36 @@ public class PM_EditProjectController implements Initializable {
 	 */
 	public void discardNewChanges(ActionEvent event) {
 		try {
-			Parent root = FXMLLoader.load(getClass().getResource("PM_Projects.fxml"));
+			
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Remove Project");
+			alert.setHeaderText("This will discard any unsaved changes.");
+			alert.setContentText("Are you sure you want to exit?");
 
-			Stage pmProjectsStage = new Stage();
-			pmProjectsStage.setTitle("Estimation Suite - Product Manager - Projects");
-			pmProjectsStage.setScene(new Scene(root));
-			pmProjectsStage.show();
+			ButtonType buttonTypeOne = new ButtonType("Discard Changes ");
+			ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
 
-			Stage stage = (Stage) discardChangesButton.getScene().getWindow();
-			stage.close();
+			alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeCancel);
+
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.get() == buttonTypeOne) {
+				
+				Parent root = FXMLLoader.load(getClass().getResource("PM_Projects.fxml"));
+
+				Stage pmProjectsStage = new Stage();
+				pmProjectsStage.setTitle("Estimation Suite - Product Manager - Projects");
+				pmProjectsStage.setScene(new Scene(root));
+				pmProjectsStage.show();
+
+				Stage stage = (Stage) discardChangesButton.getScene().getWindow();
+				stage.close();
+			} else {
+				// ... user chose CANCEL or closed the dialog
+			}
+
+			
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

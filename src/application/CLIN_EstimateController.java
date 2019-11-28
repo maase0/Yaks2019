@@ -23,6 +23,8 @@ public class CLIN_EstimateController implements Initializable {
     @FXML
     private Button removeOrgButton;
 
+    private ProjectVersion project;
+    
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -61,6 +63,10 @@ public class CLIN_EstimateController implements Initializable {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("EstimateProject.fxml"));
             Parent root = fxmlLoader.load();
 
+            EstimateProjectController controller = fxmlLoader.getController();
+            controller.setProjectVersion(project);
+            
+            
             Stage closeStage = new Stage();
             closeStage.setTitle("Estimation Suite - Estimator - Estimate Project");
             closeStage.setScene(new Scene(root));
@@ -75,5 +81,9 @@ public class CLIN_EstimateController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    public void setProjectVersion(ProjectVersion project) {
+    	this.project = project;
     }
 }

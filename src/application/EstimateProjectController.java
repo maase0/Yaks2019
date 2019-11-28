@@ -108,6 +108,9 @@ public class EstimateProjectController implements Initializable {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CLIN_Estimate.fxml"));
 			Parent root = fxmlLoader.load();
 
+			CLIN_EstimateController controller = fxmlLoader.getController();
+			controller.setProjectVersion(project);
+			
 			Stage clinEstimateStage = new Stage();
 			clinEstimateStage.setTitle("Estimation Suite - Estimator - Estimate Project");
 			clinEstimateStage.setScene(new Scene(root));
@@ -121,7 +124,7 @@ public class EstimateProjectController implements Initializable {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		} 
 	}
 
 	public void setProjectVersion(ProjectVersion proj) {

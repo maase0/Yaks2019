@@ -62,6 +62,8 @@ public class PM_ProjectsController implements Initializable, Refreshable {
 	private Text editBtn2;
 	@FXML
 	private Text discardBtn2;
+	@FXML
+	private Button refreshButton;
 
 	// Project list fields
 	Project proj;

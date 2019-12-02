@@ -11,10 +11,6 @@ import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-/**
- * Created by Johannes on 23.05.16.
- *
- */
 
 public class SDRLController extends ListCell<SDRL> implements Initializable {
 
@@ -68,6 +64,7 @@ public class SDRLController extends ListCell<SDRL> implements Initializable {
         if(sdrl != null) {
             sdrlName.setText((sdrl.getName()));
             sdrlInfo.setText((sdrl.getSdrlInfo()));
+            sdrlVersion.setText(sdrl.getVersion());
         }
     }
 

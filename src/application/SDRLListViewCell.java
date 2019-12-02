@@ -12,10 +12,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import java.io.IOException;
 
-/**
- * Created by Johannes on 23.05.16.
- *
- */
 
 public class SDRLListViewCell extends ListCell<SDRL> {
 

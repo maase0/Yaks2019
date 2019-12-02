@@ -83,7 +83,7 @@ public class CLIN_EstimateController implements Initializable {
         }
     }
 
-    public void serProjectVersion(ProjectVersion project) {
+    public void setProjectVersion(ProjectVersion project) {
         this.project = project;
     }
 }

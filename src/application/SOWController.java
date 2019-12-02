@@ -12,10 +12,6 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-/**
- * Created by Johannes on 23.05.16.
- *
- */
 
 public class SOWController extends ListCell<SOW> implements Initializable {
 

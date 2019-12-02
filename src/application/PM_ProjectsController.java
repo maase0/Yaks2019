@@ -42,6 +42,8 @@ import javafx.util.Callback;
 
 public class PM_ProjectsController implements Initializable, Refreshable {
 
+	private Refreshable prevController;
+
 	@FXML
 	private Button newProjectBtn;
 	@FXML
@@ -101,92 +103,96 @@ public class PM_ProjectsController implements Initializable, Refreshable {
 
 	public void refresh() {
 		// Initialize the observable list, give it to the list view
-				unsubmittedObservableList = FXCollections.observableArrayList();
-				unsubmittedListView.setItems(unsubmittedObservableList);
+		unsubmittedObservableList = FXCollections.observableArrayList();
+		unsubmittedListView.setItems(unsubmittedObservableList);
 
-				// Give the list view the custom HBox so that it has per-element buttons
-				unsubmittedListView.setCellFactory(new Callback<ListView<Project>, ListCell<Project>>() {
-					
-					//BiFunction<Project, String, Boolean> edit = (a, b)-> editProject(a, b);
-					@Override
-					public ListCell<Project> call(ListView<Project> param) {
-						return new UnsubmittedCell((a,b)->editProject(a,b), unsubmittedObservableList);
-					}
-				}); // https://stackoverflow.com/questions/15661500/javafx-listview-item-with-an-image-button
+		// Give the list view the custom HBox so that it has per-element buttons
+		unsubmittedListView.setCellFactory(new Callback<ListView<Project>, ListCell<Project>>() {
 
-				estimatedObservableList = FXCollections.observableArrayList();
-				estimatedListView.setItems(estimatedObservableList);
+			// BiFunction<Project, String, Boolean> edit = (a, b)-> editProject(a, b);
+			@Override
+			public ListCell<Project> call(ListView<Project> param) {
+				return new UnsubmittedCell((a, b) -> editProject(a, b), unsubmittedObservableList);
+			}
+		}); // https://stackoverflow.com/questions/15661500/javafx-listview-item-with-an-image-button
 
-				estimatedListView.setCellFactory(new Callback<ListView<Project>, ListCell<Project>>() {
-					
-					
-					@Override
-					public ListCell<Project> call(ListView<Project> param) {
-						return new EstimatedCell((a,b)->viewProjectEstimate(a,b));
-					}	
-				});
+		estimatedObservableList = FXCollections.observableArrayList();
+		estimatedListView.setItems(estimatedObservableList);
 
-				unestimatedObservableList = FXCollections.observableArrayList();
-				unestimatedListView.setItems(unestimatedObservableList);
+		estimatedListView.setCellFactory(new Callback<ListView<Project>, ListCell<Project>>() {
 
-				unestimatedListView.setCellFactory(new Callback<ListView<Project>, ListCell<Project>>() {
-					@Override
-					public ListCell<Project> call(ListView<Project> param) {
-						return new UnestimatedCell((a,b)->estimateProject(a, b), unsubmittedObservableList, unestimatedObservableList);
-					}
-				});
+			@Override
+			public ListCell<Project> call(ListView<Project> param) {
+				return new EstimatedCell((a, b) -> viewProjectEstimate(a, b));
+			}
+		});
 
-				approvedObservableList = FXCollections.observableArrayList();
-				approvedListView.setItems(approvedObservableList);
+		unestimatedObservableList = FXCollections.observableArrayList();
+		unestimatedListView.setItems(unestimatedObservableList);
 
-				/*
-				 * approvedListView.setCellFactory(new Callback<ListView<Project>,
-				 * ListCell<Project>>() {
-				 * 
-				 * @Override public ListCell<Project> call(ListView<Project> param) { return
-				 * null; } });
-				 */
-
-				deniedObservableList = FXCollections.observableArrayList();
-				deniedListView.setItems(deniedObservableList);
-
-				/*
-				 * deniedListView.setCellFactory(new Callback<ListView<Project>,
-				 * ListCell<Project>>() {
-				 * 
-				 * @Override public ListCell<Project> call(ListView<Project> param) { return
-				 * null; } });
-				 */
-
-				// Fill each list with relevant projects from database
-				System.out.println("\nUnsubmitted Project Names");
-				ProjectHandler.fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NULL", unsubmittedObservableList);
-
-				System.out.println("\nUnestimated Project Names");
-				ProjectHandler.fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NOT NULL AND Estimated_Date IS NULL",
+		unestimatedListView.setCellFactory(new Callback<ListView<Project>, ListCell<Project>>() {
+			@Override
+			public ListCell<Project> call(ListView<Project> param) {
+				return new UnestimatedCell((a, b) -> estimateProject(a, b), unsubmittedObservableList,
 						unestimatedObservableList);
+			}
+		});
 
-				System.out.println("\nEstimated Project Names");
-				ProjectHandler.fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NOT NULL AND Estimated_Date IS NOT NULL AND"
-						+ " Approved_Date IS NULL AND Denied_Date IS NULL", estimatedObservableList);
+		approvedObservableList = FXCollections.observableArrayList();
+		approvedListView.setItems(approvedObservableList);
 
-				System.out.println("\nApproved Project Names");
-				ProjectHandler.fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NOT NULL AND Estimated_Date IS NOT NULL AND"
-						+ " Approved_Date IS NOT NULL", approvedObservableList);
+		/*
+		 * approvedListView.setCellFactory(new Callback<ListView<Project>,
+		 * ListCell<Project>>() {
+		 * 
+		 * @Override public ListCell<Project> call(ListView<Project> param) { return
+		 * null; } });
+		 */
 
-				System.out.println("\nDenied Project Names");
-				ProjectHandler.fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NOT NULL AND Estimated_Date IS NOT NULL AND"
-						+ " Denied_Date IS NOT NULL", deniedObservableList);
+		deniedObservableList = FXCollections.observableArrayList();
+		deniedListView.setItems(deniedObservableList);
+
+		/*
+		 * deniedListView.setCellFactory(new Callback<ListView<Project>,
+		 * ListCell<Project>>() {
+		 * 
+		 * @Override public ListCell<Project> call(ListView<Project> param) { return
+		 * null; } });
+		 */
+
+		// Fill each list with relevant projects from database
+		System.out.println("\nUnsubmitted Project Names");
+		ProjectHandler.fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NULL", unsubmittedObservableList);
+
+		System.out.println("\nUnestimated Project Names");
+		ProjectHandler.fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NOT NULL AND Estimated_Date IS NULL",
+				unestimatedObservableList);
+
+		System.out.println("\nEstimated Project Names");
+		ProjectHandler.fillProjectList(
+				"SELECT * FROM Project WHERE Submit_Date IS NOT NULL AND Estimated_Date IS NOT NULL AND"
+						+ " Approved_Date IS NULL AND Denied_Date IS NULL",
+				estimatedObservableList);
+
+		System.out.println("\nApproved Project Names");
+		ProjectHandler.fillProjectList(
+				"SELECT * FROM Project WHERE Submit_Date IS NOT NULL AND Estimated_Date IS NOT NULL AND"
+						+ " Approved_Date IS NOT NULL",
+				approvedObservableList);
+
+		System.out.println("\nDenied Project Names");
+		ProjectHandler.fillProjectList(
+				"SELECT * FROM Project WHERE Submit_Date IS NOT NULL AND Estimated_Date IS NOT NULL AND"
+						+ " Denied_Date IS NOT NULL",
+				deniedObservableList);
 	}
-	
-	
+
 	/**
 	 * Fills the given list with projects retrieved with the given query
 	 *
 	 * @param query The query to retrieve projects from the database
 	 * @param list  The list to fill
 	 */
-	
 
 	/**
 	 * Sets the Project observable list to allow the editor to add to the list view
@@ -203,8 +209,7 @@ public class PM_ProjectsController implements Initializable, Refreshable {
 	 * @param event
 	 */
 	public void logout(ActionEvent event) {
-		StageHandler.closeCurrentStage();
-		StageHandler.showCurrentStage();
+		closeCurrent();
 	}
 
 	/**
@@ -215,11 +220,11 @@ public class PM_ProjectsController implements Initializable, Refreshable {
 	public void addNewProject(ActionEvent event) {
 		try {
 			// Opens New Project page
-		//	Parent root = FXMLLoader.load(getClass().getResource("PM_NewProject.fxml"));
+			// Parent root = FXMLLoader.load(getClass().getResource("PM_NewProject.fxml"));
 
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("PM_NewProject.fxml"));
 			Parent root = fxmlLoader.load();
-			
+
 			PM_NewProjectController controller = fxmlLoader.getController();
 			controller.setPreviousController(this);
 			Stage pmNewProjectStage = new Stage();
@@ -231,10 +236,10 @@ public class PM_ProjectsController implements Initializable, Refreshable {
 
 			StageHandler.addStage(pmNewProjectStage);
 			StageHandler.hidePreviousStage();
-			
+
 			// Closes PM Page
-			//Stage stage = (Stage) newProjectBtn.getScene().getWindow();
-			//stage.close();
+			// Stage stage = (Stage) newProjectBtn.getScene().getWindow();
+			// stage.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -275,13 +280,13 @@ public class PM_ProjectsController implements Initializable, Refreshable {
 			StageHandler.addStage(pmNewProjectStage);
 			StageHandler.hidePreviousStage();
 			// Closes PM Page
-			//Stage stage = (Stage) newProjectBtn.getScene().getWindow();
-			//stage.close();
+			// Stage stage = (Stage) newProjectBtn.getScene().getWindow();
+			// stage.close();
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		}
+	}
 
 	/**
 	 * Remove the given project from the database and the list
@@ -314,8 +319,6 @@ public class PM_ProjectsController implements Initializable, Refreshable {
 
 			EstimateProjectController controller = fxmlLoader.getController();
 
-
-			
 			ProjectVersion version = ProjectHandler.loadProjectVersion(project, versionNumber);
 
 			if (version == null) {
@@ -323,7 +326,6 @@ public class PM_ProjectsController implements Initializable, Refreshable {
 			}
 			controller.setProjectVersion(version);
 			controller.setPreviousController(this);
-
 
 			Stage estimateProjectStage = new Stage();
 			estimateProjectStage.setTitle("Estimation Suite - Estimator - Estimate Project");
@@ -334,7 +336,7 @@ public class PM_ProjectsController implements Initializable, Refreshable {
 			estimateProjectStage.show();
 			estimateProjectStage.setResizable(true);
 			estimateProjectStage.sizeToScene();
-			
+
 			StageHandler.addStage(estimateProjectStage);
 			StageHandler.hidePreviousStage();
 
@@ -377,8 +379,13 @@ public class PM_ProjectsController implements Initializable, Refreshable {
 		}
 	}
 
-	
+	public void setPreviousController(Refreshable controller) {
+		this.prevController = controller;
+	}
 
-
-
+	private void closeCurrent() {
+		prevController.refresh();
+		StageHandler.showPreviousStage();
+		StageHandler.closeCurrentStage();
+	}
 }

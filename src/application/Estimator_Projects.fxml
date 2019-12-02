@@ -47,17 +47,6 @@
                     </BorderPane.margin>
                 </ImageView>
             </left>
-            <center>
-                <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                    <children>
-                        <Label layoutX="53.0" layoutY="19.0" text="Estimation Tool">
-                            <font>
-                                <Font size="30.0" />
-                            </font>
-                        </Label>
-                    </children>
-                </AnchorPane>
-            </center>
             <right>
                 <BorderPane prefHeight="73.0" prefWidth="170.0" BorderPane.alignment="CENTER">
                     <center>
@@ -82,6 +71,20 @@
                     </BorderPane.margin>
                 </BorderPane>
             </right>
+         <center>
+            <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <center>
+                        <Label text="Estimation Tool" BorderPane.alignment="CENTER">
+                            <font>
+                                <Font size="30.0" />
+                            </font>
+                        </Label>
+               </center>
+               <bottom>
+                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="75.0" styleClass="btn-rich-blue" text="Refresh" BorderPane.alignment="CENTER" />
+               </bottom>
+            </BorderPane>
+         </center>
         </BorderPane>
     </top>
 </BorderPane>

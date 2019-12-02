@@ -109,8 +109,7 @@ public class EstimateProjectController implements Initializable {
 			Parent root = fxmlLoader.load();
 
 			CLIN_EstimateController controller = fxmlLoader.getController();
-
-			controller.serProjectVersion(project);
+			controller.setProjectVersion(project);
 
 			Stage clinEstimateStage = new Stage();
 			clinEstimateStage.setTitle("Estimation Suite - Estimator - Estimate Project");

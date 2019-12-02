@@ -7,7 +7,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.function.BiFunction;
+
 import DB.DBUtil;
+import ProjectListCells.EstimatedCell;
+import ProjectListCells.UnestimatedCell;
+import ProjectListCells.UnsubmittedCell;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -95,9 +100,11 @@ public class PM_ProjectsController implements Initializable {
 
 		// Give the list view the custom HBox so that it has per-element buttons
 		unsubmittedListView.setCellFactory(new Callback<ListView<Project>, ListCell<Project>>() {
+			
+			//BiFunction<Project, String, Boolean> edit = (a, b)-> editProject(a, b);
 			@Override
 			public ListCell<Project> call(ListView<Project> param) {
-				return new UnsubmittedCell();
+				return new UnsubmittedCell((a,b)->editProject(a,b), unsubmittedObservableList);
 			}
 		}); // https://stackoverflow.com/questions/15661500/javafx-listview-item-with-an-image-button
 
@@ -105,10 +112,12 @@ public class PM_ProjectsController implements Initializable {
 		estimatedListView.setItems(estimatedObservableList);
 
 		estimatedListView.setCellFactory(new Callback<ListView<Project>, ListCell<Project>>() {
+			
+			
 			@Override
 			public ListCell<Project> call(ListView<Project> param) {
-				return new EstimatedCell();
-			}
+				return new EstimatedCell((a,b)->viewProjectEstimate(a,b));
+			}	
 		});
 
 		unestimatedObservableList = FXCollections.observableArrayList();
@@ -117,7 +126,7 @@ public class PM_ProjectsController implements Initializable {
 		unestimatedListView.setCellFactory(new Callback<ListView<Project>, ListCell<Project>>() {
 			@Override
 			public ListCell<Project> call(ListView<Project> param) {
-				return new UnestimatedCell();
+				return new UnestimatedCell((a,b)->estimateProject(a, b), unsubmittedObservableList, unestimatedObservableList);
 			}
 		});
 
@@ -145,22 +154,22 @@ public class PM_ProjectsController implements Initializable {
 
 		// Fill each list with relevant projects from database
 		System.out.println("\nUnsubmitted Project Names");
-		fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NULL", unsubmittedObservableList);
+		ProjectHandler.fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NULL", unsubmittedObservableList);
 
 		System.out.println("\nUnestimated Project Names");
-		fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NOT NULL AND Estimated_Date IS NULL",
+		ProjectHandler.fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NOT NULL AND Estimated_Date IS NULL",
 				unestimatedObservableList);
 
 		System.out.println("\nEstimated Project Names");
-		fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NOT NULL AND Estimated_Date IS NOT NULL AND"
+		ProjectHandler.fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NOT NULL AND Estimated_Date IS NOT NULL AND"
 				+ " Approved_Date IS NULL AND Denied_Date IS NULL", estimatedObservableList);
 
 		System.out.println("\nApproved Project Names");
-		fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NOT NULL AND Estimated_Date IS NOT NULL AND"
+		ProjectHandler.fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NOT NULL AND Estimated_Date IS NOT NULL AND"
 				+ " Approved_Date IS NOT NULL", approvedObservableList);
 
 		System.out.println("\nDenied Project Names");
-		fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NOT NULL AND Estimated_Date IS NOT NULL AND"
+		ProjectHandler.fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NOT NULL AND Estimated_Date IS NOT NULL AND"
 				+ " Denied_Date IS NOT NULL", deniedObservableList);
 	}
 
@@ -170,37 +179,7 @@ public class PM_ProjectsController implements Initializable {
 	 * @param query The query to retrieve projects from the database
 	 * @param list  The list to fill
 	 */
-	private void fillProjectList(String query, ObservableList<Project> list) {
-		try {
-
-			ResultSet rs = DBUtil.dbExecuteQuery(query);
-
-			// Go through each project in the result set
-			while (rs.next()) {
-				String projName = rs.getString("Project_Name");
-				String projID = rs.getString("idProject"); // ID is stored for later use to get project versions
-				Project proj = new Project(projName, projID);
-				// TODO: Get the versions from the database, put them in project
-
-				ResultSet rs2 = DBUtil.dbExecuteQuery("SELECT * FROM ProjectVersion WHERE idProject=" + proj.getID());
-				while (rs2.next()) {
-					proj.addVersion(rs2.getString("Version_Number"));
-				}
-				rs2.close();
-
-				list.add(proj); // Add the project to the list
-				System.out.println("\t" + projName);
-			}
-
-			rs.close();
-		} catch (SQLException e) {
-			System.out.println("SQL Exception putting projects in list");
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			System.out.println("ClassNotFoundException putting projects into list");
-			e.printStackTrace();
-		}
-	}
+	
 
 	/**
 	 * Sets the Project observable list to allow the editor to add to the list view
@@ -282,7 +261,7 @@ public class PM_ProjectsController implements Initializable {
 
 			PM_EditProjectController controller = fxmlLoader.getController();
 
-			ProjectVersion version = loadProjectVersion(project, versionNumber);
+			ProjectVersion version = ProjectHandler.loadProjectVersion(project, versionNumber);
 
 			controller.setProject(version);
 
@@ -297,8 +276,7 @@ public class PM_ProjectsController implements Initializable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-	}
+		}
 
 	/**
 	 * Remove the given project from the database and the list
@@ -333,7 +311,7 @@ public class PM_ProjectsController implements Initializable {
 
 			controller.setCameFromEstimator(false);
 
-			ProjectVersion version = loadProjectVersion(project, versionNumber);
+			ProjectVersion version = ProjectHandler.loadProjectVersion(project, versionNumber);
 
 			if (version == null) {
 				System.out.println("ERROR ERROR NULL ERROR ERROR");
@@ -365,7 +343,7 @@ public class PM_ProjectsController implements Initializable {
 
 			// controller.setCameFromEstimator(false);
 
-			ProjectVersion version = loadProjectVersion(proj, versionNumber);
+			ProjectVersion version = ProjectHandler.loadProjectVersion(proj, versionNumber);
 
 			/*
 			 * if (version == null) { System.out.println("ERROR ERROR NULL ERROR ERROR"); }
@@ -390,267 +368,8 @@ public class PM_ProjectsController implements Initializable {
 		}
 	}
 
-	public ProjectVersion loadProjectVersion(Project project, String versionNumber) {
-		ProjectVersion version = new ProjectVersion();
+	
 
-		try {
 
-			// Get all versions of the given project
-			ResultSet rs = DBUtil.dbExecuteQuery("SELECT * FROM ProjectVersion WHERE idProject=" + project.getID()
-					+ " AND Version_Number=\"" + versionNumber + "\"");
-
-			// Should only have one item, but go to latest just in case (maybe throw error?)
-			rs.last();
-
-			String versionID = rs.getString("idProjectVersion");
-
-			// Set all of the project information
-			version.setName(project.getName());
-			version.setProjectManager(rs.getString("Project_Manager"));
-			version.setVersionNumber(rs.getString("Version_Number"));
-			version.setProposalNumber(rs.getString("Proposal_Number"));
-			version.setProjectID(project.getID());
-			version.setProjectVersionID(rs.getString("idProjectVersion"));
-			// Save dates since some are null, causes errors parsing
-			// TODO: should have null checks for all fields maybe
-			String start = rs.getString("PoP_Start");
-			String end = rs.getString("PoP_End");
-			// Null check the date strings to prevent errors
-			version.setPopStart(start == null ? null : LocalDate.parse(start));
-			version.setPopEnd(end == null ? null : LocalDate.parse(end));
-
-			// Get all the clins, add them to the project
-			rs = DBUtil.dbExecuteQuery("CALL select_clins(" + versionID + ")");
-			while (rs.next()) {
-				// System.out.println(rs.getString("CLIN_Index"));
-
-				version.addCLIN(new CLIN(rs.getString("idCLIN"), rs.getString("CLIN_Index"),
-						rs.getString("Version_Number"), rs.getString("Project_Type"), rs.getString("CLIN_Description"),
-						rs.getString("PoP_Start"), rs.getString("PoP_End")));
-			}
-
-			// Get all the SDRLs, add them to the project
-			rs = DBUtil.dbExecuteQuery("CALL select_sdrls(" + versionID + ")");
-			while (rs.next()) {
-				// System.out.println(rs.getString("CLIN_Index"));
-				version.addSDRL(new SDRL(rs.getString("idSDRL"), rs.getString("SDRL_Title"),
-						rs.getString("Version_Number"), rs.getString("SDRL_Description")));
-			}
-
-			// Get all the SOWs, add them to the project
-			rs = DBUtil.dbExecuteQuery("CALL select_sows(" + versionID + ")");
-			while (rs.next()) {
-				// System.out.println(rs.getString("CLIN_Index"));
-				version.addSOW(new SOW(rs.getString("idSoW"), rs.getString("Reference_Number"),
-						rs.getString("Version_Number"), rs.getString("SoW_Description")));
-			}
-
-			rs.close();
-		} catch (SQLException e) {
-
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return version;
-	}
-
-	/**
-	 * Generic List cell to hold all of the things common to the other list cells
-	 */
-	class ProjectListCell extends ListCell<Project> {
-		// https://stackoverflow.com/questions/15661500/javafx-listview-item-with-an-image-button
-		HBox hbox = new HBox();
-		Label label = new Label("(empty)");
-		Pane pane = new Pane();
-		ComboBox<String> versionList = new ComboBox<String>();
-
-		public ProjectListCell() {
-			super();
-			hbox.getChildren().addAll(label, pane, versionList);
-			HBox.setHgrow(pane, Priority.ALWAYS); // pushes buttons to right side
-			hbox.setSpacing(10); // keeps buttons from touching
-		}
-
-		/**
-		 * Add a button to the HBox
-		 * 
-		 * @param b
-		 */
-		protected void addButton(Button b) {
-			hbox.getChildren().add(b);
-		}
-
-		@Override
-		/**
-		 * Updates the list when something is added?
-		 */
-		protected void updateItem(Project item, boolean empty) {
-			super.updateItem(item, empty);
-			setText(null); // No text in label of super class
-			if (empty) {
-				setGraphic(null);
-			} else {
-				label.setText(item != null ? item.toString() : "<null>");
-				setGraphic(hbox);
-
-				versionList.getItems().addAll(this.getItem().getVersionStrings());
-
-			}
-
-			versionList.getSelectionModel().select(versionList.getItems().size() - 1);
-
-		}
-	}
-
-	/**
-	 * List Cell to hold buttons for unsubmitted list
-	 */
-	class UnsubmittedCell extends ProjectListCell {
-		Button edit = new Button("Edit");
-		Button remove = new Button("Remove");
-
-		public UnsubmittedCell() {
-			super();
-
-			hbox.getChildren().addAll(edit, remove);
-
-			// Edits selected project
-			edit.setOnAction(new EventHandler<ActionEvent>() {
-				@Override
-				public void handle(ActionEvent event) {
-					System.out.println("EDIT ITEM: " + getItem() + "  VERSION: "
-							+ versionList.getSelectionModel().getSelectedItem());
-
-					// Get item and Version Number from combo box
-					editProject(getItem(), versionList.getSelectionModel().getSelectedItem());
-				}
-			});
-
-			// Removes selected project
-			remove.setOnAction(new EventHandler<ActionEvent>() {
-				@Override
-				public void handle(ActionEvent event) {
-					System.out.println("REMOVE ITEM" + getItem());
-
-					try {
-						Project project = getItem();
-						String versionNumber = versionList.getSelectionModel().getSelectedItem();
-						int index = versionList.getSelectionModel().getSelectedIndex();
-
-						Alert alert = new Alert(AlertType.CONFIRMATION);
-						alert.setTitle("Remove Project");
-						alert.setHeaderText("Do you want to remove the selected version (" + versionNumber
-								+ ") or the entire project?");
-						alert.setContentText("Choose your option.");
-
-						ButtonType buttonTypeOne = new ButtonType("Remove Version " + versionNumber);
-						ButtonType buttonTypeTwo = new ButtonType("Remove Entire Project");
-						ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
-
-						alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo, buttonTypeCancel);
-
-						Optional<ButtonType> result = alert.showAndWait();
-						if (result.get() == buttonTypeOne) {
-							ResultSet rs = DBUtil.dbExecuteQuery("SELECT * FROM ProjectVersion WHERE idProject="
-									+ project.getID() + " AND Version_Number=\"" + versionNumber + "\"");
-
-							// Should only have one item, but go to latest just in case (maybe throw error?)
-							rs.last();
-
-							String versionID = rs.getString("idProjectVersion");
-
-							DBUtil.dbExecuteUpdate("CALL delete_projectVersion(" + versionID + ")");
-							versionList.getItems().remove(index);
-
-						} else if (result.get() == buttonTypeTwo) {
-							DBUtil.dbExecuteUpdate("CALL delete_project(" + project.getID() + ")");
-							unsubmittedObservableList.remove(project);
-						} else {
-							// ... user chose CANCEL or closed the dialog
-						}
-
-					} catch (SQLException | ClassNotFoundException e) {
-						e.printStackTrace();
-					}
-				}
-			});
-		}
-
-	}
-
-	/**
-	 * List Cell to hold the buttons for an unestimated project
-	 */
-	class UnestimatedCell extends ProjectListCell {
-		Button estimateButton = new Button("Estimate");
-		Button returnButton = new Button("Return");
-
-		public UnestimatedCell() {
-			super();
-
-			hbox.getChildren().addAll(estimateButton, returnButton);
-
-			estimateButton.setOnAction(new EventHandler<ActionEvent>() {
-				@Override
-				public void handle(ActionEvent event) {
-					System.out.println("Estimate ITEM: " + getItem());
-
-					/**
-					 * TODO As of right now, estimating a project as a PM, when you click discard,
-					 * it brings user to Estimator page, need to fix.
-					 */
-
-					estimateProject(getItem(), versionList.getSelectionModel().getSelectedItem());
-
-					Stage stage = (Stage) estimateButton.getScene().getWindow();
-					stage.close();
-
-				}
-			});
-
-			returnButton.setOnAction(new EventHandler<ActionEvent>() {
-				@Override
-				public void handle(ActionEvent event) {
-					System.out.println("Return ITEM" + getItem());
-
-					try {
-						DBUtil.dbExecuteUpdate("CALL return_project('" + getItem().getID() + "')");
-
-						unsubmittedObservableList.add(getItem());
-						unestimatedObservableList.remove(getItem());
-
-					} catch (SQLException | ClassNotFoundException e) {
-						e.printStackTrace();
-					}
-				}
-			});
-		}
-	}
-
-	/**
-	 * List cell to hold buttons for the Estimated Project List
-	 */
-	class EstimatedCell extends ProjectListCell {
-		Button viewButton = new Button("View Project Estimate");
-
-		public EstimatedCell() {
-			super();
-
-			hbox.getChildren().addAll(viewButton);
-
-			viewButton.setOnAction(new EventHandler<ActionEvent>() {
-				@Override
-				public void handle(ActionEvent event) {
-					System.out.println("VIEW ITEM: " + getItem());
-
-					viewProjectEstimate(getItem(), versionList.getSelectionModel().getSelectedItem());
-
-					Stage stage = (Stage) viewButton.getScene().getWindow();
-					stage.close();
-				}
-			});
-		}
-	}
 
 }

@@ -26,14 +26,14 @@ import javafx.util.Callback;
 
 import ProjectListCells.*;
 
-public class EstimatorProjectsController implements Initializable{
+public class EstimatorProjectsController implements Initializable, Refreshable {
 
 	@FXML
 	private Button logoutButton;
-	
+
 	@FXML
 	private Tab estimatedTab;
-	
+
 	@FXML
 	private Tab notestimatedTab;
 
@@ -47,13 +47,17 @@ public class EstimatorProjectsController implements Initializable{
 	private ObservableList<Project> estimatedObservableList;
 
 	public void initialize(URL location, ResourceBundle resources) {
+		refresh();
+	}
+
+	public void refresh() {
 		estimatedObservableList = FXCollections.observableArrayList();
 		estimatedListView.setItems(estimatedObservableList);
 
 		estimatedListView.setCellFactory(new Callback<ListView<Project>, ListCell<Project>>() {
 			@Override
 			public ListCell<Project> call(ListView<Project> param) {
-				return new EstimatedCell((a,b)->viewProjectEstimate(a,b));
+				return new EstimatedCell((a, b) -> viewProjectEstimate(a, b));
 			}
 		});
 
@@ -63,7 +67,7 @@ public class EstimatorProjectsController implements Initializable{
 		notEstimatedListView.setCellFactory(new Callback<ListView<Project>, ListCell<Project>>() {
 			@Override
 			public ListCell<Project> call(ListView<Project> param) {
-				return new UnestimatedCell((a,b)->estimateProject(a, b), notEstimatedObservableList);
+				return new UnestimatedCell((a, b) -> estimateProject(a, b), notEstimatedObservableList);
 			}
 		});
 
@@ -72,10 +76,11 @@ public class EstimatorProjectsController implements Initializable{
 				notEstimatedObservableList);
 
 		System.out.println("\nEstimated Project Names");
-		ProjectHandler.fillProjectList("SELECT * FROM Project WHERE Submit_Date IS NOT NULL AND Estimated_Date IS NOT NULL",
+		ProjectHandler.fillProjectList(
+				"SELECT * FROM Project WHERE Submit_Date IS NOT NULL AND Estimated_Date IS NOT NULL",
 				estimatedObservableList);
 	}
-
+	
 	public void estimateProject(Project project, String versionNumber) {
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("EstimateProject.fxml"));
@@ -85,23 +90,26 @@ public class EstimatorProjectsController implements Initializable{
 
 			ProjectVersion version = ProjectHandler.loadProjectVersion(project, versionNumber);
 
-			if(version == null) {
+			if (version == null) {
 				System.out.println("ERROR ERROR NULL ERROR ERROR");
 			}
 
-			controller.setCameFromEstimator(true);
+			// controller.setCameFromEstimator(true);
 			controller.setProjectVersion(version);
-
-			Stage eEstimateProjectStage = new Stage();
-			eEstimateProjectStage.setTitle("Estimation Suite - Estimator - Estimate Project");
-			eEstimateProjectStage.setScene(new Scene(root));
+			controller.setPreviousController(this);
+			
+			Stage estimateProjectStage = new Stage();
+			estimateProjectStage.setTitle("Estimation Suite - Estimator - Estimate Project");
+			estimateProjectStage.setScene(new Scene(root));
 
 			// EstimateProject_Controller controller = fxmlLoader.getController();
 
-			eEstimateProjectStage.show();
-			eEstimateProjectStage.setResizable(true);
-			eEstimateProjectStage.sizeToScene();
+			estimateProjectStage.show();
+			estimateProjectStage.setResizable(true);
+			estimateProjectStage.sizeToScene();
 
+			StageHandler.addStage(estimateProjectStage);
+			StageHandler.hidePreviousStage();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -112,21 +120,19 @@ public class EstimatorProjectsController implements Initializable{
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Estimator_ViewProjectEstimate.fxml"));
 			Parent root = fxmlLoader.load();
 
+			// EstimateProjectController controller = fxmlLoader.getController();
 
-			//EstimateProjectController controller = fxmlLoader.getController();
-
-			//controller.setCameFromEstimator(false);
+			// controller.setCameFromEstimator(false);
 
 			ProjectVersion version = ProjectHandler.loadProjectVersion(proj, versionNumber);
 
-			/*if (version == null) {
-				System.out.println("ERROR ERROR NULL ERROR ERROR");
-			}*/
+			/*
+			 * if (version == null) { System.out.println("ERROR ERROR NULL ERROR ERROR"); }
+			 */
 
-			//Estimator_VPE_Controller controller = fxmlLoader.getController();
+			// Estimator_VPE_Controller controller = fxmlLoader.getController();
 
-
-			//controller.setProject(version);
+			// controller.setProject(version);
 
 			Stage eEstimateProjectStage = new Stage();
 			eEstimateProjectStage.setTitle("Estimation Suite - Project Manager - Estimate Project");
@@ -143,7 +149,6 @@ public class EstimatorProjectsController implements Initializable{
 		}
 	}
 
-	
 	public void logout(ActionEvent event) {
 		StageHandler.closeCurrentStage();
 		StageHandler.showCurrentStage();

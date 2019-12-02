@@ -312,25 +312,29 @@ public class PM_ProjectsController implements Initializable, Refreshable {
 
 			EstimateProjectController controller = fxmlLoader.getController();
 
-			controller.setCameFromEstimator(false);
 
+			
 			ProjectVersion version = ProjectHandler.loadProjectVersion(project, versionNumber);
 
 			if (version == null) {
 				System.out.println("ERROR ERROR NULL ERROR ERROR");
 			}
-
 			controller.setProjectVersion(version);
+			controller.setPreviousController(this);
 
-			Stage eEstimateProjectStage = new Stage();
-			eEstimateProjectStage.setTitle("Estimation Suite - Estimator - Estimate Project");
-			eEstimateProjectStage.setScene(new Scene(root));
+
+			Stage estimateProjectStage = new Stage();
+			estimateProjectStage.setTitle("Estimation Suite - Estimator - Estimate Project");
+			estimateProjectStage.setScene(new Scene(root));
 
 			// EstimateProject_Controller controller = fxmlLoader.getController();
 
-			eEstimateProjectStage.show();
-			eEstimateProjectStage.setResizable(true);
-			eEstimateProjectStage.sizeToScene();
+			estimateProjectStage.show();
+			estimateProjectStage.setResizable(true);
+			estimateProjectStage.sizeToScene();
+			
+			StageHandler.addStage(estimateProjectStage);
+			StageHandler.hidePreviousStage();
 
 		} catch (Exception e) {
 			e.printStackTrace();

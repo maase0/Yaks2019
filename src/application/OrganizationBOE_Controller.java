@@ -12,7 +12,7 @@ import javafx.event.ActionEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class OrganizationBOE_Controller implements Initializable {
+public class OrganizationBOE_Controller implements Initializable, Refreshable {
 
     @FXML
     private Button closeButton;
@@ -23,16 +23,26 @@ public class OrganizationBOE_Controller implements Initializable {
     @FXML
     private Button removeWorkPackButton;
 
+    private Refreshable prevController;
+    
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
     }
 
+    public void refresh() {
+    	
+    }
+    
     public void addWorkPack(ActionEvent event) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("WorkPackage.fxml"));
             Parent root = fxmlLoader.load();
 
+            WorkPackage_Controller controller = fxmlLoader.getController();
+            controller.setPreviousController(this);
+            
+            
             Stage addWPStage = new Stage();
             addWPStage.setTitle("Estimation Suite - Estimator - Estimate Project");
             addWPStage.setScene(new Scene(root));
@@ -41,8 +51,8 @@ public class OrganizationBOE_Controller implements Initializable {
             addWPStage.setResizable(true);
             addWPStage.sizeToScene();
 
-            Stage stage = (Stage) addWorkPackButton.getScene().getWindow();
-            stage.close();
+            StageHandler.addStage(addWPStage);
+			StageHandler.hidePreviousStage();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -57,23 +67,16 @@ public class OrganizationBOE_Controller implements Initializable {
     }
 
     public void close(ActionEvent event) {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CLIN_Estimate.fxml"));
-            Parent root = fxmlLoader.load();
-
-            Stage closeStage = new Stage();
-            closeStage.setTitle("Estimation Suite - Estimator - Estimate Project");
-            closeStage.setScene(new Scene(root));
-
-            closeStage.show();
-            closeStage.setResizable(true);
-            closeStage.sizeToScene();
-
-            Stage stage = (Stage) closeButton.getScene().getWindow();
-            stage.close();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+       closeCurrent();
     }
+    
+    public void setPreviousController(Refreshable controller) {
+		this.prevController = controller;
+	}
+
+	private void closeCurrent() {
+		prevController.refresh();
+		StageHandler.showPreviousStage();
+		StageHandler.closeCurrentStage();
+	}
 }

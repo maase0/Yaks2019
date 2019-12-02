@@ -13,7 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 
-public class LoginController implements Initializable{
+public class LoginController implements Initializable, Refreshable{
 
 	@FXML
 	private Button loginBtn;
@@ -29,6 +29,11 @@ public class LoginController implements Initializable{
 		loginBox.getItems().addAll("Product Manager", "Estimator");
 		
 	}
+	
+	public void refresh() {
+		loginBox.getSelectionModel().clearSelection();
+	}
+	
 	public void Login(ActionEvent event) {
 		//changed to check for the null event first
 		if(loginBox.getValue() == null) 
@@ -60,8 +65,14 @@ public class LoginController implements Initializable{
 	else if (loginBox.getValue().equals("Product Manager")) {
 			try {
 	            // Opens Product Manager page
-	            Parent root = FXMLLoader.load(getClass()
-	                    .getResource("PM_Projects.fxml"));
+	            
+	            
+	            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("PM_Projects.fxml"));
+				Parent root = fxmlLoader.load();
+
+				PM_ProjectsController controller = fxmlLoader.getController();
+				controller.setPreviousController(this);
+	            
 	            
 	            Stage pmProjectsStage = new Stage();
 	            pmProjectsStage.setTitle("Estimation Suite - Product Manager - Projects");
@@ -83,10 +94,13 @@ public class LoginController implements Initializable{
 		}
 		else if (loginBox.getValue().equals("Estimator")) {
 			//Open Estimator page here
-			try {
-	            // Opens Estimator page
-	            Parent root = FXMLLoader.load(getClass()
-	                    .getResource("Estimator_Projects.fxml"));
+			try {         
+	            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Estimator_Projects.fxml"));
+				Parent root = fxmlLoader.load();
+
+				EstimatorProjectsController controller = fxmlLoader.getController();
+				controller.setPreviousController(this);
+	            
 	            
 	            Stage estimatorProjectsStage = new Stage();
 	            estimatorProjectsStage.setTitle("Estimation Suite - Estimator - Projects");

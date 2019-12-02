@@ -28,6 +28,8 @@ import ProjectListCells.*;
 
 public class EstimatorProjectsController implements Initializable, Refreshable {
 
+	private Refreshable prevController;
+
 	@FXML
 	private Button logoutButton;
 
@@ -80,7 +82,7 @@ public class EstimatorProjectsController implements Initializable, Refreshable {
 				"SELECT * FROM Project WHERE Submit_Date IS NOT NULL AND Estimated_Date IS NOT NULL",
 				estimatedObservableList);
 	}
-	
+
 	public void estimateProject(Project project, String versionNumber) {
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("EstimateProject.fxml"));
@@ -97,7 +99,7 @@ public class EstimatorProjectsController implements Initializable, Refreshable {
 			// controller.setCameFromEstimator(true);
 			controller.setProjectVersion(version);
 			controller.setPreviousController(this);
-			
+
 			Stage estimateProjectStage = new Stage();
 			estimateProjectStage.setTitle("Estimation Suite - Estimator - Estimate Project");
 			estimateProjectStage.setScene(new Scene(root));
@@ -150,8 +152,17 @@ public class EstimatorProjectsController implements Initializable, Refreshable {
 	}
 
 	public void logout(ActionEvent event) {
+		closeCurrent();
+	}
+
+	public void setPreviousController(Refreshable controller) {
+		this.prevController = controller;
+	}
+
+	private void closeCurrent() {
+		prevController.refresh();
+		StageHandler.showPreviousStage();
 		StageHandler.closeCurrentStage();
-		StageHandler.showCurrentStage();
 	}
 
 }

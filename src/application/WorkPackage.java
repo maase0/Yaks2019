@@ -11,7 +11,7 @@ public class WorkPackage {
     private String scope;
     private String worktype;
     private String version;
-    private ArrayList<Task> tasks = new ArrayList();
+    private ArrayList<Task> tasks;
 
     public WorkPackage() {
         name = null;

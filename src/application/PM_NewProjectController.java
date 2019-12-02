@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import DB.DBUtil;
@@ -81,6 +82,10 @@ public class PM_NewProjectController implements Initializable {
 	@FXML
 	private Button removeSOWButton;
 	private ObservableList<SOW> sowObservableList;
+
+	private Refreshable prevController;
+	private int projectID;
+	
 
 	public PM_NewProjectController() {
 
@@ -275,135 +280,8 @@ public class PM_NewProjectController implements Initializable {
 	 * @throws ClassNotFoundException
 	 */
 	public void saveChanges() throws SQLException, ClassNotFoundException {
-		// TODO possibly do a datatype check before actually saving anything.
-		int vid = 0;
-
-		boolean passed = true;
-
-		// TODO: Find acceptable regexps for each field
-		//       add checks for clin dates etc discussed in sprint review
-		//       change to an error popup instead of printing to console
-
-		String versionReg = "\\d*(.\\d)*";
-		String propReg = "^[0-9]*$";
-		String sowRefReg = "^[0-9]*$";
-
-		if (!versionText.getText().matches(versionReg)) {
-			passed = false;
-			try {
-				
-				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Error_Window.fxml"));
-				Parent root = fxmlLoader.load();
-
-				ErrorWindow controller = fxmlLoader.getController();
-				
-				controller.errorMessage("Version Text \"" + versionText.getText() + "\" does not match regexp " + versionReg);
-				
-				Stage errorStage = new Stage();
-				errorStage.setTitle("ERROR");
-				errorStage.setScene(new Scene(root));
-
-				errorStage.show();
-				}
-			catch(Exception e) {
-				e.printStackTrace();
-				}
-			
-			
-			//System.out.println("Error: Version Text \"" + versionText.getText() + "\" does not match regexp " + versionReg);
-		}
-		if (!propNumText.getText().matches(propReg)) {
-			passed = false;
-			
-			try {
-				
-				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Error_Window.fxml"));
-				Parent root = fxmlLoader.load();
-
-				ErrorWindow controller = fxmlLoader.getController();
-				
-				controller.errorMessage("Version Proposal Number \"" + propNumText.getText() + "\" does not match regexp " + propReg);
-				
-				Stage errorStage = new Stage();
-				errorStage.setTitle("ERROR");
-				errorStage.setScene(new Scene(root));
-
-				errorStage.show();
-				}
-			catch(Exception e) {
-				e.printStackTrace();
-				}
-			
-//			System.out.println("Error: Version Proposal Number \"" + propNumText.getText() + "\" does not match regexp " + propReg);
-		}
-		for (SOW s : sowObservableList) {
-			if (!s.getReference().matches(sowRefReg)) {
-				passed = false;
-				
-				try {
-					
-					FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Error_Window.fxml"));
-					Parent root = fxmlLoader.load();
-
-					ErrorWindow controller = fxmlLoader.getController();
-					
-					controller.errorMessage("Sow Reference \"" + "" + s.getReference() + "\" does not match regexp " + sowRefReg);
-					
-					Stage errorStage = new Stage();
-					errorStage.setTitle("ERROR");
-					errorStage.setScene(new Scene(root));
-
-					errorStage.show();
-					}
-				catch(Exception e) {
-					e.printStackTrace();
-					}
-				
-//				System.out.println("Error: Sow Reference \"" + "" + s.getReference() + "\" does not match regexp " + sowRefReg);
-			}
-		}
-
-		if (passed) {
-			System.out.println("Save Changes Button");
-			ResultSet rs = DBUtil.dbExecuteQuery("CALL insert_new_project('" + versionText.getText() + "', \""
-					+ projectNameText.getText() + "\", \"" + pmText.getText() + "\", " + propNumText.getText() + ", '"
-					+ startDate.getValue().toString() + "', '" + endDate.getValue().toString() + "')");
-			while (rs.next()) {
-				vid = rs.getInt("idProjectVersion");
-			}
-			rs.close();
-
-			for (CLIN c : clinObservableList) {
-				DBUtil.dbExecuteUpdate("CALL insert_clin(" + vid + ", \"" + c.getIndex()
-						+ "\", \"" + c.getVersion() + "\", \"" + c.getProjectType() + "\", \""
-						+ c.getClinContent() + "\", '" + c.getPopStart() + "', '" + c.getPopEnd() + "')");
-			}
-
-			for (SDRL s : sdrlObservableList) {
-				DBUtil.dbExecuteUpdate("CALL insert_sdrl(" + vid + ", \"" + s.getName()
-						+ "\", \"" + s.getVersion() + "\", \""+ s.getSdrlInfo() + "\")");
-			}
-
-			for (SOW s : sowObservableList) {
-				DBUtil.dbExecuteUpdate("CALL insert_sow(" + vid + ", " + s.getReference()
-						+ ", \"" + s.getVersion() + "\", \""+ s.getSowContent() + "\")");
-			}
-
-			try {
-				Parent root = FXMLLoader.load(getClass().getResource("PM_Projects.fxml"));
-
-				Stage pmProjectsStage = new Stage();
-				pmProjectsStage.setTitle("Estimation Suite - Product Manager - Projects");
-				pmProjectsStage.setScene(new Scene(root));
-				pmProjectsStage.show();
-
-				Stage stage = (Stage) discardButton.getScene().getWindow();
-				stage.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
-		}
+		save();
+		closeCurrent();
 
 	}
 
@@ -427,16 +305,8 @@ public class PM_NewProjectController implements Initializable {
 
 			Optional<ButtonType> result = alert.showAndWait();
 			if (result.get() == buttonTypeOne) {
-				
-				Parent root = FXMLLoader.load(getClass().getResource("PM_Projects.fxml"));
 
-				Stage pmProjectsStage = new Stage();
-				pmProjectsStage.setTitle("Estimation Suite - Product Manager - Projects");
-				pmProjectsStage.setScene(new Scene(root));
-				pmProjectsStage.show();
-
-				Stage stage = (Stage) discardButton.getScene().getWindow();
-				stage.close();
+				closeCurrent();
 			} else {
 				// ... user chose CANCEL or closed the dialog
 			}
@@ -448,10 +318,9 @@ public class PM_NewProjectController implements Initializable {
 
 	@FXML
 	/**
-	 * Submits the project for estimation
-	 * Code is similar to saveChanges, except
-	 * Submit for Estimation in the New Project Page
-	 * saves the project and adds a submission date.
+	 * Submits the project for estimation Code is similar to saveChanges, except
+	 * Submit for Estimation in the New Project Page saves the project and adds a
+	 * submission date.
 	 *
 	 */
 
@@ -460,92 +329,183 @@ public class PM_NewProjectController implements Initializable {
 
 		boolean passed = true;
 
-		String versionReg = "\\d*(.\\d*)*";
+		if (passed) {
+			save();
+			String startString = startDate.getValue() == null ? "" : startDate.getValue().toString();
+			String endString = endDate.getValue() == null ? "" : endDate.getValue().toString();
+
+			System.out.println("Submit for Estimation Button");
+
+			DBUtil.dbExecuteUpdate(
+					"CALL submit_project(" + projectID + ", '" + LocalDate.now().toString() + "')");
+
+			try {
+				closeCurrent();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		}
+	}
+
+	private boolean save() throws ClassNotFoundException, SQLException {
+		// TODO possibly do a datatype check before actually saving anything.
+		int vid = 0;
+
+		boolean passed = true;
+
+		// TODO: Find acceptable regexps for each field
+		// add checks for clin dates etc discussed in sprint review
+		// change to an error popup instead of printing to console
+
+		String versionReg = "\\d*(.\\d)*";
 		String propReg = "^[0-9]*$";
 		String sowRefReg = "^[0-9]*$";
 
 		if (!versionText.getText().matches(versionReg)) {
 			passed = false;
-			System.out.println("Error: Version Text \"" + versionText.getText() + "\" does not match regexp " + versionReg);
+			try {
+
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Error_Window.fxml"));
+				Parent root = fxmlLoader.load();
+
+				ErrorWindow controller = fxmlLoader.getController();
+
+				controller.errorMessage(
+						"Version Text \"" + versionText.getText() + "\" does not match regexp " + versionReg);
+
+				Stage errorStage = new Stage();
+				errorStage.setTitle("ERROR");
+				errorStage.setScene(new Scene(root));
+
+				errorStage.show();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			// System.out.println("Error: Version Text \"" + versionText.getText() + "\"
+			// does not match regexp " + versionReg);
 		}
 		if (!propNumText.getText().matches(propReg)) {
 			passed = false;
-			System.out.println("Error: Version Proposal Number \"" + propNumText.getText() + "\" does not match regexp " + propReg);
+
+			try {
+
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Error_Window.fxml"));
+				Parent root = fxmlLoader.load();
+
+				ErrorWindow controller = fxmlLoader.getController();
+
+				controller.errorMessage(
+						"Version Proposal Number \"" + propNumText.getText() + "\" does not match regexp " + propReg);
+
+				Stage errorStage = new Stage();
+				errorStage.setTitle("ERROR");
+				errorStage.setScene(new Scene(root));
+
+				errorStage.show();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+//			System.out.println("Error: Version Proposal Number \"" + propNumText.getText() + "\" does not match regexp " + propReg);
 		}
 		for (SOW s : sowObservableList) {
 			if (!s.getReference().matches(sowRefReg)) {
 				passed = false;
-				System.out.println("Error: Sow Reference \"" + "" + s.getReference() + "\" does not match regexp " + sowRefReg);
+
+				try {
+
+					FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Error_Window.fxml"));
+					Parent root = fxmlLoader.load();
+
+					ErrorWindow controller = fxmlLoader.getController();
+
+					controller.errorMessage(
+							"Sow Reference \"" + "" + s.getReference() + "\" does not match regexp " + sowRefReg);
+
+					Stage errorStage = new Stage();
+					errorStage.setTitle("ERROR");
+					errorStage.setScene(new Scene(root));
+
+					errorStage.show();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+//				System.out.println("Error: Sow Reference \"" + "" + s.getReference() + "\" does not match regexp " + sowRefReg);
 			}
 		}
 
-									/* DON"T DELETE THIS, THIS IS WHAT ADDS A SUBMIT DATE TO PROJECT */
 		if (passed) {
-			System.out.println("Submit for Estimation Button");
-			ResultSet rs = DBUtil.dbExecuteQuery("CALL sfe_insert(" + versionText.getText() + ", \""
-					+ projectNameText.getText() + "\", \"" + pmText.getText() + "\", " + propNumText.getText() + ",'"
-					+ startDate.getValue().toString() + "', '" + endDate.getValue().toString() + "', '" + java.time.LocalDate.now() + "')");
+			System.out.println("Save Changes Button");
+			ResultSet rs = DBUtil.dbExecuteQuery("CALL insert_new_project('" + versionText.getText() + "', \""
+					+ projectNameText.getText() + "\", \"" + pmText.getText() + "\", " + propNumText.getText() + ", '"
+					+ startDate.getValue().toString() + "', '" + endDate.getValue().toString() + "')");
 			while (rs.next()) {
 				vid = rs.getInt("idProjectVersion");
 			}
 			rs.close();
+			
+			rs = DBUtil.dbExecuteQuery("SELECT idProject FROM ProjectVersion WHERE idProjectVersion = " + vid);
+			rs.last();
+			projectID = rs.getInt("idProject");
 
 			for (CLIN c : clinObservableList) {
-				DBUtil.dbExecuteUpdate("CALL insert_clin(" + vid + ", \"" + c.getIndex()
-						+ "\", \"" + c.getProjectType() + "\", \""
-						+ c.getClinContent() + "\")");
+				DBUtil.dbExecuteUpdate("CALL insert_clin(" + vid + ", \"" + c.getIndex() + "\", \"" + c.getVersion()
+						+ "\", \"" + c.getProjectType() + "\", \"" + c.getClinContent() + "\", '" + c.getPopStart()
+						+ "', '" + c.getPopEnd() + "')");
 			}
 
 			for (SDRL s : sdrlObservableList) {
-				DBUtil.dbExecuteUpdate("CALL insert_sdrl(" + vid + ", \"" + s.getName()
+				DBUtil.dbExecuteUpdate("CALL insert_sdrl(" + vid + ", \"" + s.getName() + "\", \"" + s.getVersion()
 						+ "\", \"" + s.getSdrlInfo() + "\")");
 			}
 
 			for (SOW s : sowObservableList) {
-				DBUtil.dbExecuteUpdate("CALL insert_sow(" + vid + ", " + s.getReference()
-						+ ", \"" + s.getSowContent() + "\")");
+				DBUtil.dbExecuteUpdate("CALL insert_sow(" + vid + ", " + s.getReference() + ", \"" + s.getVersion()
+						+ "\", \"" + s.getSowContent() + "\")");
 			}
 
-			try {
-				Parent root = FXMLLoader.load(getClass().getResource("PM_Projects.fxml"));
-
-				Stage pmProjectsStage = new Stage();
-				pmProjectsStage.setTitle("Estimation Suite - Product Manager - Projects");
-				pmProjectsStage.setScene(new Scene(root));
-				pmProjectsStage.show();
-
-				Stage stage = (Stage) saveButton.getScene().getWindow();
-				stage.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
 		}
+		return passed;
 	}
 
-		/**
-		 * Sets the project version
-		 * @param proj
-		 */
-		public void setProject (ProjectVersion proj){
-			this.proj = proj;
-			setAllFields();
-		}
-
-		/**
-		 * Sets the data for all the various input fields in the project information,
-		 * inserts CLINs, SOWs, SDRLs into their respective lists
-		 */
-		private void setAllFields () {
-			clinObservableList.addAll(proj.getCLINList());
-			sowObservableList.addAll(proj.getSOWList());
-			sdrlObservableList.addAll(proj.getSDRLList());
-
-			versionText.setText(proj.getVersionNumber());
-			projectNameText.setText(proj.getName());
-			pmText.setText(proj.getProjectManager());
-			propNumText.setText(proj.getProposalNumber());
-
-			startDate.setValue(proj.getPopStart());
-			endDate.setValue(proj.getPopEnd());
-		}
+	/**
+	 * Sets the project version
+	 * 
+	 * @param proj
+	 */
+	public void setProject(ProjectVersion proj) {
+		this.proj = proj;
+		setAllFields();
 	}
+
+	/**
+	 * Sets the data for all the various input fields in the project information,
+	 * inserts CLINs, SOWs, SDRLs into their respective lists
+	 */
+	private void setAllFields() {
+		clinObservableList.addAll(proj.getCLINList());
+		sowObservableList.addAll(proj.getSOWList());
+		sdrlObservableList.addAll(proj.getSDRLList());
+
+		versionText.setText(proj.getVersionNumber());
+		projectNameText.setText(proj.getName());
+		pmText.setText(proj.getProjectManager());
+		propNumText.setText(proj.getProposalNumber());
+
+		startDate.setValue(proj.getPopStart());
+		endDate.setValue(proj.getPopEnd());
+	}
+
+	public void setPreviousController(PM_ProjectsController controller) {
+		this.prevController = controller;
+	}
+
+	private void closeCurrent() {
+		prevController.refresh();
+		StageHandler.showPreviousStage();
+		StageHandler.closeCurrentStage();
+	}
+}

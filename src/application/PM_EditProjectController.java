@@ -70,7 +70,7 @@ public class PM_EditProjectController implements Initializable {
 	private ArrayList<SOW> sowDelete = new ArrayList<SOW>();
 	private ArrayList<SDRL> sdrlDelete = new ArrayList<SDRL>();
 
-	private PM_ProjectsController prevController;
+	private Refreshable prevController;
 	
 	public PM_EditProjectController() {
 
@@ -448,11 +448,6 @@ public class PM_EditProjectController implements Initializable {
 			} else {
 				// ... user chose CANCEL or closed the dialog
 			}
-
-			
-			
-			
-		
 	}
 
 	@FXML
@@ -509,7 +504,7 @@ public class PM_EditProjectController implements Initializable {
 	}
 	
 	private void closeCurrent() {
-		prevController.loadAllLists();
+		prevController.refresh();
 		StageHandler.showPreviousStage();
 		StageHandler.closeCurrentStage();
 	}

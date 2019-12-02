@@ -40,7 +40,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
-public class PM_ProjectsController implements Initializable {
+public class PM_ProjectsController implements Initializable, Refreshable {
 
 	@FXML
 	private Button newProjectBtn;
@@ -94,10 +94,10 @@ public class PM_ProjectsController implements Initializable {
 	 * database
 	 */
 	public void initialize(URL location, ResourceBundle resources) {
-		loadAllLists();
+		refresh();
 	}
 
-	public void loadAllLists() {
+	public void refresh() {
 		// Initialize the observable list, give it to the list view
 				unsubmittedObservableList = FXCollections.observableArrayList();
 				unsubmittedListView.setItems(unsubmittedObservableList);
@@ -213,8 +213,13 @@ public class PM_ProjectsController implements Initializable {
 	public void addNewProject(ActionEvent event) {
 		try {
 			// Opens New Project page
-			Parent root = FXMLLoader.load(getClass().getResource("PM_NewProject.fxml"));
+		//	Parent root = FXMLLoader.load(getClass().getResource("PM_NewProject.fxml"));
 
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("PM_NewProject.fxml"));
+			Parent root = fxmlLoader.load();
+			
+			PM_NewProjectController controller = fxmlLoader.getController();
+			controller.setPreviousController(this);
 			Stage pmNewProjectStage = new Stage();
 			pmNewProjectStage.setTitle("Estimation Suite - Product Manager - New Project");
 			pmNewProjectStage.setScene(new Scene(root));
@@ -222,9 +227,12 @@ public class PM_ProjectsController implements Initializable {
 			pmNewProjectStage.setResizable(true);
 			pmNewProjectStage.sizeToScene();
 
+			StageHandler.addStage(pmNewProjectStage);
+			StageHandler.hidePreviousStage();
+			
 			// Closes PM Page
-			Stage stage = (Stage) newProjectBtn.getScene().getWindow();
-			stage.close();
+			//Stage stage = (Stage) newProjectBtn.getScene().getWindow();
+			//stage.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

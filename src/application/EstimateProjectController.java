@@ -105,11 +105,17 @@ public class EstimateProjectController implements Initializable {
 
 	public void estimateCLIN(ActionEvent event) {
 		try {
+
+			CLIN clin = clinEstimateListView.getSelectionModel().getSelectedItem();
+			System.out.println(clin);
+			//TODO: ADD NULL CHECK
+
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CLIN_Estimate.fxml"));
 			Parent root = fxmlLoader.load();
 
 			CLIN_EstimateController controller = fxmlLoader.getController();
 			controller.setProjectVersion(project);
+			controller.setCLIN(clin);
 
 			Stage clinEstimateStage = new Stage();
 			clinEstimateStage.setTitle("Estimation Suite - Estimator - Estimate Project");

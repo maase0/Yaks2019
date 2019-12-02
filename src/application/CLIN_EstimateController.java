@@ -6,6 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 import javafx.event.ActionEvent;
@@ -14,76 +15,84 @@ import java.util.ResourceBundle;
 
 public class CLIN_EstimateController implements Initializable {
 
-    @FXML
-    private Button closeButton;
-    @FXML
-    private Button addOrgButton;
-    @FXML
-    private Button editOrgButton;
-    @FXML
-    private Button removeOrgButton;
+	@FXML
+	private Button closeButton;
+	@FXML
+	private Button addOrgButton;
+	@FXML
+	private Button editOrgButton;
+	@FXML
+	private Button removeOrgButton;
+	@FXML
+	private Label clinName;
 
-    private ProjectVersion project;
+	private ProjectVersion project;
+	private CLIN clin;
+	
+	@Override
+	public void initialize(URL url, ResourceBundle resourceBundle) {
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+	}
 
-    }
+	public void addOrganization(ActionEvent event) {
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("OrganizationBOE.fxml"));
+			Parent root = fxmlLoader.load();
 
-    public void addOrganization(ActionEvent event) {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("OrganizationBOE.fxml"));
-            Parent root = fxmlLoader.load();
+			Stage addOrgStage = new Stage();
+			addOrgStage.setTitle("Estimation Suite - Estimator - Estimate Project");
+			addOrgStage.setScene(new Scene(root));
 
-            Stage addOrgStage = new Stage();
-            addOrgStage.setTitle("Estimation Suite - Estimator - Estimate Project");
-            addOrgStage.setScene(new Scene(root));
+			addOrgStage.show();
+			addOrgStage.setResizable(true);
+			addOrgStage.sizeToScene();
 
-            addOrgStage.show();
-            addOrgStage.setResizable(true);
-            addOrgStage.sizeToScene();
+			Stage stage = (Stage) addOrgButton.getScene().getWindow();
+			stage.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
-            Stage stage = (Stage) addOrgButton.getScene().getWindow();
-            stage.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+	public void editOrganization(ActionEvent event) {
 
-    public void editOrganization(ActionEvent event) {
+	}
 
-    }
+	public void removeOrganization(ActionEvent event) {
 
-    public void removeOrganization(ActionEvent event) {
+	}
 
-    }
+	public void close(ActionEvent event) {
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("EstimateProject.fxml"));
+			Parent root = fxmlLoader.load();
 
-    public void close(ActionEvent event) {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("EstimateProject.fxml"));
-            Parent root = fxmlLoader.load();
+			EstimateProjectController controller = fxmlLoader.getController();
 
-            EstimateProjectController controller = fxmlLoader.getController();
+			controller.setProjectVersion(project);
 
-            controller.setProjectVersion(project);
+			Stage closeStage = new Stage();
+			closeStage.setTitle("Estimation Suite - Estimator - Estimate Project");
+			closeStage.setScene(new Scene(root));
 
-            Stage closeStage = new Stage();
-            closeStage.setTitle("Estimation Suite - Estimator - Estimate Project");
-            closeStage.setScene(new Scene(root));
+			closeStage.show();
+			closeStage.setResizable(true);
+			closeStage.sizeToScene();
 
-            closeStage.show();
-            closeStage.setResizable(true);
-            closeStage.sizeToScene();
+			Stage stage = (Stage) closeButton.getScene().getWindow();
+			stage.close();
 
-            Stage stage = (Stage) closeButton.getScene().getWindow();
-            stage.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void setProjectVersion(ProjectVersion project) {
-        this.project = project;
-    }
+	public void setProjectVersion(ProjectVersion project) {
+		this.project = project;
+	}
+	public void setCLIN(CLIN clin) {
+		this.clin = clin;
+		//if(clin == null) System.out.println("ohno");
+		clinName.setText(clin.getIndex());
+	}
 }

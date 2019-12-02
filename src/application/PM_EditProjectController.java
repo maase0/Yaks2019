@@ -70,6 +70,8 @@ public class PM_EditProjectController implements Initializable {
 	private ArrayList<SOW> sowDelete = new ArrayList<SOW>();
 	private ArrayList<SDRL> sdrlDelete = new ArrayList<SDRL>();
 
+	private PM_ProjectsController prevController;
+	
 	public PM_EditProjectController() {
 
 	}
@@ -267,19 +269,7 @@ public class PM_EditProjectController implements Initializable {
 
 		save();
 
-		try {
-			Parent root = FXMLLoader.load(getClass().getResource("PM_Projects.fxml"));
-
-			Stage pmProjectsStage = new Stage();
-			pmProjectsStage.setTitle("Estimation Suite - Product Manager - Projects");
-			pmProjectsStage.setScene(new Scene(root));
-			pmProjectsStage.show();
-
-			Stage stage = (Stage) saveChangesButton.getScene().getWindow();
-			stage.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		closeCurrent();
 
 	}
 
@@ -441,7 +431,6 @@ public class PM_EditProjectController implements Initializable {
 	 * @param event
 	 */
 	public void discardNewChanges(ActionEvent event) {
-		try {
 			
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Remove Project");
@@ -455,16 +444,7 @@ public class PM_EditProjectController implements Initializable {
 
 			Optional<ButtonType> result = alert.showAndWait();
 			if (result.get() == buttonTypeOne) {
-				
-				Parent root = FXMLLoader.load(getClass().getResource("PM_Projects.fxml"));
-
-				Stage pmProjectsStage = new Stage();
-				pmProjectsStage.setTitle("Estimation Suite - Product Manager - Projects");
-				pmProjectsStage.setScene(new Scene(root));
-				pmProjectsStage.show();
-
-				Stage stage = (Stage) discardChangesButton.getScene().getWindow();
-				stage.close();
+				closeCurrent();				
 			} else {
 				// ... user chose CANCEL or closed the dialog
 			}
@@ -472,9 +452,7 @@ public class PM_EditProjectController implements Initializable {
 			
 			
 			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		
 	}
 
 	@FXML
@@ -500,15 +478,7 @@ public class PM_EditProjectController implements Initializable {
 					"CALL submit_project(" + proj.getProjectID() + ", '" + LocalDate.now().toString() + "')");
 
 			try {
-				Parent root = FXMLLoader.load(getClass().getResource("PM_Projects.fxml"));
-
-				Stage pmProjectsStage = new Stage();
-				pmProjectsStage.setTitle("Estimation Suite - Product Manager - Projects");
-				pmProjectsStage.setScene(new Scene(root));
-				pmProjectsStage.show();
-
-				Stage stage = (Stage) submitButton.getScene().getWindow();
-				stage.close();
+				closeCurrent();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -532,5 +502,15 @@ public class PM_EditProjectController implements Initializable {
 		propNumText.setText(proj.getProposalNumber());
 		startDate.setValue(proj.getPopStart());
 		endDate.setValue(proj.getPopEnd());
+	}
+	
+	public void setPreviousController(PM_ProjectsController controller) {
+		this.prevController  = controller;
+	}
+	
+	private void closeCurrent() {
+		prevController.loadAllLists();
+		StageHandler.showPreviousStage();
+		StageHandler.closeCurrentStage();
 	}
 }

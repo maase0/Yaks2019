@@ -145,21 +145,8 @@ public class EstimatorProjectsController implements Initializable{
 
 	
 	public void logout(ActionEvent event) {
-		try {
-			// Opens Login page
-			Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
-
-			Stage loginStage = new Stage();
-			loginStage.setTitle("Estimation Suite - Login Page");
-			loginStage.setScene(new Scene(root));
-			loginStage.show();
-
-			// Closes PM Page
-			Stage stage = (Stage) logoutButton.getScene().getWindow();
-			stage.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		StageHandler.closeCurrentStage();
+		StageHandler.showCurrentStage();
 	}
 
 }

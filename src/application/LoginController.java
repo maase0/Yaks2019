@@ -72,10 +72,11 @@ public class LoginController implements Initializable{
 	            pmProjectsStage.setResizable(true);
 	            pmProjectsStage.sizeToScene();
 	            
-	            
+	            StageHandler.addStage(pmProjectsStage);
+	            StageHandler.hidePreviousStage();
 	            //Closes Login Page
-	            Stage stage = (Stage) loginBtn.getScene().getWindow();
-	            stage.close();
+	           // Stage stage = (Stage) loginBtn.getScene().getWindow();
+	            //stage.close();
 			} catch(Exception e) {
 				e.printStackTrace();
 			}
@@ -95,9 +96,12 @@ public class LoginController implements Initializable{
 	            estimatorProjectsStage.setResizable(true);
 	            estimatorProjectsStage.sizeToScene();
 	            
+	            StageHandler.addStage(estimatorProjectsStage);
+	            
 	            //Closes Login Page
-	            Stage stage = (Stage) loginBtn.getScene().getWindow();
-	            stage.close();
+	            //Stage stage = (Stage) loginBtn.getScene().getWindow();
+	           // stage.close();
+	            StageHandler.hidePreviousStage();
 			} catch(Exception e) {
 				e.printStackTrace();
 			}

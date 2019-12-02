@@ -4,15 +4,6 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="350.0" prefWidth="795.0" style="-fx-background-color: linear-gradient(#ffffff, #cccccc);" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.CLIN_EstimateController">
    <top>
@@ -79,14 +70,16 @@
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="661.0" minWidth="10.0" prefWidth="151.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="661.0" minWidth="0.0" prefWidth="137.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="661.0" minWidth="10.0" prefWidth="391.0" />
-          <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="392.0" minWidth="10.0" prefWidth="116.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="661.0" minWidth="10.0" prefWidth="213.0" />
+            <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="661.0" minWidth="10.0" prefWidth="95.0" />
+            <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="661.0" minWidth="10.0" prefWidth="131.0" />
+          <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="392.0" minWidth="10.0" prefWidth="71.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="closeButton" mnemonicParsing="false" onAction="#close" prefHeight="25.0" prefWidth="60.0" styleClass="btn-rich-blue" text="Close" GridPane.columnIndex="3">
+            <Button fx:id="closeButton" mnemonicParsing="false" onAction="#close" prefHeight="25.0" prefWidth="60.0" styleClass="btn-rich-blue" text="Close" GridPane.columnIndex="5">
                <GridPane.margin>
                   <Insets right="10.0" />
                </GridPane.margin>
@@ -98,6 +91,16 @@
             </Button>
             <Button fx:id="editOrgButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="125.0" styleClass="btn-rich-blue" text="Edit Organization" GridPane.columnIndex="1" />
             <Button fx:id="removeOrgButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" styleClass="btn-rich-blue" text="Remove Organization" GridPane.columnIndex="2" />
+            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" styleClass="btn-rich-blue" text="Save and Close" GridPane.columnIndex="4">
+               <GridPane.margin>
+                  <Insets right="10.0" />
+               </GridPane.margin>
+            </Button>
+            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" styleClass="btn-rich-blue" text="Save" GridPane.columnIndex="3">
+               <GridPane.margin>
+                  <Insets right="10.0" />
+               </GridPane.margin>
+            </Button>
          </children>
          <padding>
             <Insets bottom="10.0" />

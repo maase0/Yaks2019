@@ -1,28 +1,54 @@
 package application;
 
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+import java.util.ArrayList;
 
-public class OrganizationBOE extends Application {
-    @Override
-    public void start(Stage primaryStage) {
-        try {
-            // Read file fxml and draw interface.
-            Parent root = FXMLLoader.load(getClass()
-                    .getResource("OrganizationBOE.fxml"));
+public class OrganizationBOE
+{
+    private String organization;
+    private String product;
+    private String version;
+    private ArrayList<WorkPackage> workPackages;
 
-            primaryStage.setTitle("Estimation Suite - Estimator - Projects Page");
-            primaryStage.setScene(new Scene(root));
-            primaryStage.show();
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
+    public OrganizationBOE () {
+        organization = null;
+        product = null;
+        version = null;
+        workPackages = null;
     }
 
-    public static void main(String[] args) {
-        launch(args);
+    public OrganizationBOE (String organization, String product,
+                            String version, ArrayList<WorkPackage> workPackages) {
+        this.organization = organization;
+        this.product = product;
+        this.version = version;
+        this.workPackages = workPackages;
+    }
+
+    public void setOrganization(String organization) {
+        this.organization = organization;
+    }
+
+    public void setProduct(String product) {
+        this.product = product;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+    public String getOrganization() {
+        return organization;
+    }
+
+    public String getProduct() {
+        return product;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public ArrayList<WorkPackage> getWorkPackages() {
+        return workPackages;
     }
 }

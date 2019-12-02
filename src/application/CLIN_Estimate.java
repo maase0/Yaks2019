@@ -1,28 +1,31 @@
 package application;
 
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+import java.util.ArrayList;
 
-public class CLIN_Estimate extends Application {
-    @Override
-    public void start(Stage primaryStage) {
-        try {
-            // Read file fxml and draw interface.
-            Parent root = FXMLLoader.load(getClass()
-                    .getResource("CLIN_Estimate.fxml"));
+public class CLIN_Estimate
+{
+    private String version;
+    private ArrayList<OrganizationBOE> organizationBOEs;
 
-            primaryStage.setTitle("Estimation Suite - Estimator - Projects Page");
-            primaryStage.setScene(new Scene(root));
-            primaryStage.show();
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
+    public CLIN_Estimate () {
+        version = null;
+        organizationBOEs = null;
     }
 
-    public static void main(String[] args) {
-        launch(args);
+    public CLIN_Estimate (String version, ArrayList<OrganizationBOE> organizationBOEs) {
+        this.version = version;
+        this.organizationBOEs = organizationBOEs;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public ArrayList<OrganizationBOE> getOrganizationBOEs() {
+        return organizationBOEs;
     }
 }

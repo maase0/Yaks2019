@@ -21,6 +21,9 @@ public class Task_Controller implements Initializable {
     @FXML
     private Button saveAndcloseButton;
 
+	private Refreshable prevController;
+
+    
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -35,23 +38,15 @@ public class Task_Controller implements Initializable {
     }
 
     public void close(ActionEvent event) {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("WorkPackage.fxml"));
-            Parent root = fxmlLoader.load();
-
-            Stage closeStage = new Stage();
-            closeStage.setTitle("Estimation Suite - Estimator - Estimate Project");
-            closeStage.setScene(new Scene(root));
-
-            closeStage.show();
-            closeStage.setResizable(true);
-            closeStage.sizeToScene();
-
-            Stage stage = (Stage) closeButton.getScene().getWindow();
-            stage.close();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        closeCurrent();
     }
+	public void setPreviousController(Refreshable controller) {
+		this.prevController = controller;
+	}
+
+	private void closeCurrent() {
+		prevController.refresh();
+		StageHandler.showPreviousStage();
+		StageHandler.closeCurrentStage();
+	}
 }

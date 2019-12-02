@@ -16,10 +16,9 @@ import javafx.event.ActionEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class EstimateProjectController implements Initializable {
+public class EstimateProjectController implements Initializable, Refreshable {
 
 	private ProjectVersion project;
-	private boolean cameFromEstimator;
 
 	@FXML
 	private Button discardButton;
@@ -51,6 +50,9 @@ public class EstimateProjectController implements Initializable {
 	private ObservableList<SDRL> sdrlObservableList;
 	private ObservableList<SOW> sowObservableList;
 
+	private Refreshable prevController;
+	
+	
 	public EstimateProjectController() {
 
 	}
@@ -68,39 +70,21 @@ public class EstimateProjectController implements Initializable {
 		sowListView.setItems(sowObservableList);
 
 	}
+	
+	public void refresh() {
+	}
 
 	public void submitApproval(ActionEvent event) {
-
+		
+		closeCurrent();
 	}
 
 	public void saveNewChanges(ActionEvent event) {
-
+		closeCurrent();
 	}
 
 	public void discardChanges(ActionEvent event) {
-		try {
-			Stage pmProjectsStage;
-			Parent root;
-			if (cameFromEstimator) {
-				root = FXMLLoader.load(getClass().getResource("Estimator_Projects.fxml"));
-
-				pmProjectsStage = new Stage();
-				pmProjectsStage.setTitle("Estimation Suite - Estimator - Projects");
-			} else {
-				root = FXMLLoader.load(getClass().getResource("PM_Projects.fxml"));
-
-				pmProjectsStage = new Stage();
-				pmProjectsStage.setTitle("Estimation Suite - Product Manager - Projects");
-			}
-			pmProjectsStage.setScene(new Scene(root));
-			pmProjectsStage.show();
-
-			Stage stage = (Stage) discardButton.getScene().getWindow();
-
-			stage.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		closeCurrent();
 	}
 
 	public void estimateCLIN(ActionEvent event) {
@@ -114,8 +98,9 @@ public class EstimateProjectController implements Initializable {
 			Parent root = fxmlLoader.load();
 
 			CLIN_EstimateController controller = fxmlLoader.getController();
-			controller.setProjectVersion(project);
+			//controller.setProjectVersion(project);
 			controller.setCLIN(clin);
+			controller.setPreviousController(this);
 
 			Stage clinEstimateStage = new Stage();
 			clinEstimateStage.setTitle("Estimation Suite - Estimator - Estimate Project");
@@ -125,8 +110,11 @@ public class EstimateProjectController implements Initializable {
 			clinEstimateStage.setResizable(true);
 			clinEstimateStage.sizeToScene();
 
-			Stage stage = (Stage) estCLINButton.getScene().getWindow();
-			stage.close();
+			
+			StageHandler.addStage(clinEstimateStage);
+			StageHandler.hidePreviousStage();
+			//Stage stage = (Stage) estCLINButton.getScene().getWindow();
+			//stage.close();
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -154,7 +142,13 @@ public class EstimateProjectController implements Initializable {
 		endDate.setDisable(true);
 	}
 
-	public void setCameFromEstimator(boolean flag) {
-		this.cameFromEstimator = flag;
+	public void setPreviousController(Refreshable controller) {
+		this.prevController = controller;
+	}
+
+	private void closeCurrent() {
+		prevController.refresh();
+		StageHandler.showPreviousStage();
+		StageHandler.closeCurrentStage();
 	}
 }

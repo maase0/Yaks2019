@@ -11,9 +11,10 @@ import javafx.stage.Stage;
 
 import javafx.event.ActionEvent;
 import java.net.URL;
+import java.sql.Ref;
 import java.util.ResourceBundle;
 
-public class CLIN_EstimateController implements Initializable {
+public class CLIN_EstimateController implements Initializable, Refreshable {
 
 	@FXML
 	private Button closeButton;
@@ -29,9 +30,15 @@ public class CLIN_EstimateController implements Initializable {
 	private ProjectVersion project;
 	private CLIN clin;
 	
+	private Refreshable prevController;
+	
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
 
+	}
+	
+	public void refresh() {
+		
 	}
 
 	public void addOrganization(ActionEvent event) {
@@ -39,6 +46,10 @@ public class CLIN_EstimateController implements Initializable {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("OrganizationBOE.fxml"));
 			Parent root = fxmlLoader.load();
 
+			OrganizationBOE_Controller controller = fxmlLoader.getController();
+			
+			controller.setPreviousController(this);
+			
 			Stage addOrgStage = new Stage();
 			addOrgStage.setTitle("Estimation Suite - Estimator - Estimate Project");
 			addOrgStage.setScene(new Scene(root));
@@ -47,8 +58,8 @@ public class CLIN_EstimateController implements Initializable {
 			addOrgStage.setResizable(true);
 			addOrgStage.sizeToScene();
 
-			Stage stage = (Stage) addOrgButton.getScene().getWindow();
-			stage.close();
+			StageHandler.addStage(addOrgStage);
+			StageHandler.hidePreviousStage();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -63,28 +74,7 @@ public class CLIN_EstimateController implements Initializable {
 	}
 
 	public void close(ActionEvent event) {
-		try {
-			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("EstimateProject.fxml"));
-			Parent root = fxmlLoader.load();
-
-			EstimateProjectController controller = fxmlLoader.getController();
-
-			controller.setProjectVersion(project);
-
-			Stage closeStage = new Stage();
-			closeStage.setTitle("Estimation Suite - Estimator - Estimate Project");
-			closeStage.setScene(new Scene(root));
-
-			closeStage.show();
-			closeStage.setResizable(true);
-			closeStage.sizeToScene();
-
-			Stage stage = (Stage) closeButton.getScene().getWindow();
-			stage.close();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		closeCurrent();
 	}
 
 	public void setProjectVersion(ProjectVersion project) {
@@ -94,5 +84,15 @@ public class CLIN_EstimateController implements Initializable {
 		this.clin = clin;
 		//if(clin == null) System.out.println("ohno");
 		clinName.setText(clin.getIndex());
+	}
+	
+	public void setPreviousController(Refreshable controller) {
+		this.prevController = controller;
+	}
+
+	private void closeCurrent() {
+		prevController.refresh();
+		StageHandler.showPreviousStage();
+		StageHandler.closeCurrentStage();
 	}
 }

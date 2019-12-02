@@ -22,6 +22,8 @@ public class Login extends Application {
             primaryStage.setResizable(false);
             primaryStage.sizeToScene();
 
+            StageHandler.addStage(primaryStage);
+            
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

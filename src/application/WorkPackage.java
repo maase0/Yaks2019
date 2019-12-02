@@ -12,7 +12,6 @@ public class WorkPackage {
     private String worktype;
     private String version;
     private ArrayList<Task> tasks = new ArrayList();
-    private ArrayList<Task> taskDelete = new ArrayList<Task>();
 
     public WorkPackage() {
         name = null;
@@ -23,11 +22,12 @@ public class WorkPackage {
         scope = null;
         worktype = null;
         version = null;
+        tasks = null;
     }
 
     public WorkPackage(String name, String wptype, String author,
                        String popStart, String popEnd, String scope,
-                       String worktype, String version) {
+                       String worktype, String version, ArrayList<Task> tasks) {
         this.name = name;
         this.wptype = wptype;
         this.author = author;
@@ -36,6 +36,7 @@ public class WorkPackage {
         this.scope = scope;
         this.worktype = worktype;
         this.version = version;
+        this.tasks = tasks;
     }
 
     public void setName(String name) {
@@ -104,9 +105,5 @@ public class WorkPackage {
 
     public ArrayList<Task> getTasks() {
         return tasks;
-    }
-
-    public void removeTask (Task task) {
-        this.tasks.remove(task);
     }
 }

@@ -70,7 +70,7 @@ public class WorkPackage_Controller implements Initializable, Refreshable {
 	}
 
 	public void refresh() {
-
+		taskListView.refresh();
 	}
 
 	public void addTask(ActionEvent event) {
@@ -182,6 +182,8 @@ public class WorkPackage_Controller implements Initializable, Refreshable {
 			workPackage.setPopStart(startDate.getValue() != null ? startDate.getValue().toString() : null);
 			workPackage.setTasks(new ArrayList<Task>(taskObservableList));
 
+			workPackage.setDeletedTasks(taskDelete);
+			
 			if (flag) {
 				workPackageObservableList.add(workPackage);
 			}

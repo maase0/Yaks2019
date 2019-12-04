@@ -64,6 +64,7 @@ public class EstimateProjectController implements Initializable, Refreshable {
 
 	private Refreshable prevController;
 
+	// TODO Create boolean which will be set to true when a CLIN is currently open
 	public EstimateProjectController() {
 
 	}
@@ -146,7 +147,7 @@ public class EstimateProjectController implements Initializable, Refreshable {
 			clinEstimateStage.sizeToScene();
 
 			StageHandler.addStage(clinEstimateStage);
-			StageHandler.hidePreviousStage();
+			//StageHandler.hidePreviousStage();
 			// Stage stage = (Stage) estCLINButton.getScene().getWindow();
 			// stage.close();
 

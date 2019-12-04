@@ -164,6 +164,7 @@ public class CLIN_EstimateController implements Initializable, Refreshable {
 	private void closeCurrent() {
 		prevController.refresh();
 		StageHandler.showPreviousStage();
+		// TODO Set isActive boolean back to false when closing
 		StageHandler.closeCurrentStage();
 	}
 

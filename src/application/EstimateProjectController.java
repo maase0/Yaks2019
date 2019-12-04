@@ -93,10 +93,9 @@ public class EstimateProjectController implements Initializable, Refreshable {
 		saveNewChanges(); // currently doesn't function
 		DBUtil.dbExecuteUpdate(
 				"CALL estimate_project(" + project.getProjectID() + ", '" + LocalDate.now().toString() + "')");
-		closeCurrent();
 	}
 
-	public void saveNewChanges() {
+	public void saveNewChanges() throws SQLException, ClassNotFoundException {
 		// TODO need to loop through CLIN_Estimate, get Organizations, Work Packages,
 		// and Tasks
 		// on each thing, getDeleteList to remove deleted items from database, then deleteList.removeAll()
@@ -108,40 +107,77 @@ public class EstimateProjectController implements Initializable, Refreshable {
 		
 		for(CLIN c : clinObservableList) {
 			for(OrganizationBOE org : c.getOrganizations()) {
-				saveOrganization(org);
+				saveOrganization(org, c.getID());
 			}
 			
 			for(OrganizationBOE org :c.getDeletedOrganizations()) {
-				//delete them
+				//DBUtil.dbExecuteUpdate("CALL delete_organization(" + org.getID() + ")");
 			}
 		}
-		
+		closeCurrent();
 	}
 	
-	private void saveOrganization(OrganizationBOE org) {
-		//save the org stuff here
+	private void saveOrganization(OrganizationBOE org, String clinID) throws SQLException, ClassNotFoundException {
+		if (org.getID() != null) {
+			DBUtil.dbExecuteUpdate("CALL update_organization(" + org.getID() + ", " + clinID + ", '"
+					+ org.getOrganization() + "', '" + org.getVersion() + "', '" + org.getProduct() + "')");
+		} else {
+			ResultSet rs = DBUtil.dbExecuteQuery("CALL insert_organization(" + clinID + ", '" + org.getOrganization()
+									+ "', '" + org.getVersion() + "', '" + org.getProduct() + "')");
+			while(rs.next()) {
+				org.setID(rs.getString("idOrganization"));
+			}
+			rs.close();
+		}
+
 		for(WorkPackage wp : org.getWorkPackages()) {
-			saveWorkPackage(wp);
+			saveWorkPackage(wp, org.getID());
 		}
 		
-		for(WorkPackage wp : org.getDeletedWorkPackages()) {
-			//delete them
-		}
+		/*for(WorkPackage wp : org.getDeletedWorkPackages()) {
+			//DBUtil.dbExecuteUpdate("CALL delete_wp(" + wp.getID() + ")");
+		}*/
 	}
 	
-	private void saveWorkPackage(WorkPackage wp) {
-		//save the work package stuff here
+	private void saveWorkPackage(WorkPackage wp, String orgID) throws SQLException, ClassNotFoundException {
+		if (wp.getID() != null) {
+			DBUtil.dbExecuteUpdate("CALL update_WP(" + wp.getID() + ", " + orgID + ", '" + wp.getVersion()
+					+ "', '" + wp.getName() + "', '" + wp.getAuthor() + "', '" + wp.getScope() + "', '"
+					+ wp.getWorkPackageType() + "', '" + wp.getTypeOfWork() + "', '" + wp.getPopStart() + "', '"
+					+ wp.getPopEnd() + "')");
+		} else {
+			ResultSet rs = DBUtil.dbExecuteQuery("CALL insert_wp(" + orgID + ", '" + wp.getVersion() + "', '"
+									+ wp.getName() + "', '" + wp.getAuthor() + "', '" + wp.getScope()
+									+ "', '" + wp.getWorkPackageType() + "', '" + wp.getTypeOfWork() + "', '"
+									+ wp.getPopStart() + "', '" + wp.getPopEnd() + "')");
+
+			while (rs.next()) {
+				wp.setID(rs.getString("idWP"));
+			}
+			rs.close();
+		}
+
 		for(Task task : wp.getTasks()) {
-			saveTask(task);
+			saveTask(task, wp.getID());
 		}
 		
-		for(Task task : wp.getDeletedTasks()) {
-			//delete them
-		}
+		/*for(Task task : wp.getDeletedTasks()) {
+			//DBUtil.dbExecuteUpdate("CALL delete_task" + task.getID() + ")");
+		}*/
 	}
-	
-	private void saveTask(Task task) {
-		
+
+	private void saveTask(Task task, String wpID) throws SQLException, ClassNotFoundException {
+		if (task.getID() != null) {
+			DBUtil.dbExecuteUpdate("CALL update_task(" + task.getID() + ", " + wpID + ", '"
+					+ task.getName() + "', '" + task.getFormula() + "', " + task.getStaffHours()
+					+ ", '" + task.getDetails() + "', '" + task.getConditions() + "', '"
+					+ task.getMethodology() + "', '" + task.getPopStart() + "', '" + task.getPopEnd() + "')");
+		} else {
+			DBUtil.dbExecuteUpdate("CALL insert_task(" + wpID + ", '" + task.getName() + "', '"
+									+ task.getFormula() + "', " + task.getStaffHours() + ", '" + task.getDetails()
+									+ "', '" + task.getConditions() + "', '" + task.getMethodology() + "', '"
+									+ task.getPopStart() + "', '" + task.getPopEnd() + "')");
+		}
 	}
 	
 	

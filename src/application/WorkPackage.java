@@ -9,7 +9,7 @@ public class WorkPackage {
     private String popStart;
     private String popEnd;
     private String scope;
-    private String worktype;
+    private String typeOfWork;
     private String version;
     private ArrayList<Task> tasks;
 	private String id;
@@ -23,7 +23,7 @@ public class WorkPackage {
         popStart = null;
         popEnd = null;
         scope = null;
-        worktype = null;
+        typeOfWork = null;
         version = null;
         tasks = new ArrayList<Task>();
         this.id = null;
@@ -40,7 +40,7 @@ public class WorkPackage {
         this.popStart = popStart;
         this.popEnd = popEnd;
         this.scope = scope;
-        this.worktype = worktype;
+        this.typeOfWork = worktype;
         this.version = version;
         this.oldVersion = version;
         this.tasks = tasks;
@@ -69,7 +69,7 @@ public class WorkPackage {
         this.name = name;
     }
 
-    public void setWptype(String wptype) {
+    public void setWorkPackageType(String wptype) {
         this.wptype = wptype;
     }
 
@@ -89,8 +89,8 @@ public class WorkPackage {
         this.scope = scope;
     }
 
-    public void setWorktype(String worktype) {
-        this.worktype = worktype;
+    public void setTypeOfWork(String worktype) {
+        this.typeOfWork = worktype;
     }
 
     public void setVersion(String version) {
@@ -101,7 +101,7 @@ public class WorkPackage {
         return name;
     }
 
-    public String getWptype() {
+    public String getWorkPackageType() {
         return wptype;
     }
 
@@ -121,8 +121,8 @@ public class WorkPackage {
         return scope;
     }
 
-    public String getWorktype() {
-        return worktype;
+    public String getTypeOfWork() {
+        return typeOfWork;
     }
 
     public String getVersion() {

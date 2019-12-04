@@ -319,7 +319,6 @@
 	-fx-background: #2A5058;
     -fx-background-color: #5077bf;
     -fx-text-fill: -fx-selection-bar-text;
-    -fx-cursor: hand;
 }
 
 .btn-rich-blue {
@@ -339,7 +338,6 @@
     -fx-background: #2A5058;
     -fx-background-color: #5097bf;
     -fx-text-fill: -fx-selection-bar-text;
-    -fx-cursor: hand;
 }
 
 .pm-projects .list-view .combo-box .list-cell {
@@ -354,7 +352,6 @@
     -fx-background: #2A5058;
     -fx-background-color: #5097bf;
     -fx-text-fill: -fx-selection-bar-text;
-    -fx-cursor: hand;
 }
 
 .pm-projects .list-view .combo-box .list-cell {
@@ -363,4 +360,14 @@
     -fx-text-fill: #333333;
     -fx-padding: 3 0 2 5;
     -fx-cell-size: 1.66667em;
+}
+
+.clin-estimate-list .list-view .list-cell:filled:hover {
+	-fx-cursor: hand;
+}
+
+.clin-estimate-list .list-view .list-cell:selected {
+	-fx-background: #5077bf;
+	-fx-background-color: #5077bf;
+	-fx-text-fill: #ffffff;
 }

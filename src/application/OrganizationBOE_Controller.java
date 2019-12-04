@@ -112,6 +112,20 @@ public class OrganizationBOE_Controller implements Initializable, Refreshable {
 	public void setOrganizationList(ObservableList<OrganizationBOE> organizationBOEObservableList) {
 		this.organizationBOEObservableList = organizationBOEObservableList;
 	}
+	
+	public void setOrganiztion(OrganizationBOE org) {
+		this.org = org;
+		setAllFields();
+	}
+	
+	private void setAllFields() {
+		orgText.setText(org.getOrganization());
+		productText.setText(org.getProduct());
+		versionText.setText(org.getVersion());
+		workPackageObservableList.addAll(org.getWorkPackages());
+		
+		
+	}
 
 	private void closeCurrent() {
 		prevController.refresh();

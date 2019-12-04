@@ -74,7 +74,30 @@ public class CLIN_EstimateController implements Initializable, Refreshable {
 	}
 
 	public void editOrganization(ActionEvent event) {
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("OrganizationBOE.fxml"));
+			Parent root = fxmlLoader.load();
 
+			OrganizationBOE_Controller controller = fxmlLoader.getController();
+			
+			//Give all necessary information to the OrgController
+			controller.setPreviousController(this);
+			controller.setOrganizationList(organizationBOEObservableList);
+			controller.setOrganiztion(organizationBOEListView.getSelectionModel().getSelectedItem());
+			
+			Stage addOrgStage = new Stage();
+			addOrgStage.setTitle("Estimation Suite - Estimator - Estimate Project");
+			addOrgStage.setScene(new Scene(root));
+
+			addOrgStage.show();
+			addOrgStage.setResizable(true);
+			addOrgStage.sizeToScene();
+
+			StageHandler.addStage(addOrgStage);
+			StageHandler.hidePreviousStage();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void removeOrganization(ActionEvent event) {

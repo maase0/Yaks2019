@@ -54,4 +54,8 @@ public class OrganizationBOE
     public void setWorkPackages(ArrayList<WorkPackage> list) {
     	this.workPackages = list;
     }
+    
+    public String toString() {
+    	return organization +": " + product + ", v" + version;
+    }
 }

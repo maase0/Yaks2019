@@ -42,7 +42,7 @@ public class Task {
 		this.id = null;
 	}
 	
-	public void setOldVersoin(String oldVersion) {
+	public void setOldVersion(String oldVersion) {
 		this.oldVersion = oldVersion;
 	}
 	

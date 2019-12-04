@@ -170,7 +170,7 @@ public class WorkPackage_Controller implements Initializable, Refreshable {
 			boolean flag = workPackage == null;
 			if (flag) {
 				workPackage = new WorkPackage();
-				workPackage.setOldVersoin(version.getText());
+				workPackage.setOldVersion(version.getText());
 			}
 
 			workPackage.setName(name.getText());

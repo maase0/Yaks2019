@@ -26,7 +26,7 @@ public class OrganizationBOE {
 		this.workPackages = workPackages;
 	}
 	
-	public void setOldVersoin(String oldVersion) {
+	public void setOldVersion(String oldVersion) {
 		this.oldVersion = oldVersion;
 	}
 	

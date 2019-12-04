@@ -46,7 +46,7 @@ public class OrganizationBOE_Controller implements Initializable, Refreshable {
 	private ObservableList<OrganizationBOE> organizationBOEObservableList;
 
 	private ArrayList<WorkPackage> wpDelete;
-	
+
 	private OrganizationBOE org;
 
 	@Override
@@ -115,7 +115,7 @@ public class OrganizationBOE_Controller implements Initializable, Refreshable {
 		if (wp.getID() != null) {
 			wpDelete.add(wp);
 		}
-		
+
 	}
 
 	public void close() {
@@ -134,27 +134,53 @@ public class OrganizationBOE_Controller implements Initializable, Refreshable {
 			closeCurrent();
 		} else {
 			// ... user chose CANCEL or closed the dialog
-		}		
+		}
 	}
 
-	public void save() {
-		boolean flag = org == null;
-		if (flag) {
-			org = new OrganizationBOE();
-			org.setOldVersoin(versionText.getText());
+	public boolean save() {
+
+		boolean passed = true;
+		String errorMessage = "";
+
+		String versionReg = "\\d+(.\\d)*";
+
+		if (!versionText.getText().matches(versionReg)) {
+			passed = false;
+			errorMessage += "Error: Invalid version! Use form 1, 1.2, 1.2.3, etc.\n";
 		}
-		org.setOrganization(orgText.getText());
-		org.setProduct(productText.getText());
-		org.setVersion(versionText.getText());
-		org.setWorkPackages(new ArrayList<WorkPackage>(workPackageObservableList));
-		if (flag) {
-			organizationBOEObservableList.add(org);
+
+		if (passed) {
+			boolean flag = org == null;
+			if (flag) {
+				org = new OrganizationBOE();
+				org.setOldVersion(versionText.getText());
+			}
+			org.setOrganization(orgText.getText());
+			org.setProduct(productText.getText());
+			org.setVersion(versionText.getText());
+			org.setWorkPackages(new ArrayList<WorkPackage>(workPackageObservableList));
+			if (flag) {
+				organizationBOEObservableList.add(org);
+			}
+		} else {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Saving Task");
+			alert.setHeaderText("There was an error saving this task!");
+			alert.setContentText(errorMessage);
+
+			// ButtonType buttonTypeOne = new ButtonType("Discard Changes ");
+			ButtonType buttonTypeCancel = new ButtonType("OK", ButtonData.CANCEL_CLOSE);
+
+			alert.getButtonTypes().setAll(buttonTypeCancel);
+			alert.showAndWait();
 		}
+		return passed;
 	}
 
 	public void saveAndClose() {
-		save();
-		closeCurrent();
+		if (save()) {
+			closeCurrent();
+		}
 	}
 
 	public void setPreviousController(Refreshable controller) {
@@ -183,8 +209,8 @@ public class OrganizationBOE_Controller implements Initializable, Refreshable {
 		StageHandler.showPreviousStage();
 		StageHandler.closeCurrentStage();
 	}
-	
-	public ArrayList<WorkPackage> getDeleteList(){
+
+	public ArrayList<WorkPackage> getDeleteList() {
 		return wpDelete;
 	}
 }

@@ -45,7 +45,7 @@ public class WorkPackage {
         this.id = null;
     }
     
-	public void setOldVersoin(String oldVersion) {
+	public void setOldVersion(String oldVersion) {
 		this.oldVersion = oldVersion;
 	}
 	

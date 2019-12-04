@@ -123,7 +123,7 @@ public class CLIN_EstimateController implements Initializable, Refreshable {
 
 	public void saveAndClose() {
 		save();
-		close();
+		closeCurrent();
 	}
 
 	public void close() {

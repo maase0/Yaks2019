@@ -85,7 +85,7 @@ public class Task_Controller implements Initializable {
 			boolean flag = task == null;
 			if (flag) {
 				task = new Task();
-				task.setOldVersoin(version.getText());
+				task.setOldVersion(version.getText());
 			}
 
 			task.setName(name.getText());

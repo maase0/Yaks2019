@@ -100,6 +100,7 @@ public class EstimateProjectController implements Initializable, Refreshable {
 		//      if any thing has a new version, it is inserted new and all sub-things are inserted new
 		//      otherwise they are updated, like with the CLINs etc in PM_EditProjectController
 		//		each thing will have a version and an oldVersion, if they are different then the version changed
+		//      also if thing.getID() is null, then insert instead of update
 	}
 
 	public void discardChanges(ActionEvent event) {

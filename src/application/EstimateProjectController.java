@@ -19,6 +19,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import java.net.URL;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Optional;
@@ -82,6 +83,18 @@ public class EstimateProjectController implements Initializable, Refreshable {
 		
 		//TODO: go through each clin in estimate list view
 		//fill with all the sub-stuff
+		for(CLIN c : clinObservableList) {
+			//clin stuff should all be loaded
+			try {
+				loadOrganizations(c);
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 
 	}
 
@@ -143,6 +156,80 @@ public class EstimateProjectController implements Initializable, Refreshable {
 	private void saveTask(Task task) {
 		
 	}
+	
+	
+	private void loadOrganizations(CLIN clin) throws ClassNotFoundException, SQLException {
+		//result set stuff
+		//put each one in clin
+		
+		//
+		
+		ResultSet rs = DBUtil.dbExecuteQuery("SELECT * FROM Organiztion WHERE idCLIN = " + clin.getID() + ";");
+		while(rs.next()) {
+			OrganizationBOE org = new OrganizationBOE();
+			org.setID(rs.getString("idOrganization"));
+			org.setVersion(rs.getString("Version_Number"));
+			org.setOldVersion("Version_Number");
+			org.setOrganization("Organization_Name");
+			org.setProduct("Product");
+			
+			clin.addOrganiztion(org);
+		}
+		
+		
+		for(OrganizationBOE org : clin.getOrganizations()) {
+			loadWorkPackages(org);
+		}
+	}
+	
+	private void loadWorkPackages(OrganizationBOE org) throws ClassNotFoundException, SQLException {
+		//result set stuff
+		//put all work packages in org
+		ResultSet rs = DBUtil.dbExecuteQuery("SELECT * FROM WP WHERE idOrganization = " + org.getID() + ";");
+		while(rs.next()) {
+			WorkPackage wp = new WorkPackage();
+			
+			wp.setID(rs.getString("idWP"));
+			wp.setAuthor(rs.getString("BoE_Author"));
+			wp.setName(rs.getString("WP_Name"));
+			wp.setOldVersion(rs.getString("Version_Number"));
+			wp.setPopStart(rs.getString("PoP_Start"));
+			wp.setPopEnd(rs.getString("PoP_End"));
+			wp.setScope(rs.getString("Scope"));
+			wp.setVersion(rs.getString("Version_Number"));
+			wp.setWorktype(rs.getString("Type_of_Work"));
+		
+			org.addWorkPackage(wp);
+		}
+		
+		
+		for(WorkPackage wp : org.getWorkPackages()) {
+			loadTasks(wp);
+		}
+	}
+	
+	private void loadTasks(WorkPackage wp) throws ClassNotFoundException, SQLException {
+		ResultSet rs = DBUtil.dbExecuteQuery("SELECT * FROM Task WHERE idWP = " + wp.getID() + ";");
+
+		while(rs.next()) {
+			Task task = new Task();
+			
+			task.setConditions(rs.getString("Assumptions"));
+			task.setDetails(rs.getString("Task_Details"));
+			task.setFormula(rs.getString("Estimate_Formula"));
+			task.setID(rs.getString("idTask"));
+			task.setMethodology(rs.getString("Estimate_Methodology"));
+			task.setName(rs.getString("Task_Name"));
+			task.setOldVersion(rs.getString("Version_Number"));
+			task.setPopEnd(rs.getString("PoP_End"));
+			task.setPopStart(rs.getString("PoP_Start"));
+			task.setStaffHours(rs.getInt("Staff_Hours"));
+			task.setVersion(rs.getString("Version_Number"));
+		}
+		
+	}
+	
+	
 
 	public void discardChanges(ActionEvent event) {
 		Alert alert = new Alert(AlertType.CONFIRMATION);

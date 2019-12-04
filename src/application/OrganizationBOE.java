@@ -85,6 +85,10 @@ public class OrganizationBOE {
 		this.deletedWorkPackages = wp;
 	}
 	
+	public void addWorkPackage(WorkPackage wp) {
+		workPackages.add(wp);
+	}
+	
 	public String toString() {
 		return organization + ": " + product + ", v" + version;
 	}

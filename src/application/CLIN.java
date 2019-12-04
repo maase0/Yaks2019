@@ -13,6 +13,7 @@ public class CLIN
 	private String version;
 	private String id;
 	private ArrayList<OrganizationBOE> organizations;
+	private ArrayList<OrganizationBOE> deletedOrganizations;
 	
     public CLIN() {
     	index = null;
@@ -22,6 +23,7 @@ public class CLIN
     	clinContent = null;
     	version = null;
     	organizations = null;
+    	deletedOrganizations = new ArrayList<OrganizationBOE>();
     }
     
     public CLIN(String id, String index, String version,
@@ -35,6 +37,7 @@ public class CLIN
     	this.popStart = popStart;
     	this.popEnd = popEnd;
     	organizations = null;
+    	deletedOrganizations = new ArrayList<OrganizationBOE>();
     }
 		
     public void setID(String id) {
@@ -104,6 +107,15 @@ public class CLIN
     public void addOrganiztion(OrganizationBOE org) {
     	organizations.add(org);
     }
+    
+    public ArrayList<OrganizationBOE> getDeletedOrganizations() {
+    	return deletedOrganizations;
+    }
+    
+    public void setDeletedOrganizations(ArrayList<OrganizationBOE> orgs) {
+    	this.deletedOrganizations = orgs;
+    }
+    
     public String toString() {
     	return "Index: " + index + " v" + version + "\n" + "Project Type: " + projectType + "\n"
                 + "PoP: " + popStart + " to " + popEnd + "\n" + "Content:\n\t" + clinContent;

@@ -80,10 +80,14 @@ public class EstimateProjectController implements Initializable, Refreshable {
 
 		sowObservableList = FXCollections.observableArrayList();
 		sowListView.setItems(sowObservableList);
+		
+		//TODO: go through each clin in estimate list view
+		//fill with all the sub-stuff
 
 	}
 
 	public void refresh() {
+		
 	}
 
 	public void submitApproval(ActionEvent event) throws SQLException, ClassNotFoundException {
@@ -102,6 +106,43 @@ public class EstimateProjectController implements Initializable, Refreshable {
 		//      otherwise they are updated, like with the CLINs etc in PM_EditProjectController
 		//		each thing will have a version and an oldVersion, if they are different then the version changed
 		//      also if thing.getID() is null, then insert instead of update
+		
+		for(CLIN c : clinObservableList) {
+			for(OrganizationBOE org : c.getOrganizations()) {
+				saveOrganization(org);
+			}
+			
+			for(OrganizationBOE org :c.getDeletedOrganizations()) {
+				//delete them
+			}
+		}
+		
+	}
+	
+	private void saveOrganization(OrganizationBOE org) {
+		//save the org stuff here
+		for(WorkPackage wp : org.getWorkPackages()) {
+			saveWorkPackage(wp);
+		}
+		
+		for(WorkPackage wp : org.getDeletedWorkPackages()) {
+			//delete them
+		}
+	}
+	
+	private void saveWorkPackage(WorkPackage wp) {
+		//save the work package stuff here
+		for(Task task : wp.getTasks()) {
+			saveTask(task);
+		}
+		
+		for(Task task : wp.getDeletedTasks()) {
+			//delete them
+		}
+	}
+	
+	private void saveTask(Task task) {
+		
 	}
 
 	public void discardChanges(ActionEvent event) {

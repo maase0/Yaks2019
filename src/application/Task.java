@@ -129,5 +129,9 @@ public class Task {
 	public int getStaffHours() {
 		return staffHours;
 	}
+	
+	public String toString() {
+		return name + ", v" + version;
+	}
 
 }

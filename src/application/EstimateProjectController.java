@@ -235,6 +235,7 @@ public class EstimateProjectController implements Initializable, Refreshable {
 		ResultSet rs = DBUtil.dbExecuteQuery("SELECT * FROM Task WHERE idWP = " + wp.getID() + ";");
 
 		while(rs.next()) {
+			System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa");
 			Task task = new Task();
 			
 			task.setConditions(rs.getString("Assumptions"));
@@ -248,6 +249,8 @@ public class EstimateProjectController implements Initializable, Refreshable {
 			task.setPopStart(rs.getString("PoP_Start"));
 			task.setStaffHours(rs.getInt("Staff_Hours"));
 			//task.setVersion(rs.getString("Version_Number"));
+			
+			wp.addTask(task);
 		}
 		rs.close();
 		

@@ -112,11 +112,11 @@
                   <Insets left="10.0" />
                </GridPane.margin>
             </Button>
-            <Button fx:id="editWorkPackButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="140.0" styleClass="btn-rich-blue" text="Edit Work Package" GridPane.columnIndex="1">
+            <Button fx:id="editWorkPackButton" mnemonicParsing="false" onAction="#editWorkPackage" prefHeight="25.0" prefWidth="140.0" styleClass="btn-rich-blue" text="Edit Work Package" GridPane.columnIndex="1">
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin></Button>
-            <Button fx:id="removeWorkPackButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="165.0" styleClass="btn-rich-blue" text="Remove Work Package" GridPane.columnIndex="2">
+            <Button fx:id="removeWorkPackButton" mnemonicParsing="false" onAction="#removeWorkPackage" prefHeight="25.0" prefWidth="165.0" styleClass="btn-rich-blue" text="Remove Work Package" GridPane.columnIndex="2">
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin></Button>

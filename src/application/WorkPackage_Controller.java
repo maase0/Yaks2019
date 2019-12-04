@@ -6,10 +6,16 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import java.net.URL;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class WorkPackage_Controller implements Initializable, Refreshable {
@@ -23,11 +29,30 @@ public class WorkPackage_Controller implements Initializable, Refreshable {
 	@FXML
 	private Button removeTaskButton;
 
+	
+	@FXML private TextField name;
+	@FXML private TextField author;
+	@FXML private TextField scope;
+	@FXML private TextField type;
+	@FXML private TextField version;
+	
+	@FXML DatePicker startDate;
+	@FXML DatePicker endDate;
+	
+	@FXML
+	private ListView<Task> taskListView;
+	private ObservableList<Task> taskObservableList;
+
+	private ObservableList<WorkPackage> workPackageObservableList;
 	private Refreshable prevController;
+
+	private WorkPackage workPackage;
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
-
+		taskObservableList = FXCollections.observableArrayList();
+		taskListView.setItems(taskObservableList);
+		workPackage = null;
 	}
 
 	public void refresh() {
@@ -65,8 +90,30 @@ public class WorkPackage_Controller implements Initializable, Refreshable {
 
 	}
 
-	public void close(ActionEvent event) {
+	public void close() {
 		closeCurrent();
+	}
+	
+	public void save() {
+		if(workPackage == null) {
+			workPackage = new WorkPackage();
+		}
+		
+		workPackage.setName(name.getText());
+		workPackage.setWptype(type.getText());
+		workPackage.setAuthor(author.getText());
+		workPackage.setScope(scope.getText());
+		workPackage.setVersion(version.getText());
+		workPackage.setPopEnd(endDate.getValue().toString());
+		workPackage.setPopStart(startDate.getValue().toString());
+		workPackage.setTasks(new ArrayList<Task>(taskObservableList));
+		
+		workPackageObservableList.add(workPackage);
+	}
+	
+	public void saveAndClose() {
+		save();
+		close();
 	}
 
 	public void setPreviousController(Refreshable controller) {
@@ -77,5 +124,27 @@ public class WorkPackage_Controller implements Initializable, Refreshable {
 		prevController.refresh();
 		StageHandler.showPreviousStage();
 		StageHandler.closeCurrentStage();
+	}
+	
+	public void setWorkPackageList(ObservableList<WorkPackage> list) {
+		this.workPackageObservableList = list;
+	}
+	
+	public void setWorkPackage(WorkPackage wp) {
+		this.workPackage= wp;
+		setAllFields();
+	}
+	
+	private void setAllFields() {
+
+		name.setText(workPackage.getName());
+		author.setText(workPackage.getAuthor());
+		scope.setText(workPackage.getScope());
+		type.setText(workPackage.getWptype());
+		version.setText(workPackage.getVersion());
+		
+		startDate.setValue(LocalDate.parse(workPackage.getPopStart()));
+		endDate.setValue(LocalDate.parse(workPackage.getPopEnd()));
+		taskObservableList.addAll(workPackage.getTasks());
 	}
 }

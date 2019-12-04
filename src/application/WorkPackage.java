@@ -103,7 +103,19 @@ public class WorkPackage {
         return version;
     }
 
+    public void setTasks(ArrayList<Task> tasks) {
+    	this.tasks = tasks;
+    }
+    
+    public void addTask(Task task) {
+    	tasks.add(task);
+    }
+    
     public ArrayList<Task> getTasks() {
         return tasks;
+    }
+    
+    public String toString() {
+    	return name + ": " + author + ", " + wptype;
     }
 }

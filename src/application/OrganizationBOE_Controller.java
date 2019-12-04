@@ -60,7 +60,8 @@ public class OrganizationBOE_Controller implements Initializable, Refreshable {
 
 			WorkPackage_Controller controller = fxmlLoader.getController();
 			controller.setPreviousController(this);
-
+			controller.setWorkPackageList(workPackageObservableList);
+			
 			Stage addWPStage = new Stage();
 			addWPStage.setTitle("Estimation Suite - Estimator - Estimate Project");
 			addWPStage.setScene(new Scene(root));
@@ -76,11 +77,31 @@ public class OrganizationBOE_Controller implements Initializable, Refreshable {
 		}
 	}
 
-	public void editOrganization(ActionEvent event) {
+	public void editWorkPackage(ActionEvent event) {
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("WorkPackage.fxml"));
+			Parent root = fxmlLoader.load();
 
+			WorkPackage_Controller controller = fxmlLoader.getController();
+			controller.setPreviousController(this);
+			controller.setWorkPackageList(workPackageObservableList);
+			controller.setWorkPackage(workPackageListView.getSelectionModel().getSelectedItem());
+			Stage addWPStage = new Stage();
+			addWPStage.setTitle("Estimation Suite - Estimator - Estimate Project");
+			addWPStage.setScene(new Scene(root));
+
+			addWPStage.show();
+			addWPStage.setResizable(true);
+			addWPStage.sizeToScene();
+
+			StageHandler.addStage(addWPStage);
+			StageHandler.hidePreviousStage();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
-	public void removeOrganization(ActionEvent event) {
+	public void removeWorkPackage(ActionEvent event) {
 
 	}
 

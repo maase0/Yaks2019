@@ -5,15 +5,20 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.stage.Stage;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class OrganizationBOE_Controller implements Initializable, Refreshable {
@@ -113,7 +118,22 @@ public class OrganizationBOE_Controller implements Initializable, Refreshable {
 	}
 
 	public void close() {
-		closeCurrent();
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Remove Project");
+		alert.setHeaderText("This will discard any unsaved changes.");
+		alert.setContentText("Are you sure you want to exit?");
+
+		ButtonType buttonTypeOne = new ButtonType("Discard Changes ");
+		ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
+
+		alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeCancel);
+
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == buttonTypeOne) {
+			closeCurrent();
+		} else {
+			// ... user chose CANCEL or closed the dialog
+		}		
 	}
 
 	public void save() {
@@ -132,7 +152,7 @@ public class OrganizationBOE_Controller implements Initializable, Refreshable {
 
 	public void saveAndClose() {
 		save();
-		close();
+		closeCurrent();
 	}
 
 	public void setPreviousController(Refreshable controller) {

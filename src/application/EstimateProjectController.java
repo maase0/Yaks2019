@@ -6,10 +6,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.stage.Stage;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,6 +21,7 @@ import javafx.event.ActionEvent;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class EstimateProjectController implements Initializable, Refreshable {
@@ -40,7 +45,7 @@ public class EstimateProjectController implements Initializable, Refreshable {
 	@FXML
 	private Button estCLINButton;
 	@FXML
-	private Button  submitApproval;
+	private Button submitApproval;
 	@FXML
 	private Button saveNewChanges;
 
@@ -58,8 +63,7 @@ public class EstimateProjectController implements Initializable, Refreshable {
 	private ObservableList<SOW> sowObservableList;
 
 	private Refreshable prevController;
-	
-	
+
 	public EstimateProjectController() {
 
 	}
@@ -77,24 +81,43 @@ public class EstimateProjectController implements Initializable, Refreshable {
 		sowListView.setItems(sowObservableList);
 
 	}
-	
+
 	public void refresh() {
 	}
 
 	public void submitApproval(ActionEvent event) throws SQLException, ClassNotFoundException {
-		saveNewChanges(); //currently doesn't function
-		DBUtil.dbExecuteUpdate("CALL estimate_project(" + project.getProjectID() + ", '" + LocalDate.now().toString() + "')");
+		saveNewChanges(); // currently doesn't function
+		DBUtil.dbExecuteUpdate(
+				"CALL estimate_project(" + project.getProjectID() + ", '" + LocalDate.now().toString() + "')");
 		closeCurrent();
 	}
 
 	public void saveNewChanges() {
-		// TODO need to loop through CLIN_Estimate, get Organizations, Work Packages, and Tasks
-		// on each thing, getDeleteList to remove deleted items from database, then deleteList.removeAll() 
-		// 		will also need to go through and delete all sub-things, need to finish database procedures
+		// TODO need to loop through CLIN_Estimate, get Organizations, Work Packages,
+		// and Tasks
+		// on each thing, getDeleteList to remove deleted items from database, then
+		// deleteList.removeAll()
+		// will also need to go through and delete all sub-things, need to finish
+		// database procedures
 	}
 
 	public void discardChanges(ActionEvent event) {
-		closeCurrent();
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Remove Project");
+		alert.setHeaderText("This will discard any unsaved changes.");
+		alert.setContentText("Are you sure you want to exit?");
+
+		ButtonType buttonTypeOne = new ButtonType("Discard Changes ");
+		ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
+
+		alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeCancel);
+
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == buttonTypeOne) {
+			closeCurrent();
+		} else {
+			// ... user chose CANCEL or closed the dialog
+		}
 	}
 
 	public void estimateCLIN(ActionEvent event) {
@@ -102,13 +125,13 @@ public class EstimateProjectController implements Initializable, Refreshable {
 
 			CLIN clin = clinEstimateListView.getSelectionModel().getSelectedItem();
 			System.out.println(clin);
-			//TODO: ADD NULL CHECK
+			// TODO: ADD NULL CHECK
 
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CLIN_Estimate.fxml"));
 			Parent root = fxmlLoader.load();
 
 			CLIN_EstimateController controller = fxmlLoader.getController();
-			//controller.setProjectVersion(project);
+			// controller.setProjectVersion(project);
 			controller.setCLIN(clin);
 			controller.setPreviousController(this);
 
@@ -120,11 +143,10 @@ public class EstimateProjectController implements Initializable, Refreshable {
 			clinEstimateStage.setResizable(true);
 			clinEstimateStage.sizeToScene();
 
-			
 			StageHandler.addStage(clinEstimateStage);
 			StageHandler.hidePreviousStage();
-			//Stage stage = (Stage) estCLINButton.getScene().getWindow();
-			//stage.close();
+			// Stage stage = (Stage) estCLINButton.getScene().getWindow();
+			// stage.close();
 
 		} catch (Exception e) {
 			e.printStackTrace();

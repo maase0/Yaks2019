@@ -14,6 +14,7 @@ public class WorkPackage {
     private ArrayList<Task> tasks;
 	private String id;
 	private String oldVersion;
+	private ArrayList<Task> deletedTasks;
 
     public WorkPackage() {
         name = null;
@@ -27,6 +28,7 @@ public class WorkPackage {
         tasks = null;
         this.id = null;
         oldVersion = null;
+        deletedTasks = new ArrayList<Task>();
     }
 
     public WorkPackage(String name, String wptype, String author,
@@ -43,6 +45,7 @@ public class WorkPackage {
         this.oldVersion = version;
         this.tasks = tasks;
         this.id = null;
+        deletedTasks = new ArrayList<Task>();
     }
     
 	public void setOldVersion(String oldVersion) {
@@ -138,6 +141,13 @@ public class WorkPackage {
         return tasks;
     }
     
+    public void setDeletedTasks(ArrayList<Task> tasks) {
+    	this.deletedTasks = tasks;
+    }
+    
+    public ArrayList<Task> getDeletedTasks() {
+    	return deletedTasks;
+    }
     public String toString() {
     	return name + ": " + author + ", " + wptype;
     }

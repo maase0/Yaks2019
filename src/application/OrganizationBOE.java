@@ -9,13 +9,15 @@ public class OrganizationBOE {
 	private ArrayList<WorkPackage> workPackages;
 	private String id;
 	private String oldVersion;
-
+	private ArrayList<WorkPackage> deletedWorkPackages;
+	
 	public OrganizationBOE() {
 		organization = null;
 		product = null;
 		version = null;
 		workPackages = null;
 		oldVersion = null;
+		deletedWorkPackages = new ArrayList<WorkPackage>();
 	}
 
 	public OrganizationBOE(String organization, String product, String version, ArrayList<WorkPackage> workPackages) {
@@ -24,6 +26,7 @@ public class OrganizationBOE {
 		this.version = version;
 		this.oldVersion = version;
 		this.workPackages = workPackages;
+		deletedWorkPackages = new ArrayList<WorkPackage>();
 	}
 	
 	public void setOldVersion(String oldVersion) {
@@ -74,6 +77,14 @@ public class OrganizationBOE {
 		this.workPackages = list;
 	}
 
+	public ArrayList<WorkPackage> getDeletedWorkPackages() {
+		return deletedWorkPackages;
+	}
+	
+	public void setDeletedWorkPackages(ArrayList<WorkPackage> wp) {
+		this.deletedWorkPackages = wp;
+	}
+	
 	public String toString() {
 		return organization + ": " + product + ", v" + version;
 	}

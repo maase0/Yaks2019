@@ -159,6 +159,9 @@ public class OrganizationBOE_Controller implements Initializable, Refreshable {
 			org.setProduct(productText.getText());
 			org.setVersion(versionText.getText());
 			org.setWorkPackages(new ArrayList<WorkPackage>(workPackageObservableList));
+			
+			org.setDeletedWorkPackages(wpDelete);
+			
 			if (flag) {
 				organizationBOEObservableList.add(org);
 			}

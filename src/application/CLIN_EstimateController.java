@@ -119,6 +119,7 @@ public class CLIN_EstimateController implements Initializable, Refreshable {
 
 	public void save() {
 		clin.setOrganizations(new ArrayList<OrganizationBOE>(organizationBOEObservableList));
+		clin.setDeletedOrganizations(orgDelete);
 	}
 
 	public void saveAndClose() {

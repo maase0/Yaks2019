@@ -13,6 +13,7 @@ public class WorkPackage {
     private String version;
     private ArrayList<Task> tasks;
 	private String id;
+	private String oldVersion;
 
     public WorkPackage() {
         name = null;
@@ -25,6 +26,7 @@ public class WorkPackage {
         version = null;
         tasks = null;
         this.id = null;
+        oldVersion = null;
     }
 
     public WorkPackage(String name, String wptype, String author,
@@ -38,9 +40,18 @@ public class WorkPackage {
         this.scope = scope;
         this.worktype = worktype;
         this.version = version;
+        this.oldVersion = version;
         this.tasks = tasks;
         this.id = null;
     }
+    
+	public void setOldVersoin(String oldVersion) {
+		this.oldVersion = oldVersion;
+	}
+	
+	public String getOldVersion() {
+		return oldVersion;
+	}
 
     public void setID(String id) {
     	this.id = id;

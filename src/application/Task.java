@@ -11,6 +11,7 @@ public class Task {
 	private String conditions;
 	private String methodology;
 	private String id;
+	private String oldVersion;
 
 	public Task() {
 		name = null;
@@ -23,6 +24,7 @@ public class Task {
 		conditions = null;
 		methodology = null;
 		id = null;
+		oldVersion = null;
 	}
 
 	public Task(String name, String popStart, String popEnd, String formula, int staffHours, String version,
@@ -33,10 +35,19 @@ public class Task {
 		this.formula = formula;
 		this.staffHours = staffHours;
 		this.version = version;
+		this.oldVersion = version;
 		this.details = details;
 		this.conditions = conditions;
 		this.methodology = methodology;
 		this.id = null;
+	}
+	
+	public void setOldVersoin(String oldVersion) {
+		this.oldVersion = oldVersion;
+	}
+	
+	public String getOldVersion() {
+		return oldVersion;
 	}
 
 	public void setID(String id) {

@@ -95,10 +95,11 @@ public class EstimateProjectController implements Initializable, Refreshable {
 	public void saveNewChanges() {
 		// TODO need to loop through CLIN_Estimate, get Organizations, Work Packages,
 		// and Tasks
-		// on each thing, getDeleteList to remove deleted items from database, then
-		// deleteList.removeAll()
-		// will also need to go through and delete all sub-things, need to finish
-		// database procedures
+		// on each thing, getDeleteList to remove deleted items from database, then deleteList.removeAll()
+		// 		will also need to go through and delete all sub-things, need to finish database procedures
+		//      if any thing has a new version, it is inserted new and all sub-things are inserted new
+		//      otherwise they are updated, like with the CLINs etc in PM_EditProjectController
+		//		each thing will have a version and an oldVersion, if they are different then the version changed
 	}
 
 	public void discardChanges(ActionEvent event) {

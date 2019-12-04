@@ -66,6 +66,7 @@ public class WorkPackage_Controller implements Initializable, Refreshable {
 		taskObservableList = FXCollections.observableArrayList();
 		taskListView.setItems(taskObservableList);
 		workPackage = null;
+		version.setText("1");
 	}
 
 	public void refresh() {
@@ -150,6 +151,7 @@ public class WorkPackage_Controller implements Initializable, Refreshable {
 		boolean flag = workPackage == null;
 		if (flag) {
 			workPackage = new WorkPackage();
+			workPackage.setOldVersoin(version.getText());
 		}
 
 		workPackage.setName(name.getText());

@@ -55,6 +55,7 @@ public class OrganizationBOE_Controller implements Initializable, Refreshable {
 		workPackageListView.setItems(workPackageObservableList);
 		org = null;
 		wpDelete = new ArrayList<WorkPackage>();
+		versionText.setText("1");
 	}
 
 	public void refresh() {
@@ -140,6 +141,7 @@ public class OrganizationBOE_Controller implements Initializable, Refreshable {
 		boolean flag = org == null;
 		if (flag) {
 			org = new OrganizationBOE();
+			org.setOldVersoin(versionText.getText());
 		}
 		org.setOrganization(orgText.getText());
 		org.setProduct(productText.getText());

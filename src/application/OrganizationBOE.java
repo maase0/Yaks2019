@@ -8,19 +8,30 @@ public class OrganizationBOE {
 	private String version;
 	private ArrayList<WorkPackage> workPackages;
 	private String id;
+	private String oldVersion;
 
 	public OrganizationBOE() {
 		organization = null;
 		product = null;
 		version = null;
 		workPackages = null;
+		oldVersion = null;
 	}
 
 	public OrganizationBOE(String organization, String product, String version, ArrayList<WorkPackage> workPackages) {
 		this.organization = organization;
 		this.product = product;
 		this.version = version;
+		this.oldVersion = version;
 		this.workPackages = workPackages;
+	}
+	
+	public void setOldVersoin(String oldVersion) {
+		this.oldVersion = oldVersion;
+	}
+	
+	public String getOldVersion() {
+		return oldVersion;
 	}
 
 	public void setID(String id) {

@@ -174,7 +174,7 @@ public class WorkPackage_Controller implements Initializable, Refreshable {
 			}
 
 			workPackage.setName(name.getText());
-			workPackage.setWptype(type.getText());
+			workPackage.setTypeOfWork(type.getText());
 			workPackage.setAuthor(author.getText());
 			workPackage.setScope(scope.getText());
 			workPackage.setVersion(version.getText());
@@ -232,7 +232,7 @@ public class WorkPackage_Controller implements Initializable, Refreshable {
 		name.setText(workPackage.getName());
 		author.setText(workPackage.getAuthor());
 		scope.setText(workPackage.getScope());
-		type.setText(workPackage.getWptype());
+		type.setText(workPackage.getTypeOfWork());
 		version.setText(workPackage.getVersion());
 
 		if (workPackage.getPopStart() != null) {

@@ -25,7 +25,7 @@ public class WorkPackage {
         scope = null;
         worktype = null;
         version = null;
-        tasks = null;
+        tasks = new ArrayList<Task>();
         this.id = null;
         oldVersion = null;
         deletedTasks = new ArrayList<Task>();

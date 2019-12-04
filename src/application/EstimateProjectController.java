@@ -81,20 +81,6 @@ public class EstimateProjectController implements Initializable, Refreshable {
 		sowObservableList = FXCollections.observableArrayList();
 		sowListView.setItems(sowObservableList);
 		
-		//TODO: go through each clin in estimate list view
-		//fill with all the sub-stuff
-		for(CLIN c : clinObservableList) {
-			//clin stuff should all be loaded
-			try {
-				loadOrganizations(c);
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
 
 	}
 
@@ -164,7 +150,7 @@ public class EstimateProjectController implements Initializable, Refreshable {
 		
 		//
 		
-		ResultSet rs = DBUtil.dbExecuteQuery("SELECT * FROM Organiztion WHERE idCLIN = " + clin.getID() + ";");
+		ResultSet rs = DBUtil.dbExecuteQuery("SELECT * FROM Organization WHERE idCLIN = " + clin.getID() + ";");
 		while(rs.next()) {
 			OrganizationBOE org = new OrganizationBOE();
 			org.setID(rs.getString("idOrganization"));
@@ -176,7 +162,7 @@ public class EstimateProjectController implements Initializable, Refreshable {
 			clin.addOrganiztion(org);
 		}
 		
-		
+		rs.close();
 		for(OrganizationBOE org : clin.getOrganizations()) {
 			loadWorkPackages(org);
 		}
@@ -201,7 +187,7 @@ public class EstimateProjectController implements Initializable, Refreshable {
 		
 			org.addWorkPackage(wp);
 		}
-		
+		rs.close();
 		
 		for(WorkPackage wp : org.getWorkPackages()) {
 			loadTasks(wp);
@@ -220,12 +206,13 @@ public class EstimateProjectController implements Initializable, Refreshable {
 			task.setID(rs.getString("idTask"));
 			task.setMethodology(rs.getString("Estimate_Methodology"));
 			task.setName(rs.getString("Task_Name"));
-			task.setOldVersion(rs.getString("Version_Number"));
+			//task.setOldVersion(rs.getString("Version_Number"));
 			task.setPopEnd(rs.getString("PoP_End"));
 			task.setPopStart(rs.getString("PoP_Start"));
 			task.setStaffHours(rs.getInt("Staff_Hours"));
-			task.setVersion(rs.getString("Version_Number"));
+			//task.setVersion(rs.getString("Version_Number"));
 		}
+		rs.close();
 		
 	}
 	
@@ -302,6 +289,26 @@ public class EstimateProjectController implements Initializable, Refreshable {
 		startDate.setDisable(true);
 		endDate.setValue(project.getPopEnd());
 		endDate.setDisable(true);
+		
+		
+		//TODO: go through each clin in estimate list view
+		//fill with all the sub-stuff
+		System.out.println("test2");
+		for(CLIN c : clinObservableList) {
+			System.out.println("test1");
+			//clin stuff should all be loaded
+			try {
+				loadOrganizations(c);
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		
 	}
 
 	public void setPreviousController(Refreshable controller) {

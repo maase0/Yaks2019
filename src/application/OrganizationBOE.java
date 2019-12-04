@@ -15,7 +15,7 @@ public class OrganizationBOE {
 		organization = null;
 		product = null;
 		version = null;
-		workPackages = null;
+		workPackages = new ArrayList<WorkPackage>();
 		oldVersion = null;
 		deletedWorkPackages = new ArrayList<WorkPackage>();
 	}

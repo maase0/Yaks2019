@@ -59,7 +59,7 @@ public class OrganizationBOE_Controller implements Initializable, Refreshable {
 	}
 
 	public void refresh() {
-
+		workPackageListView.refresh();
 	}
 
 	public void addWorkPack(ActionEvent event) {

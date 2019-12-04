@@ -54,7 +54,7 @@ public class CLIN_EstimateController implements Initializable, Refreshable {
 	}
 
 	public void refresh() {
-
+		organizationBOEListView.refresh();
 	}
 
 	public void addOrganization(ActionEvent event) {

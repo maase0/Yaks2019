@@ -70,7 +70,7 @@ public class WorkPackage_Controller implements Initializable, Refreshable {
 	}
 
 	public void refresh() {
-
+		taskListView.refresh();
 	}
 
 	public void addTask(ActionEvent event) {

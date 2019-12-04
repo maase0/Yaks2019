@@ -25,14 +25,14 @@
                   		<Insets />
                		</BorderPane.margin>
                		<top>
-               			<Button mnemonicParsing="false" prefWidth="150.0" styleClass="btn-rich-blue" text="Submit for Approval" BorderPane.alignment="CENTER">
+               			<Button fx:id="submitApproval" mnemonicParsing="false" onAction="#submitApproval" prefWidth="150.0" styleClass="btn-rich-blue" text="Submit for Approval" BorderPane.alignment="CENTER">
                				<BorderPane.margin>
                					<Insets top="5.0" />
                				</BorderPane.margin>
                			</Button>
                		</top>
                		<center>
-               			<Button mnemonicParsing="false" prefWidth="150.0" styleClass="btn-save" text="Save Changes" BorderPane.alignment="CENTER">
+               			<Button fx:id="saveNewChanges" mnemonicParsing="false" onAction="#saveNewChanges" prefWidth="150.0" styleClass="btn-save" text="Save Changes" BorderPane.alignment="CENTER">
                				<BorderPane.margin>
                         		<Insets />
                      		</BorderPane.margin>

@@ -1,5 +1,6 @@
 package application;
 
+import DB.DBUtil;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -14,6 +15,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import java.net.URL;
+import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class EstimateProjectController implements Initializable, Refreshable {
@@ -36,6 +39,10 @@ public class EstimateProjectController implements Initializable, Refreshable {
 	private DatePicker endDate;
 	@FXML
 	private Button estCLINButton;
+	@FXML
+	private Button  submitApproval;
+	@FXML
+	private Button saveNewChanges;
 
 	@FXML
 	private ListView<CLIN> clinListView;
@@ -74,13 +81,14 @@ public class EstimateProjectController implements Initializable, Refreshable {
 	public void refresh() {
 	}
 
-	public void submitApproval(ActionEvent event) {
-		
+	public void submitApproval(ActionEvent event) throws SQLException, ClassNotFoundException {
+		saveNewChanges(); //currently doesn't function
+		DBUtil.dbExecuteUpdate("CALL estimate_project(" + project.getProjectID() + ", '" + LocalDate.now().toString() + "')");
 		closeCurrent();
 	}
 
-	public void saveNewChanges(ActionEvent event) {
-		closeCurrent();
+	public void saveNewChanges() {
+		// TODO need to loop through CLIN_Estimate, get Organizations, Work Packages, and Tasks
 	}
 
 	public void discardChanges(ActionEvent event) {

@@ -61,7 +61,7 @@ public class OrganizationBOE_Controller implements Initializable, Refreshable {
 			WorkPackage_Controller controller = fxmlLoader.getController();
 			controller.setPreviousController(this);
 			controller.setWorkPackageList(workPackageObservableList);
-			
+
 			Stage addWPStage = new Stage();
 			addWPStage.setTitle("Estimation Suite - Estimator - Estimate Project");
 			addWPStage.setScene(new Scene(root));
@@ -110,15 +110,17 @@ public class OrganizationBOE_Controller implements Initializable, Refreshable {
 	}
 
 	public void save() {
-		if (org == null) {
+		boolean flag = org == null;
+		if (flag) {
 			org = new OrganizationBOE();
 		}
 		org.setOrganization(orgText.getText());
 		org.setProduct(productText.getText());
 		org.setVersion(versionText.getText());
 		org.setWorkPackages(new ArrayList<WorkPackage>(workPackageObservableList));
-		organizationBOEObservableList.add(org);
-
+		if (flag) {
+			organizationBOEObservableList.add(org);
+		}
 	}
 
 	public void saveAndClose() {
@@ -133,19 +135,18 @@ public class OrganizationBOE_Controller implements Initializable, Refreshable {
 	public void setOrganizationList(ObservableList<OrganizationBOE> organizationBOEObservableList) {
 		this.organizationBOEObservableList = organizationBOEObservableList;
 	}
-	
+
 	public void setOrganiztion(OrganizationBOE org) {
 		this.org = org;
 		setAllFields();
 	}
-	
+
 	private void setAllFields() {
 		orgText.setText(org.getOrganization());
 		productText.setText(org.getProduct());
 		versionText.setText(org.getVersion());
 		workPackageObservableList.addAll(org.getWorkPackages());
-		
-		
+
 	}
 
 	private void closeCurrent() {

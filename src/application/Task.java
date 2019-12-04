@@ -105,4 +105,8 @@ public class Task
     public String getMethodology () {
         return methodology;
     }
+    public int getStaffHours() {
+    	return staffHours;
+    }
+
 }

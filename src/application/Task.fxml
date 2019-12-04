@@ -27,7 +27,7 @@
               </rowConstraints>
                <children>
                   <Label text="Task Name:" />
-                  <TextField GridPane.columnIndex="1">
+                  <TextField fx:id="name" GridPane.columnIndex="1">
                      <GridPane.margin>
                         <Insets left="5.0" right="5.0" />
                      </GridPane.margin>
@@ -53,12 +53,12 @@
                               <Insets left="2.0" right="2.0" />
                            </GridPane.margin>
                         </Label>
-                        <DatePicker prefHeight="25.0" prefWidth="115.0" style="-fx-border-color: linear-gradient(#cccccc, #999999); -fx-border-radius: 3px;" GridPane.columnIndex="3">
+                        <DatePicker fx:id="endDate" prefHeight="25.0" prefWidth="115.0" style="-fx-border-color: linear-gradient(#cccccc, #999999); -fx-border-radius: 3px;" GridPane.columnIndex="3">
                            <GridPane.margin>
                               <Insets right="10.0" />
                            </GridPane.margin>
                         </DatePicker>
-                        <DatePicker prefHeight="25.0" prefWidth="115.0" style="-fx-border-color: linear-gradient(#cccccc, #999999); -fx-border-radius: 3px;" GridPane.columnIndex="1" />
+                        <DatePicker fx:id="startDate" prefHeight="25.0" prefWidth="115.0" style="-fx-border-color: linear-gradient(#cccccc, #999999); -fx-border-radius: 3px;" GridPane.columnIndex="1" />
                      </children>
                   </GridPane>
                </children>
@@ -81,7 +81,7 @@
                         <Insets />
                      </GridPane.margin>
                   </Label>
-                  <TextField prefHeight="25.0" GridPane.columnIndex="1">
+                  <TextField fx:id="formula" prefHeight="25.0" GridPane.columnIndex="1">
                      <GridPane.margin>
                         <Insets left="5.0" />
                      </GridPane.margin>
@@ -91,7 +91,7 @@
                         <Insets left="5.0" right="5.0" />
                      </padding>
                   </Label>
-                  <TextField prefHeight="25.0" GridPane.columnIndex="3">
+                  <TextField fx:id="hours" prefHeight="25.0" GridPane.columnIndex="3">
                      <GridPane.margin>
                         <Insets left="5.0" right="5.0" />
                      </GridPane.margin>
@@ -101,7 +101,7 @@
                         <Insets right="5.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField GridPane.columnIndex="5">
+                  <TextField fx:id="version" GridPane.columnIndex="5">
                      <GridPane.margin>
                         <Insets left="5.0" right="10.0" />
                      </GridPane.margin>
@@ -129,8 +129,8 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="saveButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" styleClass="btn-rich-blue" text="Save" GridPane.columnIndex="1" />
-            <Button fx:id="saveAndcloseButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="110.0" styleClass="btn-rich-blue" text="Save and Close" GridPane.columnIndex="2" />
+            <Button fx:id="saveButton" mnemonicParsing="false" onAction="#saveTask" prefHeight="25.0" prefWidth="65.0" styleClass="btn-rich-blue" text="Save" GridPane.columnIndex="1" />
+            <Button fx:id="saveAndcloseButton" mnemonicParsing="false" onAction="#saveAndclose" prefHeight="25.0" prefWidth="110.0" styleClass="btn-rich-blue" text="Save and Close" GridPane.columnIndex="2" />
             <Button fx:id="closeButton" mnemonicParsing="false" onAction="#close" prefHeight="25.0" prefWidth="60.0" styleClass="btn-rich-blue" text="Close" GridPane.columnIndex="3" />
          </children>
          <BorderPane.margin>
@@ -161,12 +161,12 @@
                   <Insets top="10.0" />
                </GridPane.margin>
                <children>
-                  <TextArea prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+                  <TextArea fx:id="conditions" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets right="5.0" />
                      </GridPane.margin>
                   </TextArea>
-                  <TextArea prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <TextArea fx:id="methodology" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets left="5.0" />
                      </GridPane.margin>
@@ -189,7 +189,7 @@
               </rowConstraints>
                <children>
                   <Label text="Task Details:" />
-                  <TextArea prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
+                  <TextArea fx:id="details" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
                </children>
             </GridPane>
          </children>

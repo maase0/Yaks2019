@@ -29,16 +29,22 @@ public class WorkPackage_Controller implements Initializable, Refreshable {
 	@FXML
 	private Button removeTaskButton;
 
-	
-	@FXML private TextField name;
-	@FXML private TextField author;
-	@FXML private TextField scope;
-	@FXML private TextField type;
-	@FXML private TextField version;
-	
-	@FXML DatePicker startDate;
-	@FXML DatePicker endDate;
-	
+	@FXML
+	private TextField name;
+	@FXML
+	private TextField author;
+	@FXML
+	private TextField scope;
+	@FXML
+	private TextField type;
+	@FXML
+	private TextField version;
+
+	@FXML
+	DatePicker startDate;
+	@FXML
+	DatePicker endDate;
+
 	@FXML
 	private ListView<Task> taskListView;
 	private ObservableList<Task> taskObservableList;
@@ -66,6 +72,8 @@ public class WorkPackage_Controller implements Initializable, Refreshable {
 
 			Task_Controller controller = fxmlLoader.getController();
 			controller.setPreviousController(this);
+			controller.setTaskList(taskObservableList);
+			
 			
 			Stage addTaskStage = new Stage();
 			addTaskStage.setTitle("Estimation Suite - Estimator - Estimate Project");
@@ -83,7 +91,28 @@ public class WorkPackage_Controller implements Initializable, Refreshable {
 	}
 
 	public void editTask(ActionEvent event) {
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Task.fxml"));
+			Parent root = fxmlLoader.load();
 
+			Task_Controller controller = fxmlLoader.getController();
+			controller.setPreviousController(this);
+			controller.setTaskList(taskObservableList);
+			controller.setTask(taskListView.getSelectionModel().getSelectedItem());
+			
+			Stage addTaskStage = new Stage();
+			addTaskStage.setTitle("Estimation Suite - Estimator - Estimate Project");
+			addTaskStage.setScene(new Scene(root));
+
+			addTaskStage.show();
+			addTaskStage.setResizable(true);
+			addTaskStage.sizeToScene();
+
+			StageHandler.addStage(addTaskStage);
+			StageHandler.hidePreviousStage();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void removeTask(ActionEvent event) {
@@ -93,12 +122,13 @@ public class WorkPackage_Controller implements Initializable, Refreshable {
 	public void close() {
 		closeCurrent();
 	}
-	
+
 	public void save() {
-		if(workPackage == null) {
+		boolean flag = workPackage == null;
+		if (flag) {
 			workPackage = new WorkPackage();
 		}
-		
+
 		workPackage.setName(name.getText());
 		workPackage.setWptype(type.getText());
 		workPackage.setAuthor(author.getText());
@@ -107,10 +137,12 @@ public class WorkPackage_Controller implements Initializable, Refreshable {
 		workPackage.setPopEnd(endDate.getValue().toString());
 		workPackage.setPopStart(startDate.getValue().toString());
 		workPackage.setTasks(new ArrayList<Task>(taskObservableList));
-		
-		workPackageObservableList.add(workPackage);
+
+		if (flag) {
+			workPackageObservableList.add(workPackage);
+		}
 	}
-	
+
 	public void saveAndClose() {
 		save();
 		close();
@@ -125,16 +157,16 @@ public class WorkPackage_Controller implements Initializable, Refreshable {
 		StageHandler.showPreviousStage();
 		StageHandler.closeCurrentStage();
 	}
-	
+
 	public void setWorkPackageList(ObservableList<WorkPackage> list) {
 		this.workPackageObservableList = list;
 	}
-	
+
 	public void setWorkPackage(WorkPackage wp) {
-		this.workPackage= wp;
+		this.workPackage = wp;
 		setAllFields();
 	}
-	
+
 	private void setAllFields() {
 
 		name.setText(workPackage.getName());
@@ -142,7 +174,7 @@ public class WorkPackage_Controller implements Initializable, Refreshable {
 		scope.setText(workPackage.getScope());
 		type.setText(workPackage.getWptype());
 		version.setText(workPackage.getVersion());
-		
+
 		startDate.setValue(LocalDate.parse(workPackage.getPopStart()));
 		endDate.setValue(LocalDate.parse(workPackage.getPopEnd()));
 		taskObservableList.addAll(workPackage.getTasks());

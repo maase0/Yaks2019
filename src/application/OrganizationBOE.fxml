@@ -31,7 +31,7 @@
                         <Insets left="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField GridPane.columnIndex="1">
+                  <TextField fx:id="orgText" GridPane.columnIndex="1">
                      <GridPane.margin>
                         <Insets right="10.0" />
                      </GridPane.margin>
@@ -49,7 +49,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <TextField GridPane.columnIndex="1">
+                  <TextField fx:id="productText" GridPane.columnIndex="1">
                      <GridPane.margin>
                         <Insets right="5.0" />
                      </GridPane.margin></TextField>
@@ -62,7 +62,7 @@
                         <Insets left="5.0" right="5.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField GridPane.columnIndex="3">
+                  <TextField fx:id="versionText" GridPane.columnIndex="3">
                      <GridPane.margin>
                         <Insets right="10.0" />
                      </GridPane.margin>
@@ -81,7 +81,7 @@
       </GridPane>
    </top>
    <center>
-      <ListView prefHeight="185.0" prefWidth="880.0" style="-fx-border-color: #555555;" BorderPane.alignment="CENTER">
+      <ListView fx:id="workPackageListView" prefHeight="185.0" prefWidth="880.0" style="-fx-border-color: #555555;" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets bottom="10.0" left="10.0" right="10.0" />
          </BorderPane.margin>
@@ -120,12 +120,12 @@
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin></Button>
-            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" styleClass="btn-rich-blue" text="Save and Close" GridPane.columnIndex="5">
+            <Button mnemonicParsing="false" onAction="#saveAndClose" prefHeight="25.0" prefWidth="120.0" styleClass="btn-rich-blue" text="Save and Close" GridPane.columnIndex="5">
                <GridPane.margin>
                   <Insets right="10.0" />
                </GridPane.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" styleClass="btn-rich-blue" text="Save" GridPane.columnIndex="4">
+            <Button mnemonicParsing="false" onAction="#save" prefHeight="25.0" prefWidth="60.0" styleClass="btn-rich-blue" text="Save" GridPane.columnIndex="4">
                <GridPane.margin>
                   <Insets right="10.0" />
                </GridPane.margin>

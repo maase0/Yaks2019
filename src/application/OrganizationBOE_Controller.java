@@ -6,72 +6,111 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class OrganizationBOE_Controller implements Initializable, Refreshable {
 
-    @FXML
-    private Button closeButton;
-    @FXML
-    private Button addWorkPackButton;
-    @FXML
-    private Button editWorkPackButton;
-    @FXML
-    private Button removeWorkPackButton;
+	@FXML
+	private Button closeButton;
+	@FXML
+	private Button addWorkPackButton;
+	@FXML
+	private Button editWorkPackButton;
+	@FXML
+	private Button removeWorkPackButton;
+	@FXML
+	private TextField orgText;
+	@FXML
+	private TextField productText;
+	@FXML
+	private TextField versionText;
 
-    private Refreshable prevController;
-    
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+	@FXML
+	private ListView<WorkPackage> workPackageListView;
+	private ObservableList<WorkPackage> workPackageObservableList;
 
-    }
+	private Refreshable prevController;
+	private ObservableList<OrganizationBOE> organizationBOEObservableList;
 
-    public void refresh() {
-    	
-    }
-    
-    public void addWorkPack(ActionEvent event) {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("WorkPackage.fxml"));
-            Parent root = fxmlLoader.load();
+	private OrganizationBOE org;
 
-            WorkPackage_Controller controller = fxmlLoader.getController();
-            controller.setPreviousController(this);
-            
-            
-            Stage addWPStage = new Stage();
-            addWPStage.setTitle("Estimation Suite - Estimator - Estimate Project");
-            addWPStage.setScene(new Scene(root));
+	@Override
+	public void initialize(URL url, ResourceBundle resourceBundle) {
+		workPackageObservableList = FXCollections.observableArrayList();
+		workPackageListView.setItems(workPackageObservableList);
+		org = null;
+	}
 
-            addWPStage.show();
-            addWPStage.setResizable(true);
-            addWPStage.sizeToScene();
+	public void refresh() {
 
-            StageHandler.addStage(addWPStage);
+	}
+
+	public void addWorkPack(ActionEvent event) {
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("WorkPackage.fxml"));
+			Parent root = fxmlLoader.load();
+
+			WorkPackage_Controller controller = fxmlLoader.getController();
+			controller.setPreviousController(this);
+
+			Stage addWPStage = new Stage();
+			addWPStage.setTitle("Estimation Suite - Estimator - Estimate Project");
+			addWPStage.setScene(new Scene(root));
+
+			addWPStage.show();
+			addWPStage.setResizable(true);
+			addWPStage.sizeToScene();
+
+			StageHandler.addStage(addWPStage);
 			StageHandler.hidePreviousStage();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
-    public void editOrganization(ActionEvent event) {
+	public void editOrganization(ActionEvent event) {
 
-    }
+	}
 
-    public void removeOrganization(ActionEvent event) {
+	public void removeOrganization(ActionEvent event) {
 
-    }
+	}
 
-    public void close(ActionEvent event) {
-       closeCurrent();
-    }
-    
-    public void setPreviousController(Refreshable controller) {
+	public void close() {
+		closeCurrent();
+	}
+
+	public void save() {
+		if (org == null) {
+			org = new OrganizationBOE();
+		}
+		org.setOrganization(orgText.getText());
+		org.setProduct(productText.getText());
+		org.setVersion(versionText.getText());
+		org.setWorkPackages(new ArrayList<WorkPackage>(workPackageObservableList));
+		organizationBOEObservableList.add(org);
+
+	}
+
+	public void saveAndClose() {
+		save();
+		close();
+	}
+
+	public void setPreviousController(Refreshable controller) {
 		this.prevController = controller;
+	}
+
+	public void setOrganizationList(ObservableList<OrganizationBOE> organizationBOEObservableList) {
+		this.organizationBOEObservableList = organizationBOEObservableList;
 	}
 
 	private void closeCurrent() {

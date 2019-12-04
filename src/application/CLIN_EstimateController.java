@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import java.net.URL;
 import java.sql.Ref;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class CLIN_EstimateController implements Initializable, Refreshable {
@@ -56,7 +57,7 @@ public class CLIN_EstimateController implements Initializable, Refreshable {
 			OrganizationBOE_Controller controller = fxmlLoader.getController();
 			
 			controller.setPreviousController(this);
-			
+			controller.setOrganizationList(organizationBOEObservableList);
 			Stage addOrgStage = new Stage();
 			addOrgStage.setTitle("Estimation Suite - Estimator - Estimate Project");
 			addOrgStage.setScene(new Scene(root));
@@ -79,9 +80,18 @@ public class CLIN_EstimateController implements Initializable, Refreshable {
 	public void removeOrganization(ActionEvent event) {
 
 	}
+	
+	public void save() {
+		clin.setOrganizations(new ArrayList<OrganizationBOE>(organizationBOEObservableList));
+	}
+	
+	public void saveAndClose() {
+		save();
+		close();
+	}
 
-	public void close(ActionEvent event) {
-		closeCurrent();
+	public void close() {
+				closeCurrent();
 	}
 
 	public void setProjectVersion(ProjectVersion project) {
@@ -91,6 +101,8 @@ public class CLIN_EstimateController implements Initializable, Refreshable {
 		this.clin = clin;
 		//if(clin == null) System.out.println("ohno");
 		clinName.setText(clin.getIndex());
+		if(clin.getOrganizations() != null)
+		organizationBOEObservableList.addAll(clin.getOrganizations());
 	}
 	
 	public void setPreviousController(Refreshable controller) {

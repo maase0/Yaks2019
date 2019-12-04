@@ -51,4 +51,7 @@ public class OrganizationBOE
     public ArrayList<WorkPackage> getWorkPackages() {
         return workPackages;
     }
+    public void setWorkPackages(ArrayList<WorkPackage> list) {
+    	this.workPackages = list;
+    }
 }

@@ -1,5 +1,7 @@
 package application;
 
+import java.util.ArrayList;
+
 // TODO: change this class to function in a similar manner to Project.java, as there is now a CLINVersion class
 public class CLIN
 {
@@ -10,6 +12,7 @@ public class CLIN
 	private String clinContent;
 	private String version;
 	private String id;
+	private ArrayList<OrganizationBOE> organizations;
 	
     public CLIN() {
     	index = null;
@@ -18,7 +21,7 @@ public class CLIN
     	popEnd = null;
     	clinContent = null;
     	version = null;
-    
+    	organizations = null;
     }
     
     public CLIN(String id, String index, String version,
@@ -31,6 +34,7 @@ public class CLIN
     	this.clinContent = clinContent;
     	this.popStart = popStart;
     	this.popEnd = popEnd;
+    	organizations = null;
     }
 		
     public void setID(String id) {
@@ -88,7 +92,18 @@ public class CLIN
     public String getVersion() {
         return version;
     }
+
+    public ArrayList<OrganizationBOE> getOrganizations() {
+    	return organizations;
+    }
     
+    public void setOrganizations(ArrayList<OrganizationBOE> list) {
+    	this.organizations = list;
+    }
+    
+    public void addOrganiztion(OrganizationBOE org) {
+    	organizations.add(org);
+    }
     public String toString() {
     	return "Index: " + index + " v" + version + "\n" + "Project Type: " + projectType + "\n"
                 + "PoP: " + popStart + " to " + popEnd + "\n" + "Content:\n\t" + clinContent;

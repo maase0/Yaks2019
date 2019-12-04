@@ -145,32 +145,65 @@ public class WorkPackage_Controller implements Initializable, Refreshable {
 			closeCurrent();
 		} else {
 			// ... user chose CANCEL or closed the dialog
-		}	}
-
-	public void save() {
-		boolean flag = workPackage == null;
-		if (flag) {
-			workPackage = new WorkPackage();
-			workPackage.setOldVersoin(version.getText());
-		}
-
-		workPackage.setName(name.getText());
-		workPackage.setWptype(type.getText());
-		workPackage.setAuthor(author.getText());
-		workPackage.setScope(scope.getText());
-		workPackage.setVersion(version.getText());
-		workPackage.setPopEnd(endDate.getValue().toString());
-		workPackage.setPopStart(startDate.getValue().toString());
-		workPackage.setTasks(new ArrayList<Task>(taskObservableList));
-
-		if (flag) {
-			workPackageObservableList.add(workPackage);
 		}
 	}
 
+	public boolean save() {
+
+		boolean passed = true;
+		String errorMessage = "";
+
+		String versionReg = "\\d+(.\\d)*";
+
+		if (!version.getText().matches(versionReg)) {
+			passed = false;
+			errorMessage += "Error: Invalid version! Use form 1, 1.2, 1.2.3, etc.\n";
+		}
+		
+		if (startDate.getValue() != null && endDate.getValue() != null
+				&& startDate.getValue().compareTo(endDate.getValue()) > 0) {
+			passed = false;
+			errorMessage += "Error: End date must be after start date!\n";
+		}
+
+		if (passed) {
+			boolean flag = workPackage == null;
+			if (flag) {
+				workPackage = new WorkPackage();
+				workPackage.setOldVersoin(version.getText());
+			}
+
+			workPackage.setName(name.getText());
+			workPackage.setWptype(type.getText());
+			workPackage.setAuthor(author.getText());
+			workPackage.setScope(scope.getText());
+			workPackage.setVersion(version.getText());
+			workPackage.setPopEnd(endDate.getValue() != null ? endDate.getValue().toString() : null);
+			workPackage.setPopStart(startDate.getValue() != null ? startDate.getValue().toString() : null);
+			workPackage.setTasks(new ArrayList<Task>(taskObservableList));
+
+			if (flag) {
+				workPackageObservableList.add(workPackage);
+			}
+		} else {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Saving Task");
+			alert.setHeaderText("There was an error saving this task!");
+			alert.setContentText(errorMessage);
+
+			// ButtonType buttonTypeOne = new ButtonType("Discard Changes ");
+			ButtonType buttonTypeCancel = new ButtonType("OK", ButtonData.CANCEL_CLOSE);
+
+			alert.getButtonTypes().setAll(buttonTypeCancel);
+			alert.showAndWait();
+		}
+		return passed;
+	}
+
 	public void saveAndClose() {
-		save();
-		closeCurrent();
+		if (save()) {
+			closeCurrent();
+		}
 	}
 
 	public void setPreviousController(Refreshable controller) {
@@ -200,8 +233,14 @@ public class WorkPackage_Controller implements Initializable, Refreshable {
 		type.setText(workPackage.getWptype());
 		version.setText(workPackage.getVersion());
 
-		startDate.setValue(LocalDate.parse(workPackage.getPopStart()));
-		endDate.setValue(LocalDate.parse(workPackage.getPopEnd()));
+		if (workPackage.getPopStart() != null) {
+			startDate.setValue(LocalDate.parse(workPackage.getPopStart()));
+		}
+		if (workPackage.getPopEnd() != null) {
+			endDate.setValue(LocalDate.parse(workPackage.getPopEnd()));
+		}
+
+		
 		taskObservableList.addAll(workPackage.getTasks());
 	}
 

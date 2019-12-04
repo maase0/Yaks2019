@@ -22,7 +22,7 @@ public class CLIN
     	popEnd = null;
     	clinContent = null;
     	version = null;
-    	organizations = null;
+    	organizations = new ArrayList<OrganizationBOE>();
     	deletedOrganizations = new ArrayList<OrganizationBOE>();
     }
     
@@ -36,7 +36,7 @@ public class CLIN
     	this.clinContent = clinContent;
     	this.popStart = popStart;
     	this.popEnd = popEnd;
-    	organizations = null;
+    	organizations = new ArrayList<OrganizationBOE>();
     	deletedOrganizations = new ArrayList<OrganizationBOE>();
     }
 		

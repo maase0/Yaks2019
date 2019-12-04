@@ -89,6 +89,8 @@ public class EstimateProjectController implements Initializable, Refreshable {
 
 	public void saveNewChanges() {
 		// TODO need to loop through CLIN_Estimate, get Organizations, Work Packages, and Tasks
+		// on each thing, getDeleteList to remove deleted items from database, then deleteList.removeAll() 
+		// 		will also need to go through and delete all sub-things, need to finish database procedures
 	}
 
 	public void discardChanges(ActionEvent event) {

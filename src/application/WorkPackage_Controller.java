@@ -52,6 +52,8 @@ public class WorkPackage_Controller implements Initializable, Refreshable {
 	private ObservableList<WorkPackage> workPackageObservableList;
 	private Refreshable prevController;
 
+	private ArrayList<Task> taskDelete;
+
 	private WorkPackage workPackage;
 
 	@Override
@@ -73,8 +75,7 @@ public class WorkPackage_Controller implements Initializable, Refreshable {
 			Task_Controller controller = fxmlLoader.getController();
 			controller.setPreviousController(this);
 			controller.setTaskList(taskObservableList);
-			
-			
+
 			Stage addTaskStage = new Stage();
 			addTaskStage.setTitle("Estimation Suite - Estimator - Estimate Project");
 			addTaskStage.setScene(new Scene(root));
@@ -99,7 +100,7 @@ public class WorkPackage_Controller implements Initializable, Refreshable {
 			controller.setPreviousController(this);
 			controller.setTaskList(taskObservableList);
 			controller.setTask(taskListView.getSelectionModel().getSelectedItem());
-			
+
 			Stage addTaskStage = new Stage();
 			addTaskStage.setTitle("Estimation Suite - Estimator - Estimate Project");
 			addTaskStage.setScene(new Scene(root));
@@ -116,7 +117,10 @@ public class WorkPackage_Controller implements Initializable, Refreshable {
 	}
 
 	public void removeTask(ActionEvent event) {
-
+		Task task = taskObservableList.remove(taskListView.getSelectionModel().getSelectedIndex());
+		if (task.getID() != null) {
+			taskDelete.add(task);
+		}
 	}
 
 	public void close() {
@@ -178,5 +182,9 @@ public class WorkPackage_Controller implements Initializable, Refreshable {
 		startDate.setValue(LocalDate.parse(workPackage.getPopStart()));
 		endDate.setValue(LocalDate.parse(workPackage.getPopEnd()));
 		taskObservableList.addAll(workPackage.getTasks());
+	}
+
+	public ArrayList<Task> getDeleteList() {
+		return taskDelete;
 	}
 }

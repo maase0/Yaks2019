@@ -34,19 +34,22 @@ public class CLIN_EstimateController implements Initializable, Refreshable {
 	private ListView<OrganizationBOE> organizationBOEListView;
 	private ObservableList<OrganizationBOE> organizationBOEObservableList;
 
+	private ArrayList<OrganizationBOE> orgDelete;
+
 	private ProjectVersion project;
 	private CLIN clin;
-	
+
 	private Refreshable prevController;
-	
+
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
 		organizationBOEObservableList = FXCollections.observableArrayList();
 		organizationBOEListView.setItems(organizationBOEObservableList);
+		orgDelete = new ArrayList<OrganizationBOE>();
 	}
-	
+
 	public void refresh() {
-		
+
 	}
 
 	public void addOrganization(ActionEvent event) {
@@ -55,7 +58,7 @@ public class CLIN_EstimateController implements Initializable, Refreshable {
 			Parent root = fxmlLoader.load();
 
 			OrganizationBOE_Controller controller = fxmlLoader.getController();
-			
+
 			controller.setPreviousController(this);
 			controller.setOrganizationList(organizationBOEObservableList);
 			Stage addOrgStage = new Stage();
@@ -79,12 +82,12 @@ public class CLIN_EstimateController implements Initializable, Refreshable {
 			Parent root = fxmlLoader.load();
 
 			OrganizationBOE_Controller controller = fxmlLoader.getController();
-			
-			//Give all necessary information to the OrgController
+
+			// Give all necessary information to the OrgController
 			controller.setPreviousController(this);
 			controller.setOrganizationList(organizationBOEObservableList);
 			controller.setOrganiztion(organizationBOEListView.getSelectionModel().getSelectedItem());
-			
+
 			Stage addOrgStage = new Stage();
 			addOrgStage.setTitle("Estimation Suite - Estimator - Estimate Project");
 			addOrgStage.setScene(new Scene(root));
@@ -101,33 +104,39 @@ public class CLIN_EstimateController implements Initializable, Refreshable {
 	}
 
 	public void removeOrganization(ActionEvent event) {
-
+		OrganizationBOE org = organizationBOEObservableList
+				.remove(organizationBOEListView.getSelectionModel().getSelectedIndex());
+		// Only add to list if it came from the database and needs to be removed
+		if (org.getID() != null) {
+			orgDelete.add(org);
+		}
 	}
-	
+
 	public void save() {
 		clin.setOrganizations(new ArrayList<OrganizationBOE>(organizationBOEObservableList));
 	}
-	
+
 	public void saveAndClose() {
 		save();
 		close();
 	}
 
 	public void close() {
-				closeCurrent();
+		closeCurrent();
 	}
 
 	public void setProjectVersion(ProjectVersion project) {
 		this.project = project;
 	}
+
 	public void setCLIN(CLIN clin) {
 		this.clin = clin;
-		//if(clin == null) System.out.println("ohno");
+		// if(clin == null) System.out.println("ohno");
 		clinName.setText(clin.getIndex());
-		if(clin.getOrganizations() != null)
-		organizationBOEObservableList.addAll(clin.getOrganizations());
+		if (clin.getOrganizations() != null)
+			organizationBOEObservableList.addAll(clin.getOrganizations());
 	}
-	
+
 	public void setPreviousController(Refreshable controller) {
 		this.prevController = controller;
 	}
@@ -136,5 +145,9 @@ public class CLIN_EstimateController implements Initializable, Refreshable {
 		prevController.refresh();
 		StageHandler.showPreviousStage();
 		StageHandler.closeCurrentStage();
+	}
+
+	public ArrayList<OrganizationBOE> getDeleteList() {
+		return orgDelete;
 	}
 }

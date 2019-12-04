@@ -95,7 +95,7 @@ public class Task_Controller implements Initializable {
 	public void setTaskList(ObservableList<Task> list) {
 		this.taskObservableList = list;
 	}
-	
+
 	public void setTask(Task task) {
 		this.task = task;
 		setAllFields();

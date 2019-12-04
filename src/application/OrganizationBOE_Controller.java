@@ -40,6 +40,8 @@ public class OrganizationBOE_Controller implements Initializable, Refreshable {
 	private Refreshable prevController;
 	private ObservableList<OrganizationBOE> organizationBOEObservableList;
 
+	private ArrayList<WorkPackage> wpDelete;
+	
 	private OrganizationBOE org;
 
 	@Override
@@ -47,6 +49,7 @@ public class OrganizationBOE_Controller implements Initializable, Refreshable {
 		workPackageObservableList = FXCollections.observableArrayList();
 		workPackageListView.setItems(workPackageObservableList);
 		org = null;
+		wpDelete = new ArrayList<WorkPackage>();
 	}
 
 	public void refresh() {
@@ -102,7 +105,11 @@ public class OrganizationBOE_Controller implements Initializable, Refreshable {
 	}
 
 	public void removeWorkPackage(ActionEvent event) {
-
+		WorkPackage wp = workPackageObservableList.remove(workPackageListView.getSelectionModel().getSelectedIndex());
+		if (wp.getID() != null) {
+			wpDelete.add(wp);
+		}
+		
 	}
 
 	public void close() {
@@ -153,5 +160,9 @@ public class OrganizationBOE_Controller implements Initializable, Refreshable {
 		prevController.refresh();
 		StageHandler.showPreviousStage();
 		StageHandler.closeCurrentStage();
+	}
+	
+	public ArrayList<WorkPackage> getDeleteList(){
+		return wpDelete;
 	}
 }

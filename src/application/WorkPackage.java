@@ -12,6 +12,7 @@ public class WorkPackage {
     private String worktype;
     private String version;
     private ArrayList<Task> tasks;
+	private String id;
 
     public WorkPackage() {
         name = null;
@@ -23,6 +24,7 @@ public class WorkPackage {
         worktype = null;
         version = null;
         tasks = null;
+        this.id = null;
     }
 
     public WorkPackage(String name, String wptype, String author,
@@ -37,8 +39,18 @@ public class WorkPackage {
         this.worktype = worktype;
         this.version = version;
         this.tasks = tasks;
+        this.id = null;
     }
 
+    public void setID(String id) {
+    	this.id = id;
+    }
+    
+    public String getID() {
+    	return id;
+    }
+    
+    
     public void setName(String name) {
         this.name = name;
     }

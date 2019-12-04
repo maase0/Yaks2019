@@ -71,7 +71,7 @@ public class PM_EditProjectController implements Initializable {
 	private ArrayList<SDRL> sdrlDelete = new ArrayList<SDRL>();
 
 	private Refreshable prevController;
-	
+
 	public PM_EditProjectController() {
 
 	}
@@ -431,23 +431,23 @@ public class PM_EditProjectController implements Initializable {
 	 * @param event
 	 */
 	public void discardNewChanges(ActionEvent event) {
-			
-			Alert alert = new Alert(AlertType.CONFIRMATION);
-			alert.setTitle("Remove Project");
-			alert.setHeaderText("This will discard any unsaved changes.");
-			alert.setContentText("Are you sure you want to exit?");
 
-			ButtonType buttonTypeOne = new ButtonType("Discard Changes ");
-			ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Remove Project");
+		alert.setHeaderText("This will discard any unsaved changes.");
+		alert.setContentText("Are you sure you want to exit?");
 
-			alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeCancel);
+		ButtonType buttonTypeOne = new ButtonType("Discard Changes ");
+		ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
 
-			Optional<ButtonType> result = alert.showAndWait();
-			if (result.get() == buttonTypeOne) {
-				closeCurrent();				
-			} else {
-				// ... user chose CANCEL or closed the dialog
-			}
+		alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeCancel);
+
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == buttonTypeOne) {
+			closeCurrent();
+		} else {
+			// ... user chose CANCEL or closed the dialog
+		}
 	}
 
 	@FXML
@@ -498,11 +498,11 @@ public class PM_EditProjectController implements Initializable {
 		startDate.setValue(proj.getPopStart());
 		endDate.setValue(proj.getPopEnd());
 	}
-	
+
 	public void setPreviousController(PM_ProjectsController controller) {
-		this.prevController  = controller;
+		this.prevController = controller;
 	}
-	
+
 	private void closeCurrent() {
 		prevController.refresh();
 		StageHandler.showPreviousStage();

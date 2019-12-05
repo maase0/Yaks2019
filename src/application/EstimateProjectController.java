@@ -135,7 +135,7 @@ public class EstimateProjectController implements Initializable, Refreshable {
 		}
 		
 		/*for(WorkPackage wp : org.getDeletedWorkPackages()) {
-			//DBUtil.dbExecuteUpdate("CALL delete_wp(" + wp.getID() + ")");
+			DBUtil.dbExecuteUpdate("CALL delete_wp(" + wp.getID() + ")");
 		}*/
 	}
 	
@@ -162,7 +162,7 @@ public class EstimateProjectController implements Initializable, Refreshable {
 		}
 		
 		/*for(Task task : wp.getDeletedTasks()) {
-			//DBUtil.dbExecuteUpdate("CALL delete_task" + task.getID() + ")");
+			DBUtil.dbExecuteUpdate("CALL delete_task" + task.getID() + ")");
 		}*/
 	}
 
@@ -235,7 +235,7 @@ public class EstimateProjectController implements Initializable, Refreshable {
 		ResultSet rs = DBUtil.dbExecuteQuery("SELECT * FROM Task WHERE idWP = " + wp.getID() + ";");
 
 		while(rs.next()) {
-			System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa");
+			System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa"); //very useful
 			Task task = new Task();
 			
 			task.setConditions(rs.getString("Assumptions"));
@@ -255,8 +255,6 @@ public class EstimateProjectController implements Initializable, Refreshable {
 		rs.close();
 		
 	}
-	
-	
 
 	public void discardChanges(ActionEvent event) {
 		Alert alert = new Alert(AlertType.CONFIRMATION);

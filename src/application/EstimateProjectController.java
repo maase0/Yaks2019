@@ -192,9 +192,9 @@ public class EstimateProjectController implements Initializable, Refreshable {
 			OrganizationBOE org = new OrganizationBOE();
 			org.setID(rs.getString("idOrganization"));
 			org.setVersion(rs.getString("Version_Number"));
-			org.setOldVersion("Version_Number");
-			org.setOrganization("Organization_Name");
-			org.setProduct("Product");
+			org.setOldVersion(rs.getString("Version_Number"));
+			org.setOrganization(rs.getString("Organization_Name"));
+			org.setProduct(rs.getString("Product"));
 			
 			clin.addOrganiztion(org);
 		}

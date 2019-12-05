@@ -1,29 +1,30 @@
 package application;
 
-import DB.DBUtil;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonBar.ButtonData;
-import javafx.stage.Stage;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Optional;
 import java.util.ResourceBundle;
+
+import DB.DBUtil;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.stage.Stage;
 
 public class EstimateProjectController implements Initializable, Refreshable {
 
@@ -81,12 +82,11 @@ public class EstimateProjectController implements Initializable, Refreshable {
 
 		sowObservableList = FXCollections.observableArrayList();
 		sowListView.setItems(sowObservableList);
-		
 
 	}
 
 	public void refresh() {
-		
+
 	}
 
 	public void submitApproval(ActionEvent event) throws SQLException, ClassNotFoundException {
@@ -98,120 +98,184 @@ public class EstimateProjectController implements Initializable, Refreshable {
 	public void saveNewChanges() throws SQLException, ClassNotFoundException {
 		// TODO need to loop through CLIN_Estimate, get Organizations, Work Packages,
 		// and Tasks
-		// on each thing, getDeleteList to remove deleted items from database, then deleteList.removeAll()
-		// 		will also need to go through and delete all sub-things, need to finish database procedures
-		//      if any thing has a new version, it is inserted new and all sub-things are inserted new
-		//      otherwise they are updated, like with the CLINs etc in PM_EditProjectController
-		//		each thing will have a version and an oldVersion, if they are different then the version changed
-		//      also if thing.getID() is null, then insert instead of update
-		
-		for(CLIN c : clinObservableList) {
-			for(OrganizationBOE org : c.getOrganizations()) {
+		// on each thing, getDeleteList to remove deleted items from database, then
+		// deleteList.removeAll()
+		// will also need to go through and delete all sub-things, need to finish
+		// database procedures
+		// if any thing has a new version, it is inserted new and all sub-things are
+		// inserted new
+		// otherwise they are updated, like with the CLINs etc in
+		// PM_EditProjectController
+		// each thing will have a version and an oldVersion, if they are different then
+		// the version changed
+		// also if thing.getID() is null, then insert instead of update
+
+		for (CLIN c : clinObservableList) {
+			for (OrganizationBOE org : c.getOrganizations()) {
 				saveOrganization(org, c.getID());
 			}
-			
-			for(OrganizationBOE org :c.getDeletedOrganizations()) {
-				//DBUtil.dbExecuteUpdate("CALL delete_organization(" + org.getID() + ")");
+
+			for (OrganizationBOE org : c.getDeletedOrganizations()) {
+				// DBUtil.dbExecuteUpdate("CALL delete_organization(" + org.getID() + ")");
 			}
 		}
 		closeCurrent();
 	}
-	
+
 	private void saveOrganization(OrganizationBOE org, String clinID) throws SQLException, ClassNotFoundException {
 		if (org.getID() != null) {
-			DBUtil.dbExecuteUpdate("CALL update_organization(" + org.getID() + ", " + clinID + ", '"
+
+			ResultSet rs = DBUtil.dbExecuteQuery("CALL update_organization(" + org.getID() + ", " + clinID + ", '"
 					+ org.getOrganization() + "', '" + org.getVersion() + "', '" + org.getProduct() + "')");
+
+			rs.next();
+			
+			if (!org.getVersion().equals(org.getOldVersion())) {
+				org.setVersion(rs.getString("idOrganization"));
+
+				for (WorkPackage wp : org.getWorkPackages()) {
+					cloneWorkPackage(wp, org.getID());
+				}
+			} else {
+				for (WorkPackage wp : org.getWorkPackages()) {
+					saveWorkPackage(wp, org.getID());
+				}
+			}
+			
+			rs.close();
+
 		} else {
 			ResultSet rs = DBUtil.dbExecuteQuery("CALL insert_organization(" + clinID + ", '" + org.getOrganization()
-									+ "', '" + org.getVersion() + "', '" + org.getProduct() + "')");
-			while(rs.next()) {
-				org.setID(rs.getString("idOrganization"));
-			}
+					+ "', '" + org.getVersion() + "', '" + org.getProduct() + "')");
+
+			rs.last();
+			org.setID(rs.getString("idOrganization"));
+
 			rs.close();
+
+			for (WorkPackage wp : org.getWorkPackages()) {
+				saveWorkPackage(wp, org.getID());
+			}
 		}
 
-		for(WorkPackage wp : org.getWorkPackages()) {
-			saveWorkPackage(wp, org.getID());
-		}
-		
-		/*for(WorkPackage wp : org.getDeletedWorkPackages()) {
-			DBUtil.dbExecuteUpdate("CALL delete_wp(" + wp.getID() + ")");
-		}*/
+		/*
+		 * for(WorkPackage wp : org.getDeletedWorkPackages()) {
+		 * DBUtil.dbExecuteUpdate("CALL delete_wp(" + wp.getID() + ")"); }
+		 */
 	}
-	
+
+	private void cloneWorkPackage(WorkPackage wp, String orgID) throws ClassNotFoundException, SQLException {
+		ResultSet rs = DBUtil.dbExecuteQuery("CALL insert_wp(" + orgID + ", '" + wp.getVersion() + "', '" + wp.getName()
+				+ "', '" + wp.getAuthor() + "', '" + wp.getScope() + "', '" + wp.getWorkPackageType() + "', '"
+				+ wp.getTypeOfWork() + "', '" + wp.getPopStart() + "', '" + wp.getPopEnd() + "')");
+
+		rs.last();
+		wp.setID(rs.getString("idWP"));
+
+		rs.close();
+
+		for (Task task : wp.getTasks()) {
+			cloneTask(task, wp.getID());
+		}
+	}
+
 	private void saveWorkPackage(WorkPackage wp, String orgID) throws SQLException, ClassNotFoundException {
 		if (wp.getID() != null) {
-			DBUtil.dbExecuteUpdate("CALL update_WP(" + wp.getID() + ", " + orgID + ", '" + wp.getVersion()
-					+ "', '" + wp.getName() + "', '" + wp.getAuthor() + "', '" + wp.getScope() + "', '"
-					+ wp.getWorkPackageType() + "', '" + wp.getTypeOfWork() + "', '" + wp.getPopStart() + "', '"
-					+ wp.getPopEnd() + "')");
+
+			ResultSet rs = DBUtil.dbExecuteQuery(
+					"CALL update_WP(" + wp.getID() + ", " + orgID + ", '" + wp.getVersion() + "', '" + wp.getName()
+							+ "', '" + wp.getAuthor() + "', '" + wp.getScope() + "', '" + wp.getWorkPackageType()
+							+ "', '" + wp.getTypeOfWork() + "', '" + wp.getPopStart() + "', '" + wp.getPopEnd() + "')");
+			
+			rs.next();
+			
+			if(!wp.getVersion().equals(wp.getOldVersion())) {
+				for (Task task : wp.getTasks()) {
+					cloneTask(task, wp.getID());
+				} 
+			} else {
+				for (Task task : wp.getTasks()) {
+					saveTask(task, wp.getID());
+				}
+			}
+			
+			rs.close();
+	
 		} else {
 			ResultSet rs = DBUtil.dbExecuteQuery("CALL insert_wp(" + orgID + ", '" + wp.getVersion() + "', '"
-									+ wp.getName() + "', '" + wp.getAuthor() + "', '" + wp.getScope()
-									+ "', '" + wp.getWorkPackageType() + "', '" + wp.getTypeOfWork() + "', '"
-									+ wp.getPopStart() + "', '" + wp.getPopEnd() + "')");
+					+ wp.getName() + "', '" + wp.getAuthor() + "', '" + wp.getScope() + "', '" + wp.getWorkPackageType()
+					+ "', '" + wp.getTypeOfWork() + "', '" + wp.getPopStart() + "', '" + wp.getPopEnd() + "')");
 
 			while (rs.next()) {
 				wp.setID(rs.getString("idWP"));
 			}
 			rs.close();
+			
+			for (Task task : wp.getTasks()) {
+				saveTask(task, wp.getID());
+			}
 		}
 
-		for(Task task : wp.getTasks()) {
-			saveTask(task, wp.getID());
-		}
 		
-		/*for(Task task : wp.getDeletedTasks()) {
-			DBUtil.dbExecuteUpdate("CALL delete_task" + task.getID() + ")");
-		}*/
+
+		/*
+		 * for(Task task : wp.getDeletedTasks()) {
+		 * DBUtil.dbExecuteUpdate("CALL delete_task" + task.getID() + ")"); }
+		 */
+	}
+
+	private void cloneTask(Task task, String wpID) throws ClassNotFoundException, SQLException {
+		DBUtil.dbExecuteUpdate("CALL update_task(" + task.getID() + ", " + wpID + ", '" + task.getName() + "', '"
+				+ task.getVersion() + "', '" + task.getFormula() + "', " + task.getStaffHours() + ", '"
+				+ task.getDetails() + "', '" + task.getConditions() + "', '" + task.getMethodology() + "', '"
+				+ task.getPopStart() + "', '" + task.getPopEnd() + "')");
 	}
 
 	private void saveTask(Task task, String wpID) throws SQLException, ClassNotFoundException {
 		if (task.getID() != null) {
-			DBUtil.dbExecuteUpdate("CALL update_task(" + task.getID() + ", " + wpID + ", '"
-					+ task.getName() + "', '" + task.getVersion() + "', '" + task.getFormula() + "', " + task.getStaffHours()
-					+ ", '" + task.getDetails() + "', '" + task.getConditions() + "', '"
-					+ task.getMethodology() + "', '" + task.getPopStart() + "', '" + task.getPopEnd() + "')");
+			DBUtil.dbExecuteUpdate("CALL update_task(" + task.getID() + ", " + wpID + ", '" + task.getName() + "', '"
+					+ task.getVersion() + "', '" + task.getFormula() + "', " + task.getStaffHours() + ", '"
+					+ task.getDetails() + "', '" + task.getConditions() + "', '" + task.getMethodology() + "', '"
+					+ task.getPopStart() + "', '" + task.getPopEnd() + "')");
 		} else {
-			DBUtil.dbExecuteUpdate("CALL insert_task(" + wpID + ", '" + task.getName() + "', '" + task.getVersion() + "', '"
-									+ task.getFormula() + "', " + task.getStaffHours() + ", '" + task.getDetails()
-									+ "', '" + task.getConditions() + "', '" + task.getMethodology() + "', '"
-									+ task.getPopStart() + "', '" + task.getPopEnd() + "')");
+			DBUtil.dbExecuteUpdate("CALL insert_task(" + wpID + ", '" + task.getName() + "', '" + task.getVersion()
+					+ "', '" + task.getFormula() + "', " + task.getStaffHours() + ", '" + task.getDetails() + "', '"
+					+ task.getConditions() + "', '" + task.getMethodology() + "', '" + task.getPopStart() + "', '"
+					+ task.getPopEnd() + "')");
 		}
 	}
-	
-	
+
 	private void loadOrganizations(CLIN clin) throws ClassNotFoundException, SQLException {
-		//result set stuff
-		//put each one in clin
-		
+		// result set stuff
+		// put each one in clin
+
 		//
-		
-		ResultSet rs = DBUtil.dbExecuteQuery("SELECT * FROM Organization WHERE idCLIN = " + clin.getID() + ";");
-		while(rs.next()) {
+
+		ResultSet rs = DBUtil.dbExecuteQuery("SELECT * FROM Organization WHERE Based_On=NULL AND idCLIN = " + clin.getID() + ";");
+		while (rs.next()) {
 			OrganizationBOE org = new OrganizationBOE();
 			org.setID(rs.getString("idOrganization"));
 			org.setVersion(rs.getString("Version_Number"));
 			org.setOldVersion("Version_Number");
 			org.setOrganization("Organization_Name");
 			org.setProduct("Product");
-			
+
 			clin.addOrganiztion(org);
 		}
-		
+
 		rs.close();
-		for(OrganizationBOE org : clin.getOrganizations()) {
+		for (OrganizationBOE org : clin.getOrganizations()) {
 			loadWorkPackages(org);
 		}
 	}
-	
+
 	private void loadWorkPackages(OrganizationBOE org) throws ClassNotFoundException, SQLException {
-		//result set stuff
-		//put all work packages in org
-		ResultSet rs = DBUtil.dbExecuteQuery("SELECT * FROM WP WHERE idOrganization = " + org.getID() + ";");
-		while(rs.next()) {
+		// result set stuff
+		// put all work packages in org
+		ResultSet rs = DBUtil.dbExecuteQuery("SELECT * FROM WP WHERE Based_On=NULL AND idOrganization = " + org.getID() + ";");
+		while (rs.next()) {
 			WorkPackage wp = new WorkPackage();
-			
+
 			wp.setID(rs.getString("idWP"));
 			wp.setAuthor(rs.getString("BoE_Author"));
 			wp.setName(rs.getString("WP_Name"));
@@ -221,39 +285,39 @@ public class EstimateProjectController implements Initializable, Refreshable {
 			wp.setScope(rs.getString("Scope"));
 			wp.setVersion(rs.getString("Version_Number"));
 			wp.setTypeOfWork(rs.getString("Type_of_Work"));
-		
+
 			org.addWorkPackage(wp);
 		}
 		rs.close();
-		
-		for(WorkPackage wp : org.getWorkPackages()) {
+
+		for (WorkPackage wp : org.getWorkPackages()) {
 			loadTasks(wp);
 		}
 	}
-	
-	private void loadTasks(WorkPackage wp) throws ClassNotFoundException, SQLException {
-		ResultSet rs = DBUtil.dbExecuteQuery("SELECT * FROM Task WHERE idWP = " + wp.getID() + ";");
 
-		while(rs.next()) {
-			System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa"); //very useful
+	private void loadTasks(WorkPackage wp) throws ClassNotFoundException, SQLException {
+		ResultSet rs = DBUtil.dbExecuteQuery("SELECT * FROM Task WHERE Based_On=NULL AND idWP = " + wp.getID() + ";");
+
+		while (rs.next()) {
+			System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa"); // very useful
 			Task task = new Task();
-			
+
 			task.setConditions(rs.getString("Assumptions"));
 			task.setDetails(rs.getString("Task_Details"));
 			task.setFormula(rs.getString("Estimate_Formula"));
 			task.setID(rs.getString("idTask"));
 			task.setMethodology(rs.getString("Estimate_Methodology"));
 			task.setName(rs.getString("Task_Name"));
-			//task.setOldVersion(rs.getString("Version_Number"));
+			// task.setOldVersion(rs.getString("Version_Number"));
 			task.setPopEnd(rs.getString("PoP_End"));
 			task.setPopStart(rs.getString("PoP_Start"));
 			task.setStaffHours(rs.getInt("Staff_Hours"));
-			//task.setVersion(rs.getString("Version_Number"));
-			
+			// task.setVersion(rs.getString("Version_Number"));
+
 			wp.addTask(task);
 		}
 		rs.close();
-		
+
 	}
 
 	public void discardChanges(ActionEvent event) {
@@ -299,7 +363,7 @@ public class EstimateProjectController implements Initializable, Refreshable {
 			clinEstimateStage.sizeToScene();
 
 			StageHandler.addStage(clinEstimateStage);
-			//StageHandler.hidePreviousStage();
+			// StageHandler.hidePreviousStage();
 			// Stage stage = (Stage) estCLINButton.getScene().getWindow();
 			// stage.close();
 
@@ -327,14 +391,13 @@ public class EstimateProjectController implements Initializable, Refreshable {
 		startDate.setDisable(true);
 		endDate.setValue(project.getPopEnd());
 		endDate.setDisable(true);
-		
-		
-		//TODO: go through each clin in estimate list view
-		//fill with all the sub-stuff
+
+		// TODO: go through each clin in estimate list view
+		// fill with all the sub-stuff
 		System.out.println("test2");
-		for(CLIN c : clinObservableList) {
+		for (CLIN c : clinObservableList) {
 			System.out.println("test1");
-			//clin stuff should all be loaded
+			// clin stuff should all be loaded
 			try {
 				loadOrganizations(c);
 			} catch (ClassNotFoundException e) {
@@ -346,7 +409,6 @@ public class EstimateProjectController implements Initializable, Refreshable {
 			}
 		}
 
-		
 	}
 
 	public void setPreviousController(Refreshable controller) {

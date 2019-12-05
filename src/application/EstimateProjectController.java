@@ -129,7 +129,7 @@ public class EstimateProjectController implements Initializable, Refreshable {
 					+ org.getOrganization() + "', '" + org.getVersion() + "', '" + org.getProduct() + "')");
 
 			rs.next();
-			
+
 			if (!org.getVersion().equals(org.getOldVersion())) {
 				org.setVersion(rs.getString("idOrganization"));
 
@@ -141,7 +141,7 @@ public class EstimateProjectController implements Initializable, Refreshable {
 					saveWorkPackage(wp, org.getID());
 				}
 			}
-			
+
 			rs.close();
 
 		} else {
@@ -186,21 +186,21 @@ public class EstimateProjectController implements Initializable, Refreshable {
 					"CALL update_WP(" + wp.getID() + ", " + orgID + ", '" + wp.getVersion() + "', '" + wp.getName()
 							+ "', '" + wp.getAuthor() + "', '" + wp.getScope() + "', '" + wp.getWorkPackageType()
 							+ "', '" + wp.getTypeOfWork() + "', '" + wp.getPopStart() + "', '" + wp.getPopEnd() + "')");
-			
+
 			rs.next();
-			
+
 			if(!wp.getVersion().equals(wp.getOldVersion())) {
 				for (Task task : wp.getTasks()) {
 					cloneTask(task, wp.getID());
-				} 
+				}
 			} else {
 				for (Task task : wp.getTasks()) {
 					saveTask(task, wp.getID());
 				}
 			}
-			
+
 			rs.close();
-	
+
 		} else {
 			ResultSet rs = DBUtil.dbExecuteQuery("CALL insert_wp(" + orgID + ", '" + wp.getVersion() + "', '"
 					+ wp.getName() + "', '" + wp.getAuthor() + "', '" + wp.getScope() + "', '" + wp.getWorkPackageType()
@@ -210,13 +210,13 @@ public class EstimateProjectController implements Initializable, Refreshable {
 				wp.setID(rs.getString("idWP"));
 			}
 			rs.close();
-			
+
 			for (Task task : wp.getTasks()) {
 				saveTask(task, wp.getID());
 			}
 		}
 
-		
+
 
 		/*
 		 * for(Task task : wp.getDeletedTasks()) {
@@ -256,9 +256,9 @@ public class EstimateProjectController implements Initializable, Refreshable {
 			OrganizationBOE org = new OrganizationBOE();
 			org.setID(rs.getString("idOrganization"));
 			org.setVersion(rs.getString("Version_Number"));
-			org.setOldVersion("Version_Number");
-			org.setOrganization("Organization_Name");
-			org.setProduct("Product");
+			org.setOldVersion(rs.getString("Version_Number"));
+			org.setOrganization(rs.getString("Organization_Name"));
+			org.setProduct(rs.getString("Product"));
 
 			clin.addOrganiztion(org);
 		}

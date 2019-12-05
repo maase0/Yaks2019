@@ -45,11 +45,25 @@
                   </Button>
                </center>
                <top>
-                  <Label text="PROJECT APPROVED" BorderPane.alignment="CENTER">
+                  <BorderPane prefHeight="31.0" prefWidth="170.0" BorderPane.alignment="CENTER">
+                     <left>
+                        <Label text="Status:" BorderPane.alignment="CENTER_RIGHT">
+                           <BorderPane.margin>
+                              <Insets left="10.0" />
+                           </BorderPane.margin>
+                        </Label>
+                     </left>
                      <BorderPane.margin>
-                        <Insets top="15.0" />
+                        <Insets right="5.0" top="2.0" />
                      </BorderPane.margin>
-                  </Label>
+                     <center>
+                        <Label text="APP/DEN - DATE" BorderPane.alignment="CENTER_LEFT">
+                           <BorderPane.margin>
+                              <Insets left="10.0" />
+                           </BorderPane.margin>
+                        </Label>
+                     </center>
+                  </BorderPane>
                </top>
 				</BorderPane>
 			</right>

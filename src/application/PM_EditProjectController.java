@@ -405,19 +405,35 @@ public class PM_EditProjectController implements Initializable {
 			// Re-insert all the items with the new vid(version id)
 			else {
 				for (CLIN c : clinObservableList) {
-					DBUtil.dbExecuteUpdate("CALL insert_clin(" + vid + ", \"" + c.getIndex() + "\", \"" + c.getVersion()
-							+ "\", \"" + c.getProjectType() + "\", \"" + c.getClinContent() + "\", '" + c.getPopStart()
-							+ "', '" + c.getPopEnd() + "')");
+					if (c.getID() != null) {
+						DBUtil.dbExecuteUpdate("CALL clone_clin(" + c.getID() + ", " + vid + ", \"" + c.getIndex()
+								+ "\" , \"" + c.getVersion() + "\", \"" + c.getProjectType() + "\", \""
+								+ c.getClinContent() + "\", '" + c.getPopStart() + "', '" + c.getPopEnd() + "')");
+					} else {
+						DBUtil.dbExecuteUpdate("CALL insert_clin(" + vid + ", \"" + c.getIndex() + "\", \""
+								+ c.getVersion() + "\", \"" + c.getProjectType() + "\", \"" + c.getClinContent()
+								+ "\", '" + c.getPopStart() + "', '" + c.getPopEnd() + "')");
+					}
 				}
 
 				for (SDRL s : sdrlObservableList) {
-					DBUtil.dbExecuteUpdate("CALL insert_sdrl(" + vid + ", \"" + s.getName() + "\", \"" + s.getVersion()
-							+ "\", \"" + s.getSdrlInfo() + "\")");
+					if (s.getID() != null) {
+						DBUtil.dbExecuteUpdate("CALL clone_sdrl(" + s.getID() + ", " + vid + ", \"" + s.getName()
+								+ "\", \"" + s.getVersion() + "\", \"" + s.getSdrlInfo() + "\")");
+					} else {
+						DBUtil.dbExecuteUpdate("CALL insert_sdrl(" + vid + ", \"" + s.getName() + "\", \""
+								+ s.getVersion() + "\", \"" + s.getSdrlInfo() + "\")");
+					}
 				}
 
 				for (SOW s : sowObservableList) {
-					DBUtil.dbExecuteUpdate("CALL insert_sow(" + vid + ", " + s.getReference() + ", \"" + s.getVersion()
-							+ "\", \"" + s.getSowContent() + "\")");
+					if (s.getID() != null) {
+						DBUtil.dbExecuteUpdate("CALL update_sow(" + s.getID() + ", " + vid + ", " + s.getReference()
+								+ ", \"" + s.getVersion() + "\", \"" + s.getSowContent() + "\")");
+					} else {
+						DBUtil.dbExecuteUpdate("CALL insert_sow(" + vid + ", " + s.getReference() + ", \""
+								+ s.getVersion() + "\", \"" + s.getSowContent() + "\")");
+					}
 				}
 
 			}

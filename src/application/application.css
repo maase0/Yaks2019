@@ -371,3 +371,11 @@
 	-fx-background-color: #5077bf;
 	-fx-text-fill: #ffffff;
 }
+
+.error-text {
+	-fx-background-color: #ffffff;
+	-fx-background-radius: 3px;
+	-fx-border-color: red;
+	-fx-border-radius: 3px;
+	-fx-text-fill: red;
+}

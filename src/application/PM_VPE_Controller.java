@@ -68,7 +68,7 @@ public class PM_VPE_Controller implements Initializable {
 		sowListView.setItems(sowObservableList);
 	}
 
-	public void closeEstimation(ActionEvent event) {
+	public void closeEstimation() {
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("PM_Projects.fxml"));
 			Parent root = fxmlLoader.load();
@@ -88,8 +88,9 @@ public class PM_VPE_Controller implements Initializable {
 		}
 	}
 
-	public void returnEstimation(ActionEvent event) {
-
+	public void returnEstimation(ActionEvent event) throws SQLException, ClassNotFoundException {
+		DBUtil.dbExecuteUpdate("CALL return_for_estimation(" + project.getProjectID() + ")");
+		closeEstimation();
 	}
 
 	public void approveProject(ActionEvent event) throws SQLException, ClassNotFoundException {

@@ -57,7 +57,7 @@
                <top>
                   <Label text="Project Name:" BorderPane.alignment="CENTER">
                      <BorderPane.margin>
-                        <Insets top="3.0" />
+                        <Insets bottom="5.0" top="5.0" />
                      </BorderPane.margin>
                      <font>
                         <Font size="14.0" />
@@ -67,13 +67,20 @@
                <center>
                   <TextField fx:id="projectNameText" maxHeight="25.0" maxWidth="300.0" prefHeight="25.0" prefWidth="250.0" BorderPane.alignment="CENTER">
                      <BorderPane.margin>
-                        <Insets bottom="23.0" />
+                        <Insets />
                      </BorderPane.margin>
                   </TextField>
                </center>
                <BorderPane.margin>
                   <Insets right="10.0" />
                </BorderPane.margin>
+               <bottom>
+                  <Label id="ProjectNameError" styleClass="error-text" text="Project Name Required" textFill="RED" visible="false" BorderPane.alignment="CENTER">
+                     <BorderPane.margin>
+                        <Insets bottom="3.0" top="2.0" />
+                     </BorderPane.margin>
+                  </Label>
+               </bottom>
             </BorderPane>
          </center>
          <left>
@@ -99,21 +106,21 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
                         <GridPane>
                           <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="125.0" minWidth="10.0" prefWidth="125.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="630.0" minWidth="10.0" prefWidth="452.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="132.0" minWidth="10.0" prefWidth="125.0" />
+                            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="630.0" minWidth="10.0" prefWidth="451.0" />
                           </columnConstraints>
                           <rowConstraints>
-                            <RowConstraints />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="30.0" minHeight="0.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="31.0" minHeight="10.0" prefHeight="13.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <Label text="Project Manager:" GridPane.halignment="LEFT" GridPane.rowIndex="1" />
-                              <TextField fx:id="pmText" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <Label text="Project Manager:" GridPane.halignment="LEFT" />
+                              <TextField fx:id="pmText" GridPane.columnIndex="1" />
+                              <Label styleClass="error-text" text="Label" textFill="RED" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                            </children>
                         </GridPane>
                         <GridPane GridPane.rowIndex="1">
@@ -190,9 +197,9 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <Button styleClass="btn-rich-blue" fx:id="addCLINButton" mnemonicParsing="false" onAction="#addCLIN" text="Add Contract Line Item" />
-                              <Button styleClass="btn-rich-blue" fx:id="editCLINButton" mnemonicParsing="false" onAction="#editCLIN" text="Edit Selected" GridPane.columnIndex="1" />
-                              <Button styleClass="btn-rich-blue" fx:id="removeCLINButton" mnemonicParsing="false" onAction="#discardCLIN" text="Remove Selected" GridPane.columnIndex="2" />
+                              <Button fx:id="addCLINButton" mnemonicParsing="false" onAction="#addCLIN" styleClass="btn-rich-blue" text="Add Contract Line Item" />
+                              <Button fx:id="editCLINButton" mnemonicParsing="false" onAction="#editCLIN" styleClass="btn-rich-blue" text="Edit Selected" GridPane.columnIndex="1" />
+                              <Button fx:id="removeCLINButton" mnemonicParsing="false" onAction="#discardCLIN" styleClass="btn-rich-blue" text="Remove Selected" GridPane.columnIndex="2" />
                            </children>
                         </GridPane>
                      </top>
@@ -216,9 +223,9 @@
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
-                              <Button styleClass="btn-rich-blue" fx:id="addSDRLButton" mnemonicParsing="false" onAction="#addSDRL" text="Add SDRL" />
-                              <Button styleClass="btn-rich-blue" fx:id="editSDRLButton" mnemonicParsing="false" onAction="#editSDRL" text="Edit Selected" GridPane.columnIndex="1" />
-                              <Button styleClass="btn-rich-blue" fx:id="removeSDRLButton" mnemonicParsing="false" onAction="#removeSDRL" text="Remove Selected" GridPane.columnIndex="2" />
+                              <Button fx:id="addSDRLButton" mnemonicParsing="false" onAction="#addSDRL" styleClass="btn-rich-blue" text="Add SDRL" />
+                              <Button fx:id="editSDRLButton" mnemonicParsing="false" onAction="#editSDRL" styleClass="btn-rich-blue" text="Edit Selected" GridPane.columnIndex="1" />
+                              <Button fx:id="removeSDRLButton" mnemonicParsing="false" onAction="#removeSDRL" styleClass="btn-rich-blue" text="Remove Selected" GridPane.columnIndex="2" />
                            </children>
                         </GridPane>
                      </top>
@@ -242,9 +249,9 @@
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
-                              <Button styleClass="btn-rich-blue" fx:id="addSOWButton" mnemonicParsing="false" onAction="#addSOW" text="Add SOW" />
-                              <Button styleClass="btn-rich-blue" fx:id="editSOWButton" mnemonicParsing="false" onAction="#editSOW" text="Edit Selected" GridPane.columnIndex="1" />
-                              <Button styleClass="btn-rich-blue" fx:id="removeSOWButton" mnemonicParsing="false" onAction="#removeSOW" text="Remove Selected" GridPane.columnIndex="2" />
+                              <Button fx:id="addSOWButton" mnemonicParsing="false" onAction="#addSOW" styleClass="btn-rich-blue" text="Add SOW" />
+                              <Button fx:id="editSOWButton" mnemonicParsing="false" onAction="#editSOW" styleClass="btn-rich-blue" text="Edit Selected" GridPane.columnIndex="1" />
+                              <Button fx:id="removeSOWButton" mnemonicParsing="false" onAction="#removeSOW" styleClass="btn-rich-blue" text="Remove Selected" GridPane.columnIndex="2" />
                            </children>
                         </GridPane>
                      </top>

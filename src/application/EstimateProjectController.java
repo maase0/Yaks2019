@@ -220,7 +220,7 @@ public class EstimateProjectController implements Initializable, Refreshable {
 			wp.setPopEnd(rs.getString("PoP_End"));
 			wp.setScope(rs.getString("Scope"));
 			wp.setVersion(rs.getString("Version_Number"));
-			wp.setWorktype(rs.getString("Type_of_Work"));
+			wp.setTypeOfWork(rs.getString("Type_of_Work"));
 		
 			org.addWorkPackage(wp);
 		}

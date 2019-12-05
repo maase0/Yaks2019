@@ -378,4 +378,5 @@
 	-fx-border-color: red;
 	-fx-border-radius: 3px;
 	-fx-text-fill: red;
+	-fx-padding: 0px 3px 0px 3px;
 }

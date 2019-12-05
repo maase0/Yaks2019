@@ -15,7 +15,7 @@ public class OrganizationBOE {
 		organization = null;
 		product = null;
 		version = null;
-		workPackages = null;
+		workPackages = new ArrayList<WorkPackage>();
 		oldVersion = null;
 		deletedWorkPackages = new ArrayList<WorkPackage>();
 	}
@@ -83,6 +83,10 @@ public class OrganizationBOE {
 	
 	public void setDeletedWorkPackages(ArrayList<WorkPackage> wp) {
 		this.deletedWorkPackages = wp;
+	}
+	
+	public void addWorkPackage(WorkPackage wp) {
+		workPackages.add(wp);
 	}
 	
 	public String toString() {

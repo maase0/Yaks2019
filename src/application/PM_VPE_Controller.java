@@ -16,6 +16,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class PM_VPE_Controller implements Initializable {
@@ -88,13 +89,15 @@ public class PM_VPE_Controller implements Initializable {
 		}
 	}
 
+	// TODO Personal note, check to make sure this functions after completing approved/denied
 	public void returnEstimation(ActionEvent event) throws SQLException, ClassNotFoundException {
 		DBUtil.dbExecuteUpdate("CALL return_for_estimation(" + project.getProjectID() + ")");
 		closeEstimation();
 	}
 
 	public void approveProject(ActionEvent event) throws SQLException, ClassNotFoundException {
-		DBUtil.dbExecuteUpdate("CALL approve_project(" + project.getProjectID() + ")");
+		DBUtil.dbExecuteUpdate("CALL approve_project(" + project.getProjectID() + ", '"
+									+ LocalDate.now().toString() + "')");
 		try {
 			Parent root = FXMLLoader.load(getClass().getResource("PM_Projects.fxml"));
 
@@ -111,7 +114,8 @@ public class PM_VPE_Controller implements Initializable {
 	}
 
 	public void denyProject(ActionEvent event) throws SQLException, ClassNotFoundException {
-		DBUtil.dbExecuteUpdate("CALL deny_project(" + project.getProjectID() + ")");
+		DBUtil.dbExecuteUpdate("CALL deny_project(" + project.getProjectID() + ", '"
+									+ LocalDate.now().toString() + "')");
 		try {
 			Parent root = FXMLLoader.load(getClass().getResource("PM_Projects.fxml"));
 

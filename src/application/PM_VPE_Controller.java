@@ -38,12 +38,16 @@ public class PM_VPE_Controller implements Initializable {
 	@FXML
 	private Label versionNum;
 	@FXML
+	private Label projectName;
+	@FXML
 	private DatePicker startDate;
 	@FXML
 	private DatePicker endDate;
 
 	@FXML
 	private ListView<CLIN> clinListView;
+	@FXML
+	private ListView<CLIN> clinEstimateListView;
 	private ObservableList<CLIN> clinObservableList;
 
 	@FXML
@@ -61,6 +65,7 @@ public class PM_VPE_Controller implements Initializable {
 	public void initialize(URL url, ResourceBundle resourceBundle) {
 		clinObservableList = FXCollections.observableArrayList();
 		clinListView.setItems(clinObservableList);
+		clinEstimateListView.setItems(clinObservableList);
 
 		sdrlObservableList = FXCollections.observableArrayList();
 		sdrlListView.setItems(sdrlObservableList);
@@ -150,6 +155,10 @@ public class PM_VPE_Controller implements Initializable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void setName (String name) {
+		this.projectName.setText(name);
 	}
 
 	public void setProject(ProjectVersion project) {

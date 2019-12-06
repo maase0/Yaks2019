@@ -350,25 +350,16 @@ public class PM_ProjectsController implements Initializable, Refreshable {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("PM_ViewProjectEstimate.fxml"));
 			Parent root = fxmlLoader.load();
 
-			// EstimateProjectController controller = fxmlLoader.getController();
-
-			// controller.setCameFromEstimator(false);
-
 			ProjectVersion version = ProjectHandler.loadProjectVersion(proj, versionNumber);
-
-			/*
-			 * if (version == null) { System.out.println("ERROR ERROR NULL ERROR ERROR"); }
-			 */
 
 			PM_VPE_Controller controller = fxmlLoader.getController();
 
 			controller.setProject(version);
+			controller.setName(version.getName());
 
 			Stage eEstimateProjectStage = new Stage();
 			eEstimateProjectStage.setTitle("Estimation Suite - Project Manager - Estimate Project");
 			eEstimateProjectStage.setScene(new Scene(root));
-
-			// EstimateProject_Controller controller = fxmlLoader.getController();
 
 			eEstimateProjectStage.show();
 			eEstimateProjectStage.setResizable(true);

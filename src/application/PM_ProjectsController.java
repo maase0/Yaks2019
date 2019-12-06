@@ -1,5 +1,6 @@
 package application;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -141,24 +142,23 @@ public class PM_ProjectsController implements Initializable, Refreshable {
 		approvedObservableList = FXCollections.observableArrayList();
 		approvedListView.setItems(approvedObservableList);
 
-		/*
-		 * approvedListView.setCellFactory(new Callback<ListView<Project>,
-		 * ListCell<Project>>() {
-		 * 
-		 * @Override public ListCell<Project> call(ListView<Project> param) { return
-		 * null; } });
-		 */
+		approvedListView.setCellFactory(new Callback<ListView<Project>, ListCell<Project>>() {
+
+		  @Override
+		  public ListCell<Project> call(ListView<Project> param) {
+			  return new EstimatedCell((a, b) -> viewApproved(a, b));
+		  }
+		});
 
 		deniedObservableList = FXCollections.observableArrayList();
 		deniedListView.setItems(deniedObservableList);
 
-		/*
-		 * deniedListView.setCellFactory(new Callback<ListView<Project>,
-		 * ListCell<Project>>() {
-		 * 
-		 * @Override public ListCell<Project> call(ListView<Project> param) { return
-		 * null; } });
-		 */
+		deniedListView.setCellFactory(new Callback<ListView<Project>, ListCell<Project>>() {
+
+		 @Override public ListCell<Project> call(ListView<Project> param) {
+		 	return new EstimatedCell((a, b) -> viewDenied(a, b));
+		 }
+		});
 
 		// Fill each list with relevant projects from database
 		System.out.println("\nUnsubmitted Project Names");
@@ -373,8 +373,68 @@ public class PM_ProjectsController implements Initializable, Refreshable {
 			eEstimateProjectStage.show();
 			eEstimateProjectStage.setResizable(true);
 			eEstimateProjectStage.sizeToScene();
-
+			StageHandler.addStage(eEstimateProjectStage);
+			StageHandler.hidePreviousStage();
 		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void viewApproved(Project proj, String versionNumber) {
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("PM_ViewProcessedProjectEstimate.fxml"));
+			Parent root = fxmlLoader.load();
+
+			ProjectVersion version = ProjectHandler.loadProjectVersion(proj, versionNumber);
+
+			PM_VPPE_Controller controller = fxmlLoader.getController();
+
+			controller.setAorD(true);
+			controller.setProject(version);
+			controller.setStatus("Approved");
+			controller.setName(version.getName());
+
+			Stage approvedStage = new Stage();
+			approvedStage.setTitle("Estimation Suite - Project Manager - Approved Project");
+			approvedStage.setScene(new Scene(root));
+
+			approvedStage.show();
+			approvedStage.setResizable(true);
+			approvedStage.sizeToScene();
+
+			StageHandler.addStage(approvedStage);
+			StageHandler.hidePreviousStage();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void viewDenied(Project proj, String versionNumber) {
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("PM_ViewProcessedProjectEstimate.fxml"));
+			Parent root = fxmlLoader.load();
+
+			ProjectVersion version = ProjectHandler.loadProjectVersion(proj, versionNumber);
+
+			PM_VPPE_Controller controller = fxmlLoader.getController();
+
+			controller.setAorD(false);
+			controller.setProject(version);
+			controller.setStatus("Denied");
+			controller.setName(version.getName());
+
+			Stage deniedStage = new Stage();
+			deniedStage.setTitle("Estimation Suite - Project Manager - Denied Project");
+			deniedStage.setScene(new Scene(root));
+
+			deniedStage.show();
+			deniedStage.setResizable(true);
+			deniedStage.sizeToScene();
+
+			StageHandler.addStage(deniedStage);
+			StageHandler.hidePreviousStage();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}

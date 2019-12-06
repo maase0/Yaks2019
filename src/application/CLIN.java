@@ -12,6 +12,7 @@ public class CLIN
 	private String clinContent;
 	private String version;
 	private String id;
+	private String versionID;
 	private ArrayList<OrganizationBOE> organizations;
 	private ArrayList<OrganizationBOE> deletedOrganizations;
 	
@@ -22,11 +23,12 @@ public class CLIN
     	popEnd = null;
     	clinContent = null;
     	version = null;
+    	versionID = null;
     	organizations = new ArrayList<OrganizationBOE>();
     	deletedOrganizations = new ArrayList<OrganizationBOE>();
     }
     
-    public CLIN(String id, String index, String version,
+    public CLIN(String id, String versionID, String index, String version,
                 String projectType, String clinContent,
                 String popStart, String popEnd) {
     	this.id = id;
@@ -36,6 +38,7 @@ public class CLIN
     	this.clinContent = clinContent;
     	this.popStart = popStart;
     	this.popEnd = popEnd;
+    	this.versionID = versionID;
     	organizations = new ArrayList<OrganizationBOE>();
     	deletedOrganizations = new ArrayList<OrganizationBOE>();
     }
@@ -72,6 +75,10 @@ public class CLIN
         this.version = version;
     }
     
+    public void setVersionID(String versionID) {
+        this.versionID = versionID;
+    }
+    
     public String getIndex() {
     	return index;
     }
@@ -95,6 +102,11 @@ public class CLIN
     public String getVersion() {
         return version;
     }
+    
+    public String getVersionID() {
+        return versionID;
+    }
+
 
     public ArrayList<OrganizationBOE> getOrganizations() {
     	return organizations;

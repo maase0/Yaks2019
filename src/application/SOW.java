@@ -6,19 +6,21 @@ public class SOW {
 	private String sowContent;
 	private String version;
 	private String id;
-		
+	private String versionID;	
 	
     public SOW() {
     	reference = null;
     	sowContent = null;
     	version = null;
+    	versionID = null;
     }
 
-    public SOW(String id, String reference, String version, String sowContent) {
+    public SOW(String id, String versionID, String reference, String version, String sowContent) {
     	this.id = id;
         this.reference = reference;
         this.version = version;
         this.sowContent = sowContent;
+        this.versionID = versionID;
     }
 		
     public void setID(String id) {
@@ -27,6 +29,14 @@ public class SOW {
     
     public String getID() {
     	return id;
+    }
+    
+    public void setVersionID(String versionID) {
+    	this.versionID = versionID;
+    }
+    
+    public String getVersionID() {
+    	return versionID;
     }
     
     public void setReference(String reference) {

@@ -6,18 +6,21 @@ public class SDRL
 	private String sdrlInfo;
 	private String version;
 	private String id;
+	private String versionID;
 	
     public SDRL() {
     	name = null;
     	sdrlInfo = null;
     	version = null;
+    	versionID = null;
     }
 
-    public SDRL(String id, String name, String version, String sdrlInfo) {
+    public SDRL(String id, String versionID, String name, String version, String sdrlInfo) {
         this.id = id;
     	this.name = name;
         this.version = version;
         this.sdrlInfo = sdrlInfo;
+        this.versionID = versionID;
     }
 		
     public void setID(String id) {
@@ -27,6 +30,15 @@ public class SDRL
     public String getID() {
     	return id;
     }
+    
+    public void setVersionID(String versionID) {
+    	this.versionID = versionID;
+    }
+    
+    public String getVersionID() {
+    	return versionID;
+    }
+    
     
     public void setName(String name) {
     	this.name = name;

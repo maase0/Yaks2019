@@ -75,7 +75,7 @@ public class ProjectHandler {
 			while (rs.next()) {
 				// System.out.println(rs.getString("CLIN_Index"));
 
-				version.addCLIN(new CLIN(rs.getString("idCLIN"), rs.getString("CLIN_Index"),
+				version.addCLIN(new CLIN(rs.getString("idCLIN"), rs.getString("idCLINVersion"), rs.getString("CLIN_Index"),
 						rs.getString("Version_Number"), rs.getString("Project_Type"), rs.getString("CLIN_Description"),
 						rs.getString("PoP_Start"), rs.getString("PoP_End")));
 			}
@@ -84,7 +84,7 @@ public class ProjectHandler {
 			rs = DBUtil.dbExecuteQuery("CALL select_sdrls(" + versionID + ")");
 			while (rs.next()) {
 				// System.out.println(rs.getString("CLIN_Index"));
-				version.addSDRL(new SDRL(rs.getString("idSDRL"), rs.getString("SDRL_Title"),
+				version.addSDRL(new SDRL(rs.getString("idSDRL"), rs.getString("idSDRLVersion") ,rs.getString("SDRL_Title"),
 						rs.getString("Version_Number"), rs.getString("SDRL_Description")));
 			}
 
@@ -92,7 +92,7 @@ public class ProjectHandler {
 			rs = DBUtil.dbExecuteQuery("CALL select_sows(" + versionID + ")");
 			while (rs.next()) {
 				// System.out.println(rs.getString("CLIN_Index"));
-				version.addSOW(new SOW(rs.getString("idSoW"), rs.getString("Reference_Number"),
+				version.addSOW(new SOW(rs.getString("idSoW"), rs.getString("idSDRLVersion"),rs.getString("Reference_Number"),
 						rs.getString("Version_Number"), rs.getString("SoW_Description")));
 			}
 

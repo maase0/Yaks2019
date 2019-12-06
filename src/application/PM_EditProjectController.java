@@ -355,10 +355,14 @@ public class PM_EditProjectController implements Initializable {
 				// update existing items, insert new items.
 				for (CLIN c : clinObservableList) {
 					if (c.getID() != null) {
-						DBUtil.dbExecuteUpdate("CALL update_clin(" + c.getID() + ", " + vid + ", \"" + c.getIndex()
+						//`update_clin`(CLINVID int, CLINID int, clinIndex VARCHAR(45), versionNumber VARCHAR(45),  
+						//		projectType VARCHAR(45), clinDescription VARCHAR(1000), popStart DATE, popEnd DATE)
+						DBUtil.dbExecuteUpdate("CALL update_clin(" + c.getVersionID() + ", "+ c.getID() + ", \"" + c.getIndex()
 								+ "\" , \"" + c.getVersion() + "\", \"" + c.getProjectType() + "\", \""
 								+ c.getClinContent() + "\", '" + c.getPopStart() + "', '" + c.getPopEnd() + "')");
 					} else {
+						//insert_clin`(VID int, clinIndex VARCHAR(45), versionNumber VARCHAR(45),  projectType VARCHAR(45), 
+						//		clinDescription VARCHAR(1000), popStart DATE, popEnd DATE)
 						DBUtil.dbExecuteUpdate("CALL insert_clin(" + vid + ", \"" + c.getIndex() + "\", \""
 								+ c.getVersion() + "\", \"" + c.getProjectType() + "\", \"" + c.getClinContent()
 								+ "\", '" + c.getPopStart() + "', '" + c.getPopEnd() + "')");
@@ -367,7 +371,8 @@ public class PM_EditProjectController implements Initializable {
 
 				for (SDRL s : sdrlObservableList) {
 					if (s.getID() != null) {
-						DBUtil.dbExecuteUpdate("CALL update_sdrl(" + s.getID() + ", " + vid + ", \"" + s.getName()
+						//update_sdrl`(SDRLVID int, SDRLID int, sdrlTitle VARCHAR(45), versionNumber VARCHAR(45), sdrlDescription VARCHAR(1000))
+						DBUtil.dbExecuteUpdate("CALL update_sdrl(" + s.getVersionID() + ", " + s.getID() + ", \"" + s.getName()
 								+ "\", \"" + s.getVersion() + "\", \"" + s.getSdrlInfo() + "\")");
 					} else {
 						DBUtil.dbExecuteUpdate("CALL insert_sdrl(" + vid + ", \"" + s.getName() + "\", \""
@@ -377,7 +382,8 @@ public class PM_EditProjectController implements Initializable {
 
 				for (SOW s : sowObservableList) {
 					if (s.getID() != null) {
-						DBUtil.dbExecuteUpdate("CALL update_sow(" + s.getID() + ", " + vid + ", " + s.getReference()
+						//update_sow`(SOWVID int, SOWID int, sowRef VARCHAR(45), versionNumber VARCHAR(45), sowDescription VARCHAR(1000))
+						DBUtil.dbExecuteUpdate("CALL update_sow(" + s.getVersionID()() + ", " + s.getID() + ", " + s.getReference()
 								+ ", \"" + s.getVersion() + "\", \"" + s.getSowContent() + "\")");
 					} else {
 						DBUtil.dbExecuteUpdate("CALL insert_sow(" + vid + ", " + s.getReference() + ", \""

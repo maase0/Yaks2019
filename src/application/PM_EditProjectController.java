@@ -383,7 +383,7 @@ public class PM_EditProjectController implements Initializable {
 				for (SOW s : sowObservableList) {
 					if (s.getID() != null) {
 						//update_sow`(SOWVID int, SOWID int, sowRef VARCHAR(45), versionNumber VARCHAR(45), sowDescription VARCHAR(1000))
-						DBUtil.dbExecuteUpdate("CALL update_sow(" + s.getVersionID()() + ", " + s.getID() + ", " + s.getReference()
+						DBUtil.dbExecuteUpdate("CALL update_sow(" + s.getVersionID() + ", " + s.getID() + ", " + s.getReference()
 								+ ", \"" + s.getVersion() + "\", \"" + s.getSowContent() + "\")");
 					} else {
 						DBUtil.dbExecuteUpdate("CALL insert_sow(" + vid + ", " + s.getReference() + ", \""

@@ -40,7 +40,7 @@ public class ProjectHandler {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static ProjectVersion loadProjectVersion(Project project, String versionNumber) {
 		ProjectVersion version = new ProjectVersion();
 
@@ -71,29 +71,47 @@ public class ProjectHandler {
 			version.setPopEnd(end == null ? null : LocalDate.parse(end));
 
 			// Get all the clins, add them to the project
-			rs = DBUtil.dbExecuteQuery("CALL select_clins(" + versionID + ")");
-			while (rs.next()) {
-				// System.out.println(rs.getString("CLIN_Index"));
 
-				version.addCLIN(new CLIN(rs.getString("idCLIN"), rs.getString("idCLINVersion"), rs.getString("CLIN_Index"),
-						rs.getString("Version_Number"), rs.getString("Project_Type"), rs.getString("CLIN_Description"),
-						rs.getString("PoP_Start"), rs.getString("PoP_End")));
+			// Get all the clins
+			rs = DBUtil.dbExecuteQuery("SELECT * FROM CLIN WHERE idProjectVersion = " + versionID);
+			// rs = DBUtil.dbExecuteQuery("CALL select_clins(" + versionID + ")");
+			while (rs.next()) {
+				// get the clin versions
+				ResultSet clinRS = DBUtil.dbExecuteQuery("CALL select_clins(" + rs.getString("idCLIN") + ")");
+
+				if (clinRS.last()) {
+
+					version.addCLIN(new CLIN(clinRS.getString("idCLIN"), clinRS.getString("idCLINVersion"),
+							clinRS.getString("CLIN_Index"), clinRS.getString("Version_Number"),
+							clinRS.getString("Project_Type"), clinRS.getString("CLIN_Description"),
+							clinRS.getString("PoP_Start"), clinRS.getString("PoP_End")));
+				}
+				clinRS.close();
 			}
 
 			// Get all the SDRLs, add them to the project
-			rs = DBUtil.dbExecuteQuery("CALL select_sdrls(" + versionID + ")");
+			// rs = DBUtil.dbExecuteQuery("CALL select_sdrls(" + versionID + ")");
+			rs = DBUtil.dbExecuteQuery("SELECT * FROM SDRL WHERE idProjectVersion = " + rs.getString("idSDRL"));
 			while (rs.next()) {
-				// System.out.println(rs.getString("CLIN_Index"));
-				version.addSDRL(new SDRL(rs.getString("idSDRL"), rs.getString("idSDRLVersion") ,rs.getString("SDRL_Title"),
-						rs.getString("Version_Number"), rs.getString("SDRL_Description")));
+				ResultSet rs2 = DBUtil.dbExecuteQuery("CALL select_sdrls(" + versionID + ")");
+				if (rs2.last()) {
+					version.addSDRL(
+							new SDRL(rs2.getString("idSDRL"), rs2.getString("idSDRLVersion"), rs2.getString("SDRL_Title"),
+									rs2.getString("Version_Number"), rs2.getString("SDRL_Description")));
+				}
+				rs2.close();
 			}
 
 			// Get all the SOWs, add them to the project
-			rs = DBUtil.dbExecuteQuery("CALL select_sows(" + versionID + ")");
+			//rs = DBUtil.dbExecuteQuery("CALL select_sows(" + versionID + ")");
+			rs = DBUtil.dbExecuteQuery("SELECT * FROM SoW WHERE idProjectVersion = " + versionID);
 			while (rs.next()) {
-				// System.out.println(rs.getString("CLIN_Index"));
-				version.addSOW(new SOW(rs.getString("idSoW"), rs.getString("idSDRLVersion"),rs.getString("Reference_Number"),
-						rs.getString("Version_Number"), rs.getString("SoW_Description")));
+				ResultSet rs2 = DBUtil.dbExecuteQuery("CALL select_sows(" + rs.getString("idSoW") + ")");
+				
+				
+				version.addSOW(
+						new SOW(rs2.getString("idSoW"), rs2.getString("idSDRLVersion"), rs2.getString("Reference_Number"),
+								rs2.getString("Version_Number"), rs2.getString("SoW_Description")));
 			}
 
 			rs.close();

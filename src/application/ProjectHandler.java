@@ -86,32 +86,48 @@ public class ProjectHandler {
 							clinRS.getString("Project_Type"), clinRS.getString("CLIN_Description"),
 							clinRS.getString("PoP_Start"), clinRS.getString("PoP_End")));
 				}
+				System.out.println("a");
 				clinRS.close();
 			}
+			System.out.println("b");
+
 
 			// Get all the SDRLs, add them to the project
 			// rs = DBUtil.dbExecuteQuery("CALL select_sdrls(" + versionID + ")");
-			rs = DBUtil.dbExecuteQuery("SELECT * FROM SDRL WHERE idProjectVersion = " + rs.getString("idSDRL"));
+			rs = DBUtil.dbExecuteQuery("SELECT * FROM SDRL WHERE idProjectVersion = " + versionID);
+
 			while (rs.next()) {
-				ResultSet rs2 = DBUtil.dbExecuteQuery("CALL select_sdrls(" + versionID + ")");
+				System.out.println("d");
+
+				ResultSet rs2 = DBUtil.dbExecuteQuery("CALL select_sdrls(" + rs.getString("idSDRL") + ")");
 				if (rs2.last()) {
-					version.addSDRL(
-							new SDRL(rs2.getString("idSDRL"), rs2.getString("idSDRLVersion"), rs2.getString("SDRL_Title"),
-									rs2.getString("Version_Number"), rs2.getString("SDRL_Description")));
+					version.addSDRL(new SDRL(rs2.getString("idSDRL"), rs2.getString("idSDRLVersion"),
+							rs2.getString("SDRL_Title"), rs2.getString("Version_Number"),
+							rs2.getString("SDRL_Description")));
 				}
 				rs2.close();
 			}
 
 			// Get all the SOWs, add them to the project
-			//rs = DBUtil.dbExecuteQuery("CALL select_sows(" + versionID + ")");
+			// rs = DBUtil.dbExecuteQuery("CALL select_sows(" + versionID + ")");
 			rs = DBUtil.dbExecuteQuery("SELECT * FROM SoW WHERE idProjectVersion = " + versionID);
+
 			while (rs.next()) {
 				ResultSet rs2 = DBUtil.dbExecuteQuery("CALL select_sows(" + rs.getString("idSoW") + ")");
-				
-				
-				version.addSOW(
-						new SOW(rs2.getString("idSoW"), rs2.getString("idSDRLVersion"), rs2.getString("Reference_Number"),
-								rs2.getString("Version_Number"), rs2.getString("SoW_Description")));
+				System.out.println("c");
+
+				if (rs2.last()) {
+					System.out.println("d");
+
+					version.addSOW(new SOW(rs2.getString("idSoW"), rs2.getString("idSoWVersion"),
+							rs2.getString("Reference_Number"), rs2.getString("Version_Number"),
+							rs2.getString("SoW_Description")));
+					System.out.println("e");
+
+				}
+				System.out.println("f");
+
+				rs2.close();
 			}
 
 			rs.close();

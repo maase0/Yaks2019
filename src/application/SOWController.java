@@ -37,6 +37,7 @@ public class SOWController extends ListCell<SOW> implements Initializable {
         } else {
             sow.setReference(ref);
             sow.setSowContent(content);
+            sow.setVersion(version);
             sowObservableList.set(sowObservableList.indexOf(sow), sow);
         }
     }
@@ -63,6 +64,7 @@ public class SOWController extends ListCell<SOW> implements Initializable {
         if(sow != null) {
             sowReference.setText(sow.getReference());
             sowContent.setText(sow.getSowContent());
+            sowVersion.setText(sow.getVersion());
         }
     }
 

@@ -385,6 +385,7 @@ public class PM_EditProjectController implements Initializable {
 						//update_sow`(SOWVID int, SOWID int, sowRef VARCHAR(45), versionNumber VARCHAR(45), sowDescription VARCHAR(1000))
 						DBUtil.dbExecuteUpdate("CALL update_sow(" + s.getVersionID() + ", " + s.getID() + ", " + s.getReference()
 								+ ", \"" + s.getVersion() + "\", \"" + s.getSowContent() + "\")");
+						System.out.println("AAAAA HELP");
 					} else {
 						DBUtil.dbExecuteUpdate("CALL insert_sow(" + vid + ", " + s.getReference() + ", \""
 								+ s.getVersion() + "\", \"" + s.getSowContent() + "\")");

@@ -5,22 +5,24 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="490.0" prefWidth="795.0" style="-fx-background-color: linear-gradient(#ffffff, #cbcbcb);" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Task_Controller">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="563.0" prefWidth="795.0" style="-fx-background-color: linear-gradient(#ffffff, #cbcbcb);" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Task_Controller">
    <top>
-      <GridPane BorderPane.alignment="CENTER">
+      <GridPane prefHeight="145.0" prefWidth="775.0" BorderPane.alignment="CENTER">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="27.0" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="39.0" minHeight="10.0" prefHeight="33.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="56.0" minHeight="10.0" prefHeight="42.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="47.0" minHeight="10.0" prefHeight="41.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <GridPane>
               <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="191.0" minWidth="10.0" prefWidth="66.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="467.0" minWidth="10.0" prefWidth="293.0" />
-                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="444.0" minWidth="10.0" prefWidth="426.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="191.0" minWidth="10.0" prefWidth="75.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="467.0" minWidth="10.0" prefWidth="257.0" />
+                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="444.0" minWidth="10.0" prefWidth="444.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -63,14 +65,14 @@
                   </GridPane>
                </children>
             </GridPane>
-            <GridPane GridPane.rowIndex="1">
+            <GridPane GridPane.rowIndex="2">
               <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="159.0" minWidth="10.0" prefWidth="151.0" />
-                <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="525.0" minWidth="10.0" prefWidth="352.0" />
-                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="313.0" minWidth="10.0" prefWidth="83.0" />
-                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="212.0" minWidth="10.0" prefWidth="79.0" />
-                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="212.0" minWidth="10.0" prefWidth="59.0" />
-                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="212.0" minWidth="10.0" prefWidth="72.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="169.0" minWidth="10.0" prefWidth="162.0" />
+                <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="525.0" minWidth="10.0" prefWidth="288.0" />
+                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="313.0" minWidth="10.0" prefWidth="87.0" />
+                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="212.0" minWidth="10.0" prefWidth="97.0" />
+                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="212.0" minWidth="10.0" prefWidth="65.0" />
+                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="212.0" minWidth="10.0" prefWidth="78.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -111,9 +113,48 @@
                   <Insets top="10.0" />
                </GridPane.margin>
             </GridPane>
+            <GridPane GridPane.rowIndex="1">
+              <columnConstraints>
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label id="TaskNameError" styleClass="error-text" text="Task Name is a required field!">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                  </Label>
+                  <Label id="PoPError" styleClass="error-text" text="Task PoP must have start and end dates!" GridPane.columnIndex="1" />
+               </children>
+            </GridPane>
+            <GridPane GridPane.rowIndex="3">
+              <columnConstraints>
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="489.0" minWidth="10.0" prefWidth="455.0" />
+                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="575.0" minWidth="10.0" prefWidth="161.0" />
+                <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="697.0" minWidth="10.0" prefWidth="159.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="TOP" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label id="BOEFormulaError" styleClass="error-text" text="Basis of Estimates Formula is a required field!" />
+                  <Label id="StaffError" styleClass="error-text" text="Staff Hours must be a numerical value!" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1">
+                     <GridPane.margin>
+                        <Insets right="10.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Label id="VerNumError" styleClass="error-text" text="Version Number must follow conventions!" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="2" />
+               </children>
+               <GridPane.margin>
+                  <Insets top="5.0" />
+               </GridPane.margin>
+            </GridPane>
          </children>
          <BorderPane.margin>
-            <Insets left="10.0" top="5.0" />
+            <Insets left="10.0" right="10.0" top="10.0" />
          </BorderPane.margin>
       </GridPane>
    </top>
@@ -155,12 +196,26 @@
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints maxHeight="91.0" minHeight="10.0" prefHeight="36.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="163.0" minHeight="10.0" prefHeight="157.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="163.0" minHeight="10.0" prefHeight="135.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="163.0" minHeight="10.0" prefHeight="27.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <GridPane.margin>
                   <Insets top="10.0" />
                </GridPane.margin>
                <children>
+                  <Label id="EstMethRatError" styleClass="error-text" text="Estimate Methodology &amp; Rationale is a required field!" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <GridPane.margin>
+                        <Insets left="10.0" top="15.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Label id="CondAssumpError" styleClass="error-text" text="Conditions &amp; Assumptions is a required field!" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets left="5.0" top="15.0" />
+                     </GridPane.margin>
+                  </Label>
                   <TextArea fx:id="conditions" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets right="5.0" />
@@ -171,7 +226,10 @@
                         <Insets left="5.0" />
                      </GridPane.margin>
                   </TextArea>
-                  <Label text="Conditions &amp; Assumptions:" />
+                  <Label text="Conditions &amp; Assumptions:">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin></Label>
                   <Label text="Estimate Methodology &amp; Rationale:" GridPane.columnIndex="1">
                      <GridPane.margin>
                         <Insets left="5.0" />
@@ -185,11 +243,27 @@
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints maxHeight="91.0" minHeight="10.0" prefHeight="29.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="181.0" minHeight="10.0" prefHeight="164.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="181.0" minHeight="10.0" prefHeight="148.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="181.0" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
                   <Label text="Task Details:" />
                   <TextArea fx:id="details" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
+                  <GridPane GridPane.rowIndex="2">
+                    <columnConstraints>
+                      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Label id="TaskDetailsError" styleClass="error-text" text="Task Details is a required field!">
+                           <GridPane.margin>
+                              <Insets top="10.0" />
+                           </GridPane.margin>
+                        </Label>
+                     </children>
+                  </GridPane>
                </children>
             </GridPane>
          </children>

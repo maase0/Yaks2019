@@ -12,65 +12,69 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-
 public class SOWController extends ListCell<SOW> implements Initializable {
 
-    @FXML private Button sowSaveButton;
-    @FXML private Button sowClose;
-    @FXML private Button sowSaveAndClose;
-    @FXML private TextField sowReference;
-    @FXML private TextArea sowContent;
-    @FXML private TextField sowVersion;
+	@FXML
+	private Button sowSaveButton;
+	@FXML
+	private Button sowClose;
+	@FXML
+	private Button sowSaveAndClose;
+	@FXML
+	private TextField sowReference;
+	@FXML
+	private TextArea sowContent;
+	@FXML
+	private TextField sowVersion;
 
-    SOW sow;
-    private ObservableList<SOW> sowObservableList;
+	SOW sow;
+	private ObservableList<SOW> sowObservableList;
 
-    public void saveSOW() {
+	public void saveSOW() {
 
-        String ref = sowReference.getText();
-        String content = sowContent.getText();
-        String version = sowVersion.getText();
+		String ref = sowReference.getText();
+		String content = sowContent.getText();
+		String version = sowVersion.getText();
 
-        if(sow == null) {
-            sow = new SOW(null, null, ref, version, content);
-            sowObservableList.add(sow);
-        } else {
-            sow.setReference(ref);
-            sow.setSowContent(content);
-            sow.setVersion(version);
-            sowObservableList.set(sowObservableList.indexOf(sow), sow);
-        }
-    }
+		if (sow == null) {
+			sow = new SOW(null, null, ref, version, content);
+			sowObservableList.add(sow);
+		} else {
+			sow.setReference(ref);
+			sow.setSowContent(content);
+			sow.setVersion(version);
+			sowObservableList.set(sowObservableList.indexOf(sow), sow);
+		}
+	}
 
-    public void SaveAndClose(ActionEvent event) {
-        saveSOW();
-        close();
-    }
+	public void SaveAndClose(ActionEvent event) {
+		saveSOW();
+		close();
+	}
 
-    public void close() {
-        Stage stage = (Stage) sowClose.getScene().getWindow();
-        stage.close();
-    }
+	public void close() {
+		Stage stage = (Stage) sowClose.getScene().getWindow();
+		stage.close();
+	}
 
-    public void setList(ObservableList<SOW> sowObservableList) {
-        this.sowObservableList = sowObservableList;
-    }
+	public void setList(ObservableList<SOW> sowObservableList) {
+		this.sowObservableList = sowObservableList;
+	}
 
-    public void setSOW(SOW sow) {
-        this.sow = sow;
-    }
+	public void setSOW(SOW sow) {
+		this.sow = sow;
+	}
 
-    public void setInputFields() {
-        if(sow != null) {
-            sowReference.setText(sow.getReference());
-            sowContent.setText(sow.getSowContent());
-            sowVersion.setText(sow.getVersion());
-        }
-    }
+	public void setInputFields() {
+		if (sow != null) {
+			sowReference.setText(sow.getReference());
+			sowContent.setText(sow.getSowContent());
+			sowVersion.setText(sow.getVersion());
+		}
+	}
 
-    @Override
-    public void initialize(URL arg0, ResourceBundle arg1) {
-        // TODO Auto-generated method stub
-    }
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		sowVersion.setText("1");
+	}
 }
-

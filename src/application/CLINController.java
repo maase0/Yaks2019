@@ -66,7 +66,7 @@ public class CLINController extends ListCell<CLIN> implements Initializable {
 	
 	
 	public void checkIndex() {
-		clinIndex.getText();
+		/*clinIndex.getText();
 		clinIndex.getText();
 		clinIndex.getText();
 		String test = clinIndex.getText();
@@ -75,7 +75,7 @@ public class CLINController extends ListCell<CLIN> implements Initializable {
 		} else {
 			errorIndex.setVisible(true);
 		}
-		System.out.println(test);
+		System.out.println(test);*/
 	}
 	public void checkType() {
 		
@@ -84,7 +84,7 @@ public class CLINController extends ListCell<CLIN> implements Initializable {
 		
 	}
 	public void checkPop() {
-		System.out.println("Test");
+		/*System.out.println("Test");*/
 	}
 	public void checkDetails() {
 		
@@ -104,8 +104,8 @@ public class CLINController extends ListCell<CLIN> implements Initializable {
 		String projectType = clinProjectType.getText();
 		String text = clinTextArea.getText();
 		String version = clinVersion.getText();
-		String start = clinPoPStart.getValue().toString();
-		String end = clinPoPEnd.getValue().toString();
+		String start = clinPoPStart.getValue() == null ? null : clinPoPStart.getValue().toString();
+		String end = clinPoPEnd.getValue() == null ? null : clinPoPEnd.getValue().toString();
 
 		if (clin == null) {
 			// Create a new object if not yet saved

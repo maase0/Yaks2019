@@ -3,6 +3,7 @@ package application;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import DB.DBUtil;
 import javafx.collections.ObservableList;
@@ -138,5 +139,155 @@ public class ProjectHandler {
 			e.printStackTrace();
 		}
 		return version;
+	}
+	
+	public static String checkProjectForSubmission(ProjectVersion proj) {
+		String errorMessage = "";
+		
+		String name = proj.getName();
+		String pm = proj.getProjectManager();
+		String propNum = proj.getProposalNumber();
+		String versionNum = proj.getVersionNumber();
+		LocalDate start = proj.getPopStart();
+		LocalDate end = proj.getPopEnd();
+		
+		//Check all project information
+		if(name == null || name.trim().isEmpty()) {
+			errorMessage += "Project Error: Project Name must not be empty.\n";	
+		}
+		if(pm == null || pm.trim().equals("")) {
+			errorMessage += "Project Error: Project Manager must not be empty.\n";
+		}
+		if(propNum == null || propNum.trim().isEmpty()) {
+			errorMessage += "Project Error: Proposal Number must not be empty.\n";
+		} else if(!propNum.matches("\\d+")) {
+			errorMessage += "Project Error: Proposal Number must be a number. (ex: 11, 566)\n";
+		}
+		if(versionNum == null || versionNum.trim().isEmpty()) {
+			errorMessage += "Project Error: Version Number must not be empty.\n";
+		} else if(!versionNum.matches("\\d+(.\\d)*")) {
+			errorMessage += "Project Error: Invalid Version Number! Must be of form 1, 3.2.1, 6.11.10, etc\n";
+		}
+		if(start == null) {
+			errorMessage += "Project Error: Period of Performance must have a starting value.\n";
+		}
+		if(end == null) {
+			errorMessage += "Project Error: Period of Performance must have ending value.\n";
+		}
+		if(start != null && end != null) {
+			if(start.compareTo(end) > 0) {
+				errorMessage += "Project Error: Period of Performance Start must be before End.\n";
+				errorMessage += "\tStart (" + start.toString() +") is after End (" + end.toString() + ")\n";
+
+			}
+		}
+		
+		ArrayList<CLIN> clins = proj.getCLINList();
+		ArrayList<SDRL> sdrls = proj.getSDRLList();
+		ArrayList<SOW> sows = proj.getSOWList();
+		
+		if(clins == null || clins.size() == 0) {
+			errorMessage += "Project Error: Must have at least one Contract Line Item.\n";
+		}
+		if(sdrls == null || sdrls.size() == 0) {
+			errorMessage += "Project Error: Must have at least one Subcontract Design Requirement List.\n";
+		}
+		if(sows == null || sows.size() == 0) {
+			errorMessage += "Project Error: Must have at least one Statement of Work Reference.\n";
+		}
+		
+		
+		//Get errors for each CLIN
+		for(CLIN c : clins) {
+			String index = c.getIndex();
+			String type = c.getProjectType();
+			String details = c.getClinContent();
+			String version = c.getVersion();
+			LocalDate clinstart = c.getPopStart() == null ? null : LocalDate.parse(c.getPopStart());
+			LocalDate clinend = c.getPopEnd() == null ? null : LocalDate.parse(c.getPopEnd());
+			
+			if(index == null || index.trim().isEmpty()) {
+				errorMessage += "CLIN Error: Index cannot be empty.\n";
+			} else if(!index.matches("\\d+")) {
+				errorMessage += "CLIN Error: Index must be a number.\n";
+			}
+			if(type == null || type.trim().isEmpty()) {
+				errorMessage += "CLIN Error: Project Type cannot be empty.\n";
+			}
+			if(details == null || details.trim().isEmpty()) {
+				errorMessage += "CLIN Error: CLIN Details cannot be empty.\n";
+			}
+			if(clinstart == null) {
+				errorMessage += "CLIN Error: CLIN Period of Performance must have a starting value.\n";
+			}
+			if(clinend == null) {
+				errorMessage += "CLIN Error: CLIN Period of Performance must have a ending value.\n";
+			}
+			if(clinend != null && clinstart != null) {
+				if(clinstart.compareTo(clinend) > 0) {
+					errorMessage += "CLIN Error: CLIN Period of Performance Start must be before End.\n";
+					errorMessage += "\tStart (" + clinstart.toString() +") is after End (" + clinend.toString() + ")\n";
+				}
+				if(start.compareTo(clinstart) > 0) {
+					errorMessage += "CLIN Error: CLIN Period of Performance Start cannot be before Project Period of Performance Start.\n";
+					errorMessage += "\tCLIN Start (" + clinstart.toString() +") is before Project Start(" + start.toString() + ")\n";
+
+				}
+				if(end.compareTo(clinend) < 0) {
+					errorMessage += "CLIN Error: CLIN Period of Performance End cannot be after project Period of Performance End.\n";
+					errorMessage += "\tCLIN End (" + clinend.toString() +") is after Project End (" + end.toString() + ")\n";
+
+				}
+			}
+			if(version == null || version.trim().isEmpty()) {
+				errorMessage += "CLIN Error: CLIN Version cannot be empty.\n";
+			} else if(!version.matches("\\d+(.\\d)*")) {
+				errorMessage += "CLIN Error: Invalid Version Number! Must be of form 1, 3.2.1, 6.11.10, etc\n";
+			}
+			
+		}
+		
+		for(SDRL s : sdrls) {
+			String title = s.getName();
+			String content = s.getSdrlInfo();
+			String version = s.getVersion();
+			
+			if(title == null || title.trim().isEmpty()) {
+				errorMessage += "SDRL Error: SDRL Name cannot be empty.\n";
+			}
+			if(content == null || content.trim().isEmpty()) {
+				errorMessage += "SDRL Error: SDRL Details cannot be empty.\n";
+			}
+			if(version == null || version.trim().isEmpty()) {
+				errorMessage += "SDRL Error: SDRL Version cannot be empty.\n";
+			} else if(!version.matches("\\d+(.\\d)*")) {
+				errorMessage += "SDRL Error: Invalid Version Number! Must be of form 1, 3.2.1, 6.11.10, etc\n";
+			}
+		}
+		
+		for(SOW s : sows) {
+			String ref = s.getReference();	
+			String content = s.getSowContent();
+			String version = s.getVersion();
+			
+			if(ref == null || ref.trim().isEmpty()) {
+				errorMessage += "SOW Error: SOW Ref cannot be empty\n";
+			} else if(!ref.matches("\\d+")) {
+				errorMessage += "SOW Error: SOW Reference Number must be a number.\n";
+			}
+			if(content == null | content.trim().isEmpty()) {
+				errorMessage += "SOW Error: SOW Content cannot be empty.\n";
+			}
+			if(version == null || version.trim().isEmpty()) {
+				errorMessage += "SDRL Error: SDRL Version cannot be empty.\n";
+			} else if(!version.matches("\\d+(.\\d)*")) {
+				errorMessage += "SDRL Error: Invalid Version Number! Must be of form 1, 3.2.1, 6.11.10, etc\n";
+			}
+		}
+		
+		if(errorMessage.equals("")) {
+			errorMessage = null;
+		}
+		return errorMessage;
 	}
 }

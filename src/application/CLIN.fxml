@@ -45,22 +45,22 @@
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin></Label>
-            <TextField fx:id="clinIndex" GridPane.columnIndex="1" />
+            <TextField fx:id="clinIndex" onKeyTyped="#checkIndex" GridPane.columnIndex="1" />
             <Label text="Project Type: " GridPane.columnIndex="2" />
             <Label text="CLIN PoP:" GridPane.columnIndex="4">
                <GridPane.margin>
                   <Insets right="3.0" />
                </GridPane.margin></Label>
             <Label text="to" GridPane.columnIndex="6" />
-            <TextField fx:id="clinProjectType" GridPane.columnIndex="3" />
-            <DatePicker fx:id="clinPoPStart" GridPane.columnIndex="5" />
-            <DatePicker fx:id="clinPoPEnd" GridPane.columnIndex="7" />
+            <TextField fx:id="clinProjectType" onKeyTyped="#checkType" GridPane.columnIndex="3" />
+            <DatePicker fx:id="clinPoPStart" onAction="#checkPop" GridPane.columnIndex="5" />
+            <DatePicker fx:id="clinPoPEnd" onAction="#checkPop" GridPane.columnIndex="7" />
          </children>
          <GridPane.margin>
             <Insets top="10.0" />
          </GridPane.margin>
       </GridPane>
-      <TextArea fx:id="clinTextArea" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="253.0" prefWidth="980.0" promptText="Enter CLIN..." GridPane.rowIndex="2">
+      <TextArea fx:id="clinTextArea" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyTyped="#checkDetails" prefHeight="253.0" prefWidth="980.0" promptText="Enter CLIN..." GridPane.rowIndex="2">
          <GridPane.margin>
             <Insets left="10.0" right="10.0" />
          </GridPane.margin></TextArea>
@@ -85,8 +85,8 @@
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin></Label>
-            <TextField fx:id="clinVersion" GridPane.columnIndex="1" />
-            <Label id="VerNumError" styleClass="error-text" text="Version Number must follow conventions! (i.e. 1, 3.2. 4.0.4, 1.0.0.7)" GridPane.columnIndex="2">
+            <TextField fx:id="clinVersion" onKeyTyped="#checkVersion" GridPane.columnIndex="1" />
+            <Label id="VerNumError" fx:id="errorVersion" styleClass="error-text" text="Version Number must follow conventions! (i.e. 1, 3.2. 4.0.4, 1.0.0.7)" GridPane.columnIndex="2">
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin>
@@ -107,15 +107,15 @@
             <RowConstraints maxHeight="24.0" minHeight="10.0" prefHeight="18.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label id="ProjTypeError" styleClass="error-text" text="Project Type Required" GridPane.columnIndex="3" />
-            <Label id="IndexError" styleClass="error-text" text="Index must a numerical value!" GridPane.columnIndex="1" />
-            <Label id="PoPError" styleClass="error-text" text="PoP must be from a start date to an end date within the Project's PoP!" GridPane.columnIndex="5" />
+            <Label id="ProjTypeError" fx:id="errorType" styleClass="error-text" text="Project Type Required" GridPane.columnIndex="3" />
+            <Label id="IndexError" fx:id="errorIndex" styleClass="error-text" text="Index must a numerical value!" GridPane.columnIndex="1" />
+            <Label id="PoPError" fx:id="errorPop" styleClass="error-text" text="PoP must be from a start date to an end date within the Project's PoP!" GridPane.columnIndex="5" />
          </children>
          <GridPane.margin>
             <Insets bottom="5.0" top="5.0" />
          </GridPane.margin>
       </GridPane>
-      <Label id="CLINDetailsError" styleClass="error-text" text="Some CLIN Details Required" GridPane.rowIndex="3">
+      <Label id="CLINDetailsError" fx:id="errorDetails" styleClass="error-text" text="Some CLIN Details Required" GridPane.rowIndex="3">
          <GridPane.margin>
             <Insets bottom="5.0" top="5.0" />
          </GridPane.margin>

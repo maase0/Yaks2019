@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -14,6 +15,7 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Interface to create / edit CLINs.
@@ -41,10 +43,55 @@ public class CLINController extends ListCell<CLIN> implements Initializable {
 	private DatePicker clinPoPEnd;
 	@FXML
 	private GridPane gridPane;
+	
+	@FXML private Label errorIndex;
+	@FXML private Label errorType;
+	@FXML private Label errorPop;
+	@FXML private Label errorVersion;
+	@FXML private Label errorDetails;
 
 	CLIN clin;
 	private ObservableList<CLIN> clinObservableList;
 
+	
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		clinVersion.setText("1");
+		//errorIndex.setVisible(false);
+		//errorType.setVisible(false);
+		//errorPop.setVisible(false);
+		errorVersion.setVisible(false);
+		//errorDetails.setVisible(false);
+	}
+	
+	
+	public void checkIndex() {
+		clinIndex.getText();
+		clinIndex.getText();
+		clinIndex.getText();
+		String test = clinIndex.getText();
+		if(test.matches("\\d+")) {
+			errorIndex.setVisible(false);
+		} else {
+			errorIndex.setVisible(true);
+		}
+		System.out.println(test);
+	}
+	public void checkType() {
+		
+	}
+	public void checkVersion() {
+		
+	}
+	public void checkPop() {
+		System.out.println("Test");
+	}
+	public void checkDetails() {
+		
+	}
+	
+	
+	
 	/**
 	 * Saves the CLIN being edited. Creates a new CLIN object if the CLIN has not
 	 * been saved yet, otherwise updates existing CLIN.
@@ -134,8 +181,5 @@ public class CLINController extends ListCell<CLIN> implements Initializable {
 		}
 	}
 
-	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
-		clinVersion.setText("1");
-	}
+
 }

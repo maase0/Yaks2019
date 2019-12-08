@@ -487,10 +487,11 @@ public class PM_EditProjectController implements Initializable {
 	public void submitForEstimation(ActionEvent event) throws SQLException, ClassNotFoundException {
 		int vid = 0;
 
-		boolean passed = true;
+		save();
 
-		if (passed) {
-			save();
+		String errorMessage = ProjectHandler.checkProjectForSubmission(proj);
+
+		if (errorMessage == null) {
 			String startString = startDate.getValue() == null ? "" : startDate.getValue().toString();
 			String endString = endDate.getValue() == null ? "" : endDate.getValue().toString();
 
@@ -505,6 +506,17 @@ public class PM_EditProjectController implements Initializable {
 				e.printStackTrace();
 			}
 
+		} else {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Submitting Project");
+			alert.setHeaderText("There was an error submitting this project!");
+			alert.setContentText(errorMessage);
+
+			// ButtonType buttonTypeOne = new ButtonType("Discard Changes ");
+			ButtonType buttonTypeCancel = new ButtonType("OK", ButtonData.CANCEL_CLOSE);
+
+			alert.getButtonTypes().setAll(buttonTypeCancel);
+			alert.showAndWait();
 		}
 	}
 

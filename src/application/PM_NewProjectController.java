@@ -326,11 +326,12 @@ public class PM_NewProjectController implements Initializable {
 
 	public void submitForEstimation(ActionEvent event) throws SQLException, ClassNotFoundException {
 		int vid = 0;
+		
+		save();
 
-		boolean passed = true;
-
-		if (passed) {
-			save();
+		String errorMessage = ProjectHandler.checkProjectForSubmission(proj);
+		
+		if (errorMessage == null) {
 			String startString = startDate.getValue() == null ? "" : startDate.getValue().toString();
 			String endString = endDate.getValue() == null ? "" : endDate.getValue().toString();
 
@@ -345,6 +346,17 @@ public class PM_NewProjectController implements Initializable {
 				e.printStackTrace();
 			}
 
+		} else {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Submitting Project");
+			alert.setHeaderText("There was an error submitting this project!");
+			alert.setContentText(errorMessage);
+
+			// ButtonType buttonTypeOne = new ButtonType("Discard Changes ");
+			ButtonType buttonTypeCancel = new ButtonType("OK", ButtonData.CANCEL_CLOSE);
+
+			alert.getButtonTypes().setAll(buttonTypeCancel);
+			alert.showAndWait();
 		}
 	}
 
@@ -441,7 +453,7 @@ public class PM_NewProjectController implements Initializable {
 			System.out.println("Save Changes Button");
 			ResultSet rs = DBUtil.dbExecuteQuery("CALL insert_new_project('" + versionText.getText() + "', \""
 					+ projectNameText.getText() + "\", \"" + pmText.getText() + "\", " + propNumText.getText() + ", '"
-					+ startDate.getValue().toString() + "', '" + endDate.getValue().toString() + "')");
+					+ startDate.getValue() + "', '" + endDate.getValue() + "')");
 			while (rs.next()) {
 				vid = rs.getInt("idProjectVersion");
 			}

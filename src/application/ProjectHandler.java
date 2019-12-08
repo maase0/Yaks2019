@@ -288,7 +288,7 @@ public class ProjectHandler {
 				if (s.getID() != null) {
 					// clone_sow`(VID int, SOWVID int, sowRef VARCHAR(45), versionNumber
 					// VARCHAR(45), sowDescription VARCHAR(1000))
-					DBUtil.dbExecuteUpdate("CALL update_sow(" + vid + ", " + s.getVersionID() + ", " + s.getReference()
+					DBUtil.dbExecuteUpdate("CALL clone_sow(" + vid + ", " + s.getVersionID() + ", " + s.getReference()
 							+ ", \"" + s.getVersion() + "\", \"" + s.getSowContent() + "\")");
 				} else {
 					DBUtil.dbExecuteUpdate("CALL insert_sow(" + vid + ", " + s.getReference() + ", \"" + s.getVersion()

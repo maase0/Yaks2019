@@ -5,6 +5,7 @@ import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import DB.DBUtil;
@@ -85,7 +86,6 @@ public class PM_NewProjectController implements Initializable {
 
 	private Refreshable prevController;
 	private int projectID;
-	
 
 	public PM_NewProjectController() {
 
@@ -280,8 +280,9 @@ public class PM_NewProjectController implements Initializable {
 	 * @throws ClassNotFoundException
 	 */
 	public void saveChanges() throws SQLException, ClassNotFoundException {
-		save();
-		closeCurrent();
+		if (save()) {
+			closeCurrent();
+		}
 
 	}
 
@@ -326,19 +327,18 @@ public class PM_NewProjectController implements Initializable {
 
 	public void submitForEstimation(ActionEvent event) throws SQLException, ClassNotFoundException {
 		int vid = 0;
-		
+
 		save();
 
 		String errorMessage = ProjectHandler.checkProjectForSubmission(proj);
-		
+
 		if (errorMessage == null) {
 			String startString = startDate.getValue() == null ? "" : startDate.getValue().toString();
 			String endString = endDate.getValue() == null ? "" : endDate.getValue().toString();
 
 			System.out.println("Submit for Estimation Button");
 
-			DBUtil.dbExecuteUpdate(
-					"CALL submit_project(" + projectID + ", '" + LocalDate.now().toString() + "')");
+			DBUtil.dbExecuteUpdate("CALL submit_project(" + projectID + ", '" + LocalDate.now().toString() + "')");
 
 			try {
 				closeCurrent();
@@ -361,125 +361,42 @@ public class PM_NewProjectController implements Initializable {
 	}
 
 	private boolean save() throws ClassNotFoundException, SQLException {
-		// TODO possibly do a datatype check before actually saving anything.
-		int vid = 0;
+boolean passed = false;
+		
+		ProjectVersion newProj = new ProjectVersion();
 
-		boolean passed = true;
+		
+		newProj.setName(projectNameText.getText());
+		newProj.setPopEnd(endDate.getValue());
+		newProj.setPopStart(startDate.getValue());
+		newProj.setProjectManager(pmText.getText());
+		newProj.setProposalNumber(propNumText.getText());
+		newProj.setVersionNumber(versionText.getText());
 
-		// TODO: Find acceptable regexps for each field
-		// add checks for clin dates etc discussed in sprint review
-		// change to an error popup instead of printing to console
+		newProj.setCLINList(new ArrayList<CLIN>(clinObservableList));
+		newProj.setSDRLList(new ArrayList<SDRL>(sdrlObservableList));
+		newProj.setSOWList(new ArrayList<SOW>(sowObservableList));
+		
+		String errorMessage = ProjectHandler.checkProjectForSaving(newProj);
 
-		String versionReg = "\\d*(.\\d)*";
-		String propReg = "^[0-9]*$";
-		String sowRefReg = "^[0-9]*$";
+		if (errorMessage == null) {
+			ProjectHandler.saveNewProject(newProj);
+			proj = newProj;
+			passed = true;
+		} else {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Saving Project");
+			alert.setHeaderText("There was an error saving this project!");
+			alert.setContentText(errorMessage);
 
-		if (!versionText.getText().matches(versionReg)) {
-			passed = false;
-			try {
+			// ButtonType buttonTypeOne = new ButtonType("Discard Changes ");
+			ButtonType buttonTypeCancel = new ButtonType("OK", ButtonData.CANCEL_CLOSE);
 
-				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Error_Window.fxml"));
-				Parent root = fxmlLoader.load();
-
-				ErrorWindow controller = fxmlLoader.getController();
-
-				controller.errorMessage(
-						"Version Text \"" + versionText.getText() + "\" does not match regexp " + versionReg);
-
-				Stage errorStage = new Stage();
-				errorStage.setTitle("ERROR");
-				errorStage.setScene(new Scene(root));
-
-				errorStage.show();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
-			// System.out.println("Error: Version Text \"" + versionText.getText() + "\"
-			// does not match regexp " + versionReg);
-		}
-		if (!propNumText.getText().matches(propReg)) {
-			passed = false;
-
-			try {
-
-				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Error_Window.fxml"));
-				Parent root = fxmlLoader.load();
-
-				ErrorWindow controller = fxmlLoader.getController();
-
-				controller.errorMessage(
-						"Version Proposal Number \"" + propNumText.getText() + "\" does not match regexp " + propReg);
-
-				Stage errorStage = new Stage();
-				errorStage.setTitle("ERROR");
-				errorStage.setScene(new Scene(root));
-
-				errorStage.show();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
-//			System.out.println("Error: Version Proposal Number \"" + propNumText.getText() + "\" does not match regexp " + propReg);
-		}
-		for (SOW s : sowObservableList) {
-			if (!s.getReference().matches(sowRefReg)) {
-				passed = false;
-
-				try {
-
-					FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Error_Window.fxml"));
-					Parent root = fxmlLoader.load();
-
-					ErrorWindow controller = fxmlLoader.getController();
-
-					controller.errorMessage(
-							"Sow Reference \"" + "" + s.getReference() + "\" does not match regexp " + sowRefReg);
-
-					Stage errorStage = new Stage();
-					errorStage.setTitle("ERROR");
-					errorStage.setScene(new Scene(root));
-
-					errorStage.show();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
-//				System.out.println("Error: Sow Reference \"" + "" + s.getReference() + "\" does not match regexp " + sowRefReg);
-			}
-		}
-
-		if (passed) {
-			System.out.println("Save Changes Button");
-			ResultSet rs = DBUtil.dbExecuteQuery("CALL insert_new_project('" + versionText.getText() + "', \""
-					+ projectNameText.getText() + "\", \"" + pmText.getText() + "\", " + propNumText.getText() + ", '"
-					+ startDate.getValue() + "', '" + endDate.getValue() + "')");
-			while (rs.next()) {
-				vid = rs.getInt("idProjectVersion");
-			}
-			rs.close();
-			
-			rs = DBUtil.dbExecuteQuery("SELECT idProject FROM ProjectVersion WHERE idProjectVersion = " + vid);
-			rs.last();
-			projectID = rs.getInt("idProject");
-
-			for (CLIN c : clinObservableList) {
-				DBUtil.dbExecuteUpdate("CALL insert_clin(" + vid + ", \"" + c.getIndex() + "\", \"" + c.getVersion()
-						+ "\", \"" + c.getProjectType() + "\", \"" + c.getClinContent() + "\", '" + c.getPopStart()
-						+ "', '" + c.getPopEnd() + "')");
-			}
-
-			for (SDRL s : sdrlObservableList) {
-				DBUtil.dbExecuteUpdate("CALL insert_sdrl(" + vid + ", \"" + s.getName() + "\", \"" + s.getVersion()
-						+ "\", \"" + s.getSdrlInfo() + "\")");
-			}
-
-			for (SOW s : sowObservableList) {
-				DBUtil.dbExecuteUpdate("CALL insert_sow(" + vid + ", " + s.getReference() + ", \"" + s.getVersion()
-						+ "\", \"" + s.getSowContent() + "\")");
-			}
+			alert.getButtonTypes().setAll(buttonTypeCancel);
+			alert.showAndWait();
 
 		}
+
 		return passed;
 	}
 

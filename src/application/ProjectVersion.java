@@ -106,6 +106,18 @@ public class ProjectVersion
 		this.sows.remove(sow);
 	}
 	
+	public void setCLINList(ArrayList<CLIN> clins) {
+		this.clins = clins;
+	}
+	
+	public void setSOWList(ArrayList<SOW> sows) {
+		this.sows = sows;
+	}
+	
+	public void setSDRLList(ArrayList<SDRL> sdrls) {
+		this.sdrls = sdrls;
+	}
+	
 	public ArrayList<CLIN> getCLINList() {
     	return clins;
     }
@@ -116,6 +128,31 @@ public class ProjectVersion
 	public ArrayList<SDRL> getSDRLList() {
 		return sdrls;
 	}
+	
+	
+	public void setCLINDeleteList(ArrayList<CLIN> clins) {
+		this.clinDelete = clins;
+	}
+	
+	public void setSOWDeleteList(ArrayList<SOW> sows) {
+		this.sowDelete = sows;
+	}
+	
+	public void setSDRLDeleteList(ArrayList<SDRL> sdrls) {
+		this.sdrlDelete = sdrls;
+	}
+	
+	public ArrayList<CLIN> getCLINDeleteList() {
+    	return clinDelete;
+    }
+	
+	public ArrayList<SOW> getSOWDeleteList() {
+		return sowDelete;
+	}
+	public ArrayList<SDRL> getSDRLDeleteList() {
+		return sdrlDelete;
+	}
+	
 	
 	public void setProjectVersionID(String version) {
 		this.projectVersionID = version;

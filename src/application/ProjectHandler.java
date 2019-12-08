@@ -92,7 +92,6 @@ public class ProjectHandler {
 			}
 			System.out.println("b");
 
-
 			// Get all the SDRLs, add them to the project
 			// rs = DBUtil.dbExecuteQuery("CALL select_sdrls(" + versionID + ")");
 			rs = DBUtil.dbExecuteQuery("SELECT * FROM SDRL WHERE idProjectVersion = " + versionID);
@@ -140,152 +139,447 @@ public class ProjectHandler {
 		}
 		return version;
 	}
-	
+
+	public static void saveNewProject(ProjectVersion proj) throws ClassNotFoundException, SQLException {
+		int vid = 0;
+		int projectID;
+
+		System.out.println("Save Changes Button");
+		ResultSet rs = DBUtil.dbExecuteQuery("CALL insert_new_project('" + proj.getVersionNumber() + "', \""
+				+ proj.getName() + "\", \"" + proj.getProjectManager() + "\", " + proj.getProposalNumber() + ", '"
+				+ proj.getPopStart() + "', '" + proj.getPopEnd() + "')");
+
+		rs.last();
+		vid = rs.getInt("idProjectVersion");
+
+		rs.close();
+
+		rs = DBUtil.dbExecuteQuery("SELECT idProject FROM ProjectVersion WHERE idProjectVersion = " + vid);
+		rs.last();
+		projectID = rs.getInt("idProject");
+
+		for (CLIN c : proj.getCLINList()) {
+			DBUtil.dbExecuteUpdate("CALL insert_clin(" + vid + ", \"" + c.getIndex() + "\", \"" + c.getVersion()
+					+ "\", \"" + c.getProjectType() + "\", \"" + c.getClinContent() + "\", '" + c.getPopStart() + "', '"
+					+ c.getPopEnd() + "')");
+		}
+
+		for (SDRL s : proj.getSDRLList()) {
+			DBUtil.dbExecuteUpdate("CALL insert_sdrl(" + vid + ", \"" + s.getName() + "\", \"" + s.getVersion()
+					+ "\", \"" + s.getSdrlInfo() + "\")");
+		}
+
+		for (SOW s : proj.getSOWList()) {
+			DBUtil.dbExecuteUpdate("CALL insert_sow(" + vid + ", " + s.getReference() + ", \"" + s.getVersion()
+					+ "\", \"" + s.getSowContent() + "\")");
+		}
+
+	}
+
+	public static void saveProject(ProjectVersion proj, String oldVersion) throws ClassNotFoundException, SQLException {
+		int vid = 0;
+
+		ResultSet rs = DBUtil.dbExecuteQuery("CALL update_projectVersion(" + proj.getProjectVersionID() + ", \""
+				+ proj.getVersionNumber() + "\", \"" + proj.getName() + "\", \"" + proj.getProjectManager() + "\", "
+				+ proj.getProposalNumber() + ", '" + proj.getPopStart() + "', '" + proj.getPopEnd() + "')");
+
+		rs.last();
+		vid = rs.getInt("idProjectVersion");
+
+		rs.close();
+
+		if (proj.getVersionNumber().equals(oldVersion)) {
+
+			// If the item has an id, then it was loaded from the database and already
+			// exists
+			// update existing items, insert new items.
+			for (CLIN c : proj.getCLINList()) {
+				if (c.getID() != null) {
+					// `update_clin`(CLINVID int, CLINID int, clinIndex VARCHAR(45), versionNumber
+					// VARCHAR(45),
+					// projectType VARCHAR(45), clinDescription VARCHAR(1000), popStart DATE, popEnd
+					// DATE)
+					DBUtil.dbExecuteUpdate("CALL update_clin(" + c.getVersionID() + ", " + c.getID() + ", \""
+							+ c.getIndex() + "\" , \"" + c.getVersion() + "\", \"" + c.getProjectType() + "\", \""
+							+ c.getClinContent() + "\", '" + c.getPopStart() + "', '" + c.getPopEnd() + "')");
+				} else {
+					// insert_clin`(VID int, clinIndex VARCHAR(45), versionNumber VARCHAR(45),
+					// projectType VARCHAR(45),
+					// clinDescription VARCHAR(1000), popStart DATE, popEnd DATE)
+					DBUtil.dbExecuteUpdate("CALL insert_clin(" + vid + ", \"" + c.getIndex() + "\", \"" + c.getVersion()
+							+ "\", \"" + c.getProjectType() + "\", \"" + c.getClinContent() + "\", '" + c.getPopStart()
+							+ "', '" + c.getPopEnd() + "')");
+				}
+			}
+
+			for (SDRL s : proj.getSDRLList()) {
+				if (s.getID() != null) {
+					// update_sdrl`(SDRLVID int, SDRLID int, sdrlTitle VARCHAR(45), versionNumber
+					// VARCHAR(45), sdrlDescription VARCHAR(1000))
+					DBUtil.dbExecuteUpdate("CALL update_sdrl(" + s.getVersionID() + ", " + s.getID() + ", \""
+							+ s.getName() + "\", \"" + s.getVersion() + "\", \"" + s.getSdrlInfo() + "\")");
+				} else {
+					DBUtil.dbExecuteUpdate("CALL insert_sdrl(" + vid + ", \"" + s.getName() + "\", \"" + s.getVersion()
+							+ "\", \"" + s.getSdrlInfo() + "\")");
+				}
+			}
+
+			for (SOW s : proj.getSOWList()) {
+				if (s.getID() != null) {
+					// update_sow`(SOWVID int, SOWID int, sowRef VARCHAR(45), versionNumber
+					// VARCHAR(45), sowDescription VARCHAR(1000))
+					DBUtil.dbExecuteUpdate("CALL update_sow(" + s.getVersionID() + ", " + s.getID() + ", "
+							+ s.getReference() + ", \"" + s.getVersion() + "\", \"" + s.getSowContent() + "\")");
+					System.out.println("AAAAA HELP");
+				} else {
+					DBUtil.dbExecuteUpdate("CALL insert_sow(" + vid + ", " + s.getReference() + ", \"" + s.getVersion()
+							+ "\", \"" + s.getSowContent() + "\")");
+				}
+			}
+
+			// Delete all the list items that were saved for deletion
+			// delete only if version is the same, if version has changed
+			// "deleted" items are just not copied over
+			for (CLIN c : proj.getCLINDeleteList()) {
+				DBUtil.dbExecuteUpdate("CALL delete_clin(" + c.getID() + ")");
+			}
+
+			for (SOW s : proj.getSOWDeleteList()) {
+				DBUtil.dbExecuteUpdate("CALL delete_sow(" + s.getID() + ")");
+			}
+
+			for (SDRL s : proj.getSDRLDeleteList()) {
+				DBUtil.dbExecuteUpdate("CALL delete_sdrl(" + s.getID() + ")");
+			}
+		}
+
+		// This is if the version number changed.
+		// Re-insert all the items with the new vid(version id)
+		else {
+			for (CLIN c : proj.getCLINList()) {
+				if (c.getID() != null) {
+					// clone_clin`(VID int, CLINVID int, clinIndex VARCHAR(45), versionNumber
+					// VARCHAR(45),
+					// projectType VARCHAR(45), clinDescription VARCHAR(1000), popStart DATE, popEnd
+					// DATE)
+					DBUtil.dbExecuteUpdate("CALL clone_clin(" + vid + ", " + c.getVersionID() + ", \"" + c.getIndex()
+							+ "\" , \"" + c.getVersion() + "\", \"" + c.getProjectType() + "\", \"" + c.getClinContent()
+							+ "\", '" + c.getPopStart() + "', '" + c.getPopEnd() + "')");
+				} else {
+					DBUtil.dbExecuteUpdate("CALL insert_clin(" + vid + ", \"" + c.getIndex() + "\", \"" + c.getVersion()
+							+ "\", \"" + c.getProjectType() + "\", \"" + c.getClinContent() + "\", '" + c.getPopStart()
+							+ "', '" + c.getPopEnd() + "')");
+				}
+			}
+
+			for (SDRL s : proj.getSDRLList()) {
+				if (s.getID() != null) {
+					// clone_sdrl`(VID int, SDRLVID int, sdrlTitle VARCHAR(45), versionNumber
+					// VARCHAR(45), sdrlDescription VARCHAR(1000))
+					DBUtil.dbExecuteUpdate("CALL clone_sdrl(" + vid + ", " + s.getVersionID() + ", \"" + s.getName()
+							+ "\", \"" + s.getVersion() + "\", \"" + s.getSdrlInfo() + "\")");
+				} else {
+					DBUtil.dbExecuteUpdate("CALL insert_sdrl(" + vid + ", \"" + s.getName() + "\", \"" + s.getVersion()
+							+ "\", \"" + s.getSdrlInfo() + "\")");
+				}
+			}
+
+			for (SOW s : proj.getSOWList()) {
+				if (s.getID() != null) {
+					// clone_sow`(VID int, SOWVID int, sowRef VARCHAR(45), versionNumber
+					// VARCHAR(45), sowDescription VARCHAR(1000))
+					DBUtil.dbExecuteUpdate("CALL update_sow(" + vid + ", " + s.getVersionID() + ", " + s.getReference()
+							+ ", \"" + s.getVersion() + "\", \"" + s.getSowContent() + "\")");
+				} else {
+					DBUtil.dbExecuteUpdate("CALL insert_sow(" + vid + ", " + s.getReference() + ", \"" + s.getVersion()
+							+ "\", \"" + s.getSowContent() + "\")");
+				}
+			}
+
+		}
+	}
+
 	public static String checkProjectForSubmission(ProjectVersion proj) {
 		String errorMessage = "";
-		
+
 		String name = proj.getName();
 		String pm = proj.getProjectManager();
 		String propNum = proj.getProposalNumber();
 		String versionNum = proj.getVersionNumber();
 		LocalDate start = proj.getPopStart();
 		LocalDate end = proj.getPopEnd();
-		
-		//Check all project information
-		if(name == null || name.trim().isEmpty()) {
-			errorMessage += "Project Error: Project Name must not be empty.\n";	
+
+		// Check all project information
+		if (name == null || name.trim().isEmpty()) {
+			errorMessage += "Project Error: Project Name must not be empty.\n";
 		}
-		if(pm == null || pm.trim().equals("")) {
+		if (pm == null || pm.trim().equals("")) {
 			errorMessage += "Project Error: Project Manager must not be empty.\n";
 		}
-		if(propNum == null || propNum.trim().isEmpty()) {
+		if (propNum == null || propNum.trim().isEmpty()) {
 			errorMessage += "Project Error: Proposal Number must not be empty.\n";
-		} else if(!propNum.matches("\\d+")) {
+		} else if (!propNum.matches("\\d+")) {
 			errorMessage += "Project Error: Proposal Number must be a number. (ex: 11, 566)\n";
 		}
-		if(versionNum == null || versionNum.trim().isEmpty()) {
+		if (versionNum == null || versionNum.trim().isEmpty()) {
 			errorMessage += "Project Error: Version Number must not be empty.\n";
-		} else if(!versionNum.matches("\\d+(.\\d)*")) {
+		} else if (!versionNum.matches("\\d+(.\\d)*")) {
 			errorMessage += "Project Error: Invalid Version Number! Must be of form 1, 3.2.1, 6.11.10, etc\n";
 		}
-		if(start == null) {
+		if (start == null) {
 			errorMessage += "Project Error: Period of Performance must have a starting value.\n";
 		}
-		if(end == null) {
+		if (end == null) {
 			errorMessage += "Project Error: Period of Performance must have ending value.\n";
 		}
-		if(start != null && end != null) {
-			if(start.compareTo(end) > 0) {
+		if (start != null && end != null) {
+			if (start.compareTo(end) > 0) {
 				errorMessage += "Project Error: Period of Performance Start must be before End.\n";
-				errorMessage += "\tStart (" + start.toString() +") is after End (" + end.toString() + ")\n";
+				errorMessage += "\tStart (" + start.toString() + ") is after End (" + end.toString() + ")\n";
 
 			}
 		}
-		
+
 		ArrayList<CLIN> clins = proj.getCLINList();
 		ArrayList<SDRL> sdrls = proj.getSDRLList();
 		ArrayList<SOW> sows = proj.getSOWList();
-		
-		if(clins == null || clins.size() == 0) {
+
+		if (clins == null || clins.size() == 0) {
 			errorMessage += "Project Error: Must have at least one Contract Line Item.\n";
 		}
-		if(sdrls == null || sdrls.size() == 0) {
+		if (sdrls == null || sdrls.size() == 0) {
 			errorMessage += "Project Error: Must have at least one Subcontract Design Requirement List.\n";
 		}
-		if(sows == null || sows.size() == 0) {
+		if (sows == null || sows.size() == 0) {
 			errorMessage += "Project Error: Must have at least one Statement of Work Reference.\n";
 		}
-		
-		
-		//Get errors for each CLIN
-		for(CLIN c : clins) {
+
+		// Get errors for each CLIN
+		for (CLIN c : clins) {
 			String index = c.getIndex();
 			String type = c.getProjectType();
 			String details = c.getClinContent();
 			String version = c.getVersion();
 			LocalDate clinstart = c.getPopStart() == null ? null : LocalDate.parse(c.getPopStart());
 			LocalDate clinend = c.getPopEnd() == null ? null : LocalDate.parse(c.getPopEnd());
-			
-			if(index == null || index.trim().isEmpty()) {
+
+			if (index == null || index.trim().isEmpty()) {
 				errorMessage += "CLIN Error: Index cannot be empty.\n";
-			} else if(!index.matches("\\d+")) {
+			} else if (!index.matches("\\d+")) {
 				errorMessage += "CLIN Error: Index must be a number.\n";
 			}
-			if(type == null || type.trim().isEmpty()) {
+			if (type == null || type.trim().isEmpty()) {
 				errorMessage += "CLIN Error: Project Type cannot be empty.\n";
 			}
-			if(details == null || details.trim().isEmpty()) {
+			if (details == null || details.trim().isEmpty()) {
 				errorMessage += "CLIN Error: CLIN Details cannot be empty.\n";
 			}
-			if(clinstart == null) {
+			if (clinstart == null) {
 				errorMessage += "CLIN Error: CLIN Period of Performance must have a starting value.\n";
 			}
-			if(clinend == null) {
+			if (clinend == null) {
 				errorMessage += "CLIN Error: CLIN Period of Performance must have a ending value.\n";
 			}
-			if(clinend != null && clinstart != null) {
-				if(clinstart.compareTo(clinend) > 0) {
+			if (clinend != null && clinstart != null) {
+				if (clinstart.compareTo(clinend) > 0) {
 					errorMessage += "CLIN Error: CLIN Period of Performance Start must be before End.\n";
-					errorMessage += "\tStart (" + clinstart.toString() +") is after End (" + clinend.toString() + ")\n";
+					errorMessage += "\tStart (" + clinstart.toString() + ") is after End (" + clinend.toString()
+							+ ")\n";
 				}
-				if(start.compareTo(clinstart) > 0) {
+				if (start.compareTo(clinstart) > 0) {
 					errorMessage += "CLIN Error: CLIN Period of Performance Start cannot be before Project Period of Performance Start.\n";
-					errorMessage += "\tCLIN Start (" + clinstart.toString() +") is before Project Start(" + start.toString() + ")\n";
+					errorMessage += "\tCLIN Start (" + clinstart.toString() + ") is before Project Start("
+							+ start.toString() + ")\n";
 
 				}
-				if(end.compareTo(clinend) < 0) {
+				if (end.compareTo(clinend) < 0) {
 					errorMessage += "CLIN Error: CLIN Period of Performance End cannot be after project Period of Performance End.\n";
-					errorMessage += "\tCLIN End (" + clinend.toString() +") is after Project End (" + end.toString() + ")\n";
+					errorMessage += "\tCLIN End (" + clinend.toString() + ") is after Project End (" + end.toString()
+							+ ")\n";
 
 				}
 			}
-			if(version == null || version.trim().isEmpty()) {
+			if (version == null || version.trim().isEmpty()) {
 				errorMessage += "CLIN Error: CLIN Version cannot be empty.\n";
-			} else if(!version.matches("\\d+(.\\d)*")) {
+			} else if (!version.matches("\\d+(.\\d)*")) {
 				errorMessage += "CLIN Error: Invalid Version Number! Must be of form 1, 3.2.1, 6.11.10, etc\n";
 			}
-			
+
 		}
-		
-		for(SDRL s : sdrls) {
+
+		for (SDRL s : sdrls) {
 			String title = s.getName();
 			String content = s.getSdrlInfo();
 			String version = s.getVersion();
-			
-			if(title == null || title.trim().isEmpty()) {
+
+			if (title == null || title.trim().isEmpty()) {
 				errorMessage += "SDRL Error: SDRL Name cannot be empty.\n";
 			}
-			if(content == null || content.trim().isEmpty()) {
+			if (content == null || content.trim().isEmpty()) {
 				errorMessage += "SDRL Error: SDRL Details cannot be empty.\n";
 			}
-			if(version == null || version.trim().isEmpty()) {
+			if (version == null || version.trim().isEmpty()) {
 				errorMessage += "SDRL Error: SDRL Version cannot be empty.\n";
-			} else if(!version.matches("\\d+(.\\d)*")) {
+			} else if (!version.matches("\\d+(.\\d)*")) {
 				errorMessage += "SDRL Error: Invalid Version Number! Must be of form 1, 3.2.1, 6.11.10, etc\n";
 			}
 		}
-		
-		for(SOW s : sows) {
-			String ref = s.getReference();	
+
+		for (SOW s : sows) {
+			String ref = s.getReference();
 			String content = s.getSowContent();
 			String version = s.getVersion();
-			
-			if(ref == null || ref.trim().isEmpty()) {
+
+			if (ref == null || ref.trim().isEmpty()) {
 				errorMessage += "SOW Error: SOW Ref cannot be empty\n";
-			} else if(!ref.matches("\\d+")) {
+			} else if (!ref.matches("\\d+")) {
 				errorMessage += "SOW Error: SOW Reference Number must be a number.\n";
 			}
-			if(content == null | content.trim().isEmpty()) {
+			if (content == null | content.trim().isEmpty()) {
 				errorMessage += "SOW Error: SOW Content cannot be empty.\n";
 			}
-			if(version == null || version.trim().isEmpty()) {
+			if (version == null || version.trim().isEmpty()) {
 				errorMessage += "SDRL Error: SDRL Version cannot be empty.\n";
-			} else if(!version.matches("\\d+(.\\d)*")) {
+			} else if (!version.matches("\\d+(.\\d)*")) {
 				errorMessage += "SDRL Error: Invalid Version Number! Must be of form 1, 3.2.1, 6.11.10, etc\n";
 			}
 		}
-		
-		if(errorMessage.equals("")) {
+
+		if (errorMessage.equals("")) {
+			errorMessage = null;
+		}
+		return errorMessage;
+	}
+
+	public static String checkProjectForSaving(ProjectVersion proj) {
+		String errorMessage = "";
+
+		String name = proj.getName();
+		String propNum = proj.getProposalNumber();
+		String versionNum = proj.getVersionNumber();
+		LocalDate start = proj.getPopStart();
+		LocalDate end = proj.getPopEnd();
+
+		// Check all project information
+		if (name == null || name.trim().isEmpty()) {
+			errorMessage += "Project Error: Project Name must not be empty.\n";
+		}
+		if (propNum != null && !propNum.matches("\\d+")) {
+			errorMessage += "Project Error: Proposal Number must be a number. (ex: 11, 566)\n";
+		}
+		if (versionNum == null || versionNum.trim().isEmpty()) {
+			errorMessage += "Project Error: Version Number must not be empty.\n";
+		} else {
+			if (!versionNum.matches("\\d+(.\\d)*")) {
+				errorMessage += "Project Error: Invalid Version Number! Must be of form 1, 3.2.1, 6.11.10, etc\n";
+			}
+		}
+		if (start == null) {
+			errorMessage += "Project Error: Period of Performance must have a starting value.\n";
+		}
+		if (end == null) {
+			errorMessage += "Project Error: Period of Performance must have ending value.\n";
+		}
+
+		ArrayList<CLIN> clins = proj.getCLINList();
+		ArrayList<SDRL> sdrls = proj.getSDRLList();
+		ArrayList<SOW> sows = proj.getSOWList();
+
+		// Get errors for each CLIN
+		for (CLIN c : clins) {
+			String index = c.getIndex();
+			String version = c.getVersion();
+			LocalDate clinstart = c.getPopStart() == null ? null : LocalDate.parse(c.getPopStart());
+			LocalDate clinend = c.getPopEnd() == null ? null : LocalDate.parse(c.getPopEnd());
+
+			if (index == null || index.trim().isEmpty()) {
+				errorMessage += "CLIN Error: Index cannot be empty.\n";
+			} else if (!index.matches("\\d+")) {
+				errorMessage += "CLIN Error: Index must be a number.\n";
+				errorMessage += "\t " + index + " is not valid.\n";
+			}
+
+			if (version == null || version.trim().isEmpty()) {
+				errorMessage += "CLIN Error: CLIN Version cannot be empty.\n";
+			} else if (!version.matches("\\d+(.\\d)*")) {
+				errorMessage += "CLIN Error: Invalid Version Number! Must be of form 1, 3.2.1, 6.11.10, etc\n";
+			}
+			if (clinstart == null) {
+				errorMessage += "CLIN Error: CLIN Period of Performance must have a starting value.\n";
+			}
+			if (clinend == null) {
+				errorMessage += "CLIN Error: CLIN Period of Performance must have a ending value.\n";
+			}
+		}
+
+		for (SDRL s : sdrls) {
+			String title = s.getName();
+			String version = s.getVersion();
+
+			if (title == null || title.trim().isEmpty()) {
+				errorMessage += "SDRL Error: SDRL Name cannot be empty.\n";
+			}
+			if (version == null || version.trim().isEmpty()) {
+				errorMessage += "SDRL Error: SDRL Version cannot be empty.\n";
+			} else if (!version.matches("\\d+(.\\d)*")) {
+				errorMessage += "SDRL Error: Invalid Version Number! Must be of form 1, 3.2.1, 6.11.10, etc\n";
+			}
+		}
+
+		for (SOW s : sows) {
+			String ref = s.getReference();
+			String version = s.getVersion();
+
+			if (ref == null || ref.trim().isEmpty()) {
+				errorMessage += "SOW Error: SOW Ref cannot be empty\n";
+			} else if (!ref.matches("\\d+")) {
+				errorMessage += "SOW Error: SOW Reference Number must be a number.\n";
+			}
+			if (version == null || version.trim().isEmpty()) {
+				errorMessage += "SDRL Error: SDRL Version cannot be empty.\n";
+			} else if (!version.matches("\\d+(.\\d)*")) {
+				errorMessage += "SDRL Error: Invalid Version Number! Must be of form 1, 3.2.1, 6.11.10, etc\n";
+			}
+		}
+
+		if (errorMessage.equals("")) {
+			errorMessage = null;
+		}
+		return errorMessage;
+	}
+
+	public static String checkProjectForSaving(ProjectVersion proj, String oldVersion) {
+		String errorMessage = "";
+
+		String versionNum = proj.getVersionNumber();
+
+		if (versionNum != null && !versionNum.trim().isEmpty()) {
+			if (!versionNum.matches("\\d+(.\\d)*")) {
+				errorMessage += "Project Error: Invalid Version Number! Must be of form 1, 3.2.1, 6.11.10, etc\n";
+			}
+			if (oldVersion != null) {
+				String[] newVer = proj.getVersionNumber().split("\\.");
+				String[] oldVer = oldVersion.split("\\.");
+				for (int i = 0; i < newVer.length & i < oldVer.length; i++) {
+					if (Integer.parseInt(newVer[i]) > Integer.parseInt(oldVer[i])) {
+						break;
+						// If greater, then rest is fine
+					} else if (Integer.parseInt(newVer[i]) < Integer.parseInt(oldVer[i])) {
+
+						errorMessage += "Project Error: Cannot change to a lower version number!";
+						break;
+					}
+					// no else, if they are equal keep going.
+				}
+			}
+
+		}
+
+		String otherErrorMessage = checkProjectForSaving(proj);
+
+		errorMessage += otherErrorMessage == null ? "" : otherErrorMessage;
+
+		if (errorMessage.equals("")) {
 			errorMessage = null;
 		}
 		return errorMessage;

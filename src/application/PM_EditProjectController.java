@@ -267,188 +267,55 @@ public class PM_EditProjectController implements Initializable {
 	 */
 	public void saveNewChanges() throws SQLException, ClassNotFoundException {
 
-		save();
-
-		closeCurrent();
+		if (save()) {
+			closeCurrent();
+		}
 
 	}
 
-	private void save() throws ClassNotFoundException, SQLException {
-		int vid = 0;
+	private boolean save() throws ClassNotFoundException, SQLException {
+		boolean passed = false;
+		
+		ProjectVersion newProj = new ProjectVersion();
 
-		boolean passed = true;
+		newProj.setProjectID(proj.getProjectID());
+		newProj.setProjectVersionID(proj.getProjectVersionID());
 
-		String versionReg = "\\d(.\\d)*";
-		String propReg = "^[0-9]*$";
-		String sowRefReg = "^[0-9]*$";
+		newProj.setName(projectNameText.getText());
+		newProj.setPopEnd(endDate.getValue());
+		newProj.setPopStart(startDate.getValue());
+		newProj.setProjectManager(pmText.getText());
+		newProj.setProposalNumber(propNumText.getText());
+		newProj.setVersionNumber(versionText.getText());
 
-		if (!versionText.getText().matches(versionReg)) {
-			passed = false;
-			System.out.println(
-					"Error: Version Text \"" + versionText.getText() + "\" does not match regexp " + versionReg);
+		newProj.setCLINList(new ArrayList<CLIN>(clinObservableList));
+		newProj.setSDRLList(new ArrayList<SDRL>(sdrlObservableList));
+		newProj.setSOWList(new ArrayList<SOW>(sowObservableList));
+		newProj.setCLINDeleteList(clinDelete);
+		newProj.setSDRLDeleteList(sdrlDelete);
+		newProj.setSOWDeleteList(sowDelete);
+
+		String errorMessage = ProjectHandler.checkProjectForSaving(newProj, proj.getVersionNumber());
+
+		if (errorMessage == null) {
+			ProjectHandler.saveProject(newProj, proj.getVersionNumber());
+			proj = newProj;
+			passed = true;
+		} else {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Saving Project");
+			alert.setHeaderText("There was an error saving this project!");
+			alert.setContentText(errorMessage);
+
+			// ButtonType buttonTypeOne = new ButtonType("Discard Changes ");
+			ButtonType buttonTypeCancel = new ButtonType("OK", ButtonData.CANCEL_CLOSE);
+
+			alert.getButtonTypes().setAll(buttonTypeCancel);
+			alert.showAndWait();
+
 		}
 
-		// Checks that version number has not decreased.
-		String[] newVer = versionText.getText().split("\\.");
-		String[] oldVer = proj.getVersionNumber().split("\\.");
-		for (int i = 0; i < newVer.length & i < oldVer.length; i++) {
-			if (Integer.parseInt(newVer[i]) > Integer.parseInt(oldVer[i])) {
-				break;
-				// If greater, then rest is fine
-			} else if (Integer.parseInt(newVer[i]) < Integer.parseInt(oldVer[i])) {
-				passed = false;
-				System.err.println("ERROR: Cannot change to a lower version number!");
-				break;
-			}
-			// no else, if they are equal keep going.
-		}
-
-		ResultSet rs = DBUtil.dbExecuteQuery("SELECT * FROM ProjectVersion WHERE idProject=" + proj.getProjectID()
-				+ " AND Version_Number=\"" + versionText.getText() + "\"");
-
-		if (rs.next() && !versionText.getText().equals(proj.getVersionNumber())) {
-			passed = false;
-			System.err.println("ERROR: Cannot change to an existing version number!");
-		}
-		rs.close();
-
-		if (!propNumText.getText().matches(propReg)) {
-			passed = false;
-			System.out.println("Error: Version Proposal Number \"" + propNumText.getText() + "\" does not match regexp "
-					+ propReg);
-		}
-		for (
-
-		SOW s : sowObservableList) {
-			if (!s.getReference().matches(sowRefReg)) {
-				passed = false;
-				System.out.println(
-						"Error: Sow Reference \"" + "" + s.getReference() + "\" does not match regexp " + sowRefReg);
-			}
-		}
-
-		if (passed) {
-			System.out.println("Save Changes Button");
-			// `update_projectVersion`(VID int, versionNumber varchar(45), projectName
-			// varchar(45), projectManager varchar(45), propNum int, popStart date, popEnd
-			// date)
-			rs = DBUtil.dbExecuteQuery("CALL update_projectVersion(" + proj.getProjectVersionID() + ", \""
-					+ versionText.getText() + "\", \"" + projectNameText.getText() + "\", \"" + pmText.getText()
-					+ "\", " + propNumText.getText() + ", '" + startDate.getValue() + "', '" + endDate.getValue()
-					+ "')");
-			/*
-			 * ResultSet rs = DBUtil.dbExecuteQuery("CALL insert_new_project(" +
-			 * versionText.getText() + ", \"" + projectNameText.getText() + "\", \"" +
-			 * pmText.getText() + "\", " + propNumText.getText() + ",'" +
-			 * startDate.getValue().toString() + "', '" + endDate.getValue().toString() +
-			 * "')");
-			 */
-			while (rs.next()) {
-				vid = rs.getInt("idProjectVersion");
-			}
-			rs.close();
-
-			if (proj.getVersionNumber().equals(versionText.getText())) {
-
-				// If the item has an id, then it was loaded from the database and already
-				// exists
-				// update existing items, insert new items.
-				for (CLIN c : clinObservableList) {
-					if (c.getID() != null) {
-						//`update_clin`(CLINVID int, CLINID int, clinIndex VARCHAR(45), versionNumber VARCHAR(45),  
-						//		projectType VARCHAR(45), clinDescription VARCHAR(1000), popStart DATE, popEnd DATE)
-						DBUtil.dbExecuteUpdate("CALL update_clin(" + c.getVersionID() + ", "+ c.getID() + ", \"" + c.getIndex()
-								+ "\" , \"" + c.getVersion() + "\", \"" + c.getProjectType() + "\", \""
-								+ c.getClinContent() + "\", '" + c.getPopStart() + "', '" + c.getPopEnd() + "')");
-					} else {
-						//insert_clin`(VID int, clinIndex VARCHAR(45), versionNumber VARCHAR(45),  projectType VARCHAR(45), 
-						//		clinDescription VARCHAR(1000), popStart DATE, popEnd DATE)
-						DBUtil.dbExecuteUpdate("CALL insert_clin(" + vid + ", \"" + c.getIndex() + "\", \""
-								+ c.getVersion() + "\", \"" + c.getProjectType() + "\", \"" + c.getClinContent()
-								+ "\", '" + c.getPopStart() + "', '" + c.getPopEnd() + "')");
-					}
-				}
-
-				for (SDRL s : sdrlObservableList) {
-					if (s.getID() != null) {
-						//update_sdrl`(SDRLVID int, SDRLID int, sdrlTitle VARCHAR(45), versionNumber VARCHAR(45), sdrlDescription VARCHAR(1000))
-						DBUtil.dbExecuteUpdate("CALL update_sdrl(" + s.getVersionID() + ", " + s.getID() + ", \"" + s.getName()
-								+ "\", \"" + s.getVersion() + "\", \"" + s.getSdrlInfo() + "\")");
-					} else {
-						DBUtil.dbExecuteUpdate("CALL insert_sdrl(" + vid + ", \"" + s.getName() + "\", \""
-								+ s.getVersion() + "\", \"" + s.getSdrlInfo() + "\")");
-					}
-				}
-
-				for (SOW s : sowObservableList) {
-					if (s.getID() != null) {
-						//update_sow`(SOWVID int, SOWID int, sowRef VARCHAR(45), versionNumber VARCHAR(45), sowDescription VARCHAR(1000))
-						DBUtil.dbExecuteUpdate("CALL update_sow(" + s.getVersionID() + ", " + s.getID() + ", " + s.getReference()
-								+ ", \"" + s.getVersion() + "\", \"" + s.getSowContent() + "\")");
-						System.out.println("AAAAA HELP");
-					} else {
-						DBUtil.dbExecuteUpdate("CALL insert_sow(" + vid + ", " + s.getReference() + ", \""
-								+ s.getVersion() + "\", \"" + s.getSowContent() + "\")");
-					}
-				}
-
-				// Delete all the list items that were saved for deletion
-				// delete only if version is the same, if version has changed
-				// "deleted" items are just not copied over
-				for (CLIN c : clinDelete) {
-					DBUtil.dbExecuteUpdate("CALL delete_clin(" + c.getID() + ")");
-				}
-
-				for (SOW s : sowDelete) {
-					DBUtil.dbExecuteUpdate("CALL delete_sow(" + s.getID() + ")");
-				}
-
-				for (SDRL s : sdrlDelete) {
-					DBUtil.dbExecuteUpdate("CALL delete_sdrl(" + s.getID() + ")");
-				}
-			}
-
-			// This is if the version number changed.
-			// Re-insert all the items with the new vid(version id)
-			else {
-				for (CLIN c : clinObservableList) {
-					if (c.getID() != null) {
-						//clone_clin`(VID int, CLINVID int, clinIndex VARCHAR(45), versionNumber VARCHAR(45),  
-						//		projectType VARCHAR(45), clinDescription VARCHAR(1000), popStart DATE, popEnd DATE)
-						DBUtil.dbExecuteUpdate("CALL clone_clin(" + vid + ", " + c.getVersionID() + ", \"" + c.getIndex()
-						+ "\" , \"" + c.getVersion() + "\", \"" + c.getProjectType() + "\", \""
-						+ c.getClinContent() + "\", '" + c.getPopStart() + "', '" + c.getPopEnd() + "')");
-					} else {
-						DBUtil.dbExecuteUpdate("CALL insert_clin(" + vid + ", \"" + c.getIndex() + "\", \""
-								+ c.getVersion() + "\", \"" + c.getProjectType() + "\", \"" + c.getClinContent()
-								+ "\", '" + c.getPopStart() + "', '" + c.getPopEnd() + "')");
-					}
-				}
-
-				for (SDRL s : sdrlObservableList) {
-					if (s.getID() != null) {
-						//clone_sdrl`(VID int, SDRLVID int, sdrlTitle VARCHAR(45), versionNumber VARCHAR(45), sdrlDescription VARCHAR(1000))
-						DBUtil.dbExecuteUpdate("CALL clone_sdrl(" + vid + ", " + s.getVersionID() + ", \"" + s.getName()
-								+ "\", \"" + s.getVersion() + "\", \"" + s.getSdrlInfo() + "\")");
-					} else {
-						DBUtil.dbExecuteUpdate("CALL insert_sdrl(" + vid + ", \"" + s.getName() + "\", \""
-								+ s.getVersion() + "\", \"" + s.getSdrlInfo() + "\")");
-					}
-				}
-
-				for (SOW s : sowObservableList) {
-					if (s.getID() != null) {
-						//clone_sow`(VID int, SOWVID int, sowRef VARCHAR(45), versionNumber VARCHAR(45), sowDescription VARCHAR(1000))
-						DBUtil.dbExecuteUpdate("CALL update_sow(" + vid + ", " + s.getVersionID() + ", " + s.getReference()
-								+ ", \"" + s.getVersion() + "\", \"" + s.getSowContent() + "\")");
-					} else {
-						DBUtil.dbExecuteUpdate("CALL insert_sow(" + vid + ", " + s.getReference() + ", \""
-								+ s.getVersion() + "\", \"" + s.getSowContent() + "\")");
-					}
-				}
-
-			}
-		}
+		return passed;
 	}
 
 	@FXML

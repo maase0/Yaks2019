@@ -30,6 +30,9 @@ public class EstimateProjectController implements Initializable, Refreshable {
 
 	private ProjectVersion project;
 
+	
+	
+	
 	@FXML
 	private Button discardButton;
 	@FXML

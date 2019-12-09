@@ -30,9 +30,6 @@ public class EstimateProjectController implements Initializable, Refreshable {
 
 	private ProjectVersion project;
 
-	
-	
-	
 	@FXML
 	private Button discardButton;
 	@FXML
@@ -115,7 +112,7 @@ public class EstimateProjectController implements Initializable, Refreshable {
 
 		for (CLIN c : clinObservableList) {
 			for (OrganizationBOE org : c.getOrganizations()) {
-				saveOrganization(org, c.getID());
+				saveOrganization(org, c.getVersionID());
 			}
 
 			for (OrganizationBOE org : c.getDeletedOrganizations()) {
@@ -128,8 +125,8 @@ public class EstimateProjectController implements Initializable, Refreshable {
 	private void saveOrganization(OrganizationBOE org, String clinID) throws SQLException, ClassNotFoundException {
 		if (org.getID() != null) {
 //update_organization`(ORGVID int, ORGID int, orgName VARCHAR(45), versionNumber VARCHAR(45), product VARCHAR(100))
-			ResultSet rs = DBUtil.dbExecuteQuery("CALL update_organization(" + org.getVersionID() + ", " + org.getID() + ", '"
-					+ org.getOrganization() + "', '" + org.getVersion() + "', '" + org.getProduct() + "')");
+			ResultSet rs = DBUtil.dbExecuteQuery("CALL update_organization(" + org.getVersionID() + ", " + org.getID()
+					+ ", '" + org.getOrganization() + "', '" + org.getVersion() + "', '" + org.getProduct() + "')");
 
 			rs.next();
 
@@ -137,11 +134,12 @@ public class EstimateProjectController implements Initializable, Refreshable {
 				org.setVersion(rs.getString("idOrganization"));
 
 				for (WorkPackage wp : org.getWorkPackages()) {
-					cloneWorkPackage(wp, org.getID());
+					cloneWorkPackage(wp, org.getVersionID());
 				}
 			} else {
+				org.setVersionID(rs.getString("idOrganizationVersion"));
 				for (WorkPackage wp : org.getWorkPackages()) {
-					saveWorkPackage(wp, org.getID());
+					saveWorkPackage(wp, org.getVersionID());
 				}
 			}
 
@@ -157,7 +155,7 @@ public class EstimateProjectController implements Initializable, Refreshable {
 			rs.close();
 
 			for (WorkPackage wp : org.getWorkPackages()) {
-				saveWorkPackage(wp, org.getID());
+				saveWorkPackage(wp, org.getVersionID());
 			}
 		}
 
@@ -173,32 +171,32 @@ public class EstimateProjectController implements Initializable, Refreshable {
 				+ wp.getTypeOfWork() + "', '" + wp.getPopStart() + "', '" + wp.getPopEnd() + "')");
 
 		rs.last();
-		wp.setID(rs.getString("idWP"));
+		wp.setID(rs.getString("idWPVersion"));
 
 		rs.close();
 
 		for (Task task : wp.getTasks()) {
-			cloneTask(task, wp.getID());
+			cloneTask(task, wp.getVersionID());
 		}
 	}
 
 	private void saveWorkPackage(WorkPackage wp, String orgID) throws SQLException, ClassNotFoundException {
 		if (wp.getID() != null) {
 //WPVID int, WPID int, versionNumber varchar(45), wpName varchar(45), boeAuthor varchar(45), scope varchar(45), wpType varchar(45), typeOfWork varchar(45), popStart DATE, p
-			ResultSet rs = DBUtil.dbExecuteQuery(
-					"CALL update_WP(" + wp.getVersionID() + ", " + wp.getID() + ", '" + wp.getVersion() + "', '" + wp.getName()
-							+ "', '" + wp.getAuthor() + "', '" + wp.getScope() + "', '" + wp.getWorkPackageType()
-							+ "', '" + wp.getTypeOfWork() + "', '" + wp.getPopStart() + "', '" + wp.getPopEnd() + "')");
+			ResultSet rs = DBUtil.dbExecuteQuery("CALL update_WP(" + wp.getVersionID() + ", " + wp.getID() + ", '"
+					+ wp.getVersion() + "', '" + wp.getName() + "', '" + wp.getAuthor() + "', '" + wp.getScope()
+					+ "', '" + wp.getWorkPackageType() + "', '" + wp.getTypeOfWork() + "', '" + wp.getPopStart()
+					+ "', '" + wp.getPopEnd() + "')");
 
 			rs.next();
 
 			if (!wp.getVersion().equals(wp.getOldVersion())) {
 				for (Task task : wp.getTasks()) {
-					cloneTask(task, wp.getID());
+					cloneTask(task, wp.getVersionID());
 				}
 			} else {
 				for (Task task : wp.getTasks()) {
-					saveTask(task, wp.getID());
+					saveTask(task, wp.getVersionID());
 				}
 			}
 
@@ -210,12 +208,12 @@ public class EstimateProjectController implements Initializable, Refreshable {
 					+ "', '" + wp.getTypeOfWork() + "', '" + wp.getPopStart() + "', '" + wp.getPopEnd() + "')");
 
 			while (rs.next()) {
-				wp.setID(rs.getString("idWP"));
+				wp.setID(rs.getString("idWPVersion"));
 			}
 			rs.close();
 
 			for (Task task : wp.getTasks()) {
-				saveTask(task, wp.getID());
+				saveTask(task, wp.getVersionID());
 			}
 		}
 
@@ -226,11 +224,12 @@ public class EstimateProjectController implements Initializable, Refreshable {
 	}
 
 	private void cloneTask(Task task, String wpID) throws ClassNotFoundException, SQLException {
-		//TASKVID int, TASKID int, taskName varchar(45), versionNumber varchar(45), estimateFormula varchar(45), 
-		//staffHours varchar(45), taskDetails varchar(1000), assumptions varchar(1000), 
-		//methodology varchar(1000), popStart DATE, popEnd DATE)
-		DBUtil.dbExecuteUpdate("CALL update_task(" + task.getVersionID() + ", " + task.getID() + ", '" + task.getName() + "', '"
-				+ task.getVersion() + "', '" + task.getFormula() + "', " + task.getStaffHours() + ", '"
+		// TASKVID int, TASKID int, taskName varchar(45), versionNumber varchar(45),
+		// estimateFormula varchar(45),
+		// staffHours varchar(45), taskDetails varchar(1000), assumptions varchar(1000),
+		// methodology varchar(1000), popStart DATE, popEnd DATE)
+		DBUtil.dbExecuteUpdate("CALL update_task(" + task.getVersionID() + ", " + task.getID() + ", '" + task.getName()
+				+ "', '" + task.getVersion() + "', '" + task.getFormula() + "', " + task.getStaffHours() + ", '"
 				+ task.getDetails() + "', '" + task.getConditions() + "', '" + task.getMethodology() + "', '"
 				+ task.getPopStart() + "', '" + task.getPopEnd() + "')");
 	}
@@ -255,7 +254,8 @@ public class EstimateProjectController implements Initializable, Refreshable {
 
 		//
 
-		ResultSet rs = DBUtil.dbExecuteQuery("SELECT * FROM Organization WHERE idCLIN = " + clin.getID() + ";");
+		ResultSet rs = DBUtil
+				.dbExecuteQuery("SELECT * FROM Organization WHERE idCLINVersion = " + clin.getVersionID() + ";");
 
 		while (rs.next()) {
 			ResultSet rs2 = DBUtil.dbExecuteQuery("CALL select_organizations(" + rs.getString("idOrganization") + ")");
@@ -284,27 +284,27 @@ public class EstimateProjectController implements Initializable, Refreshable {
 		// result set stuff
 		// put all work packages in org
 		ResultSet rs = DBUtil
-				.dbExecuteQuery("SELECT * FROM WP WHERE idOrganization = " + org.getID() + ";");
+				.dbExecuteQuery("SELECT * FROM WP WHERE idOrganizationVersion = " + org.getVersionID() + ";");
 		while (rs.next()) {
 			ResultSet rs2 = DBUtil.dbExecuteQuery("CALL select_wps(" + rs.getString("idWP") + ")");
-			rs2.last();
-			
-			
-			WorkPackage wp = new WorkPackage();
 
-			wp.setID(rs2.getString("idWP"));
-			wp.setAuthor(rs2.getString("BoE_Author"));
-			wp.setName(rs2.getString("WP_Name"));
-			wp.setOldVersion(rs2.getString("Version_Number"));
-			wp.setPopStart(rs2.getString("PoP_Start"));
-			wp.setPopEnd(rs2.getString("PoP_End"));
-			wp.setScope(rs2.getString("Scope"));
-			wp.setVersion(rs2.getString("Version_Number"));
-			wp.setTypeOfWork(rs2.getString("Type_of_Work"));
-			wp.setVersionID("idWPVersion");
-			
-			org.addWorkPackage(wp);
-			
+			if (rs2.last()) {
+
+				WorkPackage wp = new WorkPackage();
+
+				wp.setID(rs2.getString("idWP"));
+				wp.setAuthor(rs2.getString("BoE_Author"));
+				wp.setName(rs2.getString("WP_Name"));
+				wp.setOldVersion(rs2.getString("Version_Number"));
+				wp.setPopStart(rs2.getString("PoP_Start"));
+				wp.setPopEnd(rs2.getString("PoP_End"));
+				wp.setScope(rs2.getString("Scope"));
+				wp.setVersion(rs2.getString("Version_Number"));
+				wp.setTypeOfWork(rs2.getString("Type_of_Work"));
+				wp.setVersionID(rs2.getString("idWPVersion"));
+
+				org.addWorkPackage(wp);
+			}
 			rs2.close();
 		}
 		rs.close();
@@ -315,7 +315,7 @@ public class EstimateProjectController implements Initializable, Refreshable {
 	}
 
 	private void loadTasks(WorkPackage wp) throws ClassNotFoundException, SQLException {
-		ResultSet rs = DBUtil.dbExecuteQuery("SELECT * FROM Task WHERE idWP = " + wp.getID() + ";");
+		ResultSet rs = DBUtil.dbExecuteQuery("SELECT * FROM Task WHERE idWPVersion = " + wp.getVersionID() + ";");
 
 		while (rs.next()) {
 			ResultSet rs2 = DBUtil.dbExecuteQuery("CALL select_tasks(" + rs.getString("idTask") + ")");
@@ -336,7 +336,7 @@ public class EstimateProjectController implements Initializable, Refreshable {
 			task.setVersion(rs.getString("Version_Number"));
 			task.setVersionID("idTaskVersion");
 			wp.addTask(task);
-			
+
 			rs2.close();
 		}
 		rs.close();

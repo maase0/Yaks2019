@@ -12,7 +12,9 @@ public class Task {
 	private String methodology;
 	private String id;
 	private String oldVersion;
+	private String versionID;
 
+	
 	public Task() {
 		name = null;
 		popStart = null;
@@ -25,6 +27,8 @@ public class Task {
 		methodology = null;
 		id = null;
 		oldVersion = null;
+    	versionID = null;
+
 	}
 
 	public Task(String name, String popStart, String popEnd, String formula, int staffHours, String version,
@@ -40,6 +44,8 @@ public class Task {
 		this.conditions = conditions;
 		this.methodology = methodology;
 		this.id = null;
+    	versionID = null;
+
 	}
 	
 	public void setOldVersion(String oldVersion) {
@@ -133,5 +139,14 @@ public class Task {
 	public String toString() {
 		return name + ", v" + version;
 	}
+	
+    public String getVersionID() {
+        return versionID;
+    }
+    
+    public void setVersionID(String versionID) {
+        this.versionID = versionID;
+    }
+    
 
 }

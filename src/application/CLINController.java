@@ -57,11 +57,11 @@ public class CLINController extends ListCell<CLIN> implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		clinVersion.setText("1");
-		//errorIndex.setVisible(false);
-		//errorType.setVisible(false);
-		//errorPop.setVisible(false);
+		errorIndex.setVisible(false);
+		errorType.setVisible(false);
+		errorPop.setVisible(false);
 		errorVersion.setVisible(false);
-		//errorDetails.setVisible(false);
+		errorDetails.setVisible(false);
 	}
 	
 	

@@ -75,7 +75,7 @@
                   <Insets right="10.0" />
                </BorderPane.margin>
                <bottom>
-                  <Label id="ProjectNameError" styleClass="error-text" text="Project Name Required" textFill="RED" BorderPane.alignment="CENTER">
+                  <Label id="ProjectNameError" fx:id="error1" styleClass="error-text" text="Project Name Required" textFill="RED" BorderPane.alignment="CENTER">
                      <BorderPane.margin>
                         <Insets bottom="3.0" />
                      </BorderPane.margin>
@@ -120,7 +120,7 @@
                            <children>
                               <Label text="Project Manager:" GridPane.halignment="LEFT" />
                               <TextField fx:id="pmText" GridPane.columnIndex="1" />
-                              <Label id="ProjManError" styleClass="error-text" text="Project Manager is a required field!" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <Label id="ProjManError" fx:id="error2" styleClass="error-text" text="Project Manager is a required field!" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                            </children>
                         </GridPane>
                         <GridPane GridPane.rowIndex="1">
@@ -135,7 +135,7 @@
                            <children>
                               <Label text="Proposal Number:" />
                               <TextField fx:id="propNumText" GridPane.columnIndex="1" />
-                              <Label id="PropNumError" styleClass="error-text" text="Proposal Number must be a numerical value!" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <Label id="PropNumError" fx:id="error3" styleClass="error-text" text="Proposal Number must be a numerical value!" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                            </children>
                         </GridPane>
                         <GridPane GridPane.rowIndex="2">
@@ -150,7 +150,7 @@
                            <children>
                               <Label text="Version Number:" />
                               <TextField fx:id="versionText" GridPane.columnIndex="1" />
-                              <Label id="VerNumError" styleClass="error-text" text="Version Number must follow conventions! (i.e. 1, 3.2. 4.0.4, 1.0.0.7)" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <Label id="VerNumError" fx:id="error4" styleClass="error-text" text="Version Number must follow conventions! (i.e. 1, 3.2. 4.0.4, 1.0.0.7)" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                            </children>
                         </GridPane>
                         <GridPane GridPane.rowIndex="3">
@@ -179,7 +179,7 @@
                                     <Label text="to" GridPane.columnIndex="1" />
                                  </children>
                               </GridPane>
-                              <Label id="PoPError" styleClass="error-text" text="Period of Performance must be from a start date to end date!" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                              <Label id="PoPError" fx:id="error5" styleClass="error-text" text="Period of Performance must be from a start date to end date!" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                  <GridPane.margin>
                                     <Insets top="3.0" />
                                  </GridPane.margin>
@@ -214,7 +214,7 @@
                         </GridPane>
                      </top>
                      <bottom>
-                        <Label id="CLINError" styleClass="error-text" text="At least one (1) Contract Line Item is required!" BorderPane.alignment="CENTER">
+                        <Label id="CLINError" fx:id="error6" styleClass="error-text" text="At least one (1) Contract Line Item is required!" BorderPane.alignment="CENTER">
                            <BorderPane.margin>
                               <Insets top="5.0" />
                            </BorderPane.margin>
@@ -247,7 +247,7 @@
                         </GridPane>
                      </top>
                      <bottom>
-                        <Label id="SDRLError" styleClass="error-text" text="At least one (1) Subcontract Design Requirements List is required!" BorderPane.alignment="CENTER">
+                        <Label id="SDRLError" fx:id="error7" styleClass="error-text" text="At least one (1) Subcontract Design Requirements List is required!" BorderPane.alignment="CENTER">
                            <BorderPane.margin>
                               <Insets top="5.0" />
                            </BorderPane.margin>
@@ -280,7 +280,7 @@
                         </GridPane>
                      </top>
                      <bottom>
-                        <Label id="SOWError" styleClass="error-text" text="At least one (1) Statement of Work Reference is required!" BorderPane.alignment="CENTER">
+                        <Label id="SOWError" fx:id="error8" styleClass="error-text" text="At least one (1) Statement of Work Reference is required!" BorderPane.alignment="CENTER">
                            <BorderPane.margin>
                               <Insets top="5.0" />
                            </BorderPane.margin>

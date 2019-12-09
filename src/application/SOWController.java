@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -14,6 +15,10 @@ import java.util.ResourceBundle;
 
 public class SOWController extends ListCell<SOW> implements Initializable {
 
+	@FXML private Label error1;
+	@FXML private Label error2;
+	@FXML private Label error3;
+	
 	@FXML
 	private Button sowSaveButton;
 	@FXML
@@ -76,5 +81,9 @@ public class SOWController extends ListCell<SOW> implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		sowVersion.setText("1");
+		
+		error1.setVisible(false);
+		error2.setVisible(false);
+		error3.setVisible(false);
 	}
 }

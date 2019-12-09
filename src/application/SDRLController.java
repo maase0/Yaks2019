@@ -13,6 +13,10 @@ import java.util.ResourceBundle;
 
 public class SDRLController extends ListCell<SDRL> implements Initializable {
 
+	@FXML private Label error1;
+	@FXML private Label error2;
+	@FXML private Label error3;
+	
 	@FXML
 	private Button sdrlSaveButton;
 	@FXML
@@ -77,6 +81,10 @@ public class SDRLController extends ListCell<SDRL> implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		sdrlVersion.setText("1");
+		
+		error1.setVisible(false);
+		error2.setVisible(false);
+		error3.setVisible(false);
 	}
 
 	@FXML

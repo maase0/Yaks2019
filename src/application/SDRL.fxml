@@ -61,7 +61,7 @@
                </GridPane.margin></Button>
             <Label text="    Version:" />
             <TextField fx:id="sdrlVersion" prefHeight="27.0" prefWidth="239.0" GridPane.columnIndex="1" />
-            <Label id="VerNumError" styleClass="error-text" text="Version Number must follow conventions! (i.e. 1, 3.2. 4.0.4, 1.0.0.7)" GridPane.columnIndex="2">
+            <Label id="VerNumError" fx:id="error3" styleClass="error-text" text="Version Number must follow conventions! (i.e. 1, 3.2. 4.0.4, 1.0.0.7)" GridPane.columnIndex="2">
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin>
@@ -92,7 +92,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label id="NameError" styleClass="error-text" text="Name is a required field!" GridPane.columnIndex="1">
+            <Label id="NameError" fx:id="error1" styleClass="error-text" text="Name is a required field!" GridPane.columnIndex="1">
                <GridPane.margin>
                   <Insets bottom="10.0" />
                </GridPane.margin>
@@ -107,7 +107,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label id="DetailsError" styleClass="error-text" text="Some CLIN Details Required">
+            <Label id="DetailsError" fx:id="error2" styleClass="error-text" text="Some CLIN Details Required">
                <GridPane.margin>
                   <Insets top="5.0" />
                </GridPane.margin>

@@ -116,7 +116,10 @@ public class EstimateProjectController implements Initializable, Refreshable {
 			}
 
 			for (OrganizationBOE org : c.getDeletedOrganizations()) {
-				// DBUtil.dbExecuteUpdate("CALL delete_organization(" + org.getID() + ")");
+				if (org.getID() != null) {
+					DBUtil.dbExecuteUpdate("CALL delete_organization(" + org.getID() + ")");
+				}
+				//
 			}
 		}
 		closeCurrent();
@@ -150,8 +153,8 @@ public class EstimateProjectController implements Initializable, Refreshable {
 					+ "', '" + org.getVersion() + "', '" + org.getProduct() + "')");
 
 			rs.last();
+			org.setVersionID(rs.getString("idOrganizationVersion"));
 			org.setID(rs.getString("idOrganization"));
-
 			rs.close();
 
 			for (WorkPackage wp : org.getWorkPackages()) {
@@ -159,10 +162,11 @@ public class EstimateProjectController implements Initializable, Refreshable {
 			}
 		}
 
-		/*
-		 * for(WorkPackage wp : org.getDeletedWorkPackages()) {
-		 * DBUtil.dbExecuteUpdate("CALL delete_wp(" + wp.getID() + ")"); }
-		 */
+		for (WorkPackage wp : org.getDeletedWorkPackages()) {
+			if (wp.getID() != null) {
+				DBUtil.dbExecuteUpdate("CALL delete_wp(" + wp.getID() + ")");
+			}
+		}
 	}
 
 	private void cloneWorkPackage(WorkPackage wp, String orgID) throws ClassNotFoundException, SQLException {
@@ -218,7 +222,7 @@ public class EstimateProjectController implements Initializable, Refreshable {
 			ResultSet rs = DBUtil.dbExecuteQuery("CALL insert_wp(" + orgID + ", '" + wp.getVersion() + "', '"
 					+ wp.getName() + "', '" + wp.getAuthor() + "', '" + wp.getScope() + "', '" + wp.getWorkPackageType()
 					+ "', '" + wp.getTypeOfWork() + "', '" + wp.getPopStart() + "', '" + wp.getPopEnd() + "')");
-			
+
 			rs.last();
 			wp.setVersionID(rs.getString("idWPVersion"));
 
@@ -229,10 +233,11 @@ public class EstimateProjectController implements Initializable, Refreshable {
 			}
 		}
 
-		/*
-		 * for(Task task : wp.getDeletedTasks()) {
-		 * DBUtil.dbExecuteUpdate("CALL delete_task" + task.getID() + ")"); }
-		 */
+		for (Task task : wp.getDeletedTasks()) {
+			if (task.getID() != null) {
+				DBUtil.dbExecuteUpdate("CALL delete_task" + task.getID() + ")");
+			}
+		}
 	}
 
 	private void cloneTask(Task task, String wpID) throws ClassNotFoundException, SQLException {
@@ -258,6 +263,9 @@ public class EstimateProjectController implements Initializable, Refreshable {
 
 	private void saveTask(Task task, String wpID) throws SQLException, ClassNotFoundException {
 		if (task.getID() != null) {
+			System.out.println(task.getID());
+			System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+			
 			DBUtil.dbExecuteUpdate("CALL update_task(" + task.getID() + ", " + wpID + ", '" + task.getName() + "', '"
 					+ task.getVersion() + "', '" + task.getFormula() + "', " + task.getStaffHours() + ", '"
 					+ task.getDetails() + "', '" + task.getConditions() + "', '" + task.getMethodology() + "', '"

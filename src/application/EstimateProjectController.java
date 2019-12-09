@@ -131,7 +131,7 @@ public class EstimateProjectController implements Initializable, Refreshable {
 			rs.next();
 
 			if (!org.getVersion().equals(org.getOldVersion())) {
-				org.setVersion(rs.getString("idOrganization"));
+				org.setVersionID(rs.getString("idOrganizationVersion"));
 
 				for (WorkPackage wp : org.getWorkPackages()) {
 					cloneWorkPackage(wp, org.getVersionID());
@@ -166,10 +166,21 @@ public class EstimateProjectController implements Initializable, Refreshable {
 	}
 
 	private void cloneWorkPackage(WorkPackage wp, String orgID) throws ClassNotFoundException, SQLException {
-		ResultSet rs = DBUtil.dbExecuteQuery("CALL insert_wp(" + orgID + ", '" + wp.getVersion() + "', '" + wp.getName()
-				+ "', '" + wp.getAuthor() + "', '" + wp.getScope() + "', '" + wp.getWorkPackageType() + "', '"
-				+ wp.getTypeOfWork() + "', '" + wp.getPopStart() + "', '" + wp.getPopEnd() + "')");
+		ResultSet rs;
+		if (wp.getID() != null) {
+			// clone_wp`(ORGVID int, WPVID int, versionNumber varchar(45), wpName
+			// varchar(45),
+			// boeAuthor varchar(45), scope varchar(45), wpType varchar(45), typeOfWork
+			// varchar(45), popStart DATE, popEnd DATE)
+			rs = DBUtil.dbExecuteQuery("CALL clone_wp(" + orgID + ", " + wp.getVersionID()+", '" + wp.getVersion() + "', '" + wp.getName()
+					+ "', '" + wp.getAuthor() + "', '" + wp.getScope() + "', '" + wp.getWorkPackageType() + "', '"
+					+ wp.getTypeOfWork() + "', '" + wp.getPopStart() + "', '" + wp.getPopEnd() + "')");
 
+		} else {
+			rs = DBUtil.dbExecuteQuery("CALL insert_wp(" + orgID + ", '" + wp.getVersion() + "', '" + wp.getName()
+					+ "', '" + wp.getAuthor() + "', '" + wp.getScope() + "', '" + wp.getWorkPackageType() + "', '"
+					+ wp.getTypeOfWork() + "', '" + wp.getPopStart() + "', '" + wp.getPopEnd() + "')");
+		}
 		rs.last();
 		wp.setID(rs.getString("idWPVersion"));
 

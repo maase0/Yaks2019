@@ -216,8 +216,6 @@ public class EstimateProjectController implements Initializable, Refreshable {
 			}
 		}
 
-
-
 		/*
 		 * for(Task task : wp.getDeletedTasks()) {
 		 * DBUtil.dbExecuteUpdate("CALL delete_task" + task.getID() + ")"); }
@@ -231,17 +229,28 @@ public class EstimateProjectController implements Initializable, Refreshable {
 				+ task.getPopStart() + "', '" + task.getPopEnd() + "')");
 	}
 
+	// TODO can't seem to save Tasks, error is idTask column can't be null
 	private void saveTask(Task task, String wpID) throws SQLException, ClassNotFoundException {
 		if (task.getID() != null) {
-			DBUtil.dbExecuteUpdate("CALL update_task(" + task.getID() + ", " + wpID + ", '" + task.getName() + "', '"
+
+			ResultSet rs = DBUtil.dbExecuteQuery(
+					"CALL update_task(" + task.getID() + ", " + wpID + ", '" + task.getName() + "', '"
 					+ task.getVersion() + "', '" + task.getFormula() + "', " + task.getStaffHours() + ", '"
 					+ task.getDetails() + "', '" + task.getConditions() + "', '" + task.getMethodology() + "', '"
 					+ task.getPopStart() + "', '" + task.getPopEnd() + "')");
+
+			rs.next();
+			rs.close();
 		} else {
-			DBUtil.dbExecuteUpdate("CALL insert_task(" + wpID + ", '" + task.getName() + "', '" + task.getVersion()
+			ResultSet rs = DBUtil.dbExecuteQuery("CALL insert_task(" + wpID + ", '" + task.getName() + "', '" + task.getVersion()
 					+ "', '" + task.getFormula() + "', " + task.getStaffHours() + ", '" + task.getDetails() + "', '"
 					+ task.getConditions() + "', '" + task.getMethodology() + "', '" + task.getPopStart() + "', '"
 					+ task.getPopEnd() + "')");
+
+			while (rs.next()) {
+				task.setID(rs.getString("idTask"));
+			}
+			rs.close();
 		}
 	}
 

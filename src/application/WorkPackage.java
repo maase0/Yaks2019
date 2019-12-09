@@ -14,7 +14,7 @@ public class WorkPackage {
     private ArrayList<Task> tasks;
 	private String id;
 	private String oldVersion;
-	private ArrayList<Task> deletedTasks;
+	private ArrayList<Task> deletedTasks = new ArrayList<Task>();
 	private String versionID;
 
 	

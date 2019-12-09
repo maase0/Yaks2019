@@ -235,7 +235,7 @@ public class EstimateProjectController implements Initializable, Refreshable {
 
 		for (Task task : wp.getDeletedTasks()) {
 			if (task.getID() != null) {
-				DBUtil.dbExecuteUpdate("CALL delete_task" + task.getID() + ")");
+				DBUtil.dbExecuteUpdate("CALL delete_task(" + task.getID() + ")");
 			}
 		}
 	}
@@ -265,7 +265,7 @@ public class EstimateProjectController implements Initializable, Refreshable {
 		if (task.getID() != null) {
 			System.out.println(task.getID());
 			System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-			
+
 			DBUtil.dbExecuteUpdate("CALL update_task(" + task.getID() + ", " + wpID + ", '" + task.getName() + "', '"
 					+ task.getVersion() + "', '" + task.getFormula() + "', " + task.getStaffHours() + ", '"
 					+ task.getDetails() + "', '" + task.getConditions() + "', '" + task.getMethodology() + "', '"

@@ -74,6 +74,7 @@ public class WorkPackage_Controller implements Initializable, Refreshable {
 	public void initialize(URL url, ResourceBundle resourceBundle) {
 		taskObservableList = FXCollections.observableArrayList();
 		taskListView.setItems(taskObservableList);
+		taskDelete = new ArrayList<Task>();
 		workPackage = null;
 		version.setText("1");
 		

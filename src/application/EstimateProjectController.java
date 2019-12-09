@@ -247,9 +247,6 @@ public class EstimateProjectController implements Initializable, Refreshable {
 	private void loadOrganizations(CLIN clin) throws ClassNotFoundException, SQLException {
 		// result set stuff
 		// put each one in clin
-
-		//
-
 		ResultSet rs = DBUtil.dbExecuteQuery("SELECT * FROM Organization WHERE Based_On=NULL AND idCLIN = " + clin.getID() + ";");
 		while (rs.next()) {
 			OrganizationBOE org = new OrganizationBOE();

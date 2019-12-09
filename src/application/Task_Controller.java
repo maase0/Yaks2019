@@ -9,6 +9,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
@@ -23,6 +24,16 @@ import java.util.ResourceBundle;
 
 public class Task_Controller implements Initializable {
 
+
+	@FXML private Label error8;
+	@FXML private Label error1;
+	@FXML private Label error2;
+	@FXML private Label error3;
+	@FXML private Label error4;
+	@FXML private Label error5;
+	@FXML private Label error6;
+	@FXML private Label error7;
+	
 	@FXML
 	private Button closeButton;
 	@FXML
@@ -57,6 +68,14 @@ public class Task_Controller implements Initializable {
 	public void initialize(URL url, ResourceBundle resourceBundle) {
 		version.setText("1");
 
+		error1.setVisible(false);
+		error2.setVisible(false);
+		error3.setVisible(false);
+		error4.setVisible(false);
+		error5.setVisible(false);
+		error6.setVisible(false);
+		error7.setVisible(false);
+		error8.setVisible(false);
 	}
 
 	public boolean saveTask() {

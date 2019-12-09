@@ -122,12 +122,12 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label id="TaskNameError" styleClass="error-text" text="Task Name is a required field!">
+                  <Label id="TaskNameError" fx:id="error1" styleClass="error-text" text="Task Name is a required field!">
                      <GridPane.margin>
                         <Insets />
                      </GridPane.margin>
                   </Label>
-                  <Label id="PoPError" styleClass="error-text" text="Task PoP must have start and end dates!" GridPane.columnIndex="1" />
+                  <Label id="PoPError" fx:id="error2" styleClass="error-text" text="Task PoP must have start and end dates!" GridPane.columnIndex="1" />
                </children>
             </GridPane>
             <GridPane GridPane.rowIndex="3">
@@ -140,13 +140,13 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="TOP" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label id="BOEFormulaError" styleClass="error-text" text="Basis of Estimates Formula is a required field!" />
-                  <Label id="StaffError" styleClass="error-text" text="Staff Hours must be a numerical value!" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1">
+                  <Label id="BOEFormulaError" fx:id="error3" styleClass="error-text" text="Basis of Estimates Formula is a required field!" />
+                  <Label id="StaffError" fx:id="error4" styleClass="error-text" text="Staff Hours must be a numerical value!" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1">
                      <GridPane.margin>
                         <Insets right="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label id="VerNumError" styleClass="error-text" text="Version Number must follow conventions!" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="2" />
+                  <Label id="VerNumError" fx:id="error5" styleClass="error-text" text="Version Number must follow conventions!" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="2" />
                </children>
                <GridPane.margin>
                   <Insets top="5.0" />
@@ -203,7 +203,7 @@
                   <Insets top="10.0" />
                </GridPane.margin>
                <children>
-                  <Label id="EstMethRatError" styleClass="error-text" text="Estimate Methodology &amp; Rationale is a required field!" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <Label id="EstMethRatError" fx:id="error8" styleClass="error-text" text="Estimate Methodology &amp; Rationale is a required field!" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
@@ -211,7 +211,7 @@
                         <Insets left="10.0" top="15.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label id="CondAssumpError" styleClass="error-text" text="Conditions &amp; Assumptions is a required field!" GridPane.rowIndex="2">
+                  <Label id="CondAssumpError" fx:id="error7" styleClass="error-text" text="Conditions &amp; Assumptions is a required field!" GridPane.rowIndex="2">
                      <GridPane.margin>
                         <Insets left="5.0" top="15.0" />
                      </GridPane.margin>
@@ -257,7 +257,7 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Label id="TaskDetailsError" styleClass="error-text" text="Task Details is a required field!">
+                        <Label id="TaskDetailsError" fx:id="error6" styleClass="error-text" text="Task Details is a required field!">
                            <GridPane.margin>
                               <Insets top="10.0" />
                            </GridPane.margin>

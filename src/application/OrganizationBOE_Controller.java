@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
@@ -23,6 +24,11 @@ import java.util.ResourceBundle;
 
 public class OrganizationBOE_Controller implements Initializable, Refreshable {
 
+	@FXML private Label error1;
+	@FXML private Label error2;
+	@FXML private Label error3;
+	@FXML private Label error4;
+	
 	@FXML
 	private Button closeButton;
 	@FXML
@@ -56,6 +62,11 @@ public class OrganizationBOE_Controller implements Initializable, Refreshable {
 		org = null;
 		wpDelete = new ArrayList<WorkPackage>();
 		versionText.setText("1");
+		
+		error1.setVisible(false);
+		error2.setVisible(false);
+		error3.setVisible(false);
+		error4.setVisible(false);
 	}
 
 	public void refresh() {

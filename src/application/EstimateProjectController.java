@@ -4,6 +4,7 @@ import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -89,10 +90,36 @@ public class EstimateProjectController implements Initializable, Refreshable {
 
 	}
 
-	public void submitApproval(ActionEvent event) throws SQLException, ClassNotFoundException {
+	public void submitApproval(ActionEvent event) throws SQLException, ClassNotFoundException { // TODO error messaging currently doesn't work
 		saveNewChanges(); // currently doesn't function
-		DBUtil.dbExecuteUpdate(
-				"CALL estimate_project(" + project.getProjectID() + ", '" + LocalDate.now().toString() + "')");
+
+		String errorMessage = ProjectHandler.checkProjectForEstimating(new ArrayList<CLIN>(clinObservableList));
+
+		if (errorMessage == null) {
+			String startString = startDate.getValue() == null ? "" : startDate.getValue().toString();
+			String endString = endDate.getValue() == null ? "" : endDate.getValue().toString();
+
+			System.out.println("Submit for Approval Button");
+
+			DBUtil.dbExecuteUpdate(
+					"CALL estimate_project(" + project.getProjectID() + ", '" + LocalDate.now().toString() + "')");
+
+			try {
+				closeCurrent();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Submitting Project for Approval");
+			alert.setHeaderText("There was an error submitting this project for approval!");
+			alert.setContentText(errorMessage);
+
+			ButtonType buttonTypeCancel = new ButtonType("OK", ButtonData.CANCEL_CLOSE);
+
+			alert.getButtonTypes().setAll(buttonTypeCancel);
+			alert.showAndWait();
+		}
 	}
 
 	public void saveNewChanges() throws SQLException, ClassNotFoundException {

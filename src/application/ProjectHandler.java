@@ -584,4 +584,120 @@ public class ProjectHandler {
 		}
 		return errorMessage;
 	}
+
+	// TODO currently not working with implementation
+	public static String checkProjectForEstimating(ArrayList<CLIN> clins) { // Submit for Approval
+		String errorMessage = "";
+
+		for (CLIN c : clins) {
+			ArrayList<OrganizationBOE> organizations = c.getOrganizations();
+
+			for (OrganizationBOE o : organizations) {
+				String organization = o.getOrganization();
+				String product = o.getProduct();
+				String orgVersion = o.getVersion();
+				ArrayList<WorkPackage> orgWPs = o.getWorkPackages();
+
+				if (organization == null || organization.trim().isEmpty()) {
+					errorMessage += "Organization Error: Organization cannot be empty.\n";
+				}
+				if (product == null || product.trim().isEmpty()) {
+					errorMessage += "Organization Error: Product cannot be empty.\n";
+				}
+				if (orgVersion == null || orgVersion.trim().isEmpty()) {
+					errorMessage += "Organization Error: Organization Version cannot be empty.\n";
+				} else if (!orgVersion.matches("\\d+(.\\d)*")) {
+					errorMessage += "Organization Error: Invalid Version Number! Must be of form 1, 3.2.1, 6.11.10, etc\n";
+				}
+				if (orgWPs.isEmpty()) {
+					errorMessage += "Organization Error: At least ONE Work Package is required.\n";
+				}
+
+				for (WorkPackage w : orgWPs) {
+					String wpName = w.getName();
+					String boeAuthor = w.getAuthor();
+					LocalDate wpStart = w.getPopStart() == null ? null : LocalDate.parse(w.getPopStart());
+					LocalDate wpEnd = w.getPopEnd() == null ? null : LocalDate.parse(w.getPopEnd());
+					String wpScope = w.getScope();
+					String typeOfWork = w.getTypeOfWork();
+					String wpVersion = w.getVersion();
+					ArrayList<Task> wpTasks = w.getTasks();
+
+					if (wpName == null || wpName.trim().isEmpty()) {
+						errorMessage += "Work Package Error: Work Package Name cannot be empty.\n";
+					}
+					if (boeAuthor == null || boeAuthor.trim().isEmpty()) {
+						errorMessage += "Work Package Error: Basis of Estimates Author cannot be empty.\n";
+					}
+					if (wpStart == null) {
+						errorMessage += "Work Package Error: Work Package Period of Performance must have a starting value.\n";
+					}
+					if (wpEnd == null) {
+						errorMessage += "Work Package Error: Work Package Period of Performance must have an ending value.\n";
+					}
+					if (wpScope == null || wpScope.trim().isEmpty()) {
+						errorMessage += "Work Package Error: Scope of Work cannot be empty.\n";
+					}
+					if (typeOfWork == null || typeOfWork.trim().isEmpty()) {
+						errorMessage += "Work Package Error: Type of Work cannot be empty.\n";
+					}
+					if (wpVersion == null || wpVersion.trim().isEmpty()) {
+						errorMessage += "Work Package Error: Work Package Version cannot be empty.\n";
+					} else if (!wpVersion.matches("\\d+(.\\d)*")) {
+						errorMessage += "Work Package Error: Invalid Version Number! Must be of form 1, 3.2.1, 6.11.10, etc\n";
+					}
+					if (wpTasks.isEmpty()) {
+						errorMessage += "Work Package Error: At least ONE Task is required.\n";
+					}
+
+					for (Task t : wpTasks) {
+						String taskName = t.getName();
+						LocalDate taskStart = t.getPopStart() == null ? null : LocalDate.parse(t.getPopStart());
+						LocalDate taskEnd = t.getPopEnd() == null ? null : LocalDate.parse(t.getPopEnd());
+						String boeFormula = t.getFormula();
+						int staffHours = t.getStaffHours();
+						String taskVersion = t.getVersion();
+						String taskDetails = t.getDetails();
+						String taskCandA = t.getConditions();
+						String taskMandR = t.getMethodology();
+
+						if (taskName == null || taskName.trim().isEmpty()) {
+							errorMessage += "Task Error: Task Name cannot be empty.\n";
+						}
+						if (taskStart == null) {
+							errorMessage += "Task Error: Task Period of Performance must have a starting value.\n";
+						}
+						if (taskEnd == null) {
+							errorMessage += "Task Error: Task Period of Performance must have an ending value.\n";
+						}
+						if (boeFormula == null || boeFormula.trim().isEmpty()) {
+							errorMessage += "Task Error: Basis of Estimates Formula cannot be empty.\n";
+						}
+						if (staffHours <= 0) {
+							errorMessage += "Task Error: Staff Hours must be greater than 0.\n";
+						}
+						if (taskVersion == null || taskVersion.trim().isEmpty()) {
+							errorMessage += "Task Error: Task Version cannot be empty.\n";
+						} else if (!taskVersion.matches("\\d+(.\\d)*")) {
+							errorMessage += "Task Error: Invalid Version Number! Must be of form 1, 3.2.1, 6.11.10, etc\n";
+						}
+						if (taskDetails == null || taskDetails.trim().isEmpty()) {
+							errorMessage += "Task Error: Task Details cannot be empty.\n";
+						}
+						if (taskCandA == null || taskCandA.trim().isEmpty()) {
+							errorMessage += "Task Error: Task Conditions & Assumptions cannot be empty.\n";
+						}
+						if (taskMandR == null || taskMandR.trim().isEmpty()) {
+							errorMessage += "Task Error: Estimate Methodology & Rationale cannot be empty.\n";
+						}
+					}
+				}
+			}
+		}
+
+		if (errorMessage.equals("")) {
+			errorMessage = null;
+		}
+		return errorMessage;
+	}
 }

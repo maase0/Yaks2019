@@ -21,6 +21,8 @@ import java.util.ResourceBundle;
 
 public class PM_VPPE_Controller implements Initializable {
 
+	private Refreshable prevController;
+	
     @FXML
     private Button makePendingButton;
     @FXML
@@ -144,4 +146,10 @@ public class PM_VPPE_Controller implements Initializable {
             System.out.println("ERROR: NULL PROJECT");
         }
     }
+    
+    private void closeCurrent() {
+		prevController.refresh();
+		StageHandler.showPreviousStage();
+		StageHandler.closeCurrentStage();
+	}
 }

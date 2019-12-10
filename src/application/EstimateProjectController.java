@@ -127,7 +127,7 @@ public class EstimateProjectController implements Initializable, Refreshable {
 		closeCurrent();
 	}
 	
-	private void save() {
+	private void save() throws ClassNotFoundException, SQLException {
 		// TODO need to loop through CLIN_Estimate, get Organizations, Work Packages,
 				// and Tasks
 				// on each thing, getDeleteList to remove deleted items from database, then
@@ -296,8 +296,11 @@ public class EstimateProjectController implements Initializable, Refreshable {
 		if (task.getID() != null) {
 			System.out.println(task.getID());
 			System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+			///update_task`(TASKVID int, TASKID int, taskName varchar(45), versionNumber varchar(45), 
+			//estimateFormula varchar(45), staffHours varchar(45), taskDetails varchar(1000),
+			//assumptions varchar(1000), methodology varchar(1000), popStart DATE, popEnd DATE)
 
-			DBUtil.dbExecuteUpdate("CALL update_task(" + task.getID() + ", " + wpID + ", '" + task.getName() + "', '"
+			DBUtil.dbExecuteUpdate("CALL update_task(" + task.getVersionID() + ", " + task.getID() + ", '" + task.getName() + "', '"
 					+ task.getVersion() + "', '" + task.getFormula() + "', " + task.getStaffHours() + ", '"
 					+ task.getDetails() + "', '" + task.getConditions() + "', '" + task.getMethodology() + "', '"
 					+ task.getPopStart() + "', '" + task.getPopEnd() + "')");

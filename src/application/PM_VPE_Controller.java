@@ -20,7 +20,7 @@ import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class PM_VPE_Controller implements Initializable {
-
+	private Refreshable prevController;
 	@FXML
 	private Button returnEstimationButton;
 	@FXML
@@ -75,23 +75,7 @@ public class PM_VPE_Controller implements Initializable {
 	}
 
 	public void closeEstimation() {
-		try {
-			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("PM_Projects.fxml"));
-			Parent root = fxmlLoader.load();
-
-			Stage closeEst = new Stage();
-			closeEst.setTitle("Estimation Suite - Project Manager - Estimate Project");
-			closeEst.setScene(new Scene(root));
-
-			closeEst.show();
-			closeEst.setResizable(true);
-			closeEst.sizeToScene();
-
-			Stage stage = (Stage) closeEstimationButton.getScene().getWindow();
-			stage.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		closeCurrent();
 	}
 
 	// TODO Personal note, check to make sure this functions after completing approved/denied
@@ -103,37 +87,13 @@ public class PM_VPE_Controller implements Initializable {
 	public void approveProject(ActionEvent event) throws SQLException, ClassNotFoundException {
 		DBUtil.dbExecuteUpdate("CALL approve_project(" + project.getProjectID() + ", '"
 									+ LocalDate.now().toString() + "')");
-		try {
-			Parent root = FXMLLoader.load(getClass().getResource("PM_Projects.fxml"));
-
-			Stage pmProjectsStage = new Stage();
-			pmProjectsStage.setTitle("Estimation Suite - Product Manager - Projects");
-			pmProjectsStage.setScene(new Scene(root));
-			pmProjectsStage.show();
-
-			Stage stage = (Stage) approveButton.getScene().getWindow();
-			stage.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		closeCurrent();
 	}
 
 	public void denyProject(ActionEvent event) throws SQLException, ClassNotFoundException {
 		DBUtil.dbExecuteUpdate("CALL deny_project(" + project.getProjectID() + ", '"
 									+ LocalDate.now().toString() + "')");
-		try {
-			Parent root = FXMLLoader.load(getClass().getResource("PM_Projects.fxml"));
-
-			Stage pmProjectsStage = new Stage();
-			pmProjectsStage.setTitle("Estimation Suite - Product Manager - Projects");
-			pmProjectsStage.setScene(new Scene(root));
-			pmProjectsStage.show();
-
-			Stage stage = (Stage) denyButton.getScene().getWindow();
-			stage.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		closeCurrent();
 	}
 
 	public void viewCLINestimation(ActionEvent event) {
@@ -182,5 +142,11 @@ public class PM_VPE_Controller implements Initializable {
 		} else {
 			System.out.println("ERROR: NULL PROJECT");
 		}
+	}
+	
+	private void closeCurrent() {
+		prevController.refresh();
+		StageHandler.showPreviousStage();
+		StageHandler.closeCurrentStage();
 	}
 }

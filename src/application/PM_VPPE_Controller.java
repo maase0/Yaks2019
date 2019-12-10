@@ -134,7 +134,9 @@ public class PM_VPPE_Controller implements Initializable {
             versionNum.setText(proj.getVersionNumber());
 
             startDate.setValue(proj.getPopStart());
+            startDate.setDisable(true);
             endDate.setValue(proj.getPopEnd());
+            endDate.setDisable(true);
 
             clinObservableList.setAll(proj.getCLINList());
             sowObservableList.setAll(proj.getSOWList());

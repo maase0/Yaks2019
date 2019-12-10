@@ -549,35 +549,36 @@ public class ProjectHandler {
 	}
 
 	public static String checkProjectForSaving(ProjectVersion proj, String oldVersion) {
-		String errorMessage = "";
+		String errorMessage = checkProjectForSaving(proj);
 
-		String versionNum = proj.getVersionNumber();
+		if (errorMessage == null) {
+			errorMessage = "";
+			String versionNum = proj.getVersionNumber();
 
-		if (versionNum != null && !versionNum.trim().isEmpty()) {
-			if (!versionNum.matches("\\d+(.\\d)*")) {
-				errorMessage += "Project Error: Invalid Version Number! Must be of form 1, 3.2.1, 6.11.10, etc\n";
-			}
-			if (oldVersion != null) {
-				String[] newVer = proj.getVersionNumber().split("\\.");
-				String[] oldVer = oldVersion.split("\\.");
-				for (int i = 0; i < newVer.length & i < oldVer.length; i++) {
-					if (Integer.parseInt(newVer[i]) > Integer.parseInt(oldVer[i])) {
-						break;
-						// If greater, then rest is fine
-					} else if (Integer.parseInt(newVer[i]) < Integer.parseInt(oldVer[i])) {
-
-						errorMessage += "Project Error: Cannot change to a lower version number!";
-						break;
-					}
-					// no else, if they are equal keep going.
+			if (versionNum != null && !versionNum.trim().isEmpty()) {
+				if (!versionNum.matches("\\d+(.\\d)*")) {
+					errorMessage += "Project Error: Invalid Version Number! Must be of form 1, 3.2.1, 6.11.10, etc\n";
 				}
-			}
+				if (oldVersion != null) {
+					String[] newVer = proj.getVersionNumber().split("\\.");
+					String[] oldVer = oldVersion.split("\\.");
+					for (int i = 0; i < newVer.length & i < oldVer.length; i++) {
+						if (Integer.parseInt(newVer[i]) > Integer.parseInt(oldVer[i])) {
+							break;
+							// If greater, then rest is fine
+						} else if (Integer.parseInt(newVer[i]) < Integer.parseInt(oldVer[i])) {
 
+							errorMessage += "Project Error: Cannot change to a lower version number!";
+							break;
+						}
+						// no else, if they are equal keep going.
+					}
+				}
+
+			}
 		}
 
-		String otherErrorMessage = checkProjectForSaving(proj);
-
-		errorMessage += otherErrorMessage == null ? "" : otherErrorMessage;
+		// errorMessage += otherErrorMessage == null ? "" : otherErrorMessage;
 
 		if (errorMessage.equals("")) {
 			errorMessage = null;

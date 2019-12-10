@@ -356,6 +356,7 @@ public class PM_ProjectsController implements Initializable, Refreshable {
 
 			controller.setProject(version);
 			controller.setName(version.getName());
+			controller.setPreviousController(this);
 
 			Stage eEstimateProjectStage = new Stage();
 			eEstimateProjectStage.setTitle("Estimation Suite - Project Manager - Estimate Project");
@@ -385,6 +386,8 @@ public class PM_ProjectsController implements Initializable, Refreshable {
 			controller.setProject(version);
 			controller.setStatus("Approved");
 			controller.setName(version.getName());
+			
+			controller.setPreviousController(this);
 
 			Stage approvedStage = new Stage();
 			approvedStage.setTitle("Estimation Suite - Project Manager - Approved Project");
@@ -416,6 +419,8 @@ public class PM_ProjectsController implements Initializable, Refreshable {
 			controller.setStatus("Denied");
 			controller.setName(version.getName());
 
+			controller.setPreviousController(this);
+			
 			Stage deniedStage = new Stage();
 			deniedStage.setTitle("Estimation Suite - Project Manager - Denied Project");
 			deniedStage.setScene(new Scene(root));

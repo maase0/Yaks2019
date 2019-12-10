@@ -127,7 +127,7 @@ public class EstimateProjectController implements Initializable, Refreshable {
 		closeCurrent();
 	}
 	
-	private void save() {
+	private void save() throws SQLException, ClassNotFoundException {
 		// TODO need to loop through CLIN_Estimate, get Organizations, Work Packages,
 				// and Tasks
 				// on each thing, getDeleteList to remove deleted items from database, then

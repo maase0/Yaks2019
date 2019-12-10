@@ -63,7 +63,7 @@ public class DBUtil
 		//For use with SSH Tunnel and MySQL Connection
 		String strSshUser = "ubuntu";                 						// SSH loging username
 	    String strSshPassword = "tortoise101$";                   			// SSH login password
-	    String strSshHost = "ec2-18-209-59-108.compute-1.amazonaws.com";	// hostname or ip or SSH server
+	    String strSshHost = "ec2-54-91-87-152.compute-1.amazonaws.com";	// hostname or ip or SSH server
 	    int nSshPort = 22;                               		    		// remote SSH host port number
 	    String strRemoteHost = "127.0.0.1";  								// hostname or ip of your database server
 	    int nLocalPort = 3366;                                				// local port number use to bind SSH tunnel

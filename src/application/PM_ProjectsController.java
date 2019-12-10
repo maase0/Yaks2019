@@ -364,6 +364,7 @@ public class PM_ProjectsController implements Initializable, Refreshable {
 			eEstimateProjectStage.show();
 			eEstimateProjectStage.setResizable(true);
 			eEstimateProjectStage.sizeToScene();
+			
 			StageHandler.addStage(eEstimateProjectStage);
 			StageHandler.hidePreviousStage();
 		} catch (Exception e) {

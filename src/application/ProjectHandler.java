@@ -585,12 +585,14 @@ public class ProjectHandler {
 		return errorMessage;
 	}
 
-	// TODO currently not working with implementation
 	public static String checkProjectForEstimating(ArrayList<CLIN> clins) { // Submit for Approval
 		String errorMessage = "";
 
 		for (CLIN c : clins) {
 			ArrayList<OrganizationBOE> organizations = c.getOrganizations();
+
+			if (organizations.isEmpty())
+				errorMessage += "CLIN Estimate Error: At least ONE Organization is required.\n";
 
 			for (OrganizationBOE o : organizations) {
 				String organization = o.getOrganization();

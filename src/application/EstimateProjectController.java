@@ -90,8 +90,8 @@ public class EstimateProjectController implements Initializable, Refreshable {
 
 	}
 
-	public void submitApproval(ActionEvent event) throws SQLException, ClassNotFoundException { // TODO error messaging currently doesn't work
-		saveNewChanges(); // currently doesn't function
+	public void submitApproval(ActionEvent event) throws SQLException, ClassNotFoundException {
+		saveNewChanges();
 
 		String errorMessage = ProjectHandler.checkProjectForEstimating(new ArrayList<CLIN>(clinObservableList));
 

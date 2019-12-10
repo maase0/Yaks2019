@@ -17,7 +17,6 @@ import com.sun.rowset.CachedRowSetImpl;
  * Modified from example class by ONUR BASKIRT
  * Database Helper Class
  * Used to connect to MySQL database over SSH, Perform Queries, and disconnect.
- * @author Michael Jewell
  */
 public class DBUtil
 {

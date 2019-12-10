@@ -91,7 +91,7 @@ public class EstimateProjectController implements Initializable, Refreshable {
 	}
 
 	public void submitApproval(ActionEvent event) throws SQLException, ClassNotFoundException {
-		saveNewChanges();
+		save();
 
 		String errorMessage = ProjectHandler.checkProjectForEstimating(new ArrayList<CLIN>(clinObservableList));
 
@@ -123,33 +123,37 @@ public class EstimateProjectController implements Initializable, Refreshable {
 	}
 
 	public void saveNewChanges() throws SQLException, ClassNotFoundException {
-		// TODO need to loop through CLIN_Estimate, get Organizations, Work Packages,
-		// and Tasks
-		// on each thing, getDeleteList to remove deleted items from database, then
-		// deleteList.removeAll()
-		// will also need to go through and delete all sub-things, need to finish
-		// database procedures
-		// if any thing has a new version, it is inserted new and all sub-things are
-		// inserted new
-		// otherwise they are updated, like with the CLINs etc in
-		// PM_EditProjectController
-		// each thing will have a version and an oldVersion, if they are different then
-		// the version changed
-		// also if thing.getID() is null, then insert instead of update
-
-		for (CLIN c : clinObservableList) {
-			for (OrganizationBOE org : c.getOrganizations()) {
-				saveOrganization(org, c.getVersionID());
-			}
-
-			for (OrganizationBOE org : c.getDeletedOrganizations()) {
-				if (org.getID() != null) {
-					DBUtil.dbExecuteUpdate("CALL delete_organization(" + org.getID() + ")");
-				}
-				//
-			}
-		}
+		save();
 		closeCurrent();
+	}
+	
+	private void save() {
+		// TODO need to loop through CLIN_Estimate, get Organizations, Work Packages,
+				// and Tasks
+				// on each thing, getDeleteList to remove deleted items from database, then
+				// deleteList.removeAll()
+				// will also need to go through and delete all sub-things, need to finish
+				// database procedures
+				// if any thing has a new version, it is inserted new and all sub-things are
+				// inserted new
+				// otherwise they are updated, like with the CLINs etc in
+				// PM_EditProjectController
+				// each thing will have a version and an oldVersion, if they are different then
+				// the version changed
+				// also if thing.getID() is null, then insert instead of update
+
+				for (CLIN c : clinObservableList) {
+					for (OrganizationBOE org : c.getOrganizations()) {
+						saveOrganization(org, c.getVersionID());
+					}
+
+					for (OrganizationBOE org : c.getDeletedOrganizations()) {
+						if (org.getID() != null) {
+							DBUtil.dbExecuteUpdate("CALL delete_organization(" + org.getID() + ")");
+						}
+						//
+					}
+				}
 	}
 
 	private void saveOrganization(OrganizationBOE org, String clinID) throws SQLException, ClassNotFoundException {

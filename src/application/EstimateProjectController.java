@@ -143,7 +143,10 @@ public class EstimateProjectController implements Initializable, Refreshable {
 			}
 
 			for (OrganizationBOE org : c.getDeletedOrganizations()) {
-				// DBUtil.dbExecuteUpdate("CALL delete_organization(" + org.getID() + ")");
+				if (org.getID() != null) {
+					DBUtil.dbExecuteUpdate("CALL delete_organization(" + org.getID() + ")");
+				}
+				//
 			}
 		}
 		closeCurrent();
@@ -158,7 +161,7 @@ public class EstimateProjectController implements Initializable, Refreshable {
 			rs.next();
 
 			if (!org.getVersion().equals(org.getOldVersion())) {
-				org.setVersion(rs.getString("idOrganization"));
+				org.setVersionID(rs.getString("idOrganizationVersion"));
 
 				for (WorkPackage wp : org.getWorkPackages()) {
 					cloneWorkPackage(wp, org.getVersionID());
@@ -177,8 +180,8 @@ public class EstimateProjectController implements Initializable, Refreshable {
 					+ "', '" + org.getVersion() + "', '" + org.getProduct() + "')");
 
 			rs.last();
+			org.setVersionID(rs.getString("idOrganizationVersion"));
 			org.setID(rs.getString("idOrganization"));
-
 			rs.close();
 
 			for (WorkPackage wp : org.getWorkPackages()) {
@@ -186,19 +189,32 @@ public class EstimateProjectController implements Initializable, Refreshable {
 			}
 		}
 
-		/*
-		 * for(WorkPackage wp : org.getDeletedWorkPackages()) {
-		 * DBUtil.dbExecuteUpdate("CALL delete_wp(" + wp.getID() + ")"); }
-		 */
+		for (WorkPackage wp : org.getDeletedWorkPackages()) {
+			if (wp.getID() != null) {
+				DBUtil.dbExecuteUpdate("CALL delete_wp(" + wp.getID() + ")");
+			}
+		}
 	}
 
 	private void cloneWorkPackage(WorkPackage wp, String orgID) throws ClassNotFoundException, SQLException {
-		ResultSet rs = DBUtil.dbExecuteQuery("CALL insert_wp(" + orgID + ", '" + wp.getVersion() + "', '" + wp.getName()
-				+ "', '" + wp.getAuthor() + "', '" + wp.getScope() + "', '" + wp.getWorkPackageType() + "', '"
-				+ wp.getTypeOfWork() + "', '" + wp.getPopStart() + "', '" + wp.getPopEnd() + "')");
+		ResultSet rs;
+		if (wp.getID() != null) {
+			// clone_wp`(ORGVID int, WPVID int, versionNumber varchar(45), wpName
+			// varchar(45),
+			// boeAuthor varchar(45), scope varchar(45), wpType varchar(45), typeOfWork
+			// varchar(45), popStart DATE, popEnd DATE)
+			rs = DBUtil.dbExecuteQuery("CALL clone_wp(" + orgID + ", " + wp.getVersionID() + ", '" + wp.getVersion()
+					+ "', '" + wp.getName() + "', '" + wp.getAuthor() + "', '" + wp.getScope() + "', '"
+					+ wp.getWorkPackageType() + "', '" + wp.getTypeOfWork() + "', '" + wp.getPopStart() + "', '"
+					+ wp.getPopEnd() + "')");
 
+		} else {
+			rs = DBUtil.dbExecuteQuery("CALL insert_wp(" + orgID + ", '" + wp.getVersion() + "', '" + wp.getName()
+					+ "', '" + wp.getAuthor() + "', '" + wp.getScope() + "', '" + wp.getWorkPackageType() + "', '"
+					+ wp.getTypeOfWork() + "', '" + wp.getPopStart() + "', '" + wp.getPopEnd() + "')");
+		}
 		rs.last();
-		wp.setID(rs.getString("idWPVersion"));
+		wp.setVersionID(rs.getString("idWPVersion"));
 
 		rs.close();
 
@@ -215,8 +231,8 @@ public class EstimateProjectController implements Initializable, Refreshable {
 					+ "', '" + wp.getWorkPackageType() + "', '" + wp.getTypeOfWork() + "', '" + wp.getPopStart()
 					+ "', '" + wp.getPopEnd() + "')");
 
-			rs.next();
-
+			rs.last();
+			wp.setVersionID(rs.getString("idWPVersion"));
 			if (!wp.getVersion().equals(wp.getOldVersion())) {
 				for (Task task : wp.getTasks()) {
 					cloneTask(task, wp.getVersionID());
@@ -234,9 +250,9 @@ public class EstimateProjectController implements Initializable, Refreshable {
 					+ wp.getName() + "', '" + wp.getAuthor() + "', '" + wp.getScope() + "', '" + wp.getWorkPackageType()
 					+ "', '" + wp.getTypeOfWork() + "', '" + wp.getPopStart() + "', '" + wp.getPopEnd() + "')");
 
-			while (rs.next()) {
-				wp.setID(rs.getString("idWPVersion"));
-			}
+			rs.last();
+			wp.setVersionID(rs.getString("idWPVersion"));
+
 			rs.close();
 
 			for (Task task : wp.getTasks()) {
@@ -244,25 +260,39 @@ public class EstimateProjectController implements Initializable, Refreshable {
 			}
 		}
 
-		/*
-		 * for(Task task : wp.getDeletedTasks()) {
-		 * DBUtil.dbExecuteUpdate("CALL delete_task" + task.getID() + ")"); }
-		 */
+		for (Task task : wp.getDeletedTasks()) {
+			if (task.getID() != null) {
+				DBUtil.dbExecuteUpdate("CALL delete_task(" + task.getID() + ")");
+			}
+		}
 	}
 
 	private void cloneTask(Task task, String wpID) throws ClassNotFoundException, SQLException {
-		// TASKVID int, TASKID int, taskName varchar(45), versionNumber varchar(45),
-		// estimateFormula varchar(45),
-		// staffHours varchar(45), taskDetails varchar(1000), assumptions varchar(1000),
-		// methodology varchar(1000), popStart DATE, popEnd DATE)
-		DBUtil.dbExecuteUpdate("CALL update_task(" + task.getVersionID() + ", " + task.getID() + ", '" + task.getName()
-				+ "', '" + task.getVersion() + "', '" + task.getFormula() + "', " + task.getStaffHours() + ", '"
-				+ task.getDetails() + "', '" + task.getConditions() + "', '" + task.getMethodology() + "', '"
-				+ task.getPopStart() + "', '" + task.getPopEnd() + "')");
+
+		if (task.getID() != null) {
+			// clone_task`(WPVID int, TASKVID int, taskName varchar(45), versionNumber
+			// VARCHAR(45),
+			// estimateFormula varchar(45), staffHours varchar(45), taskDetails
+			// varchar(1000),
+			// assumptions varchar(1000), methodology varchar(1000), popStart DATE, popEnd
+			// DATE)
+			DBUtil.dbExecuteUpdate("CALL clone_task(" + wpID + ", " + task.getVersionID() + ", '" + task.getName()
+					+ "', '" + task.getVersion() + "', '" + task.getFormula() + "', " + task.getStaffHours() + ", '"
+					+ task.getDetails() + "', '" + task.getConditions() + "', '" + task.getMethodology() + "', '"
+					+ task.getPopStart() + "', '" + task.getPopEnd() + "')");
+		} else {
+			DBUtil.dbExecuteUpdate("CALL insert_task(" + wpID + ", '" + task.getName() + "', '" + task.getVersion()
+					+ "', '" + task.getFormula() + "', " + task.getStaffHours() + ", '" + task.getDetails() + "', '"
+					+ task.getConditions() + "', '" + task.getMethodology() + "', '" + task.getPopStart() + "', '"
+					+ task.getPopEnd() + "')");
+		}
 	}
 
 	private void saveTask(Task task, String wpID) throws SQLException, ClassNotFoundException {
 		if (task.getID() != null) {
+			System.out.println(task.getID());
+			System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+
 			DBUtil.dbExecuteUpdate("CALL update_task(" + task.getID() + ", " + wpID + ", '" + task.getName() + "', '"
 					+ task.getVersion() + "', '" + task.getFormula() + "', " + task.getStaffHours() + ", '"
 					+ task.getDetails() + "', '" + task.getConditions() + "', '" + task.getMethodology() + "', '"
@@ -356,12 +386,12 @@ public class EstimateProjectController implements Initializable, Refreshable {
 			task.setID(rs2.getString("idTask"));
 			task.setMethodology(rs2.getString("Estimate_Methodology"));
 			task.setName(rs2.getString("Task_Name"));
-			task.setOldVersion(rs.getString("Version_Number"));
+			task.setOldVersion(rs2.getString("Version_Number"));
 			task.setPopEnd(rs2.getString("PoP_End"));
 			task.setPopStart(rs2.getString("PoP_Start"));
 			task.setStaffHours(rs2.getInt("Staff_Hours"));
-			task.setVersion(rs.getString("Version_Number"));
-			task.setVersionID("idTaskVersion");
+			task.setVersion(rs2.getString("Version_Number"));
+			task.setVersionID(rs2.getString("idTaskVersion"));
 			wp.addTask(task);
 
 			rs2.close();

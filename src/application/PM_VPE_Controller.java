@@ -82,7 +82,6 @@ public class PM_VPE_Controller implements Initializable, Refreshable {
 		closeCurrent();
 	}
 
-	// TODO Personal note, check to make sure this functions after completing approved/denied
 	public void returnEstimation(ActionEvent event) throws SQLException, ClassNotFoundException {
 		DBUtil.dbExecuteUpdate("CALL return_for_estimation(" + project.getProjectID() + ")");
 		closeEstimation();

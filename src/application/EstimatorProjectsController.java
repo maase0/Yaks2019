@@ -96,15 +96,12 @@ public class EstimatorProjectsController implements Initializable, Refreshable {
 				System.out.println("ERROR ERROR NULL ERROR ERROR");
 			}
 
-			// controller.setCameFromEstimator(true);
 			controller.setProjectVersion(version);
 			controller.setPreviousController(this);
 
 			Stage estimateProjectStage = new Stage();
 			estimateProjectStage.setTitle("Estimation Suite - Estimator - Estimate Project");
 			estimateProjectStage.setScene(new Scene(root));
-
-			// EstimateProject_Controller controller = fxmlLoader.getController();
 
 			estimateProjectStage.show();
 			estimateProjectStage.setResizable(true);
@@ -122,29 +119,27 @@ public class EstimatorProjectsController implements Initializable, Refreshable {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Estimator_ViewProjectEstimate.fxml"));
 			Parent root = fxmlLoader.load();
 
-			// EstimateProjectController controller = fxmlLoader.getController();
-
-			// controller.setCameFromEstimator(false);
+			Estimator_VPE_Controller controller = fxmlLoader.getController();
 
 			ProjectVersion version = ProjectHandler.loadProjectVersion(proj, versionNumber);
 
-			/*
-			 * if (version == null) { System.out.println("ERROR ERROR NULL ERROR ERROR"); }
-			 */
+			if (version == null) {
+				System.out.println("ERROR");
+			}
+			controller.setProject(version);
+			controller.setPreviousController(this);
+			controller.setName(version.getName());
 
-			// Estimator_VPE_Controller controller = fxmlLoader.getController();
+			Stage viewEstimate = new Stage();
+			viewEstimate.setTitle("Estimation Suite - Estimator - Estimate Project");
+			viewEstimate.setScene(new Scene(root));
 
-			// controller.setProject(version);
+			viewEstimate.show();
+			viewEstimate.setResizable(true);
+			viewEstimate.sizeToScene();
 
-			Stage eEstimateProjectStage = new Stage();
-			eEstimateProjectStage.setTitle("Estimation Suite - Project Manager - Estimate Project");
-			eEstimateProjectStage.setScene(new Scene(root));
-
-			// EstimateProject_Controller controller = fxmlLoader.getController();
-
-			eEstimateProjectStage.show();
-			eEstimateProjectStage.setResizable(true);
-			eEstimateProjectStage.sizeToScene();
+			StageHandler.addStage(viewEstimate);
+			StageHandler.hidePreviousStage();
 
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -58,7 +58,6 @@ public class PM_VPE_Controller implements Initializable, Refreshable {
 	@FXML
 	private ListView<SOW> sowListView;
 	private ObservableList<SOW> sowObservableList;
-
 	
 	private ProjectVersion project;
 

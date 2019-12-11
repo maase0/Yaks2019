@@ -350,24 +350,29 @@ public class PM_ProjectsController implements Initializable, Refreshable {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("PM_ViewProjectEstimate.fxml"));
 			Parent root = fxmlLoader.load();
 
-			ProjectVersion version = ProjectHandler.loadProjectVersion(proj, versionNumber);
-
 			PM_VPE_Controller controller = fxmlLoader.getController();
 
+			ProjectVersion version = ProjectHandler.loadProjectVersion(proj, versionNumber);
+
+			if (version == null) {
+				System.out.println("ERROR");
+			}
 			controller.setProject(version);
+			controller.setPreviousController(this);
 			controller.setName(version.getName());
 			controller.setPreviousController(this);
 
-			Stage eEstimateProjectStage = new Stage();
-			eEstimateProjectStage.setTitle("Estimation Suite - Project Manager - Estimate Project");
-			eEstimateProjectStage.setScene(new Scene(root));
+			Stage viewEstimate = new Stage();
+			viewEstimate.setTitle("Estimation Suite - Project Manager - Estimate Project");
+			viewEstimate.setScene(new Scene(root));
 
-			eEstimateProjectStage.show();
-			eEstimateProjectStage.setResizable(true);
-			eEstimateProjectStage.sizeToScene();
+			viewEstimate.show();
+			viewEstimate.setResizable(true);
+			viewEstimate.sizeToScene();
 			
-			StageHandler.addStage(eEstimateProjectStage);
+			StageHandler.addStage(viewEstimate);
 			StageHandler.hidePreviousStage();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -378,12 +383,16 @@ public class PM_ProjectsController implements Initializable, Refreshable {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("PM_ViewProcessedProjectEstimate.fxml"));
 			Parent root = fxmlLoader.load();
 
-			ProjectVersion version = ProjectHandler.loadProjectVersion(proj, versionNumber);
-
 			PM_VPPE_Controller controller = fxmlLoader.getController();
 
+			ProjectVersion version = ProjectHandler.loadProjectVersion(proj, versionNumber);
+
+			if (version == null) {
+				System.out.println("ERROR ERROR");
+			}
 			controller.setAorD(true);
 			controller.setProject(version);
+			controller.setPreviousController(this);
 			controller.setStatus("Approved");
 			controller.setName(version.getName());
 			
@@ -410,12 +419,13 @@ public class PM_ProjectsController implements Initializable, Refreshable {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("PM_ViewProcessedProjectEstimate.fxml"));
 			Parent root = fxmlLoader.load();
 
-			ProjectVersion version = ProjectHandler.loadProjectVersion(proj, versionNumber);
-
 			PM_VPPE_Controller controller = fxmlLoader.getController();
+
+			ProjectVersion version = ProjectHandler.loadProjectVersion(proj, versionNumber);
 
 			controller.setAorD(false);
 			controller.setProject(version);
+			controller.setPreviousController(this);
 			controller.setStatus("Denied");
 			controller.setName(version.getName());
 

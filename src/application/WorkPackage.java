@@ -20,7 +20,7 @@ public class WorkPackage {
 	
     public WorkPackage() {
         name = null;
-        wptype = null;
+        wptype = "General Work Breakdown Structure";
         author = null;
         popStart = null;
         popEnd = null;

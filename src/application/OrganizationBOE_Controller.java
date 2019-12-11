@@ -215,7 +215,6 @@ public class OrganizationBOE_Controller implements Initializable, Refreshable {
 		productText.setText(org.getProduct());
 		versionText.setText(org.getVersion());
 		workPackageObservableList.addAll(org.getWorkPackages());
-
 	}
 
 	private void closeCurrent() {

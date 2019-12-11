@@ -53,15 +53,15 @@
                               <Insets left="2.0" right="2.0" />
                            </GridPane.margin>
                         </Label>
-                        <DatePicker editable="false" prefHeight="25.0" prefWidth="115.0" style="-fx-border-color: linear-gradient(#cccccc, #999999); -fx-border-radius: 3px;" GridPane.columnIndex="3">
+                        <DatePicker fx:id="endDate" editable="false" prefHeight="25.0" prefWidth="115.0" style="-fx-border-color: linear-gradient(#cccccc, #999999); -fx-border-radius: 3px;" GridPane.columnIndex="3">
                            <GridPane.margin>
                               <Insets right="10.0" />
                            </GridPane.margin>
                         </DatePicker>
-                        <DatePicker editable="false" prefHeight="25.0" prefWidth="115.0" style="-fx-border-color: linear-gradient(#cccccc, #999999); -fx-border-radius: 3px;" GridPane.columnIndex="1" />
+                        <DatePicker fx:id="startDate" editable="false" prefHeight="25.0" prefWidth="115.0" style="-fx-border-color: linear-gradient(#cccccc, #999999); -fx-border-radius: 3px;" GridPane.columnIndex="1" />
                      </children>
                   </GridPane>
-                  <Label style="-fx-text-fill: #757575;" text="TASK_NAME" GridPane.columnIndex="1" />
+                  <Label fx:id="name" style="-fx-text-fill: #757575;" text="TASK_NAME" GridPane.columnIndex="1" />
                </children>
             </GridPane>
             <GridPane GridPane.rowIndex="1">
@@ -87,18 +87,18 @@
                         <Insets left="5.0" right="5.0" />
                      </padding>
                   </Label>
-                  <Label style="-fx-text-fill: #757575;" text="BASIS_OF_ESTIMATES_FORMULA" GridPane.columnIndex="1">
+                  <Label fx:id="formula" style="-fx-text-fill: #757575;" text="BASIS_OF_ESTIMATES_FORMULA" GridPane.columnIndex="1">
                      <GridPane.margin>
                         <Insets left="5.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label style="-fx-text-fill: #757575;" text="STAFF_HOURS" GridPane.columnIndex="3" />
+                  <Label fx:id="hours" style="-fx-text-fill: #757575;" text="STAFF_HOURS" GridPane.columnIndex="3" />
                   <Label text="Version:" GridPane.columnIndex="4">
                      <GridPane.margin>
                         <Insets right="5.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label style="-fx-text-fill: #757575;" text="TASK_VER" GridPane.columnIndex="5">
+                  <Label fx:id="version" style="-fx-text-fill: #757575;" text="TASK_VER" GridPane.columnIndex="5">
                      <GridPane.margin>
                         <Insets left="5.0" right="10.0" />
                      </GridPane.margin>
@@ -156,12 +156,12 @@
                   <Insets top="10.0" />
                </GridPane.margin>
                <children>
-                  <TextArea editable="false" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+                  <TextArea fx:id="conditions" editable="false" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets right="5.0" />
                      </GridPane.margin>
                   </TextArea>
-                  <TextArea editable="false" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <TextArea fx:id="methodology" editable="false" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets left="5.0" />
                      </GridPane.margin>
@@ -184,7 +184,7 @@
               </rowConstraints>
                <children>
                   <Label text="Task Details:" />
-                  <TextArea editable="false" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
+                  <TextArea fx:id="details" editable="false" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
                </children>
             </GridPane>
          </children>

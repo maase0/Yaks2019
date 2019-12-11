@@ -76,9 +76,7 @@ public class PM_VPPE_Controller implements Initializable {
     }
 
     public void closeEstimate() {
-        //prevController.refresh();
-        StageHandler.showPreviousStage();
-        StageHandler.closeCurrentStage();
+        closeCurrent();
     }
 
     public void makePending (ActionEvent event) throws SQLException, ClassNotFoundException {
@@ -88,7 +86,7 @@ public class PM_VPPE_Controller implements Initializable {
         else {
             DBUtil.dbExecuteUpdate("CALL return_from_denied(" + proj.getProjectID() + ")");
         }
-        closeEstimate();
+        closeCurrent();
     }
 
     public void setStatus (String status) {
@@ -147,6 +145,10 @@ public class PM_VPPE_Controller implements Initializable {
         } else {
             System.out.println("ERROR: NULL PROJECT");
         }
+    }
+
+    public void setPreviousController(Refreshable controller) {
+        this.prevController = controller;
     }
     
     private void closeCurrent() {

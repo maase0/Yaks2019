@@ -194,7 +194,7 @@ public class Estimator_VPE_Controller implements Initializable, Refreshable {
 
     }
 
-    public void setProject(ProjectVersion project) {
+    public void setProject(ProjectVersion project) throws SQLException, ClassNotFoundException {
         this.project = project;
         setAllFields();
     }
@@ -203,7 +203,7 @@ public class Estimator_VPE_Controller implements Initializable, Refreshable {
         this.projectName.setText(name);
     }
 
-    private void setAllFields() {
+    private void setAllFields() throws SQLException, ClassNotFoundException {
         if (project != null) {
             projectManager.setText(project.getProjectManager());
             propNum.setText(project.getProposalNumber());
@@ -213,6 +213,10 @@ public class Estimator_VPE_Controller implements Initializable, Refreshable {
             startDate.setDisable(true);
             endDate.setValue(project.getPopEnd());
             endDate.setDisable(true);
+
+            ResultSet rs = DBUtil.dbExecuteQuery("CALL check_status("+ project.getProjectID() + ")");
+            rs.next();
+            projectStatus.setText(rs.getString("status"));
 
             clinObservableList.setAll(project.getCLINList());
             sowObservableList.setAll(project.getSOWList());
@@ -231,9 +235,6 @@ public class Estimator_VPE_Controller implements Initializable, Refreshable {
                     e.printStackTrace();
                 }
             }
-
-
-
         } else {
             System.out.println("ERROR: NULL PROJECT");
         }

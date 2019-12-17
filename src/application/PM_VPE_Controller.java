@@ -267,10 +267,6 @@ public class PM_VPE_Controller implements Initializable, Refreshable {
 		this.prevController = controller;
 	}
 	
-	public void setPreviousController(Refreshable controller) {
-		this.prevController = controller;
-	}
-	
 	private void closeCurrent() {
 
 		StageHandler.showPreviousStage();
